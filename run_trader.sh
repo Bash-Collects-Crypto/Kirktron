@@ -21,6 +21,16 @@ restarts=0
 stamp() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 note()  { echo "[$(stamp)] $*" | tee -a "$SUPERVISOR_LOG"; }
 
+# Refuse to start a second supervisor. Two of them race on the same state
+# files and trade_log.csv, which silently corrupts both portfolios' books.
+LOCK="supervisor.pid"
+if [ -f "$LOCK" ] && kill -0 "$(cat "$LOCK" 2>/dev/null)" 2>/dev/null; then
+    note "supervisor already running (pid $(cat "$LOCK")); refusing to start a second"
+    exit 0
+fi
+echo $$ > "$LOCK"
+trap 'rm -f "$LOCK"' EXIT
+
 note "supervisor starting (pid $$)"
 trap 'note "supervisor received termination signal; exiting"; kill "$child" 2>/dev/null; exit 0' TERM INT
 
