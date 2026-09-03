@@ -53,7 +53,7 @@ STATE_FILE = os.path.join(BASE_DIR, "state_{}.json")
 
 API_URL = "https://api.coingecko.com/api/v3/coins/markets"
 UNIVERSE_DEPTH = 250          # how many coins we pull each cycle
-POLL_SECONDS = 300            # 5 minutes between cycles (well inside rate limits)
+POLL_SECONDS = 60             # live-ish: one market refresh a minute
 REQUEST_TIMEOUT = 45
 MAX_FETCH_ATTEMPTS = 4
 
@@ -1099,6 +1099,10 @@ def main():
                         help="show what is excluded and what is tradeable, then exit")
     parser.add_argument("--interval", type=int, default=POLL_SECONDS,
                         help="seconds between cycles (default %d)" % POLL_SECONDS)
+    parser.add_argument("--duration", type=int, default=0,
+                        help="trade live for N seconds then exit cleanly (0 = forever). "
+                             "Used by the scheduled runner, which must return before "
+                             "its own time limit rather than being killed mid-write.")
     args = parser.parse_args()
 
     ensure_trade_log()
@@ -1115,12 +1119,17 @@ def main():
     signal.signal(signal.SIGINT, _handle_signal)
 
     portfolios = [Portfolio(name) for name in STRATEGIES]
-    log("starting: %s | poll %ds | universe top %d | moon >= %.0f%%"
+    log("starting: %s | poll %ds%s | universe top %d | moon >= %.0f%%"
         % (", ".join(p.name for p in portfolios), args.interval,
+           (" | duration %ds" % args.duration) if args.duration else "",
            UNIVERSE_DEPTH, MOON_THRESHOLD_PCT))
 
+    deadline = (time.time() + args.duration) if args.duration else None
     consecutive_failures = 0
     while not _stop:
+        if deadline and time.time() >= deadline:
+            log("duration reached; exiting cleanly")
+            break
         try:
             run_cycle(portfolios)
             consecutive_failures = 0
@@ -1135,7 +1144,7 @@ def main():
         if args.once:
             break
         for _ in range(args.interval):
-            if _stop:
+            if _stop or (deadline and time.time() >= deadline):
                 break
             time.sleep(1)
     log("stopped cleanly")
