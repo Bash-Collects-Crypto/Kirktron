@@ -98,6 +98,39 @@ EXCLUDED_NAME_TOKENS = (
     "tokenized", "usd coin", "tether", "binance-peg", "peg-",
 )
 
+# A hand-maintained blacklist does not scale -- new memes list constantly and
+# symbols collide (CoinGecko's meme category alone carries two different
+# "DOGE"s). So the static sets above are only a floor: the real filter is
+# CoinGecko's own categorization, pulled live and cached. This is what catches
+# things the static list missed, e.g. AI (a meme token that showed +13,315%
+# over 30d), PUMP, M, CASHCAT.
+EXCLUDED_CATEGORIES = (
+    "meme-token",
+    "stablecoins",
+    "liquid-staking-tokens",
+    "wrapped-tokens",
+)
+CATEGORY_URL = "https://api.coingecko.com/api/v3/coins/markets"
+EXCLUSIONS_CACHE = os.path.join(BASE_DIR, "exclusions_cache.json")
+EXCLUSIONS_TTL_HOURS = 6
+
+# Structural backstop for anything pegged that no category caught: tokenized
+# treasuries, yield-bearing dollars, metal-backed tokens. Measured live these
+# sit at 0.03-1.2% max move across EVERY timeframe. The threshold sits just
+# above that band deliberately: at 3.0% it swallowed TRX (a real L1 having a
+# quiet week, 2.43%), which is a filter mislabelling an asset rather than
+# detecting a peg. Anything genuinely this flat has no trend to trade.
+PEG_FLATNESS_PCT = 1.5
+
+# Tokenized real-world instruments -- private credit, T-bills, home-equity
+# lines, reinsurance, metals. They ride an off-chain yield curve, not a crypto
+# trend, and some drift just enough to clear the peg filter.
+RWA_TOKENS = {
+    "FIGR_HELOC", "USYC", "OUSG", "JTRSY", "JAAA", "USTB", "EUTBL", "YLDS",
+    "BCAP", "EURSAFO", "USTBL", "USDAI", "A7A5", "KAU", "XAUT", "PAXG",
+    "BUIDL", "ONYC", "CRCLON", "SOFID", "APXUSD",
+}
+
 # --------------------------------------------------------------------------
 # Strategy configuration
 # --------------------------------------------------------------------------
@@ -250,6 +283,116 @@ def num(x, default=0.0):
 # Market data
 # --------------------------------------------------------------------------
 
+class Exclusions:
+    """Live meme/stablecoin/derivative registry from CoinGecko categories.
+
+    Keyed by CoinGecko id (symbols are not unique) with symbols kept as a
+    secondary match. Cached to disk so a restart does not need a refetch, and
+    so a category-API outage can never silently open the gates to meme coins.
+    """
+
+    def __init__(self):
+        self.ids = set()
+        self.symbols = set()
+        self.fetched_at = None
+        self.source = "none"
+        self.load_cache()
+
+    def load_cache(self):
+        if not os.path.exists(EXCLUSIONS_CACHE):
+            return
+        try:
+            with open(EXCLUSIONS_CACHE) as fh:
+                blob = json.load(fh)
+            self.ids = set(blob.get("ids", []))
+            self.symbols = set(blob.get("symbols", []))
+            self.fetched_at = blob.get("fetched_at")
+            self.source = "cache"
+        except (OSError, ValueError) as exc:
+            log("exclusions: cache unreadable (%s)" % exc)
+
+    def save_cache(self):
+        try:
+            tmp = EXCLUSIONS_CACHE + ".tmp"
+            with open(tmp, "w") as fh:
+                json.dump({"ids": sorted(self.ids), "symbols": sorted(self.symbols),
+                           "fetched_at": self.fetched_at,
+                           "categories": list(EXCLUDED_CATEGORIES)}, fh, indent=2)
+            os.replace(tmp, EXCLUSIONS_CACHE)
+        except OSError as exc:
+            log("exclusions: could not write cache (%s)" % exc)
+
+    def stale(self):
+        if self.fetched_at is None:
+            return True
+        age = (now_utc() - parse_iso(self.fetched_at)).total_seconds() / 3600.0
+        return age >= EXCLUSIONS_TTL_HOURS
+
+    def refresh(self, force=False):
+        if not force and not self.stale():
+            return
+        ids, symbols, failed = set(), set(), []
+        for category in EXCLUDED_CATEGORIES:
+            try:
+                resp = requests.get(
+                    CATEGORY_URL,
+                    params={"vs_currency": "usd", "category": category,
+                            "order": "market_cap_desc", "per_page": 250, "page": 1},
+                    timeout=REQUEST_TIMEOUT,
+                    headers={"Accept": "application/json",
+                             "User-Agent": "kirktron-paper-trader/1.0"},
+                )
+                resp.raise_for_status()
+                data = resp.json()
+                if not isinstance(data, list):
+                    raise RuntimeError("unexpected payload")
+                for coin in data:
+                    if coin.get("id"):
+                        ids.add(coin["id"])
+                    if coin.get("symbol"):
+                        symbols.add(coin["symbol"].upper())
+                log("exclusions: %s -> %d coins" % (category, len(data)))
+            except Exception as exc:            # noqa: BLE001
+                failed.append("%s (%s)" % (category, exc))
+            time.sleep(3)                        # stay well inside the free rate limit
+
+        if failed and not ids:
+            # Total failure: keep whatever we already had rather than trading blind.
+            log("exclusions: refresh FAILED for all categories: %s; "
+                "keeping %s list of %d symbols"
+                % ("; ".join(failed), self.source, len(self.symbols)))
+            return
+        if failed:
+            log("exclusions: partial refresh, failed: %s" % "; ".join(failed))
+        self.ids, self.symbols = ids, symbols
+        self.fetched_at = iso()
+        self.source = "live"
+        self.save_cache()
+        log("exclusions: %d ids / %d symbols across %d categories"
+            % (len(self.ids), len(self.symbols), len(EXCLUDED_CATEGORIES)))
+
+    def blocks(self, coin):
+        # Match on CoinGecko id ONLY. Symbols are not unique across the
+        # category lists -- wrapped/bridged tokens reuse the underlying's
+        # ticker (wrapped-solana is symbol "SOL", bridged ether is "ETH"), so
+        # symbol matching here excluded BTC, ETH and SOL outright. Ids come
+        # from the same fetch, so this is just as complete and actually precise.
+        # Symbol-level filtering stays with the curated static lists.
+        return "category" if coin.get("id") in self.ids else None
+
+
+EXCLUSIONS = Exclusions()
+
+
+def is_pegged(coin):
+    """True if the coin barely moves on any timeframe -- a peg, not a trend."""
+    moves = [
+        abs(num(coin.get("price_change_percentage_%s_in_currency" % w)))
+        for w in ("1h", "24h", "7d", "14d", "30d")
+    ]
+    return max(moves) < PEG_FLATNESS_PCT if moves else False
+
+
 def fetch_markets():
     """Pull the top UNIVERSE_DEPTH coins with every momentum window we score on."""
     params = {
@@ -284,12 +427,46 @@ def fetch_markets():
                        % (MAX_FETCH_ATTEMPTS, last_err))
 
 
+def exclusion_reason(coin):
+    """Why this coin is not tradeable, or None if it is."""
+    symbol = (coin.get("symbol") or "").upper()
+    name = (coin.get("name") or "").lower()
+    if not symbol:
+        return "no symbol"
+    if symbol in MEME_COINS:
+        return "meme (static)"
+    if symbol in STABLECOINS:
+        return "stablecoin (static)"
+    if symbol in WRAPPED_STAKED:
+        return "wrapped/staked (static)"
+    if symbol in RWA_TOKENS or symbol.startswith("PC0000"):
+        return "tokenized real-world asset"
+    hit = EXCLUSIONS.blocks(coin)
+    if hit:
+        return "meme/stable/derivative (%s)" % hit
+    if any(tok in name for tok in EXCLUDED_NAME_TOKENS):
+        return "name filter"
+    if is_pegged(coin):
+        return "pegged (<%.0f%% move on every timeframe)" % PEG_FLATNESS_PCT
+    if coin.get("market_cap_rank") is None:
+        return "unranked"
+    if not coin.get("current_price"):
+        return "no price"
+    return None
+
+
 def is_tradeable(coin):
     symbol = (coin.get("symbol") or "").upper()
     name = (coin.get("name") or "").lower()
     if not symbol or symbol in EXCLUDED_SYMBOLS:
         return False
+    if symbol in RWA_TOKENS or symbol.startswith("PC0000"):
+        return False
+    if EXCLUSIONS.blocks(coin):
+        return False
     if any(tok in name for tok in EXCLUDED_NAME_TOKENS):
+        return False
+    if is_pegged(coin):
         return False
     if coin.get("market_cap_rank") is None:
         return False
@@ -319,6 +496,7 @@ def build_universe(markets):
             "cap_rank": 100.0 * (1.0 - min(coin["market_cap_rank"], UNIVERSE_DEPTH) / UNIVERSE_DEPTH),
         }
         universe[symbol] = {
+            "id": coin.get("id"),
             "symbol": symbol,
             "name": coin.get("name") or symbol,
             "price": num(coin.get("current_price")),
@@ -746,6 +924,7 @@ def _handle_signal(signum, _frame):
 
 
 def run_cycle(portfolios):
+    EXCLUSIONS.refresh()          # no-op unless the cached list is stale
     markets = fetch_markets()
     universe = build_universe(markets)
     log_rows = read_trade_log()
@@ -780,10 +959,50 @@ def report():
                      r.get("pnl_pct", "?"), r.get("reason", "")))
 
 
+def audit():
+    """Prove the universe we trade is real crypto -- no memes, no pegs."""
+    EXCLUSIONS.refresh()
+    markets = fetch_markets()
+    universe = build_universe(markets)
+    dropped = []
+    for coin in markets:
+        reason = exclusion_reason(coin)
+        if reason:
+            dropped.append((coin.get("market_cap_rank") or 9999,
+                            (coin.get("symbol") or "?").upper(),
+                            (coin.get("name") or "")[:26], reason))
+    print("KIRKTRON UNIVERSE AUDIT -- %s" % iso())
+    print("exclusion list: %s, %d ids / %d symbols, fetched %s"
+          % (EXCLUSIONS.source, len(EXCLUSIONS.ids), len(EXCLUSIONS.symbols),
+             EXCLUSIONS.fetched_at))
+    print("%d coins fetched -> %d excluded -> %d tradeable\n"
+          % (len(markets), len(dropped), len(universe)))
+
+    buckets = {}
+    for rank, sym, name, reason in dropped:
+        buckets.setdefault(reason.split(" (")[0], []).append((rank, sym, name))
+    print("EXCLUDED, by reason:")
+    for reason in sorted(buckets, key=lambda r: -len(buckets[r])):
+        rows = sorted(buckets[reason])
+        print("  %-38s %3d  %s" % (reason, len(rows),
+                                   ", ".join(s for _, s, _ in rows[:14])
+                                   + (" ..." if len(rows) > 14 else "")))
+
+    for name, cfg in STRATEGIES.items():
+        elig = sorted([c for c in universe.values() if c["rank"] <= cfg["max_rank"]],
+                      key=lambda c: c["rank"])
+        print("\n%s TRADEABLE UNIVERSE (rank <= %d): %d coins"
+              % (name.upper(), cfg["max_rank"], len(elig)))
+        for i in range(0, len(elig), 6):
+            print("  " + "".join("%-4s%-9s" % (c["rank"], c["symbol"]) for c in elig[i:i + 6]))
+
+
 def main():
     parser = argparse.ArgumentParser(description="Kirktron paper trader")
     parser.add_argument("--report", action="store_true", help="print a summary and exit")
     parser.add_argument("--once", action="store_true", help="run a single cycle and exit")
+    parser.add_argument("--audit", action="store_true",
+                        help="show what is excluded and what is tradeable, then exit")
     parser.add_argument("--interval", type=int, default=POLL_SECONDS,
                         help="seconds between cycles (default %d)" % POLL_SECONDS)
     args = parser.parse_args()
@@ -792,6 +1011,10 @@ def main():
 
     if args.report:
         report()
+        return 0
+
+    if args.audit:
+        audit()
         return 0
 
     signal.signal(signal.SIGTERM, _handle_signal)

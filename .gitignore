@@ -1,9 +1,8 @@
-# Runtime artifacts of a live paper-trading run. These change every cycle and
-# are machine-local state, not source: keeping them out of git stops the
-# running bot from fighting with commits.
-trade_log.csv
-state_*.json
+# Runtime noise: verbose, rewritten constantly, no value in history.
 trader.log
 supervisor.log
 STOP
 __pycache__/
+
+# The trading record IS the deliverable, so trade_log.csv, state_*.json and
+# exclusions_cache.json are tracked and snapshotted by snapshot.sh.
