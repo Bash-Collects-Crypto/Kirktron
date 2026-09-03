@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 7554.842589013988,
+  "cash": 6353.042589013988,
   "positions": {
     "LINK": {
       "symbol": "LINK",
@@ -10,7 +10,7 @@
       "entry_price": 11.9,
       "entry_time": "2026-09-03T20:54:28Z",
       "peak_pct": 0.3361344537815054,
-      "last_price": 11.83,
+      "last_price": 11.82,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": 6.91241,
@@ -37,7 +37,7 @@
       "entry_price": 259.37,
       "entry_time": "2026-09-03T21:12:28Z",
       "peak_pct": 0.632301345568102,
-      "last_price": 257.39,
+      "last_price": 257.28,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": 6.20034,
@@ -55,17 +55,44 @@
       },
       "entry_score": 0.8245932880677422,
       "pattern_bonus": 0.0
+    },
+    "HYPE": {
+      "symbol": "HYPE",
+      "name": "Hyperliquid",
+      "side": "long",
+      "quantity": 13.999066728884742,
+      "entry_price": 85.72,
+      "entry_time": "2026-09-03T22:44:28Z",
+      "peak_pct": 0.2683154456369622,
+      "last_price": 85.85,
+      "entry_features": {
+        "pc_1h": 0.2,
+        "pc_24h": 5.03466,
+        "pc_7d": 0.1,
+        "pc_14d": 15.8,
+        "pc_30d": 54.2,
+        "vol_mcap": 8.194352929287117,
+        "cap_rank": 96.0,
+        "ret_30m": 0.4110398975373908,
+        "ret_2h": 0.32080595308079385,
+        "ema_spread": 0.17201532317572787,
+        "rsi14": 51.53571927006545,
+        "range_pos": 88.91165783993195,
+        "vol_5m": 0.18961511104250942
+      },
+      "entry_score": 0.729740368926542,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {
     "ADA": "2026-09-03T23:02:17Z"
   },
   "realized_pnl": -37.957410986012505,
-  "fees_paid": 10.748386463215805,
-  "trades_opened": 4,
+  "fees_paid": 12.548386463215806,
+  "trades_opened": 5,
   "trades_closed": 2,
   "moons": 0,
   "wins": 0,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-03T22:40:33Z"
+  "updated": "2026-09-03T22:51:12Z"
 }
