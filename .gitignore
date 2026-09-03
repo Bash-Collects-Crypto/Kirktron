@@ -12,3 +12,5 @@ dashboard_current.json
 dashboard_history.json
 equity_history.csv
 supervisor.pid
+intraday_cache.json
+equity_history.*.csv
