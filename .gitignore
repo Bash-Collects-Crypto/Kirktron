@@ -6,3 +6,9 @@ __pycache__/
 
 # The trading record IS the deliverable, so trade_log.csv, state_*.json and
 # exclusions_cache.json are tracked and snapshotted by snapshot.sh.
+
+dashboard_build.html
+dashboard_current.json
+dashboard_history.json
+equity_history.csv
+supervisor.pid

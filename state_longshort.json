@@ -1,6 +1,6 @@
 {
   "name": "longshort",
-  "cash": 5500.0,
+  "cash": 2500.0,
   "positions": {
     "ZEC": {
       "symbol": "ZEC",
@@ -10,7 +10,7 @@
       "entry_price": 968.07,
       "entry_time": "2026-09-03T19:32:43Z",
       "peak_pct": 1.112522854752237,
-      "last_price": 978.16,
+      "last_price": 962.45,
       "entry_features": {
         "pc_1h": 1.6,
         "pc_24h": 20.03453,
@@ -30,8 +30,8 @@
       "quantity": 0.01839926402943882,
       "entry_price": 81525.0,
       "entry_time": "2026-09-03T19:32:43Z",
-      "peak_pct": 0.040478380864765406,
-      "last_price": 81558.0,
+      "peak_pct": 0.2808954308494327,
+      "last_price": 81624.0,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": 5.70304,
@@ -51,7 +51,7 @@
       "quantity": 199.203187250996,
       "entry_price": 7.53,
       "entry_time": "2026-09-03T19:32:43Z",
-      "peak_pct": 0.0,
+      "peak_pct": 0.1328021248339945,
       "last_price": 7.53,
       "entry_features": {
         "pc_1h": 0.3,
@@ -64,14 +64,56 @@
       },
       "entry_score": 11.064767999999999,
       "pattern_bonus": 0.0
+    },
+    "XRP": {
+      "symbol": "XRP",
+      "name": "XRP",
+      "side": "long",
+      "quantity": 1020.4081632653061,
+      "entry_price": 1.47,
+      "entry_time": "2026-09-03T20:01:45Z",
+      "peak_pct": 0.0,
+      "last_price": 1.47,
+      "entry_features": {
+        "pc_1h": 0.5,
+        "pc_24h": 9.5795,
+        "pc_7d": 1.4,
+        "pc_14d": 19.6,
+        "pc_30d": 36.7,
+        "vol_mcap": 4.636174839031671,
+        "cap_rank": 98.0
+      },
+      "entry_score": 24.357200000000002,
+      "pattern_bonus": 0.0
+    },
+    "XMR": {
+      "symbol": "XMR",
+      "name": "Monero",
+      "side": "long",
+      "quantity": 2.8498689060303226,
+      "entry_price": 526.34,
+      "entry_time": "2026-09-03T20:01:45Z",
+      "peak_pct": 0.0,
+      "last_price": 525.93,
+      "entry_features": {
+        "pc_1h": 0.7,
+        "pc_24h": 3.46012,
+        "pc_7d": 12.0,
+        "pc_14d": 28.7,
+        "pc_30d": 45.8,
+        "vol_mcap": 1.4663409050931018,
+        "cap_rank": 94.39999999999999
+      },
+      "entry_score": 23.896192,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": 0.0,
-  "trades_opened": 3,
+  "trades_opened": 5,
   "trades_closed": 0,
   "moons": 0,
   "wins": 0,
   "started": "2026-09-03T19:32:42Z",
-  "updated": "2026-09-03T19:43:43Z"
+  "updated": "2026-09-03T20:03:16Z"
 }

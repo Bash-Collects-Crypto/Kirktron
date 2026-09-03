@@ -114,3 +114,20 @@ Short entries have floors as well as ceilings (no shorting something already
 down 25% on the day) — a collapsed coin is where short squeezes live, not easy
 downside. The log records `SHORT`/`COVER` alongside `BUY`/`SELL` and a `side`
 column; a `COVER` is a resolved trade like any other.
+
+## Live dashboard
+
+`dashboard.html` is the source template and `dashboard_export.py` turns the live
+state into the two documents the page reads. Build and publish with:
+
+```bash
+python3 dashboard_export.py          # -> dashboard_current.json, dashboard_history.json
+python3 build_dashboard.py           # -> dashboard_build.html (seeds the page)
+```
+
+The published page reads its two documents from the artifact's database and
+subscribes to them, so it re-renders whenever the data is pushed — every loop
+iteration, roughly every ten minutes. The seeded copy inside the HTML is what a
+first paint (or a viewer without database access) shows, so the page is never
+blank. `equity_history.csv` gains a row every trading cycle, which is the curve
+the chart draws.

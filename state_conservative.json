@@ -1,6 +1,6 @@
 {
   "name": "conservative",
-  "cash": 5000.0,
+  "cash": 4000.0,
   "positions": {
     "ADA": {
       "symbol": "ADA",
@@ -8,7 +8,7 @@
       "quantity": 4505.498961482489,
       "entry_price": 0.221951,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 0.222213,
+      "last_price": 0.221982,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 13.55001,
@@ -29,7 +29,7 @@
       "quantity": 12505.627532389577,
       "entry_price": 0.079964,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 0.079696,
+      "last_price": 0.079572,
       "entry_features": {
         "pc_1h": 1.9,
         "pc_24h": 8.84381,
@@ -50,7 +50,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 724.54,
+      "last_price": 723.67,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -71,7 +71,7 @@
       "quantity": 19.496977968414896,
       "entry_price": 51.29,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 51.7,
+      "last_price": 51.59,
       "entry_features": {
         "pc_1h": 0.0,
         "pc_24h": 3.74788,
@@ -92,7 +92,7 @@
       "quantity": 0.012307995273729815,
       "entry_price": 81248.0,
       "entry_time": "2026-09-03T19:01:46Z",
-      "last_price": 81558.0,
+      "last_price": 81624.0,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": 5.07473,
@@ -105,15 +105,36 @@
       "entry_score": 24.08473,
       "pattern_bonus": 0.0,
       "side": "long",
-      "peak_pct": 0.38154785348562426
+      "peak_pct": 0.6227845608507286
+    },
+    "XMR": {
+      "symbol": "XMR",
+      "name": "Monero",
+      "side": "long",
+      "quantity": 1.901321418385778,
+      "entry_price": 525.95,
+      "entry_time": "2026-09-03T19:59:41Z",
+      "peak_pct": 0.07415153531704274,
+      "last_price": 525.93,
+      "entry_features": {
+        "pc_1h": -0.3,
+        "pc_24h": 4.62057,
+        "pc_7d": 12.8,
+        "pc_14d": 25.2,
+        "pc_30d": 43.9,
+        "vol_mcap": 1.479999330103466,
+        "cap_rank": 94.39999999999999
+      },
+      "entry_score": 49.95057,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": 0.0,
-  "trades_opened": 5,
+  "trades_opened": 6,
   "trades_closed": 0,
   "moons": 0,
   "wins": 0,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-03T19:43:43Z"
+  "updated": "2026-09-03T20:03:16Z"
 }

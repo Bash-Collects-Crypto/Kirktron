@@ -44,6 +44,7 @@ import requests
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TRADE_LOG = os.path.join(BASE_DIR, "trade_log.csv")
+EQUITY_LOG = os.path.join(BASE_DIR, "equity_history.csv")
 RUN_LOG = os.path.join(BASE_DIR, "trader.log")
 STATE_FILE = os.path.join(BASE_DIR, "state_{}.json")
 
@@ -1142,11 +1143,29 @@ def run_cycle(portfolios):
             log("  %s: holding %s -- outside the tradeable universe, "
                 "still priced and still exitable" % (pf.name, ", ".join(orphans)))
     feed = build_price_feed(markets)
+    values = {}
     for pf in portfolios:
         value = pf.step(universe, log_rows, feed)
+        values[pf.name] = value
         log("  %-12s value $%.2f | cash $%.2f | %d open | %d closed | %d moons"
             % (pf.name, value, pf.cash, len(pf.positions), pf.trades_closed, pf.moons))
+    record_equity(values)
     return universe
+
+
+def record_equity(values):
+    """One row per cycle: the equity curve the dashboard charts."""
+    names = list(STRATEGIES)
+    try:
+        new_file = not os.path.exists(EQUITY_LOG)
+        with open(EQUITY_LOG, "a", newline="") as fh:
+            w = csv.writer(fh)
+            if new_file:
+                w.writerow(["timestamp"] + names + ["combined"])
+            row = [values.get(n, 0.0) for n in names]
+            w.writerow([iso()] + ["%.2f" % v for v in row] + ["%.2f" % sum(row)])
+    except OSError as exc:
+        log("equity log write failed: %s" % exc)
 
 
 def report():
