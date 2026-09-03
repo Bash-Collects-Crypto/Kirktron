@@ -38,6 +38,9 @@ from datetime import datetime, timezone
 
 import requests
 
+import intraday
+from intraday import INTRADAY_FEATURES
+
 # --------------------------------------------------------------------------
 # Paths
 # --------------------------------------------------------------------------
@@ -163,7 +166,12 @@ MOON_THRESHOLD_PCT = 50.0        # legacy default; per-strategy moon_pct wins
 PATTERN_MIN_RESOLVED = 20
 PATTERN_MIN_MOONS = 4
 
-FEATURE_NAMES = ["pc_1h", "pc_24h", "pc_7d", "pc_14d", "pc_30d", "vol_mcap", "cap_rank"]
+# Multi-day momentum, then the intraday block the day-trading book decides on.
+# Books that do not use the intraday half log zeros there; the pattern model
+# standardizes per strategy over its own trades, so a feature that never varies
+# contributes nothing to its distances.
+FEATURE_NAMES = (["pc_1h", "pc_24h", "pc_7d", "pc_14d", "pc_30d", "vol_mcap", "cap_rank"]
+                 + INTRADAY_FEATURES)
 
 # Features are clipped into a sane band before scoring/logging/pattern fitting.
 # Without this a single blown-out number (a fresh listing showing +13,000% over
@@ -172,6 +180,8 @@ FEATURE_NAMES = ["pc_1h", "pc_24h", "pc_7d", "pc_14d", "pc_30d", "vol_mcap", "ca
 FEATURE_CLIP = {
     "pc_1h": 10.0, "pc_24h": 25.0, "pc_7d": 40.0, "pc_14d": 60.0,
     "pc_30d": 100.0, "vol_mcap": 60.0, "cap_rank": 100.0,
+    "ret_30m": 8.0, "ret_2h": 15.0, "ema_spread": 4.0,
+    "rsi14": 100.0, "range_pos": 100.0, "vol_5m": 3.0,
 }
 
 
@@ -260,6 +270,49 @@ STRATEGIES = {
         "weights": {
             "pc_1h": 1.2, "pc_24h": 1.6, "pc_7d": 0.6,
             "pc_14d": 0.2, "pc_30d": 0.1,
+        },
+    },
+    # Its own separate book, and the only one that trades intraday. Signals come
+    # from 5-minute bars rather than multi-day windows, holds are hours not days,
+    # and it goes both ways. It is also the only book that charges itself
+    # trading costs: fees and slippage are what usually kill an intraday edge,
+    # so a day-trading record that ignores them is fiction. The other books'
+    # records are left on their original terms rather than restated mid-run.
+    "daytrade": {
+        "intraday": True,
+        "max_rank": 25,
+        "min_volume_usd": 100_000_000,
+        "intraday_universe": 12,          # bounds per-coin API calls per cycle
+        "allow_short": True,
+        "cost_bps": 15.0,                 # 10bps fee + 5bps slippage, each side
+        "gates": {
+            "ret_30m": 0.15, "ema_spread": 0.05, "rsi14": 50.0, "range_pos": 55.0,
+        },
+        "max_gates": {
+            "ret_30m": 4.0, "ret_2h": 9.0, "rsi14": 74.0, "ema_spread": 2.5,
+        },
+        "short_gates": {                  # ceilings: every value must be BELOW
+            "ret_30m": -0.15, "ema_spread": -0.05, "rsi14": 50.0, "range_pos": 45.0,
+        },
+        "short_floors": {
+            "ret_30m": -4.0, "ret_2h": -9.0, "rsi14": 26.0, "ema_spread": -2.5,
+        },
+        "min_score": 0.6,
+        "position_pct": 0.12,
+        "max_positions": 4,
+        "max_entries_per_cycle": 2,
+        "min_cash_reserve_pct": 0.10,
+        "stop_loss_pct": 1.2,
+        "take_profit_pct": 2.5,
+        "moon_pct": 2.0,
+        "trail_arm_pct": 1.5,
+        "trail_giveback_pct": 0.7,
+        "max_hold_hours": 6,
+        "breakdown_24h": -99.0,           # intraday exits are the trailing stop
+        "breakdown_7d": -99.0,            # and max hold, not daily momentum
+        "cooldown_hours": 0.5,
+        "weights": {
+            "ret_30m": 1.0, "ret_2h": 0.35, "ema_spread": 1.2,
         },
     },
     "aggressive": {
@@ -785,6 +838,7 @@ class Portfolio:
         self.positions = {}       # symbol -> dict
         self.cooldowns = {}       # symbol -> iso timestamp tradeable again
         self.realized_pnl = 0.0
+        self.fees_paid = 0.0
         self.trades_opened = 0
         self.trades_closed = 0
         self.moons = 0
@@ -825,6 +879,7 @@ class Portfolio:
         self.positions = state.get("positions", {})
         self.cooldowns = state.get("cooldowns", {})
         self.realized_pnl = float(state.get("realized_pnl", 0.0))
+        self.fees_paid = float(state.get("fees_paid", 0.0))
         self.trades_opened = int(state.get("trades_opened", 0))
         self.trades_closed = int(state.get("trades_closed", 0))
         self.moons = int(state.get("moons", 0))
@@ -867,6 +922,8 @@ class Portfolio:
         cfg = self.cfg
         if not cfg.get("allow_short"):
             return False
+        if cfg.get("intraday") and not coin.get("intraday"):
+            return False   # without bars the features are zeros, which some gates pass
         if coin["rank"] > cfg["max_rank"] or coin["volume"] < cfg["min_volume_usd"]:
             return False
         raw = coin["raw"]
@@ -880,6 +937,8 @@ class Portfolio:
 
     def passes_gates(self, coin):
         cfg = self.cfg
+        if cfg.get("intraday") and not coin.get("intraday"):
+            return False
         if coin["rank"] > cfg["max_rank"]:
             return False
         if coin["volume"] < cfg["min_volume_usd"]:
@@ -912,9 +971,13 @@ class Portfolio:
         usd = min(target_usd, spendable)
         if usd < 50:
             return False
+        cost = usd * cfg.get("cost_bps", 0.0) / 10000.0
+        if cost and self.cash - usd - cost < 0:
+            return False
         price = coin["price"]
         qty = usd / price
-        self.cash -= usd
+        self.cash -= usd + cost
+        self.fees_paid += cost
         self.positions[coin["symbol"]] = {
             "symbol": coin["symbol"],
             "name": coin["name"],
@@ -956,6 +1019,10 @@ class Portfolio:
         else:
             proceeds = pos["quantity"] * price
             pnl = proceeds - cost
+        exit_cost = abs(proceeds) * self.cfg.get("cost_bps", 0.0) / 10000.0
+        proceeds -= exit_cost
+        pnl -= exit_cost
+        self.fees_paid += exit_cost
         pnl_pct = self.change_pct(pos, price)
         moon = pnl_pct >= self.cfg.get("moon_pct", MOON_THRESHOLD_PCT)
         hold_hours = (now_utc() - parse_iso(pos["entry_time"])).total_seconds() / 3600.0
@@ -1096,6 +1163,9 @@ class Portfolio:
         lines.append("  value $%.2f  (%+.2f%% vs $%.0f start) | cash $%.2f (%.0f%% of book)"
                      % (value, (value / INITIAL_CAPITAL - 1) * 100, INITIAL_CAPITAL,
                         self.cash, 100 * self.cash / value if value else 0))
+        if self.fees_paid:
+            lines.append("  costs paid $%.2f (%.0fbps per side)"
+                         % (self.fees_paid, self.cfg.get("cost_bps", 0.0)))
         lines.append("  realized P/L $%.2f | opened %d | closed %d | wins %d (%s) | moons %d"
                      % (self.realized_pnl, self.trades_opened, self.trades_closed,
                         self.wins,
@@ -1130,10 +1200,45 @@ def _handle_signal(signum, _frame):
     log("received signal %d; shutting down after this cycle" % signum)
 
 
+INTRADAY = intraday.IntradayCache(log=log)
+
+
+def attach_intraday(universe):
+    """Refresh 5-minute bars for the day-trading universe and attach features.
+
+    One call per coin, so the universe is capped by market cap and volume and
+    only a few coins are refreshed per cycle -- the cache carries the rest.
+    """
+    cfg = next((c for c in STRATEGIES.values() if c.get("intraday")), None)
+    if not cfg:
+        return
+    pool = [c for c in universe.values()
+            if c["rank"] <= cfg["max_rank"] and c["volume"] >= cfg["min_volume_usd"]]
+    pool.sort(key=lambda c: -c["volume"])
+    pool = pool[:cfg.get("intraday_universe", 12)]
+    ids = [c["id"] for c in pool if c.get("id")]
+    INTRADAY.refresh(ids)
+    ready = 0
+    for coin in pool:
+        feats = INTRADAY.features(coin.get("id"))
+        if not feats:
+            continue
+        coin["intraday"] = True
+        for name, value in feats.items():
+            coin["raw"][name] = value
+            coin["features"][name] = clip(name, value)
+        ready += 1
+    fresh, total = INTRADAY.coverage(ids)
+    log("  intraday: %d/%d coins with bars, %d scoreable%s"
+        % (fresh, total, ready,
+           " (last error: %s)" % INTRADAY.last_error if INTRADAY.last_error else ""))
+
+
 def run_cycle(portfolios):
     EXCLUSIONS.refresh()          # no-op unless the cached list is stale
     markets = fetch_markets()
     universe = build_universe(markets)
+    attach_intraday(universe)
     log_rows = read_trade_log()
     log("cycle: %d coins fetched, %d tradeable after exclusions"
         % (len(markets), len(universe)))
@@ -1157,6 +1262,17 @@ def record_equity(values):
     """One row per cycle: the equity curve the dashboard charts."""
     names = list(STRATEGIES)
     try:
+        # Adding a book changes this file's shape. Appending positionally into
+        # the old header silently shifts every value one column left -- which
+        # is exactly what happened when the day-trading book was added -- so
+        # rotate instead of corrupting the curve.
+        if os.path.exists(EQUITY_LOG):
+            with open(EQUITY_LOG) as fh:
+                header = fh.readline().strip().split(",")
+            if header and header != ["timestamp"] + names + ["combined"]:
+                backup = EQUITY_LOG.replace(".csv", ".%s.csv" % iso().replace(":", ""))
+                os.rename(EQUITY_LOG, backup)
+                log("equity log schema changed; rotated to %s" % os.path.basename(backup))
         new_file = not os.path.exists(EQUITY_LOG)
         with open(EQUITY_LOG, "a", newline="") as fh:
             w = csv.writer(fh)

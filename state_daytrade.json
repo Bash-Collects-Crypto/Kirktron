@@ -1,0 +1,68 @@
+{
+  "name": "daytrade",
+  "cash": 7596.400000000001,
+  "positions": {
+    "XRP": {
+      "symbol": "XRP",
+      "name": "XRP",
+      "side": "long",
+      "quantity": 810.8108108108108,
+      "entry_price": 1.48,
+      "entry_time": "2026-09-03T20:32:55Z",
+      "peak_pct": 0.0,
+      "last_price": 1.48,
+      "entry_features": {
+        "pc_1h": 0.5,
+        "pc_24h": 9.8725,
+        "pc_7d": 1.4,
+        "pc_14d": 19.6,
+        "pc_30d": 36.7,
+        "vol_mcap": 4.6501863472795595,
+        "cap_rank": 98.0,
+        "ret_30m": 0.53391359708721,
+        "ret_2h": 1.389687210977253,
+        "ema_spread": 0.45389092975522977,
+        "rsi14": 64.4020067730763,
+        "range_pos": 98.9220637318217,
+        "vol_5m": 0.20022868720946085
+      },
+      "entry_score": 1.5649732366355242,
+      "pattern_bonus": 0.0
+    },
+    "ADA": {
+      "symbol": "ADA",
+      "name": "Cardano",
+      "side": "long",
+      "quantity": 5372.949883809959,
+      "entry_price": 0.223341,
+      "entry_time": "2026-09-03T20:34:06Z",
+      "peak_pct": 0.0,
+      "last_price": 0.223282,
+      "entry_features": {
+        "pc_1h": -0.2,
+        "pc_24h": 12.73391,
+        "pc_7d": 3.8,
+        "pc_14d": 13.7,
+        "pc_30d": 16.2,
+        "vol_mcap": 8.03018561852609,
+        "cap_rank": 92.4,
+        "ret_30m": 0.21537753606724053,
+        "ret_2h": 0.4433251397395255,
+        "ema_spread": 0.22569286635759062,
+        "rsi14": 59.12054685126529,
+        "range_pos": 94.2447683242436,
+        "vol_5m": 0.19286786684955856
+      },
+      "entry_score": 0.6413727746051832,
+      "pattern_bonus": 0.0
+    }
+  },
+  "cooldowns": {},
+  "realized_pnl": 0.0,
+  "trades_opened": 2,
+  "trades_closed": 0,
+  "moons": 0,
+  "wins": 0,
+  "started": "2026-09-03T20:32:45Z",
+  "updated": "2026-09-03T20:35:16Z"
+}

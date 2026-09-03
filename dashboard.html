@@ -18,6 +18,7 @@
     --s1:            #2a78d6;
     --s2:            #eb6834;
     --s3:            #4a3aa7;
+    --s4:            #eda100;
     --live:          #0e7a48;
     --shadow:        0 1px 2px rgba(13,20,24,.06), 0 6px 18px rgba(13,20,24,.05);
   }
@@ -38,6 +39,7 @@
       --s1:         #3987e5;
       --s2:         #d95926;
       --s3:         #9085e9;
+      --s4:         #c98500;
       --live:       #35b878;
       --shadow:     0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.25);
     }
@@ -58,6 +60,7 @@
     --s1:         #3987e5;
     --s2:         #d95926;
     --s3:         #9085e9;
+    --s4:         #c98500;
     --live:       #35b878;
     --shadow:     0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.25);
   }
@@ -139,7 +142,7 @@
   .tip .row + .row { margin-top: 2px; }
 
   /* ---- books ---- */
-  .books { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 16px; margin-bottom: 20px; }
+  .books { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 16px; margin-bottom: 20px; }
   .book {
     background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
     box-shadow: var(--shadow); display: flex; flex-direction: column;
@@ -263,8 +266,13 @@
 <script>
 const SEED_CURRENT = __CURRENT__;
 const SEED_HISTORY = __HISTORY__;
-const SERIES = ["conservative", "aggressive", "longshort"];
-const HUE = { conservative: "--s1", aggressive: "--s2", longshort: "--s3" };
+const HUE = { conservative: "--s1", aggressive: "--s2", longshort: "--s3", daytrade: "--s4" };
+const SLOTS = ["--s1", "--s2", "--s3", "--s4"];
+// Driven by the data, so adding a book to the trader shows up here on its own.
+let SERIES = (SEED_HISTORY.series && SEED_HISTORY.series.length)
+  ? SEED_HISTORY.series.slice()
+  : (SEED_CURRENT.books || []).map(b => b.name);
+const hueOf = n => HUE[n] || SLOTS[SERIES.indexOf(n) % SLOTS.length];
 let current = SEED_CURRENT, history = SEED_HISTORY;
 let live = false, lastPush = 0;
 
@@ -317,20 +325,21 @@ function renderTop() {
   document.getElementById("statusbar").innerHTML = bits.join("");
 
   document.getElementById("legend").innerHTML = SERIES.map(n =>
-    `<span><i class="swatch" style="background:var(${HUE[n]})"></i>${n}</span>`).join("");
+    `<span><i class="swatch" style="background:var(${hueOf(n)})"></i>${n}</span>`).join("");
 }
 
 /* ---------- equity chart ---------- */
 const W = 900, H = 260, M = { t: 14, r: 66, b: 26, l: 58 };
 function renderChart() {
   const svg = document.getElementById("chart");
-  const pts = (history.points || []).filter(p => SERIES.every(s => typeof p[s] === "number"));
+  // Keep every point; a series simply has no line before its book existed.
+  const pts = (history.points || []).filter(p => SERIES.some(s => typeof p[s] === "number"));
   if (pts.length < 2) {
     svg.innerHTML = `<text x="${W / 2}" y="${H / 2}" text-anchor="middle" fill="${cssv("--ink-3")}"
       font-family="IBM Plex Sans, sans-serif" font-size="13">Equity curve builds as the trader runs — one point per 60-second cycle</text>`;
     return;
   }
-  const vals = pts.flatMap(p => SERIES.map(s => p[s]));
+  const vals = pts.flatMap(p => SERIES.map(s => p[s])).filter(v => typeof v === "number");
   let lo = Math.min(...vals), hi = Math.max(...vals);
   const pad = Math.max((hi - lo) * 0.18, 12);
   lo -= pad; hi += pad;
@@ -362,13 +371,15 @@ function renderChart() {
       fill="${cssv("--ink-3")}" font-family="IBM Plex Mono, monospace" font-size="10.5">${clock(pts[idx].t)}</text>`;
   }
   SERIES.forEach(name => {
-    const col = cssv(HUE[name]);
-    const d = pts.map((p, i) => `${i ? "L" : "M"}${X(i).toFixed(1)},${Y(p[name]).toFixed(1)}`).join("");
+    const col = cssv(hueOf(name));
+    const seg = pts.map((p, i) => [i, p[name]]).filter(([, v]) => typeof v === "number");
+    if (!seg.length) return;
+    const d = seg.map(([i, v], k) => `${k ? "L" : "M"}${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join("");
     g += `<path d="${d}" fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
-    const last = pts[pts.length - 1], lx = X(pts.length - 1), ly = Y(last[name]);
+    const [li, lv] = seg[seg.length - 1], lx = X(li), ly = Y(lv);
     g += `<circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="3.4" fill="${col}" stroke="${cssv("--panel")}" stroke-width="2"/>`;
     g += `<text x="${(lx + 9).toFixed(1)}" y="${(ly + 3.6).toFixed(1)}" fill="${col}"
-      font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600">${Math.round(last[name]).toLocaleString("en-US")}</text>`;
+      font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600">${Math.round(lv).toLocaleString("en-US")}</text>`;
   });
   g += `<line id="cross" x1="0" y1="${M.t}" x2="0" y2="${H - M.b}" stroke="${cssv("--ink-3")}" stroke-width="1" opacity="0"/>`;
   svg.innerHTML = g;
@@ -382,8 +393,8 @@ function renderChart() {
     if (!isFinite(i)) return;
     const p = pts[i];
     cross.setAttribute("x1", X(i)); cross.setAttribute("x2", X(i)); cross.setAttribute("opacity", ".38");
-    tip.innerHTML = `<div class="tt">${esc(clock(p.t))} UTC</div>` + SERIES.map(s =>
-      `<div class="row"><span style="color:var(${HUE[s]})">${s}</span><span class="num">${money(p[s])}</span></div>`).join("");
+    tip.innerHTML = `<div class="tt">${esc(clock(p.t))} UTC</div>` + SERIES.filter(s => typeof p[s] === "number").map(s =>
+      `<div class="row"><span style="color:var(${hueOf(s)})">${s}</span><span class="num">${money(p[s])}</span></div>`).join("");
     tip.classList.add("on");
     const left = Math.min(Math.max(X(i) / W * r.width - 78, 4), r.width - 172);
     tip.style.left = left + "px";
@@ -396,7 +407,7 @@ function renderChart() {
 /* ---------- books ---------- */
 function renderBooks() {
   document.getElementById("books").innerHTML = current.books.map(b => {
-    const accent = `var(${HUE[b.name]})`;
+    const accent = `var(${hueOf(b.name)})`;
     const invested = Math.max(0, 100 - b.cashPct);
     const p = b.pattern;
     const rprog = Math.min(100, p.resolved / p.needResolved * 100);
@@ -429,13 +440,15 @@ function renderBooks() {
         </div>
         <div class="meter"><i style="width:${invested}%"></i><u style="width:${b.cashPct}%"></u></div>
         <div class="rules">Rank &le; ${b.maxRank} · stop ${b.stopPct}% · target ${b.targetPct}% ·
-          moon ${b.moonPct}% · max ${b.maxPositions}</div>
+          moon ${b.moonPct}% · max ${b.maxPositions}${b.intraday ? " · 5-min bars" : ""}${
+          b.costBps ? ` · costs ${b.costBps}bps/side` : ""}</div>
       </div>
       <div class="stats">
         <div class="stat"><div class="v num">${b.opened}</div><div class="k">Opened</div></div>
         <div class="stat"><div class="v num">${b.closed}</div><div class="k">Closed</div></div>
         <div class="stat"><div class="v num">${b.winRate === null ? "—" : b.winRate + "%"}</div><div class="k">Win rate</div></div>
-        <div class="stat"><div class="v num ${cls(b.realized)}">${b.realized ? money(b.realized) : "—"}</div><div class="k">Realized</div></div>
+        <div class="stat"><div class="v num ${cls(b.realized)}">${b.realized ? money(b.realized) : "—"}</div>
+          <div class="k">${b.fees ? "Realized net" : "Realized"}</div></div>
       </div>
       <div class="blotter">${rows}</div>
       <div class="pattern">${patternText}<div class="pbar"><i style="width:${prog}%"></i></div></div>
@@ -485,7 +498,11 @@ matchMedia("(prefers-color-scheme: dark)").addEventListener("change", renderChar
     db.doc("state/history").onSnapshot(snap => {
       if (!snap.exists) return;
       const d = snap.data();
-      if (d && d.points) { history = d; renderChart(); }
+      if (d && d.points) {
+        history = d;
+        if (d.series && d.series.length) SERIES = d.series.slice();
+        renderChart();
+      }
     }, () => {});
     live = true;
     renderTop();

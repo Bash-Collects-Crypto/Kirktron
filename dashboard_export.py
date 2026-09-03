@@ -58,6 +58,9 @@ def build_current():
             "moons": pf.moons,
             "moonPct": cfg.get("moon_pct", pt.MOON_THRESHOLD_PCT),
             "canShort": bool(cfg.get("allow_short")),
+            "intraday": bool(cfg.get("intraday")),
+            "costBps": cfg.get("cost_bps", 0),
+            "fees": round(pf.fees_paid, 2),
             "maxPositions": cfg["max_positions"],
             "stopPct": cfg["stop_loss_pct"],
             "targetPct": cfg["take_profit_pct"],
@@ -109,9 +112,11 @@ def build_history():
     points = []
     for r in rows:
         try:
-            points.append({"t": r["timestamp"],
-                           **{n: float(r[n]) for n in names},
-                           "combined": float(r["combined"])})
+            pt_row = {"t": r["timestamp"], "combined": float(r["combined"])}
+            for n in names:                      # a blank means the book did not exist yet
+                if r.get(n) not in (None, ""):
+                    pt_row[n] = float(r[n])
+            points.append(pt_row)
         except (KeyError, ValueError):
             continue
     return {"points": points, "series": names}

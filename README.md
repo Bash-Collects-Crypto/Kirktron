@@ -131,3 +131,36 @@ iteration, roughly every ten minutes. The seeded copy inside the HTML is what a
 first paint (or a viewer without database access) shows, so the page is never
 blank. `equity_history.csv` gains a row every trading cycle, which is the curve
 the chart draws.
+
+## The day-trading book
+
+A fourth portfolio, `daytrade`, is the only one that trades intraday. It decides
+on **5-minute bars** rather than multi-day windows, holds for hours rather than
+days, and goes both ways.
+
+| | daytrade |
+|---|---|
+| universe | rank <= 25, layer-1/blue-chip, $100M volume, top 12 by volume |
+| signals | 30-min and 2-hour return, EMA(12/36) spread, RSI(14), position in the 24h range, 5-min realized vol |
+| long | 30-min return > +0.15%, EMA spread > +0.05%, RSI > 50, upper 45% of range |
+| short | the mirror, with floors so nothing already 4% down in 30 minutes gets shorted |
+| size | 12% ($1,200), max 4 concurrent |
+| stop / target | 1.2% / 2.5%, trailing arms at +1.5% (gives back 0.7%) |
+| max hold | 6h, 30-minute re-entry cooldown |
+| **costs** | **15bps per side (10bps fee + 5bps slippage)** |
+
+It is the only book that charges itself trading costs. Fees and slippage are
+what usually kill an intraday edge, so a day-trading record that ignores them
+is fiction — a round trip at an unchanged price loses money here, as it should.
+The other three books' records are left on their original cost-free terms
+rather than restated mid-run, so **`daytrade` is not directly comparable to
+them**: it is carrying a handicap the others are not.
+
+Intraday bars cost one API call per coin, so the universe is capped at 12 and
+only a few coins refresh per cycle on a 5-minute TTL; the cache carries the
+rest. A coin with no bars is never traded by this book — its features would be
+zeros, and some short gates read a zero as a valid signal.
+
+More trades is not the same as more profit. What the higher trade rate reliably
+buys is **data**: this book should reach the pattern model's 20-resolved /
+4-moon activation gate in days rather than weeks.
