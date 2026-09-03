@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 6353.042589013988,
+  "cash": 7581.994338897329,
   "positions": {
     "LINK": {
       "symbol": "LINK",
@@ -37,7 +37,7 @@
       "entry_price": 259.37,
       "entry_time": "2026-09-03T21:12:28Z",
       "peak_pct": 0.632301345568102,
-      "last_price": 257.28,
+      "last_price": 257.01,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": 6.20034,
@@ -55,42 +55,17 @@
       },
       "entry_score": 0.8245932880677422,
       "pattern_bonus": 0.0
-    },
-    "HYPE": {
-      "symbol": "HYPE",
-      "name": "Hyperliquid",
-      "side": "long",
-      "quantity": 13.999066728884742,
-      "entry_price": 85.72,
-      "entry_time": "2026-09-03T22:44:28Z",
-      "peak_pct": 2.47316845543631,
-      "last_price": 87.82,
-      "entry_features": {
-        "pc_1h": 0.2,
-        "pc_24h": 5.03466,
-        "pc_7d": 0.1,
-        "pc_14d": 15.8,
-        "pc_30d": 54.2,
-        "vol_mcap": 8.194352929287117,
-        "cap_rank": 96.0,
-        "ret_30m": 0.4110398975373908,
-        "ret_2h": 0.32080595308079385,
-        "ema_spread": 0.17201532317572787,
-        "rsi14": 51.53571927006545,
-        "range_pos": 88.91165783993195,
-        "vol_5m": 0.18961511104250942
-      },
-      "entry_score": 0.729740368926542,
-      "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -37.957410986012505,
-  "fees_paid": 12.548386463215806,
+  "cooldowns": {
+    "HYPE": "2026-09-04T00:19:18Z"
+  },
+  "realized_pnl": -9.005661102671386,
+  "fees_paid": 14.394583383421125,
   "trades_opened": 5,
-  "trades_closed": 2,
-  "moons": 0,
-  "wins": 0,
+  "trades_closed": 3,
+  "moons": 1,
+  "wins": 1,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-03T23:46:20Z"
+  "updated": "2026-09-03T23:57:14Z"
 }
