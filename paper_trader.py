@@ -857,6 +857,7 @@ class Portfolio:
         state = {
             "name": self.name, "cash": self.cash, "positions": self.positions,
             "cooldowns": self.cooldowns, "realized_pnl": self.realized_pnl,
+            "fees_paid": self.fees_paid,
             "trades_opened": self.trades_opened, "trades_closed": self.trades_closed,
             "moons": self.moons, "wins": self.wins, "started": self.started,
             "updated": iso(),
@@ -1217,6 +1218,7 @@ def attach_intraday(universe):
     pool.sort(key=lambda c: -c["volume"])
     pool = pool[:cfg.get("intraday_universe", 12)]
     ids = [c["id"] for c in pool if c.get("id")]
+    INTRADAY.prune(ids)
     INTRADAY.refresh(ids)
     ready = 0
     for coin in pool:

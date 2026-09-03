@@ -7,7 +7,9 @@ a TTL cache and refreshes only a few coins per cycle -- enough to stay current
 without spending the free tier's rate limit on a single pass.
 """
 
+import json
 import math
+import os
 import random
 import time
 
@@ -84,12 +86,39 @@ def indicators(prices):
 class IntradayCache:
     """Per-coin 5-minute series, refreshed a few coins at a time."""
 
-    def __init__(self, log=print):
+    def __init__(self, log=print, path=None):
         self.series = {}          # coin id -> list of closes
         self.stamp = {}           # coin id -> unix seconds of last successful fetch
-        self.cursor = 0
         self.log = log
         self.last_error = None
+        # The trader runs in short bounded stretches, so an in-memory cache is
+        # rebuilt from zero every few minutes and never reaches full coverage --
+        # it was stuck at 4 of 12 coins while spending the rate limit refetching
+        # the same ones. Persisting it makes a restart resume the coverage it
+        # already paid for.
+        self.path = path or os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                         "intraday_cache.json")
+        self._load()
+
+    def _load(self):
+        if not os.path.exists(self.path):
+            return
+        try:
+            with open(self.path) as fh:
+                blob = json.load(fh)
+            self.series = {k: list(v) for k, v in blob.get("series", {}).items()}
+            self.stamp = {k: float(v) for k, v in blob.get("stamp", {}).items()}
+        except (OSError, ValueError, TypeError) as exc:
+            self.log("intraday cache unreadable (%s); starting cold" % exc)
+
+    def _save(self):
+        try:
+            tmp = self.path + ".tmp"
+            with open(tmp, "w") as fh:
+                json.dump({"series": self.series, "stamp": self.stamp}, fh)
+            os.replace(tmp, self.path)
+        except OSError as exc:
+            self.log("intraday cache write failed: %s" % exc)
 
     def _fetch(self, coin_id):
         resp = requests.get(
@@ -125,6 +154,8 @@ class IntradayCache:
                 self.last_error = str(exc)
                 self.stamp[coin_id] = time.time() - CACHE_TTL + 60   # retry in a minute
             time.sleep(1.5 + random.uniform(0, 1))
+        if done:
+            self._save()
 
     def features(self, coin_id):
         prices = self.series.get(coin_id)
@@ -133,3 +164,10 @@ class IntradayCache:
     def coverage(self, coin_ids):
         fresh = sum(1 for c in coin_ids if self.series.get(c))
         return fresh, len(coin_ids)
+
+    def prune(self, keep_ids):
+        """Drop coins that left the day-trading universe, so the file stays small."""
+        keep = set(keep_ids)
+        for store in (self.series, self.stamp):
+            for gone in [k for k in store if k not in keep]:
+                del store[gone]
