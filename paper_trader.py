@@ -104,6 +104,12 @@ EXCLUDED_NAME_TOKENS = (
 # CoinGecko's own categorization, pulled live and cached. This is what catches
 # things the static list missed, e.g. AI (a meme token that showed +13,315%
 # over 30d), PUMP, M, CASHCAT.
+# "Crypto" here means layer-1 chains and blue chips -- not DeFi tokens, gaming
+# tokens, exchange tokens or long-tail alts. A coin qualifies if CoinGecko
+# classes it as a layer-1, or if it is a top-rank asset by market cap.
+INCLUDED_CATEGORIES = ("layer-1",)
+BLUE_CHIP_MAX_RANK = 25
+
 EXCLUDED_CATEGORIES = (
     "meme-token",
     "stablecoins",
@@ -294,6 +300,7 @@ class Exclusions:
     def __init__(self):
         self.ids = set()
         self.symbols = set()
+        self.layer1_ids = set()
         self.fetched_at = None
         self.source = "none"
         self.load_cache()
@@ -306,6 +313,7 @@ class Exclusions:
                 blob = json.load(fh)
             self.ids = set(blob.get("ids", []))
             self.symbols = set(blob.get("symbols", []))
+            self.layer1_ids = set(blob.get("layer1_ids", []))
             self.fetched_at = blob.get("fetched_at")
             self.source = "cache"
         except (OSError, ValueError) as exc:
@@ -316,8 +324,10 @@ class Exclusions:
             tmp = EXCLUSIONS_CACHE + ".tmp"
             with open(tmp, "w") as fh:
                 json.dump({"ids": sorted(self.ids), "symbols": sorted(self.symbols),
+                           "layer1_ids": sorted(self.layer1_ids),
                            "fetched_at": self.fetched_at,
-                           "categories": list(EXCLUDED_CATEGORIES)}, fh, indent=2)
+                           "categories": list(EXCLUDED_CATEGORIES),
+                           "included": list(INCLUDED_CATEGORIES)}, fh, indent=2)
             os.replace(tmp, EXCLUSIONS_CACHE)
         except OSError as exc:
             log("exclusions: could not write cache (%s)" % exc)
@@ -328,11 +338,11 @@ class Exclusions:
         age = (now_utc() - parse_iso(self.fetched_at)).total_seconds() / 3600.0
         return age >= EXCLUSIONS_TTL_HOURS
 
-    def refresh(self, force=False):
-        if not force and not self.stale():
-            return
-        ids, symbols, failed = set(), set(), []
-        for category in EXCLUDED_CATEGORIES:
+    @staticmethod
+    def _fetch_category(category):
+        """One category, with retries. 429s are routine on the free tier."""
+        last = None
+        for attempt in range(3):
             try:
                 resp = requests.get(
                     CATEGORY_URL,
@@ -342,10 +352,25 @@ class Exclusions:
                     headers={"Accept": "application/json",
                              "User-Agent": "kirktron-paper-trader/1.0"},
                 )
+                if resp.status_code == 429:
+                    raise RuntimeError("rate limited (429)")
                 resp.raise_for_status()
                 data = resp.json()
                 if not isinstance(data, list):
                     raise RuntimeError("unexpected payload")
+                return data
+            except Exception as exc:            # noqa: BLE001
+                last = exc
+                time.sleep(min(30, 5 * (2 ** attempt)) + random.uniform(0, 2))
+        raise RuntimeError(str(last))
+
+    def refresh(self, force=False):
+        if not force and not self.stale():
+            return
+        ids, symbols, failed = set(), set(), []
+        for category in EXCLUDED_CATEGORIES:
+            try:
+                data = self._fetch_category(category)
                 for coin in data:
                     if coin.get("id"):
                         ids.add(coin["id"])
@@ -355,6 +380,25 @@ class Exclusions:
             except Exception as exc:            # noqa: BLE001
                 failed.append("%s (%s)" % (category, exc))
             time.sleep(3)                        # stay well inside the free rate limit
+
+        layer1 = set()
+        for category in INCLUDED_CATEGORIES:
+            try:
+                for coin in self._fetch_category(category):
+                    if coin.get("id"):
+                        layer1.add(coin["id"])
+                log("universe: %s -> %d coins" % (category, len(layer1)))
+            except Exception as exc:            # noqa: BLE001
+                failed.append("%s (%s)" % (category, exc))
+            time.sleep(3)
+        if layer1:
+            self.layer1_ids = layer1
+        elif not self.layer1_ids:
+            # Fail-open on the INCLUSION list silently widens the universe back
+            # to every alt in the top 250, which is the opposite of what was
+            # asked for. Say so loudly rather than trading a universe nobody chose.
+            log("universe: WARNING -- layer-1 allowlist unavailable and no cached "
+                "copy; the blue-chip restriction is NOT being enforced this cycle")
 
         if failed and not ids:
             # Total failure: keep whatever we already had rather than trading blind.
@@ -370,6 +414,13 @@ class Exclusions:
         self.save_cache()
         log("exclusions: %d ids / %d symbols across %d categories"
             % (len(self.ids), len(self.symbols), len(EXCLUDED_CATEGORIES)))
+
+    def is_blue_chip(self, coin):
+        """Layer-1 chain, or a top-rank asset. Anything else is out of scope."""
+        if coin.get("id") in self.layer1_ids:
+            return True
+        rank = coin.get("market_cap_rank")
+        return rank is not None and rank <= BLUE_CHIP_MAX_RANK
 
     def blocks(self, coin):
         # Match on CoinGecko id ONLY. Symbols are not unique across the
@@ -447,7 +498,9 @@ def exclusion_reason(coin):
     if any(tok in name for tok in EXCLUDED_NAME_TOKENS):
         return "name filter"
     if is_pegged(coin):
-        return "pegged (<%.0f%% move on every timeframe)" % PEG_FLATNESS_PCT
+        return "pegged (<%.1f%% move on every timeframe)" % PEG_FLATNESS_PCT
+    if EXCLUSIONS.layer1_ids and not EXCLUSIONS.is_blue_chip(coin):
+        return "not a layer-1 or blue chip"
     if coin.get("market_cap_rank") is None:
         return "unranked"
     if not coin.get("current_price"):
@@ -468,11 +521,42 @@ def is_tradeable(coin):
         return False
     if is_pegged(coin):
         return False
+    # Only enforce the allowlist once we actually have one -- an empty set
+    # means the fetch never succeeded, and that must not empty the universe.
+    if EXCLUSIONS.layer1_ids and not EXCLUSIONS.is_blue_chip(coin):
+        return False
     if coin.get("market_cap_rank") is None:
         return False
     if not coin.get("current_price"):
         return False
     return True
+
+
+def build_price_feed(markets):
+    """symbol -> {price, features} for EVERY coin, exclusions ignored.
+
+    Entries come from the tradeable universe, but exits must not: a coin we
+    already hold can leave the universe (reclassified, or a filter tightened
+    under it) and would otherwise become unpriceable, freezing the position
+    open forever past its stop.
+    """
+    feed = {}
+    for coin in markets:
+        symbol = (coin.get("symbol") or "").upper()
+        price = num(coin.get("current_price"))
+        if not symbol or not price or symbol in feed:
+            continue
+        feed[symbol] = {
+            "symbol": symbol,
+            "name": coin.get("name") or symbol,
+            "price": price,
+            "features": {
+                "pc_1h": clip("pc_1h", num(coin.get("price_change_percentage_1h_in_currency"))),
+                "pc_24h": clip("pc_24h", num(coin.get("price_change_percentage_24h_in_currency"))),
+                "pc_7d": clip("pc_7d", num(coin.get("price_change_percentage_7d_in_currency"))),
+            },
+        }
+    return feed
 
 
 def build_universe(markets):
@@ -836,13 +920,14 @@ class Portfolio:
 
     # ---- one cycle -------------------------------------------------------
 
-    def step(self, universe, log_rows):
+    def step(self, universe, log_rows, feed=None):
+        feed = feed if feed is not None else universe
         self.pattern.fit(resolved_rows_for(self.name, log_rows))
 
         # 1. mark to market and handle exits
         for symbol in list(self.positions):
             pos = self.positions[symbol]
-            coin = universe.get(symbol)
+            coin = feed.get(symbol)      # price from the full feed, never the filtered universe
             if coin:
                 pos["last_price"] = coin["price"]
                 pos["high_price"] = max(pos["high_price"], coin["price"])
@@ -851,7 +936,7 @@ class Portfolio:
                     % (self.name, symbol))
             reason = self.exit_reason(pos, coin)
             if reason:
-                self.close_position(symbol, pos["last_price"], reason, universe)
+                self.close_position(symbol, pos["last_price"], reason, feed)
 
         # 2. look for entries
         portfolio_value = self.value(universe)
@@ -931,7 +1016,13 @@ def run_cycle(portfolios):
     log("cycle: %d coins fetched, %d tradeable after exclusions"
         % (len(markets), len(universe)))
     for pf in portfolios:
-        value = pf.step(universe, log_rows)
+        orphans = [s for s in pf.positions if s not in universe]
+        if orphans:
+            log("  %s: holding %s -- outside the tradeable universe, "
+                "still priced and still exitable" % (pf.name, ", ".join(orphans)))
+    feed = build_price_feed(markets)
+    for pf in portfolios:
+        value = pf.step(universe, log_rows, feed)
         log("  %-12s value $%.2f | cash $%.2f | %d open | %d closed | %d moons"
             % (pf.name, value, pf.cash, len(pf.positions), pf.trades_closed, pf.moons))
     return universe
@@ -943,7 +1034,7 @@ def report():
     portfolios = [Portfolio(n) for n in STRATEGIES]
     universe = {}
     try:
-        universe = build_universe(fetch_markets())
+        universe = build_price_feed(fetch_markets())
     except Exception as exc:                      # noqa: BLE001
         print("(live prices unavailable: %s -- using last known marks)" % exc)
     print("KIRKTRON PAPER TRADER -- %s" % iso())
@@ -975,6 +1066,9 @@ def audit():
     print("exclusion list: %s, %d ids / %d symbols, fetched %s"
           % (EXCLUSIONS.source, len(EXCLUSIONS.ids), len(EXCLUSIONS.symbols),
              EXCLUSIONS.fetched_at))
+    print("layer-1 allowlist: %s"
+          % ("%d chains + rank<=%d blue chips" % (len(EXCLUSIONS.layer1_ids), BLUE_CHIP_MAX_RANK)
+             if EXCLUSIONS.layer1_ids else "*** UNAVAILABLE -- restriction NOT enforced ***"))
     print("%d coins fetched -> %d excluded -> %d tradeable\n"
           % (len(markets), len(dropped), len(universe)))
 
