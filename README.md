@@ -45,6 +45,8 @@ python3 paper_trader.py            # run forever
 python3 paper_trader.py --once     # a single cycle
 python3 paper_trader.py --report   # summary of both portfolios
 nohup ./run_trader.sh &             # supervised, auto-restarts on a crash
+python3 paper_trader.py --audit    # prove the universe is real crypto, no memes
+./snapshot.sh                      # commit + push the trading record
 touch STOP                          # stop after the current run
 ```
 
@@ -52,3 +54,36 @@ Polls every 5 minutes. State is checkpointed to `state_<strategy>.json` after
 every cycle (atomic writes), so a crash or restart resumes exactly where it
 left off. Every fill is appended to `trade_log.csv` along with the momentum
 features that triggered it.
+
+## What we exclude, and how
+
+The universe must be real crypto — never meme coins, stablecoins, wrapped or
+staked derivatives, or tokenized real-world assets. A hand-maintained symbol
+blacklist could not hold that line: new memes list constantly, and symbols are
+not unique. So the primary filter is **CoinGecko's own categorization**
+(`meme-token`, `stablecoins`, `liquid-staking-tokens`, `wrapped-tokens`),
+pulled live and cached for 6 hours. The curated static lists remain as a floor.
+
+Two details that matter:
+
+- **Category matching is by CoinGecko id, never by symbol.** Wrapped and
+  bridged tokens reuse the underlying's ticker (`wrapped-solana` is symbol
+  `SOL`), so symbol matching excluded BTC, ETH and SOL from the universe.
+- **A failed category refresh keeps the previous list** rather than trading
+  blind. A total failure never opens the gates.
+
+Backstopping both is a **peg detector**: if a coin's largest move across every
+timeframe is under 1.5%, it is riding a peg, not a trend. Tokenized treasuries
+measure 0.03–1.2% there; real crypto measures 15–26%.
+
+Run `python3 paper_trader.py --audit` to see exactly what was excluded, why,
+and what each strategy can currently trade. As of the last audit that filtered
+88 of 250 coins, including DOGE, SHIB, PEPE, TRUMP, PENGU, BONK, FLOKI, WIF,
+FARTCOIN, MemeCore, pump.fun and CASHCAT.
+
+## The trading record in git
+
+This container is ephemeral, so `trade_log.csv` and the `state_*.json` files
+are the only durable record of a run. `./snapshot.sh` commits and pushes them,
+and runs hourly, so the history survives the container and the git log doubles
+as a performance timeline.
