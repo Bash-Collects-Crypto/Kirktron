@@ -1,0 +1,9 @@
+# Runtime artifacts of a live paper-trading run. These change every cycle and
+# are machine-local state, not source: keeping them out of git stops the
+# running bot from fighting with commits.
+trade_log.csv
+state_*.json
+trader.log
+supervisor.log
+STOP
+__pycache__/
