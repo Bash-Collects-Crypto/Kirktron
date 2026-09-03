@@ -1,34 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 5192.8,
+  "cash": 6374.808108108108,
   "positions": {
-    "XRP": {
-      "symbol": "XRP",
-      "name": "XRP",
-      "side": "long",
-      "quantity": 810.8108108108108,
-      "entry_price": 1.48,
-      "entry_time": "2026-09-03T20:32:55Z",
-      "peak_pct": 0.0,
-      "last_price": 1.47,
-      "entry_features": {
-        "pc_1h": 0.5,
-        "pc_24h": 9.8725,
-        "pc_7d": 1.4,
-        "pc_14d": 19.6,
-        "pc_30d": 36.7,
-        "vol_mcap": 4.6501863472795595,
-        "cap_rank": 98.0,
-        "ret_30m": 0.53391359708721,
-        "ret_2h": 1.389687210977253,
-        "ema_spread": 0.45389092975522977,
-        "rsi14": 64.4020067730763,
-        "range_pos": 98.9220637318217,
-        "vol_5m": 0.20022868720946085
-      },
-      "entry_score": 1.5649732366355242,
-      "pattern_bonus": 0.0
-    },
     "ADA": {
       "symbol": "ADA",
       "name": "Cardano",
@@ -37,7 +10,7 @@
       "entry_price": 0.223341,
       "entry_time": "2026-09-03T20:34:06Z",
       "peak_pct": 0.4428206195906662,
-      "last_price": 0.223773,
+      "last_price": 0.223193,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 12.73391,
@@ -63,7 +36,7 @@
       "quantity": 100.84033613445378,
       "entry_price": 11.9,
       "entry_time": "2026-09-03T20:54:28Z",
-      "peak_pct": 0.2521008403361291,
+      "peak_pct": 0.3361344537815054,
       "last_price": 11.93,
       "entry_features": {
         "pc_1h": 0.3,
@@ -91,7 +64,7 @@
       "entry_price": 259.37,
       "entry_time": "2026-09-03T21:12:28Z",
       "peak_pct": 0.632301345568102,
-      "last_price": 260.88,
+      "last_price": 259.94,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": 6.20034,
@@ -111,13 +84,15 @@
       "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": 0.0,
-  "fees_paid": 7.2,
+  "cooldowns": {
+    "XRP": "2026-09-03T22:33:42Z"
+  },
+  "realized_pnl": -17.991891891891928,
+  "fees_paid": 8.975675675675676,
   "trades_opened": 4,
-  "trades_closed": 0,
+  "trades_closed": 1,
   "moons": 0,
   "wins": 0,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-03T21:56:10Z"
+  "updated": "2026-09-03T22:07:15Z"
 }
