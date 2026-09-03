@@ -143,11 +143,20 @@ RWA_TOKENS = {
 
 INITIAL_CAPITAL = 10_000.0
 
-# A "moon" is a resolved (closed) trade whose realized gain was >= 50%.
-# Starting threshold: high enough that it is a genuinely exceptional outcome
-# rather than a lucky take-profit, low enough that the pattern model can
-# actually accumulate 4 of them in a reasonable number of trades.
-MOON_THRESHOLD_PCT = 50.0
+# A "moon" is a resolved (closed) trade that delivered its full thesis.
+#
+# This started as a flat >= 50% gain, which was reachable when the universe
+# still held meme-adjacent alts. It is not reachable now: exits test
+# take-profit before the trailing stop, so every winner is closed at its
+# target -- 9%, 12%, 22% -- and no trade in any book could ever be flagged a
+# moon. The pattern model needs 4 moons to activate, so the feature was dead.
+#
+# So a moon is now defined per strategy, just under each book's take-profit:
+# a full-target win, or a trailing exit close to it. Stop-outs, momentum
+# breakdowns and max-hold scratches are not moons. That makes the model learn
+# the question actually worth asking -- which setups reach their target rather
+# than stopping out -- and makes 4 of them attainable.
+MOON_THRESHOLD_PCT = 50.0        # legacy default; per-strategy moon_pct wins
 
 # Pattern model activation gates.
 PATTERN_MIN_RESOLVED = 20
@@ -195,6 +204,8 @@ STRATEGIES = {
         # --- risk ---
         "stop_loss_pct": 3.0,
         "take_profit_pct": 9.0,
+        "moon_pct": 7.0,          # just under target: a win, not a scratch
+        "max_entries_per_cycle": 2,
         "trail_arm_pct": 5.0,       # once up 5%...
         "trail_giveback_pct": 2.5,  # ...exit if we give back 2.5% from the high
         "max_hold_hours": 168,
@@ -237,6 +248,8 @@ STRATEGIES = {
         "min_cash_reserve_pct": 0.15,
         "stop_loss_pct": 5.0,
         "take_profit_pct": 12.0,
+        "moon_pct": 9.5,          # just under target: a win, not a scratch
+        "max_entries_per_cycle": 2,
         "trail_arm_pct": 7.0,
         "trail_giveback_pct": 3.5,
         "max_hold_hours": 48,
@@ -266,6 +279,8 @@ STRATEGIES = {
         "min_cash_reserve_pct": 0.05,
         "stop_loss_pct": 8.0,
         "take_profit_pct": 22.0,
+        "moon_pct": 17.0,          # just under target: a win, not a scratch
+        "max_entries_per_cycle": 2,
         "trail_arm_pct": 12.0,
         "trail_giveback_pct": 7.0,
         "max_hold_hours": 96,
@@ -941,7 +956,7 @@ class Portfolio:
             proceeds = pos["quantity"] * price
             pnl = proceeds - cost
         pnl_pct = self.change_pct(pos, price)
-        moon = pnl_pct >= MOON_THRESHOLD_PCT
+        moon = pnl_pct >= self.cfg.get("moon_pct", MOON_THRESHOLD_PCT)
         hold_hours = (now_utc() - parse_iso(pos["entry_time"])).total_seconds() / 3600.0
 
         self.cash += proceeds
@@ -1050,13 +1065,21 @@ class Portfolio:
                     candidates.append((total, bonus, coin, "short"))
         candidates.sort(key=lambda c: -c[0])
 
+        opened = 0
         for total, bonus, coin, side in candidates:
             if len(self.positions) >= self.cfg["max_positions"]:
+                break
+            # Filling every slot in one cycle makes the whole book a single bet
+            # on one instant of market conditions -- all 8 original positions
+            # opened in the same second -- and gives the pattern model a
+            # training set that encodes one timestamp rather than a setup.
+            if opened >= self.cfg.get("max_entries_per_cycle", 99):
                 break
             reserve = portfolio_value * self.cfg["min_cash_reserve_pct"]
             if self.cash - reserve < INITIAL_CAPITAL * self.cfg["position_pct"] * 0.5:
                 break
             if self.open_position(coin, total, bonus, portfolio_value, side):
+                opened += 1
                 portfolio_value = self.value(universe)
 
         self.save()
@@ -1077,7 +1100,8 @@ class Portfolio:
                         self.wins,
                         "%.0f%%" % (100 * self.wins / self.trades_closed) if self.trades_closed else "n/a",
                         self.moons))
-        lines.append("  pattern model: %s" % self.pattern.describe())
+        lines.append("  pattern model: %s  (moon >= %+.1f%%)"
+                     % (self.pattern.describe(), self.cfg.get("moon_pct", MOON_THRESHOLD_PCT)))
         if self.positions:
             lines.append("  open positions:")
             for symbol, pos in sorted(self.positions.items()):
@@ -1216,10 +1240,12 @@ def main():
     signal.signal(signal.SIGINT, _handle_signal)
 
     portfolios = [Portfolio(name) for name in STRATEGIES]
-    log("starting: %s | poll %ds%s | universe top %d | moon >= %.0f%%"
+    log("starting: %s | poll %ds%s | universe top %d | moons at %s"
         % (", ".join(p.name for p in portfolios), args.interval,
            (" | duration %ds" % args.duration) if args.duration else "",
-           UNIVERSE_DEPTH, MOON_THRESHOLD_PCT))
+           UNIVERSE_DEPTH,
+           ", ".join("%s %+.1f%%" % (n, c.get("moon_pct", MOON_THRESHOLD_PCT))
+                     for n, c in STRATEGIES.items())))
 
     deadline = (time.time() + args.duration) if args.duration else None
     consecutive_failures = 0
