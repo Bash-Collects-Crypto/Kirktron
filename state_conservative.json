@@ -8,7 +8,7 @@
       "quantity": 4505.498961482489,
       "entry_price": 0.221951,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 0.222568,
+      "last_price": 0.222213,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 13.55001,
@@ -29,7 +29,7 @@
       "quantity": 12505.627532389577,
       "entry_price": 0.079964,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 0.07977,
+      "last_price": 0.079696,
       "entry_features": {
         "pc_1h": 1.9,
         "pc_24h": 8.84381,
@@ -50,7 +50,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 724.42,
+      "last_price": 724.54,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -63,7 +63,7 @@
       "entry_score": 21.44408,
       "pattern_bonus": 0.0,
       "side": "long",
-      "peak_pct": 0.627864981247393
+      "peak_pct": 0.6473121266842573
     },
     "LTC": {
       "symbol": "LTC",
@@ -71,7 +71,7 @@
       "quantity": 19.496977968414896,
       "entry_price": 51.29,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 51.66,
+      "last_price": 51.7,
       "entry_features": {
         "pc_1h": 0.0,
         "pc_24h": 3.74788,
@@ -84,7 +84,7 @@
       "entry_score": 16.36788,
       "pattern_bonus": 0.0,
       "side": "long",
-      "peak_pct": 0.7213881848313461
+      "peak_pct": 0.8578670306102509
     },
     "BTC": {
       "symbol": "BTC",
@@ -92,7 +92,7 @@
       "quantity": 0.012307995273729815,
       "entry_price": 81248.0,
       "entry_time": "2026-09-03T19:01:46Z",
-      "last_price": 81525.0,
+      "last_price": 81558.0,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": 5.07473,
@@ -105,7 +105,7 @@
       "entry_score": 24.08473,
       "pattern_bonus": 0.0,
       "side": "long",
-      "peak_pct": 0.3532394643560366
+      "peak_pct": 0.38154785348562426
     }
   },
   "cooldowns": {},
@@ -115,5 +115,5 @@
   "moons": 0,
   "wins": 0,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-03T19:32:43Z"
+  "updated": "2026-09-03T19:43:43Z"
 }
