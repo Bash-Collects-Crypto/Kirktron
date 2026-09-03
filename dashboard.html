@@ -110,6 +110,12 @@
   @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .32 } }
   @media (prefers-reduced-motion: reduce) { .pulse { animation: none } }
   .chip.warn { border-color: var(--loss); color: var(--loss); }
+  .chip.flash { animation: flash 1.1s ease-out; }
+  @keyframes flash {
+    0% { border-color: var(--live); background: color-mix(in srgb, var(--live) 14%, var(--panel)); }
+    100% { border-color: var(--line); background: var(--panel); }
+  }
+  @media (prefers-reduced-motion: reduce) { .chip.flash { animation: none } }
 
   /* ---- chart ---- */
   .chartcard {
@@ -260,6 +266,16 @@ const SEED_HISTORY = __HISTORY__;
 const SERIES = ["conservative", "aggressive", "longshort"];
 const HUE = { conservative: "--s1", aggressive: "--s2", longshort: "--s3" };
 let current = SEED_CURRENT, history = SEED_HISTORY;
+let live = false, lastPush = 0;
+
+function flashLive() {
+  lastPush = Date.now();
+  const el = document.getElementById("livechip");
+  if (!el) return;
+  el.classList.remove("flash");
+  void el.offsetWidth;                 // restart the animation
+  el.classList.add("flash");
+}
 
 const money = n => "$" + (n ?? 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const pct = n => (n >= 0 ? "+" : "") + (n ?? 0).toFixed(2) + "%";
@@ -289,7 +305,8 @@ function renderTop() {
   const closed = c.books.reduce((a, b) => a + b.closed, 0);
   const shorts = c.books.reduce((a, b) => a + b.positions.filter(p => p.side === "short").length, 0);
   const bits = [
-    `<span class="chip"><span class="dot pulse"></span>Updated <b>${esc(ago(c.updated))}</b></span>`,
+    `<span class="chip" id="livechip"><span class="dot pulse"></span>${live ? "Live" : "Snapshot"} ·
+       updated <b>${esc(ago(c.updated))}</b></span>`,
     `<span class="chip">Open <b>${open}</b></span>`,
     `<span class="chip">Closed <b>${closed}</b></span>`,
     `<span class="chip">Short <b>${shorts}</b></span>`,
@@ -457,12 +474,21 @@ matchMedia("(prefers-color-scheme: dark)").addEventListener("change", renderChar
   const db = await claude.use("db");
   if (!db) return;                              // published snapshot stays on screen
   try {
-    db.doc("state/current").onSnapshot(
-      s => { if (s.exists && s.data && s.data.books) { current = s.data; renderTop(); renderBooks(); renderTape(); } },
-      () => {});
-    db.doc("state/history").onSnapshot(
-      s => { if (s.exists && s.data && s.data.points) { history = s.data; renderChart(); } },
-      () => {});
+    // data() is a METHOD on the snapshot, not a property -- reading s.data
+    // yields the function itself, which is always truthy, so a live update
+    // would silently never render.
+    db.doc("state/current").onSnapshot(snap => {
+      if (!snap.exists) return;
+      const d = snap.data();
+      if (d && d.books) { current = d; renderTop(); renderBooks(); renderTape(); flashLive(); }
+    }, () => {});
+    db.doc("state/history").onSnapshot(snap => {
+      if (!snap.exists) return;
+      const d = snap.data();
+      if (d && d.points) { history = d; renderChart(); }
+    }, () => {});
+    live = true;
+    renderTop();
   } catch (e) { /* keep the seeded view */ }
 })();
 </script>
