@@ -8,8 +8,7 @@
       "quantity": 4505.498961482489,
       "entry_price": 0.221951,
       "entry_time": "2026-09-03T17:32:30Z",
-      "high_price": 0.223451,
-      "last_price": 0.222362,
+      "last_price": 0.222568,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 13.55001,
@@ -20,7 +19,9 @@
         "cap_rank": 92.4
       },
       "entry_score": 31.620010000000004,
-      "pattern_bonus": 0.0
+      "pattern_bonus": 0.0,
+      "side": "long",
+      "peak_pct": 0.6758248442223724
     },
     "HBAR": {
       "symbol": "HBAR",
@@ -28,8 +29,7 @@
       "quantity": 12505.627532389577,
       "entry_price": 0.079964,
       "entry_time": "2026-09-03T17:32:30Z",
-      "high_price": 0.080025,
-      "last_price": 0.079782,
+      "last_price": 0.07977,
       "entry_features": {
         "pc_1h": 1.9,
         "pc_24h": 8.84381,
@@ -40,7 +40,9 @@
         "cap_rank": 88.4
       },
       "entry_score": 23.19381,
-      "pattern_bonus": 0.0
+      "pattern_bonus": 0.0,
+      "side": "long",
+      "peak_pct": 0.07628432794757334
     },
     "BNB": {
       "symbol": "BNB",
@@ -48,8 +50,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "high_price": 723.87,
-      "last_price": 723.78,
+      "last_price": 724.42,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -60,7 +61,9 @@
         "cap_rank": 98.4
       },
       "entry_score": 21.44408,
-      "pattern_bonus": 0.0
+      "pattern_bonus": 0.0,
+      "side": "long",
+      "peak_pct": 0.627864981247393
     },
     "LTC": {
       "symbol": "LTC",
@@ -68,8 +71,7 @@
       "quantity": 19.496977968414896,
       "entry_price": 51.29,
       "entry_time": "2026-09-03T17:32:30Z",
-      "high_price": 51.65,
-      "last_price": 51.65,
+      "last_price": 51.66,
       "entry_features": {
         "pc_1h": 0.0,
         "pc_24h": 3.74788,
@@ -80,7 +82,9 @@
         "cap_rank": 89.60000000000001
       },
       "entry_score": 16.36788,
-      "pattern_bonus": 0.0
+      "pattern_bonus": 0.0,
+      "side": "long",
+      "peak_pct": 0.7213881848313461
     },
     "BTC": {
       "symbol": "BTC",
@@ -88,8 +92,7 @@
       "quantity": 0.012307995273729815,
       "entry_price": 81248.0,
       "entry_time": "2026-09-03T19:01:46Z",
-      "high_price": 81535.0,
-      "last_price": 81482.0,
+      "last_price": 81525.0,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": 5.07473,
@@ -100,7 +103,9 @@
         "cap_rank": 99.6
       },
       "entry_score": 24.08473,
-      "pattern_bonus": 0.0
+      "pattern_bonus": 0.0,
+      "side": "long",
+      "peak_pct": 0.3532394643560366
     }
   },
   "cooldowns": {},
@@ -110,5 +115,5 @@
   "moons": 0,
   "wins": 0,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-03T19:29:15Z"
+  "updated": "2026-09-03T19:32:43Z"
 }

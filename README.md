@@ -87,3 +87,30 @@ This container is ephemeral, so `trade_log.csv` and the `state_*.json` files
 are the only durable record of a run. `./snapshot.sh` commits and pushes them,
 and runs hourly, so the history survives the container and the git log doubles
 as a performance timeline.
+
+## The long/short book
+
+A third portfolio, `longshort`, trades the same blue-chip universe in either
+direction. The conservative and aggressive books stay long-only, so this
+isolates whether shorting adds anything rather than muddying a record that
+already exists.
+
+|                | longshort                                  |
+|----------------|--------------------------------------------|
+| universe       | rank <= 50, layer-1/blue-chip, $25M volume  |
+| long entry     | 1h > +0.3%, 24h > +1.5%, 7d >= 0            |
+| short entry    | 1h < -0.3%, 24h < -1.5%, 7d <= 0            |
+| position size  | 15% of initial ($1,500), max 5 concurrent   |
+| stop / target  | 5% / 12%, trailing arms at +7% (gives 3.5%) |
+| max hold       | 48h, 2h re-entry cooldown                   |
+
+Returns are measured **on capital**, so a short that falls is a gain and every
+exit rule reads identically for both directions. A short posts its notional as
+collateral at entry; covering returns the collateral with the P/L attached,
+which bounds the loss and avoids modelling fake leverage. Shorts exit when
+momentum *recovers* against them, the mirror of the long breakdown exit.
+
+Short entries have floors as well as ceilings (no shorting something already
+down 25% on the day) — a collapsed coin is where short squeezes live, not easy
+downside. The log records `SHORT`/`COVER` alongside `BUY`/`SELL` and a `side`
+column; a `COVER` is a resolved trade like any other.

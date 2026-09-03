@@ -207,6 +207,47 @@ STRATEGIES = {
             "pc_14d": 0.6, "pc_30d": 0.4,
         },
     },
+    # Its own separate book. Same blue-chip universe, but it can profit in
+    # either direction: long on positive momentum, short on negative. The two
+    # portfolios above stay long-only, so this isolates whether shorting adds
+    # anything rather than muddying an existing strategy's record.
+    "longshort": {
+        "max_rank": 50,
+        "min_volume_usd": 25_000_000,
+        "allow_short": True,
+        "gates": {                       # long side
+            "pc_1h": 0.3, "pc_24h": 1.5, "pc_7d": 0.0,
+        },
+        "max_gates": {
+            "pc_1h": 10.0, "pc_24h": 30.0, "pc_7d": 60.0,
+            "pc_14d": 120.0, "pc_30d": 200.0,
+        },
+        # Short side: momentum must be falling on every short-term window.
+        # The floors stop us shorting something that has already collapsed --
+        # that is where violent short squeezes live, not easy downside.
+        "short_gates": {
+            "pc_1h": -0.3, "pc_24h": -1.5, "pc_7d": 0.0,
+        },
+        "short_floors": {
+            "pc_1h": -10.0, "pc_24h": -25.0, "pc_7d": -45.0, "pc_30d": -70.0,
+        },
+        "min_score": 2.0,
+        "position_pct": 0.15,
+        "max_positions": 5,
+        "min_cash_reserve_pct": 0.15,
+        "stop_loss_pct": 5.0,
+        "take_profit_pct": 12.0,
+        "trail_arm_pct": 7.0,
+        "trail_giveback_pct": 3.5,
+        "max_hold_hours": 48,
+        "breakdown_24h": -5.0,
+        "breakdown_7d": -8.0,
+        "cooldown_hours": 2,
+        "weights": {
+            "pc_1h": 1.2, "pc_24h": 1.6, "pc_7d": 0.6,
+            "pc_14d": 0.2, "pc_30d": 0.1,
+        },
+    },
     "aggressive": {
         "max_rank": 150,
         "min_volume_usd": 10_000_000,
@@ -242,7 +283,7 @@ STRATEGIES = {
 PATTERN_MAX_BONUS = 2.5
 
 CSV_HEADER = [
-    "timestamp", "strategy", "action", "symbol", "name", "price", "quantity",
+    "timestamp", "strategy", "action", "side", "symbol", "name", "price", "quantity",
     "usd_amount", "reason", "pnl", "pnl_pct", "resolved", "moon",
     "portfolio_value", "cash", "hold_hours", "score", "pattern_bonus",
 ] + ["f_" + f for f in FEATURE_NAMES]
@@ -702,7 +743,7 @@ def resolved_rows_for(strategy, rows=None):
     """Entry-feature vectors of every closed trade, tagged moon / not moon."""
     out = []
     for row in (rows if rows is not None else read_trade_log()):
-        if row.get("strategy") != strategy or row.get("action") != "SELL":
+        if row.get("strategy") != strategy or row.get("action") not in ("SELL", "COVER"):
             continue
         if str(row.get("resolved", "")).lower() not in ("true", "1"):
             continue
@@ -778,11 +819,26 @@ class Portfolio:
 
     # ---- valuation -------------------------------------------------------
 
+    @staticmethod
+    def change_pct(pos, price):
+        """Signed return on capital, correct for either direction."""
+        entry = pos["entry_price"]
+        if pos.get("side", "long") == "short":
+            return (entry - price) / entry * 100.0
+        return (price - entry) / entry * 100.0
+
+    def position_value(self, pos, price):
+        cost = pos["quantity"] * pos["entry_price"]
+        if pos.get("side", "long") == "short":
+            # Collateral is posted at entry; it returns with the P/L attached.
+            return cost + (pos["entry_price"] - price) * pos["quantity"]
+        return pos["quantity"] * price
+
     def value(self, universe):
         total = self.cash
         for symbol, pos in self.positions.items():
             price = universe.get(symbol, {}).get("price") or pos["last_price"]
-            total += pos["quantity"] * price
+            total += self.position_value(pos, price)
         return total
 
     # ---- scoring ---------------------------------------------------------
@@ -790,6 +846,21 @@ class Portfolio:
     def base_score(self, features):
         return sum(w * features.get(name, 0.0)
                    for name, w in self.cfg["weights"].items())
+
+    def passes_short_gates(self, coin):
+        cfg = self.cfg
+        if not cfg.get("allow_short"):
+            return False
+        if coin["rank"] > cfg["max_rank"] or coin["volume"] < cfg["min_volume_usd"]:
+            return False
+        raw = coin["raw"]
+        for name, ceiling in cfg.get("short_gates", {}).items():
+            if raw.get(name, 0.0) > ceiling:
+                return False
+        for name, floor in cfg.get("short_floors", {}).items():
+            if raw.get(name, 0.0) < floor:
+                return False   # already collapsed -- squeeze risk, no edge left
+        return True
 
     def passes_gates(self, coin):
         cfg = self.cfg
@@ -817,7 +888,7 @@ class Portfolio:
 
     # ---- trading ---------------------------------------------------------
 
-    def open_position(self, coin, score, bonus, portfolio_value):
+    def open_position(self, coin, score, bonus, portfolio_value, side="long"):
         cfg = self.cfg
         target_usd = INITIAL_CAPITAL * cfg["position_pct"]
         reserve = portfolio_value * cfg["min_cash_reserve_pct"]
@@ -831,20 +902,22 @@ class Portfolio:
         self.positions[coin["symbol"]] = {
             "symbol": coin["symbol"],
             "name": coin["name"],
+            "side": side,
             "quantity": qty,
             "entry_price": price,
             "entry_time": iso(),
-            "high_price": price,
+            "peak_pct": 0.0,
             "last_price": price,
             "entry_features": coin["features"],
             "entry_score": score,
             "pattern_bonus": bonus,
         }
         self.trades_opened += 1
-        reason = "momentum entry (score %.2f%s)" % (
-            score, ", pattern %+.2f" % bonus if abs(bonus) > 1e-9 else "")
+        reason = "%s momentum entry (score %.2f%s)" % (
+            side, score, ", pattern %+.2f" % bonus if abs(bonus) > 1e-9 else "")
         append_trade({
-            "timestamp": iso(), "strategy": self.name, "action": "BUY",
+            "timestamp": iso(), "strategy": self.name,
+            "action": "SHORT" if side == "short" else "BUY", "side": side,
             "symbol": coin["symbol"], "name": coin["name"], "price": "%.8f" % price,
             "quantity": "%.8f" % qty, "usd_amount": "%.2f" % usd, "reason": reason,
             "pnl": "", "pnl_pct": "", "resolved": "False", "moon": "False",
@@ -852,16 +925,22 @@ class Portfolio:
             "hold_hours": "", "score": "%.3f" % score, "pattern_bonus": "%.3f" % bonus,
             **{"f_" + n: "%.4f" % coin["features"][n] for n in FEATURE_NAMES},
         })
-        log("%s BUY %s @ $%.6f  $%.2f (score %.2f, pattern %+.2f)"
-            % (self.name, coin["symbol"], price, usd, score, bonus))
+        log("%s %-5s %s @ $%.6f  $%.2f (score %.2f, pattern %+.2f)"
+            % (self.name, "SHORT" if side == "short" else "BUY",
+               coin["symbol"], price, usd, score, bonus))
         return True
 
     def close_position(self, symbol, price, reason, universe):
         pos = self.positions.pop(symbol)
-        proceeds = pos["quantity"] * price
+        side = pos.get("side", "long")
         cost = pos["quantity"] * pos["entry_price"]
-        pnl = proceeds - cost
-        pnl_pct = (price / pos["entry_price"] - 1.0) * 100.0
+        if side == "short":
+            pnl = (pos["entry_price"] - price) * pos["quantity"]
+            proceeds = cost + pnl        # collateral back, plus or minus the move
+        else:
+            proceeds = pos["quantity"] * price
+            pnl = proceeds - cost
+        pnl_pct = self.change_pct(pos, price)
         moon = pnl_pct >= MOON_THRESHOLD_PCT
         hold_hours = (now_utc() - parse_iso(pos["entry_time"])).total_seconds() / 3600.0
 
@@ -877,7 +956,8 @@ class Portfolio:
 
         portfolio_value = self.value(universe)
         append_trade({
-            "timestamp": iso(), "strategy": self.name, "action": "SELL",
+            "timestamp": iso(), "strategy": self.name,
+            "action": "COVER" if side == "short" else "SELL", "side": side,
             "symbol": symbol, "name": pos["name"], "price": "%.8f" % price,
             "quantity": "%.8f" % pos["quantity"], "usd_amount": "%.2f" % proceeds,
             "reason": reason, "pnl": "%.2f" % pnl, "pnl_pct": "%.3f" % pnl_pct,
@@ -890,16 +970,20 @@ class Portfolio:
             # pattern model learns from, paired with the outcome it produced.
             **{"f_" + n: "%.4f" % pos["entry_features"].get(n, 0.0) for n in FEATURE_NAMES},
         })
-        log("%s SELL %s @ $%.6f  pnl $%.2f (%+.2f%%) [%s]%s"
-            % (self.name, symbol, price, pnl, pnl_pct, reason, "  *** MOON ***" if moon else ""))
+        log("%s %-5s %s @ $%.6f  pnl $%.2f (%+.2f%%) [%s]%s"
+            % (self.name, "COVER" if side == "short" else "SELL",
+               symbol, price, pnl, pnl_pct, reason, "  *** MOON ***" if moon else ""))
 
     def exit_reason(self, pos, coin):
         """Return a reason string if this position should be closed now."""
         cfg = self.cfg
         price = coin["price"] if coin else pos["last_price"]
-        change = (price / pos["entry_price"] - 1.0) * 100.0
-        peak = (pos["high_price"] / pos["entry_price"] - 1.0) * 100.0
-        drawdown = (price / pos["high_price"] - 1.0) * 100.0
+        side = pos.get("side", "long")
+        # change/peak are returns ON CAPITAL, so a short that falls is a gain
+        # and every rule below reads the same for both directions.
+        change = self.change_pct(pos, price)
+        peak = max(pos.get("peak_pct", 0.0), change)
+        drawdown = change - peak
 
         if change <= -cfg["stop_loss_pct"]:
             return "stop-loss %.2f%%" % change
@@ -912,7 +996,13 @@ class Portfolio:
             return "max hold %.0fh (%+.2f%%)" % (hold_hours, change)
         if coin:
             feats = coin["features"]
-            if (feats["pc_24h"] <= cfg["breakdown_24h"]
+            if side == "short":
+                # The thesis dies when momentum turns back UP against us.
+                if (feats["pc_24h"] >= -cfg["breakdown_24h"]
+                        and feats["pc_7d"] >= -cfg["breakdown_7d"]):
+                    return "momentum recovered against short (24h %+.2f%%, 7d %+.2f%%)" % (
+                        feats["pc_24h"], feats["pc_7d"])
+            elif (feats["pc_24h"] <= cfg["breakdown_24h"]
                     and feats["pc_7d"] <= cfg["breakdown_7d"]):
                 return "momentum breakdown (24h %+.2f%%, 7d %+.2f%%)" % (
                     feats["pc_24h"], feats["pc_7d"])
@@ -930,7 +1020,8 @@ class Portfolio:
             coin = feed.get(symbol)      # price from the full feed, never the filtered universe
             if coin:
                 pos["last_price"] = coin["price"]
-                pos["high_price"] = max(pos["high_price"], coin["price"])
+                pos["peak_pct"] = max(pos.get("peak_pct", 0.0),
+                                      self.change_pct(pos, coin["price"]))
             else:
                 log("%s: %s missing from market feed this cycle; holding"
                     % (self.name, symbol))
@@ -946,21 +1037,26 @@ class Portfolio:
                 continue
             if not self.passes_gates(coin):
                 continue
-            base = self.base_score(coin["features"])
             bonus = self.pattern.bonus(coin["features"])
-            total = base + bonus
-            if total < self.cfg["min_score"]:
-                continue
-            candidates.append((total, base, bonus, coin))
+            if self.passes_gates(coin):
+                total = self.base_score(coin["features"]) + bonus
+                if total >= self.cfg["min_score"]:
+                    candidates.append((total, bonus, coin, "long"))
+            elif self.passes_short_gates(coin):
+                # Falling momentum scores negative, so flip the sign: the
+                # score means "conviction", not "direction".
+                total = -self.base_score(coin["features"]) + bonus
+                if total >= self.cfg["min_score"]:
+                    candidates.append((total, bonus, coin, "short"))
         candidates.sort(key=lambda c: -c[0])
 
-        for total, _base, bonus, coin in candidates:
+        for total, bonus, coin, side in candidates:
             if len(self.positions) >= self.cfg["max_positions"]:
                 break
             reserve = portfolio_value * self.cfg["min_cash_reserve_pct"]
             if self.cash - reserve < INITIAL_CAPITAL * self.cfg["position_pct"] * 0.5:
                 break
-            if self.open_position(coin, total, bonus, portfolio_value):
+            if self.open_position(coin, total, bonus, portfolio_value, side):
                 portfolio_value = self.value(universe)
 
         self.save()
@@ -986,10 +1082,11 @@ class Portfolio:
             lines.append("  open positions:")
             for symbol, pos in sorted(self.positions.items()):
                 price = (universe or {}).get(symbol, {}).get("price") or pos["last_price"]
-                change = (price / pos["entry_price"] - 1) * 100
+                change = self.change_pct(pos, price)
                 held = (now_utc() - parse_iso(pos["entry_time"])).total_seconds() / 3600
-                lines.append("    %-8s %+7.2f%%  $%8.2f  held %5.1fh  (entry $%.6f)"
-                             % (symbol, change, pos["quantity"] * price, held, pos["entry_price"]))
+                lines.append("    %-5s %-8s %+7.2f%%  $%8.2f  held %5.1fh  (entry $%.6f)"
+                             % (pos.get("side", "long").upper(), symbol, change,
+                                self.position_value(pos, price), held, pos["entry_price"]))
         else:
             lines.append("  open positions: none")
         return "\n".join(lines)

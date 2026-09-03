@@ -1,0 +1,77 @@
+{
+  "name": "longshort",
+  "cash": 5500.0,
+  "positions": {
+    "ZEC": {
+      "symbol": "ZEC",
+      "name": "Zcash",
+      "side": "long",
+      "quantity": 1.5494747280671852,
+      "entry_price": 968.07,
+      "entry_time": "2026-09-03T19:32:43Z",
+      "peak_pct": 0.0,
+      "last_price": 968.07,
+      "entry_features": {
+        "pc_1h": 1.6,
+        "pc_24h": 20.03453,
+        "pc_7d": 16.9,
+        "pc_14d": 60.0,
+        "pc_30d": 92.6,
+        "vol_mcap": 5.360784610014595,
+        "cap_rank": 95.6
+      },
+      "entry_score": 65.375248,
+      "pattern_bonus": 0.0
+    },
+    "BTC": {
+      "symbol": "BTC",
+      "name": "Bitcoin",
+      "side": "long",
+      "quantity": 0.01839926402943882,
+      "entry_price": 81525.0,
+      "entry_time": "2026-09-03T19:32:43Z",
+      "peak_pct": 0.0,
+      "last_price": 81525.0,
+      "entry_features": {
+        "pc_1h": 0.3,
+        "pc_24h": 5.70304,
+        "pc_7d": 1.0,
+        "pc_14d": 11.7,
+        "pc_30d": 27.1,
+        "vol_mcap": 2.1686415514975677,
+        "cap_rank": 99.6
+      },
+      "entry_score": 15.134864,
+      "pattern_bonus": 0.0
+    },
+    "AVAX": {
+      "symbol": "AVAX",
+      "name": "Avalanche",
+      "side": "long",
+      "quantity": 199.203187250996,
+      "entry_price": 7.53,
+      "entry_time": "2026-09-03T19:32:43Z",
+      "peak_pct": 0.0,
+      "last_price": 7.53,
+      "entry_features": {
+        "pc_1h": 0.3,
+        "pc_24h": 5.44673,
+        "pc_7d": 0.0,
+        "pc_14d": 3.7,
+        "pc_30d": 12.5,
+        "vol_mcap": 8.003814691305214,
+        "cap_rank": 88.0
+      },
+      "entry_score": 11.064767999999999,
+      "pattern_bonus": 0.0
+    }
+  },
+  "cooldowns": {},
+  "realized_pnl": 0.0,
+  "trades_opened": 3,
+  "trades_closed": 0,
+  "moons": 0,
+  "wins": 0,
+  "started": "2026-09-03T19:32:42Z",
+  "updated": "2026-09-03T19:32:43Z"
+}
