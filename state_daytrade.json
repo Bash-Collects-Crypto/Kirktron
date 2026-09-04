@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 5809.029734965548,
+  "cash": 7792.040852481266,
   "positions": {
-    "LINK": {
-      "symbol": "LINK",
-      "name": "Chainlink",
-      "side": "short",
-      "quantity": 86.05851979345955,
-      "entry_price": 11.62,
-      "entry_time": "2026-09-04T17:38:03Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.34423407917383086,
-      "last_price": 11.62,
-      "entry_features": {
-        "pc_1h": 0.3,
-        "pc_24h": -0.99374,
-        "pc_7d": 1.1,
-        "pc_14d": 1.6,
-        "pc_30d": 44.3,
-        "vol_mcap": 5.83726059508785,
-        "cap_rank": 93.6,
-        "ret_30m": -0.484642265853219,
-        "ret_2h": -0.46946293487618584,
-        "ema_spread": -0.10456980655700467,
-        "rsi14": 30.79033112689136,
-        "range_pos": 21.211573471746167,
-        "vol_5m": 0.11702237216997463
-      },
-      "entry_score": 0.7744380609282897,
-      "pattern_bonus": 0.0
-    },
     "HYPE": {
       "symbol": "HYPE",
       "name": "Hyperliquid",
@@ -39,7 +11,7 @@
       "entry_time": "2026-09-04T20:36:25Z",
       "entry_cost": 1.5,
       "peak_pct": 1.3084993516444647,
-      "last_price": 84.48,
+      "last_price": 84.5,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": -0.84308,
@@ -58,34 +30,6 @@
       "entry_score": 0.6331451894100373,
       "pattern_bonus": 0.0
     },
-    "XMR": {
-      "symbol": "XMR",
-      "name": "Monero",
-      "side": "short",
-      "quantity": 1.938285005427198,
-      "entry_price": 515.92,
-      "entry_time": "2026-09-04T22:39:59Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.05814855016280713,
-      "last_price": 521.24,
-      "entry_features": {
-        "pc_1h": -4.1,
-        "pc_24h": -0.6741,
-        "pc_7d": 10.5,
-        "pc_14d": 24.9,
-        "pc_30d": 41.7,
-        "vol_mcap": 2.1918031513473166,
-        "cap_rank": 94.0,
-        "ret_30m": -0.3527524494652545,
-        "ret_2h": -3.256863786892561,
-        "ema_spread": -0.9353468116905822,
-        "rsi14": 28.768168792397915,
-        "range_pos": 23.930091462794604,
-        "vol_5m": 0.48587194838000247
-      },
-      "entry_score": 2.6150709489063493,
-      "pattern_bonus": 0.0
-    },
     "BCH": {
       "symbol": "BCH",
       "name": "Bitcoin Cash",
@@ -95,7 +39,7 @@
       "entry_time": "2026-09-04T23:09:25Z",
       "entry_cost": 1.5,
       "peak_pct": 1.0087262829236978,
-      "last_price": 247.59,
+      "last_price": 248.14,
       "entry_features": {
         "pc_1h": -1.2,
         "pc_24h": -3.02229,
@@ -117,14 +61,16 @@
   },
   "cooldowns": {
     "XRP": "2026-09-04T23:51:17Z",
-    "ADA": "2026-09-04T23:52:27Z"
+    "ADA": "2026-09-04T23:52:27Z",
+    "LINK": "2026-09-05T00:09:11Z",
+    "XMR": "2026-09-05T00:13:42Z"
   },
-  "realized_pnl": -184.97311115078986,
-  "fees_paid": 78.4311913895326,
+  "realized_pnl": -204.96199363507225,
+  "fees_paid": 81.41017654353718,
   "trades_opened": 25,
-  "trades_closed": 21,
+  "trades_closed": 23,
   "moons": 3,
   "wins": 5,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T23:36:38Z"
+  "updated": "2026-09-04T23:47:09Z"
 }
