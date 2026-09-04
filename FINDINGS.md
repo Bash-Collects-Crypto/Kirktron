@@ -621,3 +621,28 @@ census does not fully explain why it is not trading — the score is the last
 filter and it is currently rejecting everything the gates admit. n=3.
 Surfaced, not actioned; `min_score` is a strategy parameter and the owner's
 call.
+
+## pc_1h flipped a fourth time, and conservative did not follow (21:22)
+
+At 21:07 `pc_1h` displaced `pc_24h` as the top long blocker in longshort (13
+of 16 eligible coins) and aggressive (26 of 33), and held there with identical
+counts through five consecutive censuses to 21:21. On the short side its
+longshort block eased from 16 of 16 to 11, with `pc_24h` and `pc_7d` appearing
+behind it for the first time.
+
+That is the fourth `pc_1h` regime change today and reinforces what the
+18:01 lookback prediction established: `pc_1h` is the feature that decides
+which side a book can trade, and it turns over on roughly an hourly cadence.
+
+The new part is what conservative did, which is nothing. Its top blocker
+stayed `pc_24h` at 9 of 9 through every cycle of the flip. On the three
+previous flips all three multi-day books moved together. The divergence is
+explained by universe, not by disagreement: conservative reaches rank ≤ 30
+while aggressive reaches rank ≤ 150, so conservative's nine reachable coins
+are all large caps whose 24-hour move is still negative even as the 1-hour
+move turned. A blocker census is therefore a statement about a book's
+*reachable set*, not about the market — two books can report different
+binding constraints at the same instant and both be right.
+
+No parameter changed. n = 5 consecutive censuses for the flip itself; the
+conservative divergence is a single episode.
