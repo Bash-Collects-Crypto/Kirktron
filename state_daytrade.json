@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 5820.591266193828,
+  "cash": 4819.091266193828,
   "positions": {
     "XRP": {
       "symbol": "XRP",
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-04T17:22:26Z",
       "entry_cost": 1.5,
       "peak_pct": 0.7916484611011758,
-      "last_price": 0.212561,
+      "last_price": 0.212616,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": -3.87009,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-04T17:38:03Z",
       "entry_cost": 1.5,
       "peak_pct": 0.34423407917383086,
-      "last_price": 11.69,
+      "last_price": 11.71,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": -0.99374,
@@ -95,7 +95,7 @@
       "entry_time": "2026-09-04T18:35:47Z",
       "entry_cost": 1.5,
       "peak_pct": 1.4069980150235508,
-      "last_price": 1034.29,
+      "last_price": 1037.18,
       "entry_features": {
         "pc_1h": -2.6,
         "pc_24h": 6.84239,
@@ -113,15 +113,43 @@
       },
       "entry_score": 2.418430554777708,
       "pattern_bonus": 0.0
+    },
+    "HYPE": {
+      "symbol": "HYPE",
+      "name": "Hyperliquid",
+      "side": "short",
+      "quantity": 11.788282447247436,
+      "entry_price": 84.83,
+      "entry_time": "2026-09-04T20:36:25Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 84.91,
+      "entry_features": {
+        "pc_1h": -0.3,
+        "pc_24h": -0.84308,
+        "pc_7d": 7.2,
+        "pc_14d": 14.1,
+        "pc_30d": 48.4,
+        "vol_mcap": 7.583785305197462,
+        "cap_rank": 96.0,
+        "ret_30m": -0.2882824900845016,
+        "ret_2h": -0.5739230217548852,
+        "ema_spread": -0.11999136809277158,
+        "rsi14": 37.67503014787199,
+        "range_pos": 26.529148916591904,
+        "vol_5m": 0.1386455072367399
+      },
+      "entry_score": 0.6331451894100373,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": -173.41157992250947,
-  "fees_paid": 69.43503945847844,
-  "trades_opened": 22,
+  "fees_paid": 70.93503945847844,
+  "trades_opened": 23,
   "trades_closed": 18,
   "moons": 3,
   "wins": 4,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T20:31:55Z"
+  "updated": "2026-09-04T20:42:05Z"
 }
