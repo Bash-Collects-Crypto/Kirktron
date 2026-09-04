@@ -357,3 +357,41 @@ Take-profit slippage now n=3: overshoots of +0.72pp, +0.72pp and +0.135pp above
 the 2.5% target, mean **+0.52pp**. The stop-loss side stays n=10 at -0.445pp.
 The 60-second poll still fattens both tails; the take-profit sample is too small
 to say the asymmetry is real.
+
+## Universe audit 17:01 — clean by the exclusion rules, one coin fails the positive rule
+
+Counts unchanged from the 11:25 audit: **250 fetched → 190 excluded → 60
+tradeable**, exclusion cache 977 ids / 894 symbols fetched 13:04. Every banned
+class is being caught — 22 stablecoins, 22 tokenized RWAs, 12 memes, 5 pegged,
+1 wrapped, 24 mixed. No meme coin, stablecoin or wrapper reached any book.
+
+But the rule in CLAUDE.md is stated positively — *layer-1 chains and blue chips
+only* — and one coin fails it: **RAIN, rank 13.**
+
+CoinGecko's own categories for `rain`: *Gambling (GambleFi), Decentralized
+Finance (DeFi), Options, Prediction Markets, Arbitrum Ecosystem.* It is a
+decentralized options and prediction-market protocol on Arbitrum. It is not a
+layer-1 (confirmed absent from the 250-id allowlist) and not a blue chip in any
+sense except market-cap rank.
+
+**How it gets in:** the universe admits `layer-1 allowlist OR rank <= 25`. That
+second clause is an unconditional rank bypass — anything reaching the top 25
+enters unless one of the exclusion lists catches it, and none of them lists
+GambleFi or DeFi protocol tokens. Checking every coin admitted by the bypass
+alone, the exclusion lists catch all of them (USDT, USDC, DOGE, DAI, USDS, USDE,
+USD1, WBT, FIGR_HELOC) except three: LINK, which is a genuine blue chip; LEO,
+whose ~$0M daily volume puts it below every book's volume floor; and RAIN.
+
+**Live exposure:** RAIN trades $42M a day against an $11.8B market cap — a 0.36%
+turnover ratio, thin for a rank-13 asset. That clears longshort's $25M floor and
+aggressive's $10M floor, so **both books can buy it right now**. It is blocked
+in conservative ($50M floor) and daytrade ($100M floor). It has never been
+traded — 0 rows in trade_log.csv — so nothing in the record is contaminated.
+
+**Not fixed, surfaced.** The obvious repair is to drop the unconditional rank
+bypass and require allowlist membership, with a small explicit blue-chip id set
+for names the layer-1 category misses (LINK is the only one that currently
+matters). That narrows what all four books may trade, which is the owner's call,
+not a correctness fix I should make alone — RAIN has never traded and no book
+holds it. Recording it so the decision is made on evidence rather than
+discovered later inside a position.
