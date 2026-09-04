@@ -9,8 +9,8 @@
       "quantity": 1.2559526924485844,
       "entry_price": 955.45,
       "entry_time": "2026-09-04T05:30:18Z",
-      "peak_pct": 2.0116175624051404,
-      "last_price": 974.54,
+      "peak_pct": 2.1141870322884433,
+      "last_price": 975.05,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 17.24757,
@@ -38,5 +38,5 @@
   "moons": 1,
   "wins": 1,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T07:27:04Z"
+  "updated": "2026-09-04T07:37:59Z"
 }
