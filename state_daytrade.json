@@ -1,16 +1,43 @@
 {
   "name": "daytrade",
-  "cash": 9843.134139757047,
-  "positions": {},
-  "cooldowns": {
-    "ZEC": "2026-09-04T17:05:48Z"
+  "cash": 8841.634139757047,
+  "positions": {
+    "XRP": {
+      "symbol": "XRP",
+      "name": "XRP",
+      "side": "short",
+      "quantity": 714.2857142857143,
+      "entry_price": 1.4,
+      "entry_time": "2026-09-04T17:18:19Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 1.4,
+      "entry_features": {
+        "pc_1h": 0.3,
+        "pc_24h": -4.0905,
+        "pc_7d": -0.1,
+        "pc_14d": 0.1,
+        "pc_30d": 32.4,
+        "vol_mcap": 4.12257990582717,
+        "cap_rank": 98.0,
+        "ret_30m": -0.6882801421632445,
+        "ret_2h": 0.14213761013996962,
+        "ema_spread": -0.15170301184152382,
+        "rsi14": 42.111533230516514,
+        "range_pos": 13.106262054392959,
+        "vol_5m": 0.1391012968611014
+      },
+      "entry_score": 0.8205755928240838,
+      "pattern_bonus": 0.0
+    }
   },
+  "cooldowns": {},
   "realized_pnl": -156.868706359291,
-  "fees_paid": 60.45538428606464,
-  "trades_opened": 17,
+  "fees_paid": 61.95538428606464,
+  "trades_opened": 18,
   "trades_closed": 17,
   "moons": 3,
   "wins": 4,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T17:05:42Z"
+  "updated": "2026-09-04T17:18:19Z"
 }
