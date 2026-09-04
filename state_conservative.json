@@ -1,6 +1,6 @@
 {
   "name": "conservative",
-  "cash": 4000.0,
+  "cash": 3968.723262667554,
   "positions": {
     "ADA": {
       "symbol": "ADA",
@@ -8,7 +8,7 @@
       "quantity": 4505.498961482489,
       "entry_price": 0.221951,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 0.223099,
+      "last_price": 0.221902,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 13.55001,
@@ -29,7 +29,7 @@
       "quantity": 12505.627532389577,
       "entry_price": 0.079964,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 0.078801,
+      "last_price": 0.078619,
       "entry_features": {
         "pc_1h": 1.9,
         "pc_24h": 8.84381,
@@ -50,7 +50,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 721.91,
+      "last_price": 721.7,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -71,7 +71,7 @@
       "quantity": 19.496977968414896,
       "entry_price": 51.29,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 51.11,
+      "last_price": 51.06,
       "entry_features": {
         "pc_1h": 0.0,
         "pc_24h": 3.74788,
@@ -92,7 +92,7 @@
       "quantity": 0.012307995273729815,
       "entry_price": 81248.0,
       "entry_time": "2026-09-03T19:01:46Z",
-      "last_price": 80972.0,
+      "last_price": 80843.0,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": 5.07473,
@@ -107,35 +107,43 @@
       "side": "long",
       "peak_pct": 0.870175265852698
     },
-    "XMR": {
-      "symbol": "XMR",
-      "name": "Monero",
+    "HYPE": {
+      "symbol": "HYPE",
+      "name": "Hyperliquid",
       "side": "long",
-      "quantity": 1.901321418385778,
-      "entry_price": 525.95,
-      "entry_time": "2026-09-03T19:59:41Z",
-      "peak_pct": 0.5646924612605596,
-      "last_price": 511.8,
+      "quantity": 11.485012059262663,
+      "entry_price": 87.07,
+      "entry_time": "2026-09-04T02:03:29Z",
+      "peak_pct": 0.0344550361777893,
+      "last_price": 87.03,
       "entry_features": {
-        "pc_1h": -0.3,
-        "pc_24h": 4.62057,
-        "pc_7d": 12.8,
-        "pc_14d": 25.2,
-        "pc_30d": 43.9,
-        "vol_mcap": 1.479999330103466,
-        "cap_rank": 94.39999999999999
+        "pc_1h": 0.9,
+        "pc_24h": 6.68072,
+        "pc_7d": 3.7,
+        "pc_14d": 19.1,
+        "pc_30d": 59.5,
+        "vol_mcap": 8.631541970027486,
+        "cap_rank": 96.0,
+        "ret_30m": 0.5849383612012371,
+        "ret_2h": -0.12114597331802646,
+        "ema_spread": 0.21440068413826505,
+        "rsi14": 70.10772147633348,
+        "range_pos": 91.41655474221382,
+        "vol_5m": 0.26265155550304875
       },
-      "entry_score": 49.95057,
+      "entry_score": 46.090720000000005,
       "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": 0.0,
+  "cooldowns": {
+    "XMR": "2026-09-04T06:03:29Z"
+  },
+  "realized_pnl": -31.276737332446146,
   "fees_paid": 0.0,
-  "trades_opened": 6,
-  "trades_closed": 0,
+  "trades_opened": 7,
+  "trades_closed": 1,
   "moons": 0,
   "wins": 0,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-04T01:59:16Z"
+  "updated": "2026-09-04T02:10:15Z"
 }
