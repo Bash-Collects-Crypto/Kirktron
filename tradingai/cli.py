@@ -4,11 +4,13 @@ import argparse
 
 from .analysis import analyze_asset, build_watchlist
 from .backtest import backtest_ticker
+from .benchmark import DEFAULT_RUNS, benchmark_result
 from .data import DEFAULT_TICKERS, csv_loader
 from .reporting import (
     print_analysis_header,
     print_asset_analysis,
     print_backtest,
+    print_benchmark,
     print_watchlist
 )
 
@@ -54,7 +56,10 @@ def backtest(
     reward_multiple=DEFAULT_REWARD_MULTIPLE,
     use_trailing_stop=True,
     period="5y",
-    loader=None
+    loader=None,
+    run_controls=False,
+    control_runs=DEFAULT_RUNS,
+    seed=None
 ):
     """Backtest every ticker and print each readout."""
 
@@ -81,6 +86,12 @@ def backtest(
             continue
 
         print_backtest(result)
+
+        if run_controls:
+            print_benchmark(
+                benchmark_result(result, runs=control_runs, seed=seed)
+            )
+
         results.append(result)
 
     return results
@@ -145,6 +156,27 @@ def build_parser():
     )
 
     parser.add_argument(
+        "--controls",
+        action="store_true",
+        help=(
+            "compare the backtest against buy-and-hold and random entries"
+        )
+    )
+
+    parser.add_argument(
+        "--control-runs",
+        type=int,
+        default=DEFAULT_RUNS,
+        help="how many random-entry runs to draw (default: 200)"
+    )
+
+    parser.add_argument(
+        "--seed",
+        type=int,
+        help="seed the random-entry controls for a reproducible comparison"
+    )
+
+    parser.add_argument(
         "--csv-dir",
         help=(
             "read <TICKER>.csv from this directory instead of "
@@ -184,7 +216,10 @@ def main(argv=None):
             data_section=arguments.section,
             reward_multiple=arguments.reward_multiple,
             use_trailing_stop=not arguments.fixed_stop,
-            loader=loader
+            loader=loader,
+            run_controls=arguments.controls,
+            control_runs=arguments.control_runs,
+            seed=arguments.seed
         )
 
     return 0

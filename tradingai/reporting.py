@@ -255,3 +255,57 @@ def print_backtest(result):
     _print_groups_by_size(group_by_pattern(result.trades))
 
     print(f"Stop Management: {result.stop_method}")
+
+
+def print_benchmark(benchmark):
+    """The strategy set against buy-and-hold and random entries."""
+
+    if benchmark is None:
+        print("\nNo trades were taken, so there is nothing to compare.")
+        return
+
+    print("\n" + LINE)
+    print(f"     Control Comparison: {benchmark.ticker}")
+    print(LINE)
+
+    print(
+        f"Strategy: {benchmark.strategy_trades} trades | "
+        f"Total: {benchmark.strategy_total_r:.2f}R | "
+        f"Average: {benchmark.strategy_average_r:.2f}R"
+    )
+
+    holding = benchmark.buy_and_hold
+
+    print(
+        f"Buy and Hold: "
+        f"{holding['Percent Return']:+.2f}% | "
+        f"{holding['R Equivalent']:.2f}R of the same risk unit"
+    )
+
+    for arm in benchmark.arms:
+        summary = arm.summary()
+
+        if summary is None:
+            print(f"\n{arm.name}: no eligible days in this section")
+            continue
+
+        print(
+            f"\n{arm.name} "
+            f"({arm.runs} runs of {arm.trade_count} trades):"
+        )
+
+        print(
+            f"  Average R  mean: {summary['Mean']:.2f} | "
+            f"5th: {summary['5th']:.2f} | "
+            f"50th: {summary['50th']:.2f} | "
+            f"95th: {summary['95th']:.2f}"
+        )
+
+        percentile = benchmark.percentile_against(arm.name)
+
+        if percentile is not None:
+            print(
+                f"  The strategy beat {percentile:.0f}% of these runs."
+            )
+
+    print(f"\nReading: {benchmark.verdict}")

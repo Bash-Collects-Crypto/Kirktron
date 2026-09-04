@@ -8,6 +8,14 @@ from .backtest import (
     run_backtest,
     split_data
 )
+from .benchmark import (
+    BenchmarkResult,
+    ControlArm,
+    benchmark_result,
+    buy_and_hold,
+    eligible_positions,
+    random_control
+)
 from .candles import interpret_candlestick
 from .data import (
     DEFAULT_TICKERS,
@@ -40,6 +48,8 @@ __version__ = "1.0.0"
 
 __all__ = [
     "BacktestResult",
+    "BenchmarkResult",
+    "ControlArm",
     "DEFAULT_TICKERS",
     "add_indicators",
     "analyze_asset",
@@ -51,6 +61,8 @@ __all__ = [
     "analyze_volume",
     "average_true_range",
     "backtest_ticker",
+    "benchmark_result",
+    "buy_and_hold",
     "build_watchlist",
     "calculate_score",
     "calculate_trade_plan",
@@ -58,12 +70,14 @@ __all__ = [
     "csv_loader",
     "detect_market_regime",
     "download_prices",
+    "eligible_positions",
     "exponential_moving_average",
     "interpret_candlestick",
     "interpret_score",
     "load_prices_from_csv",
     "moving_average_convergence_divergence",
     "prepare_backtest_data",
+    "random_control",
     "relative_strength_index",
     "run_backtest",
     "simulate_trade",

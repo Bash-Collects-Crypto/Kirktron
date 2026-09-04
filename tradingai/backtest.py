@@ -48,6 +48,7 @@ class BacktestResult:
     use_trailing_stop: bool
     trading_days: int
     split: DataSplit
+    section: object
     entry_signals: list = field(default_factory=list)
     trades: list = field(default_factory=list)
     blocked_signals: list = field(default_factory=list)
@@ -123,7 +124,8 @@ def run_backtest(
         reward_multiple=reward_multiple,
         use_trailing_stop=use_trailing_stop,
         trading_days=len(asset),
-        split=split
+        split=split,
+        section=asset
     )
 
     next_available_position = 0

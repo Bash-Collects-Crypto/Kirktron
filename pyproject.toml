@@ -24,4 +24,5 @@ packages = ["tradingai"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+cache_dir = "tests/.pytest_cache"
 pythonpath = [".", "tests"]
