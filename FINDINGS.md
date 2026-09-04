@@ -240,3 +240,37 @@ This is a property of the simulation's polling rate, not of any strategy. It
 argues for reading `daytrade`'s numbers with a wider error bar, not for moving
 its stop — and per the exit-geometry finding above, moving the stop could not
 create edge anyway.
+
+---
+
+## Owner decision: widen the day-trading book for data rate (2026-09-04 16:00)
+
+The owner asked for whatever changes best produce information useful for
+profit later. Three were made, all aimed at the one book that actually
+generates data: `daytrade` has produced **16 of the project's 23 resolutions**,
+and it spent **49% of its holding time pinned at its 4-slot cap**, unable to
+take another trade.
+
+| | before | after |
+|---|---|---|
+| candidate pool | 8 coins | 12 coins |
+| slots | 4 | 6 |
+| size each | 12% | 10% |
+| deployed when full | 48% | 60% |
+| guaranteed floor | 0.67 res/h | **1.00 res/h** |
+
+Untouched: gates, `min_score`, the 1.2% stop, 2.5% target, 2.0% moon line,
+6-hour hold, 15bps costs, cooldown. More samples of the same distribution.
+
+**The enabling fix was a data-integrity bug, not a parameter.** `IntradayCache.features()`
+returned indicators from whatever bars were cached, *however old they were*.
+When rate limiting pushed staleness to 12.6 minutes against a 5-minute TTL,
+the book kept scoring entries on bars from two and a half TTLs ago and had no
+way to know. Cutting the pool 12 → 8 at 07:00 fixed the symptom by letting
+refresh keep up; it never addressed the behaviour.
+
+`features()` now returns `None` past `STALE_LIMIT` (600s), so the book scores
+only genuinely fresh coins and **degrades gracefully** instead of silently
+trading on old data. That is what makes a 12-coin pool safe again: if refresh
+falls behind, the candidate list shrinks rather than rotting. Verified at
+12/12 scoreable with 3.3-minute staleness immediately after the change.

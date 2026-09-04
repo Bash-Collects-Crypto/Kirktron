@@ -284,10 +284,12 @@ STRATEGIES = {
         "intraday": True,
         "max_rank": 25,
         "min_volume_usd": 100_000_000,
-        # Cut from 12 on 2026-09-04 07:00: CoinGecko 429s pushed bar staleness to
-        # 12.6m against a 5m TTL, so the book was scoring on stale bars. Fewer
-        # coins means each one gets refreshed more often.
-        "intraday_universe": 8,          # bounds per-coin API calls per cycle
+        # Back to 12 on 2026-09-04 16:00. It was cut to 8 when 429s pushed bar
+        # staleness to 12.6m, but the real defect was that features() served
+        # stale bars silently; now that it returns None past STALE_LIMIT the
+        # book degrades to whatever is fresh, so a wider pool is safe again and
+        # the candidate list stops being the binding constraint.
+        "intraday_universe": 12,          # bounds per-coin API calls per cycle
         "allow_short": True,
         "cost_bps": 15.0,                 # 10bps fee + 5bps slippage, each side
         "gates": {
@@ -303,8 +305,13 @@ STRATEGIES = {
             "ret_30m": -4.0, "ret_2h": -9.0, "rsi14": 26.0, "ema_spread": -2.5,
         },
         "min_score": 0.6,
-        "position_pct": 0.12,
-        "max_positions": 4,
+        # Six slots, not four: daytrade produces 16 of the project's 23
+        # resolutions and spent 49% of its holding time pinned at the old
+        # 4-slot cap, unable to take another trade. Six at 10% deploys 60%
+        # when full (was 48%) and lifts the guaranteed floor from 4/6h to
+        # 6/6h. Nothing about what counts as a good trade changed.
+        "position_pct": 0.10,
+        "max_positions": 6,
         "max_entries_per_cycle": 2,
         "min_cash_reserve_pct": 0.10,
         "stop_loss_pct": 1.2,

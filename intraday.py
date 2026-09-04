@@ -17,7 +17,8 @@ import requests
 
 CHART_URL = "https://api.coingecko.com/api/v3/coins/%s/market_chart"
 BAR_MINUTES = 5             # what CoinGecko returns for days=1
-CACHE_TTL = 300             # a bar's worth: refetching faster buys nothing
+CACHE_TTL = 300
+STALE_LIMIT = 600      # bars older than this are unusable, not merely late             # a bar's worth: refetching faster buys nothing
 REFRESH_BUDGET = 4          # coins refreshed per cycle, round-robin
 REQUEST_TIMEOUT = 40
 
@@ -158,8 +159,18 @@ class IntradayCache:
             self._save()
 
     def features(self, coin_id):
+        # Bars older than this are not "slightly late", they describe a
+        # different market. features() used to return indicators from whatever
+        # was cached however old it was, so when rate limiting pushed staleness
+        # to 12.6 minutes the day-trading book kept scoring entries on bars from
+        # two and a half TTLs ago and never knew. Returning None instead makes
+        # the book degrade to however many coins are genuinely fresh.
         prices = self.series.get(coin_id)
-        return indicators(prices) if prices else None
+        if not prices:
+            return None
+        if time.time() - self.stamp.get(coin_id, 0.0) > STALE_LIMIT:
+            return None
+        return indicators(prices)
 
     def coverage(self, coin_ids):
         fresh = sum(1 for c in coin_ids if self.series.get(c))
