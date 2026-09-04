@@ -18,3 +18,4 @@ trade_log.csv
 state_*.json
 equity_history.csv
 exclusions_cache.json
+market_context.csv

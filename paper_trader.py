@@ -48,6 +48,7 @@ from intraday import INTRADAY_FEATURES
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TRADE_LOG = os.path.join(BASE_DIR, "trade_log.csv")
 EQUITY_LOG = os.path.join(BASE_DIR, "equity_history.csv")
+MARKET_LOG = os.path.join(BASE_DIR, "market_context.csv")
 RUN_LOG = os.path.join(BASE_DIR, "trader.log")
 STATE_FILE = os.path.join(BASE_DIR, "state_{}.json")
 
@@ -1257,7 +1258,45 @@ def run_cycle(portfolios):
         log("  %-12s value $%.2f | cash $%.2f | %d open | %d closed | %d moons"
             % (pf.name, value, pf.cash, len(pf.positions), pf.trades_closed, pf.moons))
     record_equity(values)
+    record_market(universe)
     return universe
+
+
+def record_market(universe):
+    """One row per cycle describing the market the books were trading into.
+
+    A trade log alone cannot separate "this setup was bad" from "the whole
+    market fell that hour". Breadth and the majors give a later analysis --
+    or a later session -- the context to tell those apart, at a few numbers
+    per cycle rather than a full snapshot of 250 coins.
+    """
+    coins = list(universe.values())
+    if not coins:
+        return
+    moves = sorted(c["raw"]["pc_24h"] for c in coins)
+    up = sum(1 for m in moves if m > 0)
+    med = moves[len(moves) // 2]
+    get = lambda s: universe.get(s, {}).get("raw", {}).get("pc_24h", 0.0)
+    row = {
+        "timestamp": iso(),
+        "universe": len(coins),
+        "breadth_up_pct": round(100.0 * up / len(coins), 1),
+        "median_24h": round(med, 2),
+        "p10_24h": round(moves[len(moves) // 10], 2),
+        "p90_24h": round(moves[min(len(moves) - 1, 9 * len(moves) // 10)], 2),
+        "btc_24h": round(get("BTC"), 2),
+        "eth_24h": round(get("ETH"), 2),
+        "total_volume_bn": round(sum(c["volume"] for c in coins) / 1e9, 2),
+    }
+    try:
+        new_file = not os.path.exists(MARKET_LOG)
+        with open(MARKET_LOG, "a", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=list(row))
+            if new_file:
+                w.writeheader()
+            w.writerow(row)
+    except OSError as exc:
+        log("market context write failed: %s" % exc)
 
 
 def record_equity(values):
