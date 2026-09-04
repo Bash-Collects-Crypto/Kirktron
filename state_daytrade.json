@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 7840.134139757047,
+  "cash": 6838.634139757047,
   "positions": {
     "XRP": {
       "symbol": "XRP",
@@ -38,8 +38,8 @@
       "entry_price": 0.212847,
       "entry_time": "2026-09-04T17:22:26Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.2800133429176888,
-      "last_price": 0.212251,
+      "peak_pct": 0.39042128853119773,
+      "last_price": 0.212249,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": -3.87009,
@@ -57,15 +57,43 @@
       },
       "entry_score": 0.763084515195154,
       "pattern_bonus": 0.0
+    },
+    "XMR": {
+      "symbol": "XMR",
+      "name": "Monero",
+      "side": "short",
+      "quantity": 1.9157088122605364,
+      "entry_price": 522.0,
+      "entry_time": "2026-09-04T17:33:44Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 522.04,
+      "entry_features": {
+        "pc_1h": 0.4,
+        "pc_24h": 0.27598,
+        "pc_7d": 11.9,
+        "pc_14d": 27.5,
+        "pc_30d": 47.5,
+        "vol_mcap": 2.2471226041562438,
+        "cap_rank": 94.39999999999999,
+        "ret_30m": -0.5363108256911109,
+        "ret_2h": 0.40621595162544377,
+        "ema_spread": -0.19245466523746896,
+        "rsi14": 38.54431199113396,
+        "range_pos": 33.248660830413165,
+        "vol_5m": 0.3354627302072229
+      },
+      "entry_score": 0.6250808409071683,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": -156.868706359291,
-  "fees_paid": 63.45538428606464,
-  "trades_opened": 19,
+  "fees_paid": 64.95538428606464,
+  "trades_opened": 20,
   "trades_closed": 17,
   "moons": 3,
   "wins": 4,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T17:29:16Z"
+  "updated": "2026-09-04T17:34:54Z"
 }
