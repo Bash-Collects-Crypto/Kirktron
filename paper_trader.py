@@ -1145,14 +1145,22 @@ class Portfolio:
         for symbol, coin in universe.items():
             if symbol in self.positions or self.on_cooldown(symbol):
                 continue
-            if not self.passes_gates(coin):
+            # This guard used to test the LONG gates only, which made the short
+            # branch below unreachable: a coin that failed the long gates was
+            # skipped here, and one that passed them always took the long arm.
+            # Both books configured to short had therefore never opened a
+            # single short in 22 hours of live trading, including through a
+            # session where breadth fell to 15% and BTC was down 2.4%.
+            long_ok = self.passes_gates(coin)
+            short_ok = self.passes_short_gates(coin)
+            if not (long_ok or short_ok):
                 continue
             bonus = self.pattern.bonus(coin["features"])
-            if self.passes_gates(coin):
+            if long_ok:
                 total = self.base_score(coin["features"]) + bonus
                 if total >= self.cfg["min_score"]:
                     candidates.append((total, bonus, coin, "long"))
-            elif self.passes_short_gates(coin):
+            elif short_ok:
                 # Falling momentum scores negative, so flip the sign: the
                 # score means "conviction", not "direction".
                 total = -self.base_score(coin["features"]) + bonus
