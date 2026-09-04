@@ -202,3 +202,41 @@ Watch for: a rising share of `max hold` exit reasons in `aggressive` rows of
 `trade_log.csv`. If most resolutions arrive as flat max-hold exits rather than
 stops and targets, the shorter hold is truncating the thesis rather than
 measuring it, and the hold is the thing to put back.
+
+---
+
+## Established: 60-second polling fattens BOTH tails of every exit
+
+**Status: measured. 16 barrier exits (14 stop-loss, 2 take-profit).**
+
+Exits are evaluated once a minute, so price can travel past a trigger before
+the trader sees it. The fill is booked at the observed price, not the trigger,
+and the gap is not small:
+
+| book | exit | n | mean realised − trigger |
+|---|---|---|---|
+| daytrade | stop-loss | 10 | **−0.45 pp** |
+| daytrade | take-profit | 2 | **+0.72 pp** |
+| conservative | stop-loss | 3 | −0.13 pp |
+| longshort | stop-loss | 1 | −0.01 pp |
+
+For `daytrade` that means a 1.2% stop really costs about 1.65%, while a 2.5%
+target sometimes pays 3.9% — one exit filled at −2.52% against the 1.2% stop,
+and the second moon only cleared the 2.0% line because price gapped through
+the target to +3.87%.
+
+Two things follow, and the first is easy to get wrong:
+
+- **It is not a one-sided penalty.** The loss tail and the win tail are both
+  stretched. A first look at four consecutive stop-outs suggested the book's
+  downside was quietly doubled; adding the take-profit side showed the effect
+  is symmetric in direction, though larger in the stop column so far.
+- **It scales with the book's own geometry.** Slippage is roughly a fixed
+  price-move quantity, so it is a large fraction of `daytrade`'s 1.2% stop and
+  a small fraction of `conservative`'s 3%. The intraday book is the one whose
+  measured P/L should be trusted least.
+
+This is a property of the simulation's polling rate, not of any strategy. It
+argues for reading `daytrade`'s numbers with a wider error bar, not for moving
+its stop — and per the exit-geometry finding above, moving the stop could not
+create edge anyway.
