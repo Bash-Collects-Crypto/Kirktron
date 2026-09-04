@@ -50,6 +50,7 @@ TRADE_LOG = os.path.join(BASE_DIR, "trade_log.csv")
 EQUITY_LOG = os.path.join(BASE_DIR, "equity_history.csv")
 MARKET_LOG = os.path.join(BASE_DIR, "market_context.csv")
 RANGE_POS_SURVEY = os.path.join(BASE_DIR, "range_pos_survey.csv")
+GATE_CENSUS = os.path.join(BASE_DIR, "gate_census.csv")
 RUN_LOG = os.path.join(BASE_DIR, "trader.log")
 STATE_FILE = os.path.join(BASE_DIR, "state_{}.json")
 
@@ -1175,6 +1176,7 @@ class Portfolio:
                     candidates.append((total, bonus, coin, "short"))
         candidates.sort(key=lambda c: -c[0])
         self.survey_range_pos(universe, candidates)
+        self.gate_census(universe, candidates)
 
         opened = 0
         for total, bonus, coin, side in candidates:
@@ -1195,6 +1197,73 @@ class Portfolio:
 
         self.save()
         return portfolio_value
+
+    def gate_census(self, universe, candidates):
+        """Count which single gate rejects each coin, long side and short side.
+
+        A book with no candidates is not self-explaining: "nothing qualified"
+        can mean the market is quiet, or that one gate is doing all the work
+        and the others are decorative. This walks every coin the book could
+        have traded and attributes it to the FIRST gate that rejects it, so a
+        drought comes with its own cause attached. Log-only -- it reads the
+        same config the live gates read and changes nothing.
+        """
+        cfg = self.cfg
+        long_block, short_block = {}, {}
+        n_long = n_short = n_eligible = 0
+        for coin in universe.values():
+            if cfg.get("intraday") and not coin.get("intraday"):
+                continue
+            if coin["rank"] > cfg["max_rank"] or coin["volume"] < cfg["min_volume_usd"]:
+                continue
+            n_eligible += 1
+            raw = coin["raw"]
+            hit = ""
+            for name, floor in cfg["gates"].items():
+                if raw.get(name, 0.0) < floor:
+                    hit = name + "<" ; break
+            if not hit:
+                for name, ceiling in cfg.get("max_gates", {}).items():
+                    if raw.get(name, 0.0) > ceiling:
+                        hit = name + ">" ; break
+            if hit:
+                long_block[hit] = long_block.get(hit, 0) + 1
+            else:
+                n_long += 1
+            if cfg.get("allow_short"):
+                hit = ""
+                for name, ceiling in cfg.get("short_gates", {}).items():
+                    if raw.get(name, 0.0) > ceiling:
+                        hit = name + ">" ; break
+                if not hit:
+                    for name, floor in cfg.get("short_floors", {}).items():
+                        if raw.get(name, 0.0) < floor:
+                            hit = name + "<" ; break
+                if hit:
+                    short_block[hit] = short_block.get(hit, 0) + 1
+                else:
+                    n_short += 1
+
+        def top(d):
+            if not d:
+                return "", 0
+            k = max(d, key=lambda x: d[x])
+            return k, d[k]
+
+        lk, ln = top(long_block)
+        sk, sn = top(short_block)
+        append_csv_row(GATE_CENSUS, {
+            "timestamp": iso(), "strategy": self.name,
+            "n_eligible": n_eligible,
+            "n_pass_long": n_long, "n_pass_short": n_short,
+            "n_candidates": len(candidates),
+            "top_long_blocker": lk, "top_long_blocker_n": ln,
+            "top_short_blocker": sk, "top_short_blocker_n": sn,
+            "long_blockers": ";".join("%s=%d" % (k, v) for k, v in
+                                      sorted(long_block.items(), key=lambda x: -x[1])),
+            "short_blockers": ";".join("%s=%d" % (k, v) for k, v in
+                                       sorted(short_block.items(), key=lambda x: -x[1])),
+        })
 
     def survey_range_pos(self, universe, candidates):
         """Record where in the daily range the whole universe sits, not just fills.

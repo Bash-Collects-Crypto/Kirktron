@@ -274,3 +274,45 @@ only genuinely fresh coins and **degrades gracefully** instead of silently
 trading on old data. That is what makes a 12-coin pool safe again: if refresh
 falls behind, the candidate list shrinks rather than rotting. Verified at
 12/12 scoreable with 3.3-minute staleness immediately after the change.
+
+## The drought has one cause, and it is the same one in all four books (2026-09-04 16:15)
+
+Added `gate_census.csv`: every cycle, every book walks the coins it is eligible
+to trade and attributes each one to the **first gate that rejects it**, long
+side and short side separately. Log-only — it reads the same config the live
+gates read and changes nothing. A book reporting "no candidates" is no longer
+self-explaining only as "quiet market".
+
+First census, 16:14:53Z:
+
+| book | eligible | pass long | pass short | top long blocker | top short blocker |
+|---|---|---|---|---|---|
+| conservative | 15 | 1 | n/a | `pc_24h` low, 13 | — |
+| longshort | 21 | 1 | 0 | `pc_24h` low, 18 | `pc_1h` high, **21 of 21** |
+| daytrade | 12 | 0 | 0 | `ret_30m` low, 8 | `ret_30m` high, 11 |
+| aggressive | 36 | 1 | n/a | `pc_24h` low, 29 | — |
+
+**One feature is doing all the rejecting, on both sides at once.** Every book
+is a momentum book: the long gates demand momentum up, the short gates demand
+momentum down, and both read the same feature with the sign flipped. The tape
+right now is a bounce off the day's low — 24h returns still negative (long
+gates blocked) while 1h and 30m returns have turned positive (short gates
+blocked). Neither side can fire, and that is the gates working as written, not
+a fault.
+
+Confirmed on the daytrade universe directly: all 12 coins showed 14-bar RSI
+between 70.5 and 82.0 while sitting at 16.8–68.1% of their 24-hour range. That
+is not a contradiction — RSI-14 on 5-minute bars is a 70-minute measure and
+`range_pos` is a 24-hour one — but it is the whole story in one line: **sharply
+up over the last hour, still far below where the day started.**
+
+The structural consequence, unapplied and stated as an observation: daytrade's
+long gate combines a 70-minute momentum floor with a *24-hour* range-position
+floor of 55. On a V-shaped bounce day those two cannot be satisfied at the same
+time until the bounce carries price back through the middle of the day's range,
+which is hours of holding time the 6-hour cap may not have. This is a candidate
+explanation for daytrade's flat spell since 13:14 — the book was 100% cash for
+three hours with 12 fresh coins and 6 free slots, so neither the slot cap nor
+the candidate pool was binding. **No gate, threshold or weight was changed.**
+The census now records the answer every cycle, so the next regime settles it
+with data instead of argument.
