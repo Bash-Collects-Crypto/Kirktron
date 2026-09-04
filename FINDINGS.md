@@ -463,3 +463,40 @@ should be made knowing these three interact. The same arithmetic applies to the
 other books but their gaps are wider (conservative arms at 3.0/gives back 2.5
 against a 9% target and a 7% moon), so the band there is not a near-miss zone in
 the same way.
+
+## The lookback prediction resolved, correctly (2026-09-04 18:01)
+
+Stated at 17:35 and testable without touching code: longshort and daytrade were
+finding shorts at wildly different rates *because their short gates read
+different lookback windows*, not because one was stricter. longshort's short gate
+reads `pc_1h`; daytrade reads a 30-minute return on 5-minute bars. The prediction
+was that if the decline persisted through a full hour, **longshort's short side
+would unlock by itself with no code change.**
+
+It did. At **18:01:34 longshort opened XLM SHORT @ $0.178064** ($1,500, score
+9.71) — its second short ever and the first one the gate let through on its own
+terms rather than on a squeeze-shaped setup.
+
+The census makes the flip unambiguous. Since 16:14, `pc_1h` had rejected **21 of
+21** eligible coins in every single census. At 18:02:35:
+
+| book | pass long | pass short | top long blocker | top short blocker |
+|---|---|---|---|---|
+| longshort | **0** of 21 | **4** of 21 | `pc_1h` low, 20 | `pc_7d` high, 8 |
+| conservative | 1 of 15 | n/a | `pc_24h` low, 12 | — |
+| daytrade | 0 of 12 | 0 of 12 | `ret_30m` low, 12 | `rsi14` low, 5 |
+| aggressive | 0 of 36 | n/a | `pc_1h` low, 33 | — |
+
+`pc_1h` went from blocking every short to blocking **zero** of them, and it is
+now the top *long* blocker instead — in longshort (20 of 21) and in aggressive
+(33 of 36). The same feature flipped sides across all three books at once, which
+is what a genuine regime change looks like rather than a threshold quirk. The
+binding short-side constraint has moved on to `pc_7d`, a seven-day window that
+the last hour cannot move.
+
+**No gate, threshold, weight or size was changed to produce this.** The value of
+the result is not the XLM trade; it is that the gate census turned a vague
+complaint — "the shorts don't fire" — into a falsifiable statement that the
+market then settled in 26 minutes. Where a gate's lookback disagrees with the
+horizon a book trades on, the census now says so directly and the fix, if one is
+ever wanted, is a matched window rather than a looser number.
