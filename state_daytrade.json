@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 4803.78149796902,
+  "cash": 3802.28149796902,
   "positions": {
     "XRP": {
       "symbol": "XRP",
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-04T17:22:26Z",
       "entry_cost": 1.5,
       "peak_pct": 1.3375805155816225,
-      "last_price": 0.21,
+      "last_price": 0.210865,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": -3.87009,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-04T17:38:03Z",
       "entry_cost": 1.5,
       "peak_pct": 0.34423407917383086,
-      "last_price": 11.62,
+      "last_price": 11.6,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": -0.99374,
@@ -95,7 +95,7 @@
       "entry_time": "2026-09-04T20:36:25Z",
       "entry_cost": 1.5,
       "peak_pct": 1.3084993516444647,
-      "last_price": 83.86,
+      "last_price": 84.2,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": -0.84308,
@@ -123,7 +123,7 @@
       "entry_time": "2026-09-04T22:39:59Z",
       "entry_cost": 1.5,
       "peak_pct": 0.05814855016280713,
-      "last_price": 517.14,
+      "last_price": 517.05,
       "entry_features": {
         "pc_1h": -4.1,
         "pc_24h": -0.6741,
@@ -141,15 +141,43 @@
       },
       "entry_score": 2.6150709489063493,
       "pattern_bonus": 0.0
+    },
+    "BCH": {
+      "symbol": "BCH",
+      "name": "Bitcoin Cash",
+      "side": "short",
+      "quantity": 4.0028820750940675,
+      "entry_price": 249.82,
+      "entry_time": "2026-09-04T23:09:25Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.028020174525655743,
+      "last_price": 249.83,
+      "entry_features": {
+        "pc_1h": -1.2,
+        "pc_24h": -3.02229,
+        "pc_7d": 0.9,
+        "pc_14d": -14.5,
+        "pc_30d": 16.0,
+        "vol_mcap": 3.020706434561552,
+        "cap_rank": 91.60000000000001,
+        "ret_30m": -0.7259132329495488,
+        "ret_2h": -1.2055108711104934,
+        "ema_spread": -0.43571200954317724,
+        "rsi14": 27.798552310761266,
+        "range_pos": 16.390208960479708,
+        "vol_5m": 0.17999655903244413
+      },
+      "entry_score": 1.670696449290034,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": -188.72134814731788,
-  "fees_paid": 73.91654706755484,
-  "trades_opened": 24,
+  "fees_paid": 75.41654706755484,
+  "trades_opened": 25,
   "trades_closed": 19,
   "moons": 3,
   "wins": 4,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T23:02:22Z"
+  "updated": "2026-09-04T23:16:18Z"
 }
