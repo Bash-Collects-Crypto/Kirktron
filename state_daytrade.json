@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 5805.28149796902,
+  "cash": 4803.78149796902,
   "positions": {
     "XRP": {
       "symbol": "XRP",
@@ -38,8 +38,8 @@
       "entry_price": 0.212847,
       "entry_time": "2026-09-04T17:22:26Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.9715899213989458,
-      "last_price": 0.210779,
+      "peak_pct": 1.1299196136191811,
+      "last_price": 0.210442,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": -3.87009,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-04T17:38:03Z",
       "entry_cost": 1.5,
       "peak_pct": 0.34423407917383086,
-      "last_price": 11.63,
+      "last_price": 11.62,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": -0.99374,
@@ -95,7 +95,7 @@
       "entry_time": "2026-09-04T20:36:25Z",
       "entry_cost": 1.5,
       "peak_pct": 1.3084993516444647,
-      "last_price": 84.05,
+      "last_price": 84.07,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": -0.84308,
@@ -113,17 +113,43 @@
       },
       "entry_score": 0.6331451894100373,
       "pattern_bonus": 0.0
+    },
+    "XMR": {
+      "symbol": "XMR",
+      "name": "Monero",
+      "side": "short",
+      "quantity": 1.938285005427198,
+      "entry_price": 515.92,
+      "entry_time": "2026-09-04T22:39:59Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.05814855016280713,
+      "last_price": 516.25,
+      "entry_features": {
+        "pc_1h": -4.1,
+        "pc_24h": -0.6741,
+        "pc_7d": 10.5,
+        "pc_14d": 24.9,
+        "pc_30d": 41.7,
+        "vol_mcap": 2.1918031513473166,
+        "cap_rank": 94.0,
+        "ret_30m": -0.3527524494652545,
+        "ret_2h": -3.256863786892561,
+        "ema_spread": -0.9353468116905822,
+        "rsi14": 28.768168792397915,
+        "range_pos": 23.930091462794604,
+        "vol_5m": 0.48587194838000247
+      },
+      "entry_score": 2.6150709489063493,
+      "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {
-    "ZEC": "2026-09-04T22:42:37Z"
-  },
+  "cooldowns": {},
   "realized_pnl": -188.72134814731788,
-  "fees_paid": 72.41654706755484,
-  "trades_opened": 23,
+  "fees_paid": 73.91654706755484,
+  "trades_opened": 24,
   "trades_closed": 19,
   "moons": 3,
   "wins": 4,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T22:36:10Z"
+  "updated": "2026-09-04T22:48:05Z"
 }
