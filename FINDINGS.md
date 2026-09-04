@@ -562,3 +562,32 @@ reconciled against it. At 19:46 the true state of the six live shorts was:
 All six losing or flat. daytrade's XMR at −1.13% sits just inside its 1.2%
 stop. The short side's record remains n=0 resolved and there is, as yet, no
 evidence in either direction about whether it works.
+
+## The first short in the program's history resolved, and it lost (19:51)
+
+daytrade covered XMR at $529.08 against a $522.00 entry — a stop-loss after
+2.29 hours. **−$16.54, −1.356% on price, −1.654% after the 15bps-per-side
+costs. Not a moon.** The short-side record opens at 0 for 1.
+
+Two things are worth keeping from a single trade, and one thing is not.
+
+Worth keeping: the stop fired at −1.356% against a 1.2% stop, so it gave up
+**0.156pp** past its trigger. That is markedly tighter than the long-side
+stop-loss series (n=10, mean −0.445pp) and is the first short-side entry in
+the slippage measurement. One observation is not a comparison, but the
+number goes on the board.
+
+Also worth keeping: the position was the one flagged as nearest its stop at
+19:46, at −1.13% with 0.07pp of room. It resolved five minutes later. The
+open-position marks track the exit logic closely enough to anticipate a
+resolution one cycle ahead.
+
+Not worth anything yet: whether the short side works. n=1. The 95% interval
+on a one-trade win rate spans essentially the whole unit interval. The three
+remaining daytrade shorts hit their 6-hour cap between 23:20 and 23:40 and
+will carry the count to 4; longshort's two run to a 48-hour cap. Nothing
+about the short thesis should be claimed before those land, and even then
+n=6 is worth ±40pp.
+
+daytrade now stands at **18 of 20 resolved, 3 of 4 moons** — two resolutions
+from the first half of the pattern-model gate.
