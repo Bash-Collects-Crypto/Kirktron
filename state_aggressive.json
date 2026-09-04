@@ -1,6 +1,6 @@
 {
   "name": "aggressive",
-  "cash": 1200.0,
+  "cash": 482.13527194604717,
   "positions": {
     "ENA": {
       "symbol": "ENA",
@@ -8,7 +8,7 @@
       "quantity": 12617.572837806838,
       "entry_price": 0.17436,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 0.161965,
+      "last_price": 0.163191,
       "entry_features": {
         "pc_1h": 2.6,
         "pc_24h": 17.74931,
@@ -29,7 +29,7 @@
       "quantity": 23021.70318745945,
       "entry_price": 0.095562,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 0.092784,
+      "last_price": 0.093083,
       "entry_features": {
         "pc_1h": 5.1,
         "pc_24h": 16.81866,
@@ -50,7 +50,7 @@
       "quantity": 100579.15305038284,
       "entry_price": 0.02187332,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 0.02128536,
+      "last_price": 0.02124247,
       "entry_features": {
         "pc_1h": 1.0,
         "pc_24h": 17.01148,
@@ -71,7 +71,7 @@
       "quantity": 7927.52798057035,
       "entry_price": 0.277514,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 0.269218,
+      "last_price": 0.267757,
       "entry_features": {
         "pc_1h": 2.3,
         "pc_24h": 6.9829,
@@ -85,15 +85,42 @@
       "pattern_bonus": 0.0,
       "side": "long",
       "peak_pct": 1.2810164532239925
+    },
+    "ZEC": {
+      "symbol": "ZEC",
+      "name": "Zcash",
+      "side": "long",
+      "quantity": 0.7559494619468343,
+      "entry_price": 949.62,
+      "entry_time": "2026-09-04T06:39:15Z",
+      "peak_pct": 0.3622501632231778,
+      "last_price": 953.06,
+      "entry_features": {
+        "pc_1h": 1.0,
+        "pc_24h": 14.28151,
+        "pc_7d": 21.5,
+        "pc_14d": 60.0,
+        "pc_30d": 86.6,
+        "vol_mcap": 6.288034962817829,
+        "cap_rank": 95.6,
+        "ret_30m": -0.364750803577818,
+        "ret_2h": -0.2670134054910456,
+        "ema_spread": 0.20184558506829028,
+        "rsi14": 39.96918268814671,
+        "range_pos": 82.67670412244333,
+        "vol_5m": 0.23454794340047502
+      },
+      "entry_score": 67.92302,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": 0.0,
   "fees_paid": 0.0,
-  "trades_opened": 4,
+  "trades_opened": 5,
   "trades_closed": 0,
   "moons": 0,
   "wins": 0,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-04T06:30:31Z"
+  "updated": "2026-09-04T06:42:55Z"
 }
