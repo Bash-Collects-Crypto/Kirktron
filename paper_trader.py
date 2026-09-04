@@ -1210,11 +1210,18 @@ class Portfolio:
         """
         cfg = self.cfg
         long_block, short_block = {}, {}
-        n_long = n_short = n_eligible = 0
-        for coin in universe.values():
+        n_long = n_short = n_eligible = n_busy = 0
+        for symbol, coin in universe.items():
             if cfg.get("intraday") and not coin.get("intraday"):
                 continue
             if coin["rank"] > cfg["max_rank"] or coin["volume"] < cfg["min_volume_usd"]:
+                continue
+            # The entry loop skips coins the book already holds or has on
+            # cooldown before it ever tests a gate. Counting them here inflated
+            # n_pass_long against n_candidates and made min_score look like the
+            # binding constraint when the coin was simply already owned.
+            if symbol in self.positions or self.on_cooldown(symbol):
+                n_busy += 1
                 continue
             n_eligible += 1
             raw = coin["raw"]
@@ -1252,10 +1259,14 @@ class Portfolio:
 
         lk, ln = top(long_block)
         sk, sn = top(short_block)
+        # Whatever passed a gate but did not become a candidate was cut by
+        # min_score -- the only remaining filter between the two counts.
+        n_score_cut = max(0, n_long + n_short - len(candidates))
         append_csv_row(GATE_CENSUS, {
             "timestamp": iso(), "strategy": self.name,
-            "n_eligible": n_eligible,
+            "n_eligible": n_eligible, "n_busy": n_busy,
             "n_pass_long": n_long, "n_pass_short": n_short,
+            "n_score_cut": n_score_cut,
             "n_candidates": len(candidates),
             "top_long_blocker": lk, "top_long_blocker_n": ln,
             "top_short_blocker": sk, "top_short_blocker_n": sn,

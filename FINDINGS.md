@@ -500,3 +500,36 @@ complaint — "the shorts don't fire" — into a falsifiable statement that the
 market then settled in 26 minutes. Where a gate's lookback disagrees with the
 horizon a book trades on, the census now says so directly and the fix, if one is
 ever wanted, is a matched window rather than a looser number.
+
+## min_score filters nothing; the gates are the whole constraint (19:36)
+
+The gate census recorded `n_pass_long` (coins clearing the gates) beside
+`n_candidates` (coins that reached the entry loop). Across 560 census rows
+from 16:14 to 19:32 the two counts diverged constantly — for conservative in
+139 of 140 cycles — which reads as `min_score` silently discarding everything
+the gates admit.
+
+It was an artefact of the instrument. The entry loop skips a coin that the
+book already holds or has on cooldown *before* it tests any gate; the census
+tested the gates first and counted those coins as passing. A book holding 5 of
+the ~15 names it can reach therefore showed a permanent, meaningless gap.
+
+The census now skips held and cooldown coins (recording them as `n_busy`) and
+writes `n_score_cut` explicitly. The answer since the fix is unambiguous:
+
+    n_score_cut = 0, every book, every cycle
+
+Every coin that clears the gates becomes a candidate. `min_score` is not a
+binding constraint in any of the four books at present, so the blocker
+attributions reported all afternoon stand exactly as given — a drought is a
+gate drought, and the named top blocker is the real cause.
+
+The corrected counts also sharpen how narrow the reachable universe is. At
+19:35 conservative could act on **9** coins, not 15: six of its fifteen
+eligible names were already held or cooling. `pc_24h` blocked all nine. A book
+with five open positions out of six slots is choosing from a pool a third
+smaller than the eligibility count suggests.
+
+The old-schema rows are preserved as `gate_census_v1.csv`; the file was
+rotated rather than extended, because appending columns to a live CSV writes
+rows that no longer line up with their header.

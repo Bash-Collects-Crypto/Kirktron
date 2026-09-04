@@ -16,7 +16,7 @@ cd "$(dirname "$0")" || exit 1
 DATA_BRANCH="kirktron-trading-data"
 FILES=(trade_log.csv state_conservative.json state_aggressive.json
        state_longshort.json state_daytrade.json equity_history.csv
-       market_context.csv market_context_reconstructed.csv range_pos_survey.csv gate_census.csv exclusions_cache.json)
+       market_context.csv market_context_reconstructed.csv range_pos_survey.csv gate_census.csv gate_census_v1.csv exclusions_cache.json)
 
 present=()
 for f in "${FILES[@]}"; do
