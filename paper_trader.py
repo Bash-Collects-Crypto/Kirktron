@@ -49,6 +49,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TRADE_LOG = os.path.join(BASE_DIR, "trade_log.csv")
 EQUITY_LOG = os.path.join(BASE_DIR, "equity_history.csv")
 MARKET_LOG = os.path.join(BASE_DIR, "market_context.csv")
+RANGE_POS_SURVEY = os.path.join(BASE_DIR, "range_pos_survey.csv")
 RUN_LOG = os.path.join(BASE_DIR, "trader.log")
 STATE_FILE = os.path.join(BASE_DIR, "state_{}.json")
 
@@ -1134,6 +1135,7 @@ class Portfolio:
                 if total >= self.cfg["min_score"]:
                     candidates.append((total, bonus, coin, "short"))
         candidates.sort(key=lambda c: -c[0])
+        self.survey_range_pos(universe, candidates)
 
         opened = 0
         for total, bonus, coin, side in candidates:
@@ -1154,6 +1156,36 @@ class Portfolio:
 
         self.save()
         return portfolio_value
+
+    def survey_range_pos(self, universe, candidates):
+        """Record where in the daily range the whole universe sits, not just fills.
+
+        Every daytrade fill so far has landed between 88.9% and 99.6% of the
+        coin's 24h range. A feature that barely varies across fills cannot
+        discriminate between them, so the pattern model can never test it. This
+        says whether that narrowness belongs to the market (nothing lower
+        exists in an up tape) or to the scorer (it prefers extension). Log-only
+        -- it changes no gate, no score and no position.
+        """
+        if not self.cfg.get("intraday"):
+            return
+        vals = sorted(c["features"]["range_pos"] for c in universe.values()
+                      if c.get("features", {}).get("range_pos") is not None)
+        if not vals:
+            return
+        top = candidates[0][2]["features"].get("range_pos") if candidates else None
+        row = {
+            "timestamp": iso(),
+            "strategy": self.name,
+            "n_scoreable": len(vals),
+            "min_range_pos": round(vals[0], 2),
+            "median_range_pos": round(vals[len(vals) // 2], 2),
+            "max_range_pos": round(vals[-1], 2),
+            "n_below_55": sum(1 for v in vals if v < 55.0),
+            "n_candidates": len(candidates),
+            "top_candidate_range_pos": round(top, 2) if top is not None else "",
+        }
+        append_csv_row(RANGE_POS_SURVEY, row)
 
     # ---- reporting -------------------------------------------------------
 
@@ -1297,6 +1329,19 @@ def record_market(universe):
             w.writerow(row)
     except OSError as exc:
         log("market context write failed: %s" % exc)
+
+
+def append_csv_row(path, row):
+    """Append one dict to a CSV, writing the header on first use."""
+    try:
+        new_file = not os.path.exists(path)
+        with open(path, "a", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=list(row))
+            if new_file:
+                w.writeheader()
+            w.writerow(row)
+    except OSError as exc:
+        log("%s write failed: %s" % (os.path.basename(path), exc))
 
 
 def record_equity(values):
