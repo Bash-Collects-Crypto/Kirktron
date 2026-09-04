@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 7509.396745939494,
+  "cash": 5105.796745939494,
   "positions": {
     "ZEC": {
       "symbol": "ZEC",
@@ -9,8 +9,8 @@
       "quantity": 1.236603462489695,
       "entry_price": 970.4,
       "entry_time": "2026-09-04T08:12:07Z",
-      "peak_pct": 0.2864798021434432,
-      "last_price": 973.18,
+      "peak_pct": 2.1753915910964565,
+      "last_price": 991.51,
       "entry_features": {
         "pc_1h": 1.2,
         "pc_24h": 16.64588,
@@ -36,8 +36,8 @@
       "quantity": 0.47717132836544957,
       "entry_price": 2514.82,
       "entry_time": "2026-09-04T08:35:16Z",
-      "peak_pct": 0.21790823995355602,
-      "last_price": 2520.3,
+      "peak_pct": 0.4986440381418934,
+      "last_price": 2527.36,
       "entry_features": {
         "pc_1h": -0.1,
         "pc_24h": 4.52167,
@@ -55,15 +55,69 @@
       },
       "entry_score": 0.6163124952815351,
       "pattern_bonus": 0.0
+    },
+    "SOL": {
+      "symbol": "SOL",
+      "name": "Solana",
+      "side": "long",
+      "quantity": 11.511895625479664,
+      "entry_price": 104.24,
+      "entry_time": "2026-09-04T08:52:58Z",
+      "peak_pct": 0.0,
+      "last_price": 104.24,
+      "entry_features": {
+        "pc_1h": 0.0,
+        "pc_24h": 3.63885,
+        "pc_7d": -3.7,
+        "pc_14d": 14.9,
+        "pc_30d": 40.0,
+        "vol_mcap": 6.772310850765917,
+        "cap_rank": 97.2,
+        "ret_30m": 0.35783006863772115,
+        "ret_2h": 0.5987684151433248,
+        "ema_spread": 0.09087390945594524,
+        "rsi14": 69.38942951959712,
+        "range_pos": 76.04154445038121,
+        "vol_5m": 0.10944523834345858
+      },
+      "entry_score": 0.6764477052850191,
+      "pattern_bonus": 0.0
+    },
+    "XRP": {
+      "symbol": "XRP",
+      "name": "XRP",
+      "side": "long",
+      "quantity": 827.5862068965517,
+      "entry_price": 1.45,
+      "entry_time": "2026-09-04T08:52:58Z",
+      "peak_pct": 0.0,
+      "last_price": 1.45,
+      "entry_features": {
+        "pc_1h": -0.1,
+        "pc_24h": 6.18036,
+        "pc_7d": 1.2,
+        "pc_14d": 11.2,
+        "pc_30d": 35.2,
+        "vol_mcap": 4.4801409866348845,
+        "cap_rank": 98.0,
+        "ret_30m": 0.3738941867957868,
+        "ret_2h": 0.5276528753385135,
+        "ema_spread": 0.09017541169932546,
+        "rsi14": 62.97211755193681,
+        "range_pos": 77.02446400012381,
+        "vol_5m": 0.133031830281763
+      },
+      "entry_score": 0.6667831872034571,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": -69.00325406050615,
-  "fees_paid": 39.52338018919302,
-  "trades_opened": 12,
+  "fees_paid": 43.123380189193014,
+  "trades_opened": 14,
   "trades_closed": 10,
   "moons": 1,
   "wins": 2,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T08:43:23Z"
+  "updated": "2026-09-04T08:54:01Z"
 }
