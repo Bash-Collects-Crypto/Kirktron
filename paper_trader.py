@@ -330,16 +330,25 @@ STRATEGIES = {
             "pc_14d": 130.0, "pc_30d": 250.0,
         },
         "min_score": 3.0,
-        "position_pct": 0.22,       # 22% of INITIAL capital per trade
-        "max_positions": 4,         # <= 88% deployed
+        # Data rate, not conviction: this book resolved 0 trades in 13 hours
+        # because 4 slots on a 96-hour hold guarantee only one resolution a
+        # day. Twelve smaller slots sample the SAME trade distribution three
+        # times as fast -- the gates, stop, target and moon line are all
+        # untouched, so nothing about what counts as a good trade changes.
+        "position_pct": 0.075,      # 7.5% of INITIAL capital per trade
+        "max_positions": 12,        # <= 90% deployed
         "min_cash_reserve_pct": 0.05,
         "stop_loss_pct": 8.0,
         "take_profit_pct": 22.0,
         "moon_pct": 17.0,          # just under target: a win, not a scratch
-        "max_entries_per_cycle": 2,
+        "max_entries_per_cycle": 3,
         "trail_arm_pct": 12.0,
         "trail_giveback_pct": 7.0,
-        "max_hold_hours": 96,
+        # Halved so the book actually turns over. This one DOES cost
+        # something: a 22% target on a rank-150 alt can take days, so some
+        # trades that would have run to a moon now exit flat at max hold,
+        # and 4 moons is the binding half of the pattern gate.
+        "max_hold_hours": 48,
         "breakdown_24h": -8.0,
         "breakdown_7d": -12.0,
         "cooldown_hours": 2,

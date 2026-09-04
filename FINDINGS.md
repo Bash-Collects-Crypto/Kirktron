@@ -157,3 +157,37 @@ have been unrecoverable.
 
 The lesson generalises: **instrumentation added after the fact can rarely be
 backfilled.** Log the context when the run starts, not when the question comes up.
+
+---
+
+## Owner decision: aggressive resized for data rate (2026-09-04 06:38 UTC)
+
+The book had resolved **0 trades in 13 hours**. Four slots on a 96-hour hold
+guarantee only `4 / 96 = 0.042` resolutions an hour — one a day — so 20
+resolutions was roughly three weeks away and the pattern model could not be
+tested this month. The owner asked for a timelier data rate.
+
+| | before | after |
+|---|---|---|
+| positions | 4 | 12 |
+| size each | 22% of start | 7.5% of start |
+| deployed | 88% | 90% |
+| max hold | 96h | 48h |
+| guaranteed floor | 1.0 / day | **6.0 / day** |
+
+Untouched: entry gates, `min_score`, 8% stop, 22% target, 17% moon line,
+rank <= 150, weights. So each trade is still drawn from the same distribution;
+there are simply more of them.
+
+**The two halves are not equally clean.** More slots is pure sample rate — no
+distortion at all. Halving the hold is *not* free: a 22% target on a rank-150
+alt can take days, so trades that would have run to a moon can now exit flat at
+max hold. Since 4 moons is the binding half of the pattern gate, that works
+partly against the goal it serves. Position count alone would have been the
+undistorted change, but with 88% of the book locked in four multi-day positions
+it would not have taken effect for days.
+
+Watch for: a rising share of `max hold` exit reasons in `aggressive` rows of
+`trade_log.csv`. If most resolutions arrive as flat max-hold exits rather than
+stops and targets, the shorter hold is truncating the thesis rather than
+measuring it, and the hold is the thing to put back.
