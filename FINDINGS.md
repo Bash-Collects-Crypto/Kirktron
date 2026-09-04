@@ -719,3 +719,39 @@ bypass now has two demonstrated passengers rather than one, which is a
 stronger argument for the fix already proposed and still awaiting the owner:
 drop the unconditional rank bypass and keep a small explicit blue-chip id set.
 Only LINK currently needs it. Nothing actioned.
+
+## daytrade's max-hold exits are its least-bad category, and partly by definition (23:40)
+
+With 21 resolved trades, daytrade's exits split cleanly:
+
+| exit type | n | share | mean return | mean |return| | total P/L |
+|---|---|---|---|---|---|
+| max hold (6h) | 5 | 24% | −0.113% | 0.503% | **−$25.49** |
+| stop / target / trail | 16 | 76% | −0.540% | 1.839% | **−$159.49** |
+
+The five max-hold exits, worst to best: BNB −0.835%, ETH −0.452%, LINK −0.252%,
+XRP 0.000%, ADA +0.976%. Three of the five are long-side and from this morning;
+the two shorts landed tonight when the 17:18–17:38 cohort hit its cap.
+
+**Half of this is a tautology and it would be dishonest not to say so.** A trade
+reaches six hours precisely because it never moved far enough to trigger a stop
+or a target, so "trades that expired are flat" is close to definitional. The
+comparison of *means* carries no information on its own.
+
+What is not definitional is the shape of the population. daytrade's outcomes
+are bimodal: roughly a quarter of its trades go essentially nowhere for six
+hours (mean absolute move 0.50%), and the other three quarters move about
+1.84% — and that moving group is where all the losses live. The stop is
+catching real adverse moves, not noise; the book's problem is direction, not
+exit placement.
+
+The one number that is actionable rather than definitional: those five
+non-movers paid **30bps of round-trip cost each** and returned −$25.49 in
+aggregate, of which the XRP trade is pure friction — it closed at exactly
+0.000% and lost $3.00, entirely in fees, on a position whose mark never once
+expressed a move (see the cent-precision finding above).
+
+That points at a possible time-based early exit for positions showing no
+movement well before the cap — but it is a hold-logic change, so it is the
+owner's call and nothing has been changed. n=5 max-hold exits, which is far
+too few to size such a rule from.
