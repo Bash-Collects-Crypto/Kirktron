@@ -9,24 +9,35 @@ them.
 
 ## Open question: does entry position within the daily range predict outcome?
 
-**Status: suggestive, not established. 5 resolutions.**
+**Status: weakened by new data. 7 resolutions.**
 
-Every `daytrade` entry so far has landed in the top ~12% of the coin's 24-hour
-range, and through five resolutions the ordering is perfectly monotonic:
+Every `daytrade` entry so far has landed in the top ~11% of the coin's 24-hour
+range. Through five resolutions the ordering was perfectly monotonic; the sixth
+and seventh broke it:
 
 | entry `range_pos` | outcome |
 |---|---|
 | 88.9% | **+2.57%** (take-profit, moon) |
+| 89.5% | −1.24% (stop) — *breaks the monotonic run* |
 | 94.2% | −1.52% (stop) |
+| 96.0% | −1.24% (stop) |
 | 97.6% | −1.26% (stop) |
 | 98.9% | −1.35% (stop) |
 | 99.6% | −0.25% (max hold) |
 
-Five trades is far too few to conclude anything — a monotonic run of five has
-a ~1-in-120 chance under pure noise, which is suggestive but not proof, and it
-is a single coin family in a single market regime. The `daytrade` pattern model
-activates at 20 resolutions and will test this properly against the other
-features.
+The 89.5% entry sits 0.6pp above the only winner and lost at the stop, so the
+"lower in the range is better" reading no longer survives its own data. What
+remains is weaker and nearly untestable: the single win happens to be the
+lowest entry, but with 1 win in 7 that is exactly what one win of any kind
+would look like wherever it landed.
+
+The deeper problem is variance, not sample size. All ten fills so far sit
+between 88.9% and 99.6% — a 10.7-point spread. A feature that barely varies
+across the fills cannot discriminate between them, so the pattern model will
+not be able to test this at 20 resolutions either unless the spread widens.
+Measuring the `range_pos` of *rejected* candidates would say whether that
+narrowness is the market's (nothing lower exists in an up tape) or the
+scorer's (it systematically prefers extension).
 
 Mechanically it is plausible: the long gate needs `range_pos > 55`, but combined
 with the momentum filters it only ever selects near-ceiling entries, so the book
