@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 7581.994338897329,
+  "cash": 8765.134262558508,
   "positions": {
     "LINK": {
       "symbol": "LINK",
@@ -10,7 +10,7 @@
       "entry_price": 11.9,
       "entry_time": "2026-09-03T20:54:28Z",
       "peak_pct": 0.3361344537815054,
-      "last_price": 11.82,
+      "last_price": 11.86,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": 6.91241,
@@ -28,44 +28,17 @@
       },
       "entry_score": 1.116679216149762,
       "pattern_bonus": 0.0
-    },
-    "BCH": {
-      "symbol": "BCH",
-      "name": "Bitcoin Cash",
-      "side": "long",
-      "quantity": 4.626595211473956,
-      "entry_price": 259.37,
-      "entry_time": "2026-09-03T21:12:28Z",
-      "peak_pct": 0.632301345568102,
-      "last_price": 256.43,
-      "entry_features": {
-        "pc_1h": -0.3,
-        "pc_24h": 6.20034,
-        "pc_7d": -4.1,
-        "pc_14d": 17.5,
-        "pc_30d": 20.7,
-        "vol_mcap": 3.334643073681401,
-        "cap_rank": 91.60000000000001,
-        "ret_30m": 0.5235594380470276,
-        "ret_2h": 0.4059996040766567,
-        "ema_spread": 0.1324449904949039,
-        "rsi14": 56.98722887849464,
-        "range_pos": 97.64185817070148,
-        "vol_5m": 0.1711072991292475
-      },
-      "entry_score": 0.8245932880677422,
-      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {
-    "HYPE": "2026-09-04T00:19:18Z"
+    "BCH": "2026-09-04T00:41:17Z"
   },
-  "realized_pnl": -9.005661102671386,
-  "fees_paid": 14.394583383421125,
+  "realized_pnl": -25.865737441492367,
+  "fees_paid": 16.171959332837016,
   "trades_opened": 5,
-  "trades_closed": 3,
+  "trades_closed": 4,
   "moons": 1,
   "wins": 1,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T00:07:48Z"
+  "updated": "2026-09-04T00:19:52Z"
 }
