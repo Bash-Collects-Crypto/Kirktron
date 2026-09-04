@@ -425,3 +425,41 @@ That is an observation about gate *shape*, not a case for loosening a threshold,
 and no gate was touched. It does predict something checkable: if the tape rolls
 over for a full hour, longshort's short side should unlock without any change to
 the code. Watching for that is a cleaner test than arguing about the number.
+
+## The trailing stop can cancel a moon, and for daytrade the window is exact (2026-09-04 17:57)
+
+Three trailing-stop exits now exist, all profitable, and **all three on ZEC** —
+so this says as much about ZEC's path today as about the rule. With that caveat:
+
+| book | peak | exit | giveback | moon line | counted a moon? |
+|---|---|---|---|---|---|
+| daytrade 07:41 | +2.11% | +1.32% | 0.79pp | +2.0% | **no** |
+| conservative 17:28 | +6.77% | +4.27% | 2.50pp | +7.0% | no |
+| longshort 17:48 | +8.03% | +4.17% | 3.86pp | +9.5% | no |
+
+The daytrade row is the one that matters. **Its peak crossed the moon line and
+the recorded outcome did not.** A moon is scored on the closed P/L, correctly —
+the trade did not deliver its thesis — but the consequence is structural, and for
+daytrade the window can be written down exactly.
+
+daytrade arms its trail at +1.5% and gives back 0.7%, takes profit at +2.5%, and
+its moon line is +2.0%. So a trade peaking at P exits at P − 0.7% unless it
+reaches +2.5% first. For the exit to reach the moon line it needs P ≥ +2.7% —
+but at +2.5% the take-profit already fired and banked a moon. **Therefore every
+daytrade trade that peaks between +2.0% and +2.5% is guaranteed to be recorded
+as a non-moon**, no matter how the tape moves. The moon line sits inside the
+trail's giveback band.
+
+That band is 0.5pp wide out of a 2.5pp target, and it costs moons specifically —
+the scarcer half of the pattern-model gate. daytrade is at 3 of 4 moons and 17 of
+20 resolutions; the 07:41 ZEC trade is one observation of a trade that fell into
+this band, and had it counted, the book would be at 4 moons now.
+
+**Nothing changed.** This is a real interaction between three parameters the
+owner set, not a bug: the numbers do exactly what they say. It is worth stating
+because "why is the pattern model taking so long" now has a precise partial
+answer, and because any future change to the trail, the target or the moon line
+should be made knowing these three interact. The same arithmetic applies to the
+other books but their gaps are wider (conservative arms at 3.0/gives back 2.5
+against a 9% target and a 7% moon), so the band there is not a near-miss zone in
+the same way.
