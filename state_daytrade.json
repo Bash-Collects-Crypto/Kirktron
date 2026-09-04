@@ -1,14 +1,43 @@
 {
   "name": "daytrade",
-  "cash": 9819.822846116338,
-  "positions": {},
+  "cash": 8818.322846116338,
+  "positions": {
+    "ZEC": {
+      "symbol": "ZEC",
+      "name": "Zcash",
+      "side": "long",
+      "quantity": 1.0084508178536133,
+      "entry_price": 991.62,
+      "entry_time": "2026-09-04T16:17:11Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.581876121901533,
+      "last_price": 995.95,
+      "entry_features": {
+        "pc_1h": 1.0,
+        "pc_24h": 5.72096,
+        "pc_7d": 20.9,
+        "pc_14d": 50.3,
+        "pc_30d": 90.2,
+        "vol_mcap": 7.263778638460881,
+        "cap_rank": 95.6,
+        "ret_30m": 0.6614508390466955,
+        "ret_2h": 1.1635978357515286,
+        "ema_spread": 0.07960116726330417,
+        "rsi14": 65.07407296890752,
+        "range_pos": 65.05826712218871,
+        "vol_5m": 0.4224200799095502
+      },
+      "entry_score": 1.1642314822756956,
+      "pattern_bonus": 0.0
+    }
+  },
   "cooldowns": {},
   "realized_pnl": -180.18,
-  "fees_paid": 57.41585805625887,
-  "trades_opened": 16,
+  "fees_paid": 58.91585805625887,
+  "trades_opened": 17,
   "trades_closed": 16,
   "moons": 2,
   "wins": 3,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T16:04:07Z"
+  "updated": "2026-09-04T16:19:12Z"
 }
