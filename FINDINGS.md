@@ -128,3 +128,21 @@ either two-way book. Traced to the specific blocking gate:
 - **Moons were unreachable by construction.** Exits test take-profit before the
   trailing stop, so every winner closed at its target — all far below the flat
   50% moon threshold. No pattern model could ever have activated.
+
+---
+
+## Data note: market context before 04:03 is reconstructed, not measured
+
+`market_context.csv` only begins at 2026-09-04T04:03Z, when the logging was
+added. The preceding ~10.5 hours of trading has no measured market context.
+
+`market_context_reconstructed.csv` fills that gap from the intraday bar cache
+(276 rows, 2026-09-03T05:25Z onward), and it is **a different metric** — 12
+coins rather than 59, 1-hour change rather than 24-hour, and timestamps inferred
+from bar spacing rather than recorded. Do not merge the two series or compare
+their numbers directly. It exists because the bar cache holds only a rolling
+24-hour window: had this not been reconstructed the same day, the period would
+have been unrecoverable.
+
+The lesson generalises: **instrumentation added after the fact can rarely be
+backfilled.** Log the context when the run starts, not when the question comes up.
