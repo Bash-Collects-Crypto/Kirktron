@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 8841.634139757047,
+  "cash": 7840.134139757047,
   "positions": {
     "XRP": {
       "symbol": "XRP",
@@ -29,15 +29,43 @@
       },
       "entry_score": 0.8205755928240838,
       "pattern_bonus": 0.0
+    },
+    "ADA": {
+      "symbol": "ADA",
+      "name": "Cardano",
+      "side": "short",
+      "quantity": 4698.210451638971,
+      "entry_price": 0.212847,
+      "entry_time": "2026-09-04T17:22:26Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.2800133429176888,
+      "last_price": 0.212251,
+      "entry_features": {
+        "pc_1h": 0.3,
+        "pc_24h": -3.87009,
+        "pc_7d": 4.3,
+        "pc_14d": -2.6,
+        "pc_30d": 13.1,
+        "vol_mcap": 8.46871713609391,
+        "cap_rank": 92.4,
+        "ret_30m": -0.5133352792494716,
+        "ret_2h": -0.20161315042752648,
+        "ema_spread": -0.14932052774670676,
+        "rsi14": 45.81589143214989,
+        "range_pos": 19.814360055207093,
+        "vol_5m": 0.16197325792327366
+      },
+      "entry_score": 0.763084515195154,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": -156.868706359291,
-  "fees_paid": 61.95538428606464,
-  "trades_opened": 18,
+  "fees_paid": 63.45538428606464,
+  "trades_opened": 19,
   "trades_closed": 17,
   "moons": 3,
   "wins": 4,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T17:18:19Z"
+  "updated": "2026-09-04T17:29:16Z"
 }
