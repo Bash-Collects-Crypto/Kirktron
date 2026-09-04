@@ -7,42 +7,53 @@ them.
 
 ---
 
-## Open question: does entry position within the daily range predict outcome?
+## Closed question: entry position within the daily range does NOT predict outcome
 
-**Status: weakened by new data. 7 resolutions.**
+**Status: hypothesis rejected. 11 resolutions.**
 
-Every `daytrade` entry so far has landed in the top ~11% of the coin's 24-hour
-range. Through five resolutions the ordering was perfectly monotonic; the sixth
-and seventh broke it:
+This started as the project's most promising signal and did not survive its own
+data. Through five resolutions the ordering was perfectly monotonic and the only
+winner was the lowest entry. Eleven resolutions later:
 
 | entry `range_pos` | outcome |
 |---|---|
+| 85.3% | **+1.32%** (trailing stop) |
 | 88.9% | **+2.57%** (take-profit, moon) |
-| 89.5% | −1.24% (stop) — *breaks the monotonic run* |
+| 89.5% | −1.24% (stop) |
+| 93.9% | −0.45% (max hold) |
 | 94.2% | −1.52% (stop) |
+| 95.3% | **+3.87%** (take-profit, moon) |
 | 96.0% | −1.24% (stop) |
 | 97.6% | −1.26% (stop) |
 | 98.9% | −1.35% (stop) |
 | 99.6% | −0.25% (max hold) |
+| 99.7% | −0.84% (max hold) |
 
-The 89.5% entry sits 0.6pp above the only winner and lost at the stop, so the
-"lower in the range is better" reading no longer survives its own data. What
-remains is weaker and nearly untestable: the single win happens to be the
-lowest entry, but with 1 win in 7 that is exactly what one win of any kind
-would look like wherever it landed.
+The three winners sit at 85.3%, 88.9% **and 95.3%**, and the largest winner came
+from the middle of what had looked like a losing band. There is no ordering
+left. A monotonic run of five has about a 1-in-120 chance under pure noise, and
+noise is what it turned out to be — the honest lesson is that a five-point
+streak in a feature was never evidence, however clean it looked.
 
-The deeper problem is variance, not sample size. All ten fills so far sit
-between 88.9% and 99.6% — a 10.7-point spread. A feature that barely varies
-across the fills cannot discriminate between them, so the pattern model will
-not be able to test this at 20 resolutions either unless the spread widens.
-Measuring the `range_pos` of *rejected* candidates would say whether that
-narrowness is the market's (nothing lower exists in an up tape) or the
-scorer's (it systematically prefers extension).
+Two mechanical caveats worth carrying forward, both learned here:
 
-Mechanically it is plausible: the long gate needs `range_pos > 55`, but combined
-with the momentum filters it only ever selects near-ceiling entries, so the book
-systematically buys local highs. The same asymmetry is why the short side has
-never fired — it demands `range_pos < 45`, which after any up-day nothing meets.
+- **A feature the fills do not vary over cannot be tested.** The first eleven
+  fills all sat between 85.3% and 99.6%. `range_pos_survey.csv` was added to ask
+  whether that narrowness belonged to the market or the scorer; the 08:52 fills
+  at 76.0% and 77.0% finally widened it. Before that, no amount of waiting would
+  have let the pattern model separate anything.
+- **The 12-coin and 8-coin eras are not comparable.** Before the intraday
+  universe was cut to 8, every one of 38 surveyed cycles offered a coin under
+  55% `range_pos`; after the cut, none of the first 28 did, because those coins
+  lived in the 9th-12th volume slots. Any conclusion drawn across that boundary
+  is measuring the cut, not the market.
+
+What survives is the *mechanical* observation, not the predictive one: the long
+gate needs `range_pos > 55` and, combined with the momentum filters, it selects
+near-ceiling entries, so the book systematically buys local highs. That is a
+true description of what gets bought. It simply does not predict what wins. The
+same asymmetry is why the short side has never fired — it demands
+`range_pos < 45`, which after any up-day nothing meets.
 
 ---
 
