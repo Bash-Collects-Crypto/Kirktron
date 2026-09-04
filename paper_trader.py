@@ -284,7 +284,10 @@ STRATEGIES = {
         "intraday": True,
         "max_rank": 25,
         "min_volume_usd": 100_000_000,
-        "intraday_universe": 12,          # bounds per-coin API calls per cycle
+        # Cut from 12 on 2026-09-04 07:00: CoinGecko 429s pushed bar staleness to
+        # 12.6m against a 5m TTL, so the book was scoring on stale bars. Fewer
+        # coins means each one gets refreshed more often.
+        "intraday_universe": 8,          # bounds per-coin API calls per cycle
         "allow_short": True,
         "cost_bps": 15.0,                 # 10bps fee + 5bps slippage, each side
         "gates": {
