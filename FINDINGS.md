@@ -395,3 +395,33 @@ matters). That narrows what all four books may trade, which is the owner's call,
 not a correctness fix I should make alone — RAIN has never traded and no book
 holds it. Recording it so the decision is made on evidence rather than
 discovered later inside a position.
+
+## The short side works, and the two books find it at different speeds (2026-09-04 17:35)
+
+Four shorts are now open, all since the 15:29 fix that made the short branch
+reachable. **daytrade is 100% short for the first time** — its whole book is
+ADA, XMR and XRP on the sell side, opened within 15 minutes of each other:
+
+| book | symbol | entry | size | costs | moon line |
+|---|---|---|---|---|---|
+| longshort | SUI | $0.747839 | $1,500 | none | +9.5% |
+| daytrade | XRP | $1.400000 | $1,000 | 15bps/side | +2.0% |
+| daytrade | ADA | $0.212847 | $1,000 | 15bps/side | +2.0% |
+| daytrade | XMR | $522.000000 | $1,000 | 15bps/side | +2.0% |
+
+Zero have resolved, so **every short-side statistic is still n=0.** Nothing is
+known about whether shorting works here; it is only, finally, being tested.
+
+The census explains why one book found three shorts in 15 minutes while the
+other found one in two hours, and it is about **lookback, not strictness.**
+longshort's short gate reads `pc_1h <= -0.3` — a one-hour window — and `pc_1h`
+has rejected 21 of 21 eligible coins in every census taken since 16:14. daytrade
+reads `ret_30m <= -0.15` on 5-minute bars, a thirty-minute window. In a tape
+that is drifting down over half-hour stretches while each hour still nets out
+positive from the bounce, the 30-minute window sees the downtrend and the
+1-hour window does not. Same market, same direction, different clock.
+
+That is an observation about gate *shape*, not a case for loosening a threshold,
+and no gate was touched. It does predict something checkable: if the tape rolls
+over for a full hour, longshort's short side should unlock without any change to
+the code. Watching for that is a cleaner test than arguing about the number.
