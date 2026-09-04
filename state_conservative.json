@@ -1,6 +1,6 @@
 {
   "name": "conservative",
-  "cash": 3876.0030265576843,
+  "cash": 4845.208422382812,
   "positions": {
     "BNB": {
       "symbol": "BNB",
@@ -8,7 +8,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 711.76,
+      "last_price": 711.41,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -29,7 +29,7 @@
       "quantity": 19.496977968414896,
       "entry_price": 51.29,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 49.98,
+      "last_price": 50.0,
       "entry_features": {
         "pc_1h": 0.0,
         "pc_24h": 3.74788,
@@ -44,27 +44,6 @@
       "side": "long",
       "peak_pct": 1.0138428543575808
     },
-    "BTC": {
-      "symbol": "BTC",
-      "name": "Bitcoin",
-      "quantity": 0.012307995273729815,
-      "entry_price": 81248.0,
-      "entry_time": "2026-09-03T19:01:46Z",
-      "last_price": 79006.0,
-      "entry_features": {
-        "pc_1h": 0.3,
-        "pc_24h": 5.07473,
-        "pc_7d": 1.0,
-        "pc_14d": 11.7,
-        "pc_30d": 27.1,
-        "vol_mcap": 2.1353094189404977,
-        "cap_rank": 99.6
-      },
-      "entry_score": 24.08473,
-      "pattern_bonus": 0.0,
-      "side": "long",
-      "peak_pct": 0.870175265852698
-    },
     "XMR": {
       "symbol": "XMR",
       "name": "Monero",
@@ -73,7 +52,7 @@
       "entry_price": 531.96,
       "entry_time": "2026-09-04T12:40:42Z",
       "peak_pct": 0.2462591172268489,
-      "last_price": 521.97,
+      "last_price": 520.33,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 3.40587,
@@ -116,7 +95,7 @@
       "entry_time": "2026-09-04T14:24:51Z",
       "entry_cost": 0.0,
       "peak_pct": 0.7708329079288541,
-      "last_price": 968.0,
+      "last_price": 976.92,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 13.45009,
@@ -139,14 +118,15 @@
   "cooldowns": {
     "ADA": "2026-09-04T16:40:42Z",
     "HBAR": "2026-09-04T16:48:26Z",
-    "HYPE": "2026-09-04T18:24:51Z"
+    "HYPE": "2026-09-04T18:24:51Z",
+    "BTC": "2026-09-04T18:51:24Z"
   },
-  "realized_pnl": -123.99697344231618,
+  "realized_pnl": -154.79157761718818,
   "fees_paid": 0.0,
   "trades_opened": 10,
-  "trades_closed": 4,
+  "trades_closed": 5,
   "moons": 0,
   "wins": 0,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-04T14:47:09Z"
+  "updated": "2026-09-04T14:58:13Z"
 }
