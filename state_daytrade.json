@@ -9,8 +9,8 @@
       "quantity": 1.2559526924485844,
       "entry_price": 955.45,
       "entry_time": "2026-09-04T05:30:18Z",
-      "peak_pct": 0.5358731487780631,
-      "last_price": 960.57,
+      "peak_pct": 1.604479564603059,
+      "last_price": 970.78,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 17.24757,
@@ -30,10 +30,7 @@
       "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {
-    "BNB": "2026-09-04T07:05:35Z",
-    "ETH": "2026-09-04T07:10:26Z"
-  },
+  "cooldowns": {},
   "realized_pnl": -83.05468323000753,
   "fees_paid": 34.099567326144204,
   "trades_opened": 10,
@@ -41,5 +38,5 @@
   "moons": 1,
   "wins": 1,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T07:05:25Z"
+  "updated": "2026-09-04T07:16:00Z"
 }
