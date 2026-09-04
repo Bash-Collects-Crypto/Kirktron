@@ -14,3 +14,7 @@ equity_history.csv
 supervisor.pid
 intraday_cache.json
 equity_history.*.csv
+trade_log.csv
+state_*.json
+equity_history.csv
+exclusions_cache.json
