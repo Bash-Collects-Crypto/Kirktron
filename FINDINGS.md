@@ -533,3 +533,32 @@ smaller than the eligibility count suggests.
 The old-schema rows are preserved as `gate_census_v1.csv`; the file was
 rotated rather than extended, because appending columns to a live CSV writes
 rows that no longer line up with their header.
+
+## The report's percent column is return on capital, not a price move (19:47)
+
+`--report` prints each open position through `change_pct`, which is already
+direction-corrected: for a short it returns `(entry - price) / entry`. A line
+reading
+
+    SHORT SUI  -1.44%  $1478.45  held 4.0h  (entry $0.747839)
+
+therefore means **the short is down 1.44%** — $1478.45 against $1500 posted —
+not that SUI fell 1.44%. The position-value column confirms it independently
+and is the check to use when the sign is in doubt.
+
+Read the other way, a losing short book looks like a winning one. That
+misreading was made and published twice before the position values were
+reconciled against it. At 19:46 the true state of the six live shorts was:
+
+| book | short | return on capital |
+|---|---|---|
+| longshort | SUI | −1.37% |
+| longshort | XLM | −0.59% |
+| daytrade | XMR | −1.13% |
+| daytrade | LINK | −0.69% |
+| daytrade | ADA | −0.36% |
+| daytrade | XRP | −0.00% |
+
+All six losing or flat. daytrade's XMR at −1.13% sits just inside its 1.2%
+stop. The short side's record remains n=0 resolved and there is, as yet, no
+evidence in either direction about whether it works.
