@@ -1017,7 +1017,14 @@ class Portfolio:
             "pnl": "", "pnl_pct": "", "resolved": "False", "moon": "False",
             "portfolio_value": "%.2f" % portfolio_value, "cash": "%.2f" % self.cash,
             "hold_hours": "", "score": "%.3f" % score, "pattern_bonus": "%.3f" % bonus,
-            **{"f_" + n: "%.4f" % coin["features"][n] for n in FEATURE_NAMES},
+            # Only the intraday book has 5-minute bars, so a coin the other
+            # books buy usually has no ret_30m/rsi14/etc. Indexing here raised
+            # KeyError and killed the WHOLE cycle -- every book stopped trading
+            # the moment conservative freed a slot and picked a coin outside
+            # the eight-coin intraday pool. Absent features log as empty, which
+            # also keeps "not measured" distinguishable from "measured as zero".
+            **{"f_" + n: ("%.4f" % coin["features"][n]) if n in coin["features"] else ""
+               for n in FEATURE_NAMES},
         })
         log("%s %-5s %s @ $%.6f  $%.2f (score %.2f, pattern %+.2f)"
             % (self.name, "SHORT" if side == "short" else "BUY",
