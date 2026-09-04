@@ -2,9 +2,7 @@
   "name": "daytrade",
   "cash": 9819.822846116338,
   "positions": {},
-  "cooldowns": {
-    "ZEC": "2026-09-04T13:44:32Z"
-  },
+  "cooldowns": {},
   "realized_pnl": -151.37715388366126,
   "fees_paid": 57.41585805625887,
   "trades_opened": 16,
@@ -12,5 +10,5 @@
   "moons": 2,
   "wins": 3,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T13:42:09Z"
+  "updated": "2026-09-04T13:53:11Z"
 }
