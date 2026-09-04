@@ -646,3 +646,45 @@ binding constraints at the same instant and both be right.
 
 No parameter changed. n = 5 consecutive censuses for the flip itself; the
 conservative divergence is a single episode.
+
+## XRP is marked at cent precision, and that is coarser than daytrade's stop (22:38)
+
+daytrade's XRP short has read exactly +0.00% for over five hours. The price
+has not been still: the 5-minute bar series shows XRP ranging 1.3964 to 1.4020
+in the last 70 minutes alone. The mark cannot express the move.
+
+The CoinGecko `/coins/markets` feed returns XRP at three significant figures
+while its peers come back at six:
+
+| symbol | current_price | high_24h | low_24h |
+|---|---|---|---|
+| XRP | **1.4** | 1.46 | 1.38 |
+| LINK | 11.64 | 12.15 | 11.48 |
+| ADA | 0.210806 | 0.226776 | 0.209675 |
+| XLM | 0.179253 | 0.186742 | 0.177583 |
+
+Every one of the seven XRP fills in `trade_log.csv`, spanning 26 hours, is an
+exact cent: 1.47, 1.48, 1.46, 1.45, 1.42, 1.39, 1.40.
+
+Positions are marked and exited on this feed (`build_universe` → the entry
+loop's `coin["price"]`), while daytrade's *signals* come from the
+full-precision 5-minute bars. So for XRP the signal is fine and the exit is
+quantised, in steps of one cent = **0.714%** at $1.40. Against daytrade's
+parameters that means:
+
+- the 1.2% stop cannot fire until a two-cent move, i.e. **1.43%** — a
+  guaranteed 0.23pp of excess slippage on top of whatever the market gives;
+- the +2.0% moon line needs three cents, i.e. **2.14%**;
+- the position reads 0.00%, ±0.71%, ±1.43% and nothing between.
+
+Consequences for the record already collected: XRP outcomes carry a
+quantisation error the other coins do not, so XRP rows should be excluded from
+the slippage series rather than averaged into it. LINK's step is 0.086% and
+every other coin in daytrade's pool is finer still, so this is an XRP-specific
+defect, not a systematic one — of the 13 coins daytrade can reach, only XRP is
+affected.
+
+No parameter changed and no code changed. The obvious remedy — mark daytrade
+positions from the intraday series, which already carries full precision for
+exactly these twelve coins — would change when trades close, so it is the
+owner's call, not a correctness fix to make unasked.
