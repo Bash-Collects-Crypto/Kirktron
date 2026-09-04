@@ -73,3 +73,5 @@ timestamp,strategy,n_scoreable,min_range_pos,median_range_pos,max_range_pos,n_be
 2026-09-04T07:48:23Z,daytrade,8,59.97,78.28,94.18,0,0,
 2026-09-04T07:49:23Z,daytrade,8,59.97,78.28,94.18,0,0,
 2026-09-04T07:50:24Z,daytrade,8,59.97,78.28,94.18,0,0,
+2026-09-04T07:56:31Z,daytrade,8,54.55,76.34,94.18,1,0,
+2026-09-04T07:57:42Z,daytrade,8,54.55,76.34,94.77,1,0,
