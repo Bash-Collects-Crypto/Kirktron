@@ -1,0 +1,99 @@
+{
+  "name": "aggressive",
+  "cash": 1200.0,
+  "positions": {
+    "ENA": {
+      "symbol": "ENA",
+      "name": "Ethena",
+      "quantity": 12617.572837806838,
+      "entry_price": 0.17436,
+      "entry_time": "2026-09-03T17:32:30Z",
+      "last_price": 0.170068,
+      "entry_features": {
+        "pc_1h": 2.6,
+        "pc_24h": 17.74931,
+        "pc_7d": 6.2,
+        "pc_14d": 60.0,
+        "pc_30d": 89.1,
+        "vol_mcap": 39.113869169596214,
+        "cap_rank": 78.8
+      },
+      "entry_score": 65.26862,
+      "pattern_bonus": 0.0,
+      "side": "long",
+      "peak_pct": 2.0796054140858056
+    },
+    "XPL": {
+      "symbol": "XPL",
+      "name": "Plasma",
+      "quantity": 23021.70318745945,
+      "entry_price": 0.095562,
+      "entry_time": "2026-09-03T17:32:30Z",
+      "last_price": 0.096429,
+      "entry_features": {
+        "pc_1h": 5.1,
+        "pc_24h": 16.81866,
+        "pc_7d": 12.0,
+        "pc_14d": 11.6,
+        "pc_30d": 26.5,
+        "vol_mcap": 35.7865188520794,
+        "cap_rank": 42.00000000000001
+      },
+      "entry_score": 55.85732,
+      "pattern_bonus": 0.0,
+      "side": "long",
+      "peak_pct": 2.399489336765659
+    },
+    "NIGHT": {
+      "symbol": "NIGHT",
+      "name": "Midnight",
+      "quantity": 100579.15305038284,
+      "entry_price": 0.02187332,
+      "entry_time": "2026-09-03T17:32:30Z",
+      "last_price": 0.02154356,
+      "entry_features": {
+        "pc_1h": 1.0,
+        "pc_24h": 17.01148,
+        "pc_7d": 9.1,
+        "pc_14d": 12.2,
+        "pc_30d": 15.3,
+        "vol_mcap": 3.7363394122986433,
+        "cap_rank": 52.0
+      },
+      "entry_score": 46.77296,
+      "pattern_bonus": 0.0,
+      "side": "long",
+      "peak_pct": 5.036638242388431
+    },
+    "STX": {
+      "symbol": "STX",
+      "name": "Stacks",
+      "quantity": 7927.52798057035,
+      "entry_price": 0.277514,
+      "entry_time": "2026-09-03T17:32:30Z",
+      "last_price": 0.276801,
+      "entry_features": {
+        "pc_1h": 2.3,
+        "pc_24h": 6.9829,
+        "pc_7d": 7.8,
+        "pc_14d": 60.0,
+        "pc_30d": 100.0,
+        "vol_mcap": 4.3646328843471816,
+        "cap_rank": 58.400000000000006
+      },
+      "entry_score": 45.6558,
+      "pattern_bonus": 0.0,
+      "side": "long",
+      "peak_pct": 1.2810164532239925
+    }
+  },
+  "cooldowns": {},
+  "realized_pnl": 0.0,
+  "fees_paid": 0.0,
+  "trades_opened": 4,
+  "trades_closed": 0,
+  "moons": 0,
+  "wins": 0,
+  "started": "2026-09-03T17:32:30Z",
+  "updated": "2026-09-04T00:30:27Z"
+}
