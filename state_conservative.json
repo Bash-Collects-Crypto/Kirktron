@@ -8,7 +8,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 718.47,
+      "last_price": 718.45,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -29,7 +29,7 @@
       "quantity": 19.496977968414896,
       "entry_price": 51.29,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 50.3,
+      "last_price": 50.42,
       "entry_features": {
         "pc_1h": 0.0,
         "pc_24h": 3.74788,
@@ -52,7 +52,7 @@
       "entry_price": 531.96,
       "entry_time": "2026-09-04T12:40:42Z",
       "peak_pct": 0.2462591172268489,
-      "last_price": 519.16,
+      "last_price": 522.57,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 3.40587,
@@ -73,7 +73,7 @@
       "entry_price": 11.61,
       "entry_time": "2026-09-04T12:48:26Z",
       "peak_pct": 0.9474590869939811,
-      "last_price": 11.64,
+      "last_price": 11.67,
       "entry_features": {
         "pc_1h": -0.4,
         "pc_24h": 2.12533,
@@ -94,8 +94,8 @@
       "entry_price": 85.21,
       "entry_time": "2026-09-04T18:25:04Z",
       "entry_cost": 0.0,
-      "peak_pct": 0.08214998239644102,
-      "last_price": 85.13,
+      "peak_pct": 0.10562140593827418,
+      "last_price": 85.15,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 1.34567,
@@ -116,7 +116,6 @@
     }
   },
   "cooldowns": {
-    "BTC": "2026-09-04T18:51:24Z",
     "ZEC": "2026-09-04T21:28:04Z"
   },
   "realized_pnl": -112.06395219093315,
@@ -126,5 +125,5 @@
   "moons": 0,
   "wins": 1,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-04T18:41:28Z"
+  "updated": "2026-09-04T18:57:27Z"
 }
