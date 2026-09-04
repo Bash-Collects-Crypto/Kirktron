@@ -1000,6 +1000,7 @@ class Portfolio:
             "quantity": qty,
             "entry_price": price,
             "entry_time": iso(),
+            "entry_cost": cost,
             "peak_pct": 0.0,
             "last_price": price,
             "entry_features": coin["features"],
@@ -1043,8 +1044,12 @@ class Portfolio:
             pnl = proceeds - cost
         exit_cost = abs(proceeds) * self.cfg.get("cost_bps", 0.0) / 10000.0
         proceeds -= exit_cost
-        pnl -= exit_cost
         self.fees_paid += exit_cost
+        # Both sides are real costs. The entry fee already left cash at open;
+        # charging only the exit fee here made realized_pnl (and the per-trade
+        # pnl in the trade log, which the pattern model learns from) better
+        # than the book actually did, by the entry fee on every single trade.
+        pnl -= exit_cost + pos.get("entry_cost", 0.0)
         pnl_pct = self.change_pct(pos, price)
         moon = pnl_pct >= self.cfg.get("moon_pct", MOON_THRESHOLD_PCT)
         hold_hours = (now_utc() - parse_iso(pos["entry_time"])).total_seconds() / 3600.0
