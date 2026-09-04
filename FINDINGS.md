@@ -519,10 +519,9 @@ writes `n_score_cut` explicitly. The answer since the fix is unambiguous:
 
     n_score_cut = 0, every book, every cycle
 
-Every coin that clears the gates becomes a candidate. `min_score` is not a
-binding constraint in any of the four books at present, so the blocker
-attributions reported all afternoon stand exactly as given — a drought is a
-gate drought, and the named top blocker is the real cause.
+Every coin that cleared the gates in that sample became a candidate. But the
+sample contained no daytrade passes at all, and the claim did not survive
+contact with the first one — see the correction below.
 
 The corrected counts also sharpen how narrow the reachable universe is. At
 19:35 conservative could act on **9** coins, not 15: six of its fifteen
@@ -591,3 +590,34 @@ n=6 is worth ±40pp.
 
 daytrade now stands at **18 of 20 resolved, 3 of 4 moons** — two resolutions
 from the first half of the pattern-model gate.
+
+## Correction: min_score does bind, but only in daytrade (20:26)
+
+The entry above claimed `n_score_cut` was zero in every book every cycle. That
+held for the sample it was written from and stopped holding fifty minutes
+later. Over the 34 census cycles since the instrument was fixed:
+
+| book | cycles with a gate pass | of those, cut by min_score |
+|---|---|---|
+| conservative | 0 | — |
+| longshort | 34 | 0 |
+| aggressive | 34 | 0 |
+| daytrade | 3 | **3** |
+
+For the three multi-day books the original claim stands unqualified: 68 cycles
+in which coins cleared the gates, not one discarded by score. For daytrade it
+is exactly inverted — every coin that has cleared its gates since the fix has
+then been cut by `min_score`, three for three.
+
+The asymmetry is in the thresholds, not the market. daytrade scores off
+intraday features and sets `min_score` at 0.6 while conservative sits at 1.0,
+longshort 2.0 and aggressive 3.0 — but daytrade's gates are so much tighter
+that almost nothing reaches the score at all, and what does arrives weak.
+
+This matters more than the raw count suggests: daytrade has two free slots and
+$5,820 in cash, and is the only book with room to open. Its droughts are
+therefore *not* purely gate droughts, and a blocker attribution from the
+census does not fully explain why it is not trading — the score is the last
+filter and it is currently rejecting everything the gates admit. n=3.
+Surfaced, not actioned; `min_score` is a strategy parameter and the owner's
+call.
