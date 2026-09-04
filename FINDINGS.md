@@ -316,3 +316,44 @@ three hours with 12 fresh coins and 6 free slots, so neither the slot cap nor
 the candidate pool was binding. **No gate, threshold or weight was changed.**
 The census now records the answer every cycle, so the next regime settles it
 with data instead of argument.
+
+## The four books are not four independent experiments (2026-09-04 16:40)
+
+Measured over every position ever opened: **8 of the 18 distinct symbols traded
+(44%) were opened by more than one book.** ZEC has been held by all four; HYPE
+by three; ADA, BNB, BTC, XMR, XRP and LINK by two each. Right now ZEC is open
+in conservative, longshort and aggressive at once — $3,380 across three books,
+about 8.6% of combined equity — and it is the best position in every one of
+them.
+
+The books were built with different universes, horizons and exit geometry, so
+the overlap was not designed in; it follows from all four scoring momentum over
+a top-25-to-150 universe on the same day. When the tape is narrow, the momentum
+leaders are the same handful of coins whatever the lookback.
+
+Two consequences for reading the record:
+
+1. **Combined equity is less diversified than "four $10,000 books" suggests.**
+   A single coin's move shows up three or four times in the total. Today ZEC is
+   carrying the combined number almost alone; a reversal in it would show up as
+   a simultaneous drawdown in three books and read like a strategy failure
+   rather than one position.
+2. **Per-book win rates are correlated, so they cannot simply be pooled.** Two
+   books resolving the same coin on the same thesis are not two samples. Any
+   future pooled statistic has to count distinct (symbol, entry window) pairs,
+   not trades.
+
+No change made. This is a property of the design worth stating before any
+cross-book comparison is drawn from the record, not a fault to fix.
+
+## daytrade's third moon (2026-09-04 16:35)
+
+ZEC LONG opened 16:17 at $991.62, closed 16:35:48 at $1,017.75 on the
+take-profit — **+$23.31, +2.635% net of both 15bps legs, an 18-minute hold**.
+Moon (threshold +2.0%). daytrade now stands at **17/20 resolved and 3/4 moons**:
+three more resolutions and one more moon and its pattern model activates.
+
+Take-profit slippage now n=3: overshoots of +0.72pp, +0.72pp and +0.135pp above
+the 2.5% target, mean **+0.52pp**. The stop-loss side stays n=10 at -0.445pp.
+The 60-second poll still fattens both tails; the take-profit sample is too small
+to say the asymmetry is real.
