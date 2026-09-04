@@ -1,35 +1,14 @@
 {
   "name": "conservative",
-  "cash": 3937.157736943408,
+  "cash": 3906.0937581529524,
   "positions": {
-    "HBAR": {
-      "symbol": "HBAR",
-      "name": "Hedera",
-      "quantity": 12505.627532389577,
-      "entry_price": 0.079964,
-      "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 0.078221,
-      "entry_features": {
-        "pc_1h": 1.9,
-        "pc_24h": 8.84381,
-        "pc_7d": 1.6,
-        "pc_14d": 9.2,
-        "pc_30d": 15.7,
-        "vol_mcap": 2.0578652127504182,
-        "cap_rank": 88.4
-      },
-      "entry_score": 23.19381,
-      "pattern_bonus": 0.0,
-      "side": "long",
-      "peak_pct": 0.07628432794757334
-    },
     "BNB": {
       "symbol": "BNB",
       "name": "BNB",
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 718.82,
+      "last_price": 715.22,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -50,7 +29,7 @@
       "quantity": 19.496977968414896,
       "entry_price": 51.29,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 50.49,
+      "last_price": 50.43,
       "entry_features": {
         "pc_1h": 0.0,
         "pc_24h": 3.74788,
@@ -71,7 +50,7 @@
       "quantity": 0.012307995273729815,
       "entry_price": 81248.0,
       "entry_time": "2026-09-03T19:01:46Z",
-      "last_price": 79961.0,
+      "last_price": 79504.0,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": 5.07473,
@@ -94,7 +73,7 @@
       "entry_price": 87.07,
       "entry_time": "2026-09-04T02:03:29Z",
       "peak_pct": 0.43643045825199234,
-      "last_price": 85.83,
+      "last_price": 85.08,
       "entry_features": {
         "pc_1h": 0.9,
         "pc_24h": 6.68072,
@@ -121,7 +100,7 @@
       "entry_price": 531.96,
       "entry_time": "2026-09-04T12:40:42Z",
       "peak_pct": 0.2462591172268489,
-      "last_price": 533.25,
+      "last_price": 531.97,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 3.40587,
@@ -133,17 +112,39 @@
       },
       "entry_score": 61.22587,
       "pattern_bonus": 0.0
+    },
+    "LINK": {
+      "symbol": "LINK",
+      "name": "Chainlink",
+      "side": "long",
+      "quantity": 86.13264427217916,
+      "entry_price": 11.61,
+      "entry_time": "2026-09-04T12:48:26Z",
+      "peak_pct": 0.6029285099052565,
+      "last_price": 11.68,
+      "entry_features": {
+        "pc_1h": -0.4,
+        "pc_24h": 2.12533,
+        "pc_7d": 2.3,
+        "pc_14d": 5.5,
+        "pc_30d": 47.7,
+        "vol_mcap": 6.283761754621049,
+        "cap_rank": 93.6
+      },
+      "entry_score": 26.605330000000002,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {
-    "ADA": "2026-09-04T16:40:42Z"
+    "ADA": "2026-09-04T16:40:42Z",
+    "HBAR": "2026-09-04T16:48:26Z"
   },
-  "realized_pnl": -62.842263056592515,
+  "realized_pnl": -93.90624184704814,
   "fees_paid": 0.0,
-  "trades_opened": 8,
-  "trades_closed": 2,
+  "trades_opened": 9,
+  "trades_closed": 3,
   "moons": 0,
   "wins": 0,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-04T12:43:38Z"
+  "updated": "2026-09-04T12:54:07Z"
 }
