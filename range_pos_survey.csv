@@ -1,0 +1,6 @@
+timestamp,strategy,n_scoreable,min_range_pos,median_range_pos,max_range_pos,n_below_55,n_candidates,top_candidate_range_pos
+2026-09-04T05:41:16Z,daytrade,12,45.09,75.96,91.18,1,0,
+2026-09-04T05:41:38Z,daytrade,12,45.09,75.96,91.18,1,0,
+2026-09-04T05:42:48Z,daytrade,12,45.09,74.57,90.0,1,0,
+2026-09-04T05:43:59Z,daytrade,12,45.09,74.57,90.0,1,0,
+2026-09-04T05:45:01Z,daytrade,12,45.09,74.57,90.0,1,0,

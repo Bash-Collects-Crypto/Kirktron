@@ -10,7 +10,7 @@
       "entry_price": 727.04,
       "entry_time": "2026-09-04T00:35:27Z",
       "peak_pct": 0.22282130281690207,
-      "last_price": 723.9,
+      "last_price": 723.95,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 5.89568,
@@ -37,7 +37,7 @@
       "entry_price": 2513.3,
       "entry_time": "2026-09-04T00:39:53Z",
       "peak_pct": 0.38037639756495223,
-      "last_price": 2509.47,
+      "last_price": 2511.22,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 5.53613,
@@ -63,8 +63,8 @@
       "quantity": 1.2559526924485844,
       "entry_price": 955.45,
       "entry_time": "2026-09-04T05:30:18Z",
-      "peak_pct": 0.0,
-      "last_price": 952.8,
+      "peak_pct": 0.08477680674027373,
+      "last_price": 955.94,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 17.24757,
@@ -95,5 +95,5 @@
   "moons": 1,
   "wins": 1,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-04T05:32:28Z"
+  "updated": "2026-09-04T05:45:01Z"
 }
