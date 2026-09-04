@@ -1,6 +1,6 @@
 {
   "name": "conservative",
-  "cash": 4887.9360478090675,
+  "cash": 4855.809572134205,
   "positions": {
     "BNB": {
       "symbol": "BNB",
@@ -8,7 +8,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 718.54,
+      "last_price": 717.69,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -29,7 +29,7 @@
       "quantity": 19.496977968414896,
       "entry_price": 51.29,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 50.87,
+      "last_price": 50.71,
       "entry_features": {
         "pc_1h": 0.0,
         "pc_24h": 3.74788,
@@ -44,27 +44,6 @@
       "side": "long",
       "peak_pct": 1.0138428543575808
     },
-    "XMR": {
-      "symbol": "XMR",
-      "name": "Monero",
-      "side": "long",
-      "quantity": 1.8798405895180088,
-      "entry_price": 531.96,
-      "entry_time": "2026-09-04T12:40:42Z",
-      "peak_pct": 1.229415745544771,
-      "last_price": 521.09,
-      "entry_features": {
-        "pc_1h": -0.2,
-        "pc_24h": 3.40587,
-        "pc_7d": 16.4,
-        "pc_14d": 32.4,
-        "pc_30d": 55.2,
-        "vol_mcap": 2.086779120098109,
-        "cap_rank": 94.39999999999999
-      },
-      "entry_score": 61.22587,
-      "pattern_bonus": 0.0
-    },
     "LINK": {
       "symbol": "LINK",
       "name": "Chainlink",
@@ -73,7 +52,7 @@
       "entry_price": 11.61,
       "entry_time": "2026-09-04T12:48:26Z",
       "peak_pct": 0.9474590869939811,
-      "last_price": 11.67,
+      "last_price": 11.62,
       "entry_features": {
         "pc_1h": -0.4,
         "pc_24h": 2.12533,
@@ -95,7 +74,7 @@
       "entry_time": "2026-09-04T18:25:04Z",
       "entry_cost": 0.0,
       "peak_pct": 0.10562140593827418,
-      "last_price": 84.35,
+      "last_price": 84.02,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 1.34567,
@@ -113,15 +92,45 @@
       },
       "entry_score": 31.345670000000002,
       "pattern_bonus": 0.0
+    },
+    "ZEC": {
+      "symbol": "ZEC",
+      "name": "Zcash",
+      "side": "long",
+      "quantity": 0.9824630348283145,
+      "entry_price": 1017.85,
+      "entry_time": "2026-09-04T22:00:50Z",
+      "entry_cost": 0.0,
+      "peak_pct": 0.07171980154246875,
+      "last_price": 1018.03,
+      "entry_features": {
+        "pc_1h": -0.7,
+        "pc_24h": 7.07911,
+        "pc_7d": 27.6,
+        "pc_14d": 43.3,
+        "pc_30d": 96.4,
+        "vol_mcap": 7.617262237214352,
+        "cap_rank": 95.6,
+        "ret_30m": -0.6110900673550579,
+        "ret_2h": -2.3586707974716847,
+        "ema_spread": -0.3513998507740319,
+        "rsi14": 30.104906444602037,
+        "range_pos": 76.00904190071218,
+        "vol_5m": 0.30336997681217887
+      },
+      "entry_score": 98.86911,
+      "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -112.06395219093315,
+  "cooldowns": {
+    "XMR": "2026-09-05T01:56:17Z"
+  },
+  "realized_pnl": -144.19042786579598,
   "fees_paid": 0.0,
-  "trades_opened": 11,
-  "trades_closed": 6,
+  "trades_opened": 12,
+  "trades_closed": 7,
   "moons": 0,
   "wins": 1,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-04T21:50:12Z"
+  "updated": "2026-09-04T22:04:22Z"
 }
