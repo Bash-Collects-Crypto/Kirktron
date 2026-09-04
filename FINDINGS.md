@@ -688,3 +688,34 @@ No parameter changed and no code changed. The obvious remedy — mark daytrade
 positions from the intraday series, which already carries full precision for
 exactly these twelve coins — would change when trades close, so it is the
 owner's call, not a correctness fix to make unasked.
+
+## Universe audit 22:58 — counts unchanged, and the rank bypass has a second passenger
+
+Counts are identical to the 17:01 audit: **250 fetched → 190 excluded → 60
+tradeable**, with the exclusion list at 977 ids / 894 symbols. No meme coin,
+stablecoin, pegged token, wrapped or staked derivative or tokenized RWA
+reached any book's universe, and the allowlist loaded cleanly — no
+fails-open warning. By the exclusion rules the universe is clean.
+
+The positive rule is where it leaks, and RAIN is not alone. Walking the
+admitted names by id rather than ticker turns up a second one:
+
+| ticker | id | rank | what it is | 24h volume |
+|---|---|---|---|---|
+| RAIN | — | 13 | GambleFi / prediction market on Arbitrum | $42M |
+| **LEO** | `leo-token` | 18 | **Bitfinex exchange token** | **$0.19M** |
+
+Both are admitted by the same unconditional `rank <= 25` bypass, and neither
+is a layer-1 or a blue chip. The others checked are legitimate: `GRAM` is
+`the-open-network` (TON, a real layer-1), `CC` is `canton-network`, and
+`STABLE` — despite the ticker — is `stable-2` trading at $0.0289, so it is
+not a pegged asset and the stablecoin filter is right to leave it alone.
+
+LEO is harmless in practice: at $186,590 of daily volume it fails every
+book's volume floor by two orders of magnitude, so no book can ever open it.
+RAIN, at $42M, clears longshort's $25M and aggressive's $10M. So the exposure
+is unchanged — one reachable coin that should not be reachable — but the
+bypass now has two demonstrated passengers rather than one, which is a
+stronger argument for the fix already proposed and still awaiting the owner:
+drop the unconditional rank bypass and keep a small explicit blue-chip id set.
+Only LINK currently needs it. Nothing actioned.
