@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 3767.674792120748,
+  "cash": 4748.088354589959,
   "positions": {
-    "XMR": {
-      "symbol": "XMR",
-      "name": "Monero",
-      "side": "short",
-      "quantity": 1.8947288642995188,
-      "entry_price": 527.78,
-      "entry_time": "2026-09-05T06:06:27Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.7938913941414872,
-      "last_price": 533.17,
-      "entry_features": {
-        "pc_1h": -1.0,
-        "pc_24h": 4.62431,
-        "pc_7d": 12.8,
-        "pc_14d": 14.6,
-        "pc_30d": 45.3,
-        "vol_mcap": 2.0301433250795484,
-        "cap_rank": 94.39999999999999,
-        "ret_30m": -0.6746691387448434,
-        "ret_2h": -1.173576198804005,
-        "ema_spread": -0.105139869121787,
-        "rsi14": 26.86521666220922,
-        "range_pos": 36.124713963110885,
-        "vol_5m": 0.3310744774711944
-      },
-      "entry_score": 1.2115886512723895,
-      "pattern_bonus": 0.0
-    },
     "SOL": {
       "symbol": "SOL",
       "name": "Solana",
@@ -39,7 +11,7 @@
       "entry_time": "2026-09-05T09:10:06Z",
       "entry_cost": 1.5,
       "peak_pct": 0.029202764528376456,
-      "last_price": 102.59,
+      "last_price": 102.52,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": -1.48893,
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-05T09:23:43Z",
       "entry_cost": 1.5,
       "peak_pct": 0.16891891891891533,
-      "last_price": 11.76,
+      "last_price": 11.75,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": -1.74377,
@@ -95,7 +67,7 @@
       "entry_time": "2026-09-05T10:26:16Z",
       "entry_cost": 1.5,
       "peak_pct": 0.0199946680885067,
-      "last_price": 748.42,
+      "last_price": 748.78,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": 4.52883,
@@ -123,7 +95,7 @@
       "entry_time": "2026-09-05T10:33:02Z",
       "entry_cost": 1.5,
       "peak_pct": 0.22319224160066276,
-      "last_price": 1012.26,
+      "last_price": 1009.32,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 1.98028,
@@ -151,7 +123,7 @@
       "entry_time": "2026-09-05T10:45:00Z",
       "entry_cost": 1.5,
       "peak_pct": 0.09252607058106561,
-      "last_price": 0.183809,
+      "last_price": 0.183753,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": -0.56913,
@@ -171,13 +143,15 @@
       "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -223.32805399558887,
-  "fees_paid": 105.40962662812329,
+  "cooldowns": {
+    "XMR": "2026-09-05T11:34:21Z"
+  },
+  "realized_pnl": -244.41449152637833,
+  "fees_paid": 106.88245621620923,
   "trades_opened": 35,
-  "trades_closed": 29,
+  "trades_closed": 30,
   "moons": 3,
   "wins": 8,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T10:52:56Z"
+  "updated": "2026-09-05T11:12:12Z"
 }
