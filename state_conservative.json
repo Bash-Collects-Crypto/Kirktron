@@ -8,7 +8,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 737.47,
+      "last_price": 738.28,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -21,7 +21,7 @@
       "entry_score": 21.44408,
       "pattern_bonus": 0.0,
       "side": "long",
-      "peak_pct": 2.593415752187814
+      "peak_pct": 2.605917488540074
     },
     "LTC": {
       "symbol": "LTC",
@@ -29,7 +29,7 @@
       "quantity": 19.496977968414896,
       "entry_price": 51.29,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 53.97,
+      "last_price": 53.98,
       "entry_features": {
         "pc_1h": 0.0,
         "pc_24h": 3.74788,
@@ -51,8 +51,8 @@
       "quantity": 86.13264427217916,
       "entry_price": 11.61,
       "entry_time": "2026-09-04T12:48:26Z",
-      "peak_pct": 1.2919896640826904,
-      "last_price": 11.76,
+      "peak_pct": 1.3781223083548677,
+      "last_price": 11.75,
       "entry_features": {
         "pc_1h": -0.4,
         "pc_24h": 2.12533,
@@ -74,7 +74,7 @@
       "entry_time": "2026-09-04T18:25:04Z",
       "entry_cost": 0.0,
       "peak_pct": 0.10562140593827418,
-      "last_price": 84.61,
+      "last_price": 84.53,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 1.34567,
@@ -102,7 +102,7 @@
       "entry_time": "2026-09-04T22:00:50Z",
       "entry_cost": 0.0,
       "peak_pct": 1.5198703148793942,
-      "last_price": 1008.46,
+      "last_price": 1004.92,
       "entry_features": {
         "pc_1h": -0.7,
         "pc_24h": 7.07911,
@@ -130,7 +130,7 @@
       "entry_time": "2026-09-05T01:56:32Z",
       "entry_cost": 0.0,
       "peak_pct": 0.9276052293508592,
-      "last_price": 529.79,
+      "last_price": 529.27,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 3.2169,
@@ -158,5 +158,5 @@
   "moons": 0,
   "wins": 1,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-05T07:43:04Z"
+  "updated": "2026-09-05T07:52:55Z"
 }

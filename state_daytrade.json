@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 7788.694568560989,
+  "cash": 8775.174792120748,
   "positions": {
-    "LINK": {
-      "symbol": "LINK",
-      "name": "Chainlink",
-      "side": "short",
-      "quantity": 85.98452278589853,
-      "entry_price": 11.63,
-      "entry_time": "2026-09-05T05:43:30Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.0,
-      "last_price": 11.76,
-      "entry_features": {
-        "pc_1h": -0.2,
-        "pc_24h": -2.28708,
-        "pc_7d": 2.7,
-        "pc_14d": -5.9,
-        "pc_30d": 43.7,
-        "vol_mcap": 4.892461395162652,
-        "cap_rank": 93.6,
-        "ret_30m": -0.3152088730732361,
-        "ret_2h": -0.6312442544632924,
-        "ema_spread": -0.10177774187560246,
-        "rsi14": 38.795024677048424,
-        "range_pos": 23.717483697478297,
-        "vol_5m": 0.10795735272915588
-      },
-      "entry_score": 0.6582776523861114,
-      "pattern_bonus": 0.0
-    },
     "XMR": {
       "symbol": "XMR",
       "name": "Monero",
@@ -39,7 +11,7 @@
       "entry_time": "2026-09-05T06:06:27Z",
       "entry_cost": 1.5,
       "peak_pct": 0.35810375535260647,
-      "last_price": 529.79,
+      "last_price": 529.27,
       "entry_features": {
         "pc_1h": -1.0,
         "pc_24h": 4.62431,
@@ -60,14 +32,15 @@
     }
   },
   "cooldowns": {
-    "BNB": "2026-09-05T08:08:39Z"
+    "BNB": "2026-09-05T08:08:39Z",
+    "LINK": "2026-09-05T08:18:32Z"
   },
-  "realized_pnl": -208.3082775553482,
-  "fees_paid": 96.42768337790832,
+  "realized_pnl": -223.32805399558887,
+  "fees_paid": 97.90962662812329,
   "trades_opened": 30,
-  "trades_closed": 28,
+  "trades_closed": 29,
   "moons": 3,
   "wins": 8,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T07:43:04Z"
+  "updated": "2026-09-05T07:52:55Z"
 }
