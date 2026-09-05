@@ -1089,3 +1089,52 @@ which candidates get filled, so it is a strategy change and the owner's call.
 The counter-argument is real: each book is meant to be an independent test of
 its own parameters, and a shared veto couples them by construction. n = 19
 positions, one regime.
+
+## 04:35 — daytrade's gross edge is ~zero; the entire realized loss is transaction costs
+
+Over 25 resolved trades, daytrade's mean outcome is **−0.346%** net. It pays a
+0.30% round trip (15bps per side), so its mean **before costs is −0.046%** —
+statistically indistinguishable from zero.
+
+**Every dollar of daytrade's realized loss is friction, not selection.** The
+book has paid $88.94 in costs against a −$191.53 realized P/L; the entry logic
+itself has neither made nor lost money over this sample.
+
+By exit reason:
+
+| exit | n | mean |
+|---|---|---|
+| stop-loss | 13 | **−1.559%** |
+| max hold 6h | 7 | +0.015% |
+| take-profit | 3 | +3.023% |
+| trailing stop | 2 | +1.216% |
+
+The five triggered winners average **+2.30%** against thirteen stops averaging
+**−1.56%**, which puts breakeven at a 40.4% win rate on triggered exits. The
+achieved rate is 5 of 18, **27.8%** — below breakeven, but the shortfall is
+almost exactly the cost drag.
+
+The seven max-hold exits average **+0.015%**: dead flat, and each one still paid
+0.30% to get there. Four of 25 trades resolved inside ±0.5% and seven inside
+±1.0% — 28% of the book's activity is churn that pays full freight for a
+non-event. This is the same bimodality recorded at 23:40, now with a price tag
+attached.
+
+**What this rules out.** It is not a stop/target geometry problem — that was
+settled earlier, and gross return being zero confirms it: no rearrangement of
+exits improves a signal that has no gross edge. It is also not a "bad market"
+problem in the way it looked; a book with genuinely negative selection would
+show a negative *gross* mean, and this one does not.
+
+**What it points at, in order.** First, **fewer trades** — if the gross edge is
+zero, every avoided trade saves 0.30% and every added one costs it, so the churn
+is pure loss. That argues directly *against* the pending `min_score` 0.6 → 0.4
+loosening, which would add marginal trades to a book whose marginal trade is
+worth −0.30%. Second, **cost per trade**: 15bps/side is a plausible retail
+figure, but it is the single largest term in this book's P/L and worth stating
+as an assumption rather than a fact.
+
+Sample: n = 25 resolved, one regime, 12 distinct symbols. The gross mean of
+−0.046% has a standard error around ±0.31pp, so "zero" here means "cannot be
+distinguished from zero", not "proven to be zero". A real edge of ±0.3% per
+trade would be invisible at this sample size.
