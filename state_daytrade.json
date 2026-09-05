@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 6772.741943968921,
+  "cash": 7788.694568560989,
   "positions": {
-    "BNB": {
-      "symbol": "BNB",
-      "name": "BNB",
-      "side": "long",
-      "quantity": 1.382819846230433,
-      "entry_price": 723.16,
-      "entry_time": "2026-09-05T01:37:48Z",
-      "entry_cost": 1.5,
-      "peak_pct": 1.428452901156043,
-      "last_price": 733.49,
-      "entry_features": {
-        "pc_1h": -0.2,
-        "pc_24h": 0.42605,
-        "pc_7d": 4.1,
-        "pc_14d": 4.8,
-        "pc_30d": 21.3,
-        "vol_mcap": 1.0269758963017475,
-        "cap_rank": 98.4,
-        "ret_30m": 0.40358002450762154,
-        "ret_2h": 0.29069079126771147,
-        "ema_spread": 0.12100541210555925,
-        "rsi14": 69.57492341377916,
-        "range_pos": 73.31367048682716,
-        "vol_5m": 0.08595680753876334
-      },
-      "entry_score": 0.6505282959779917,
-      "pattern_bonus": 0.0
-    },
     "LINK": {
       "symbol": "LINK",
       "name": "Chainlink",
@@ -39,7 +11,7 @@
       "entry_time": "2026-09-05T05:43:30Z",
       "entry_cost": 1.5,
       "peak_pct": 0.0,
-      "last_price": 11.75,
+      "last_price": 11.76,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": -2.28708,
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-05T06:06:27Z",
       "entry_cost": 1.5,
       "peak_pct": 0.35810375535260647,
-      "last_price": 529.08,
+      "last_price": 529.79,
       "entry_features": {
         "pc_1h": -1.0,
         "pc_24h": 4.62431,
@@ -87,13 +59,15 @@
       "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -222.76090214741637,
-  "fees_paid": 94.9014651136238,
+  "cooldowns": {
+    "BNB": "2026-09-05T08:08:39Z"
+  },
+  "realized_pnl": -208.3082775553482,
+  "fees_paid": 96.42768337790832,
   "trades_opened": 30,
-  "trades_closed": 27,
+  "trades_closed": 28,
   "moons": 3,
-  "wins": 7,
+  "wins": 8,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T07:32:52Z"
+  "updated": "2026-09-05T07:43:04Z"
 }
