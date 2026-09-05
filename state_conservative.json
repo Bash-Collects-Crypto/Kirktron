@@ -8,7 +8,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 721.67,
+      "last_price": 720.94,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -29,7 +29,7 @@
       "quantity": 19.496977968414896,
       "entry_price": 51.29,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 51.61,
+      "last_price": 52.2,
       "entry_features": {
         "pc_1h": 0.0,
         "pc_24h": 3.74788,
@@ -42,7 +42,7 @@
       "entry_score": 16.36788,
       "pattern_bonus": 0.0,
       "side": "long",
-      "peak_pct": 1.1503217001364856
+      "peak_pct": 1.7742249951257627
     },
     "LINK": {
       "symbol": "LINK",
@@ -52,7 +52,7 @@
       "entry_price": 11.61,
       "entry_time": "2026-09-04T12:48:26Z",
       "peak_pct": 0.9474590869939811,
-      "last_price": 11.69,
+      "last_price": 11.68,
       "entry_features": {
         "pc_1h": -0.4,
         "pc_24h": 2.12533,
@@ -74,7 +74,7 @@
       "entry_time": "2026-09-04T18:25:04Z",
       "entry_cost": 0.0,
       "peak_pct": 0.10562140593827418,
-      "last_price": 84.19,
+      "last_price": 84.12,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 1.34567,
@@ -102,7 +102,7 @@
       "entry_time": "2026-09-04T22:00:50Z",
       "entry_cost": 0.0,
       "peak_pct": 1.5198703148793942,
-      "last_price": 1025.6,
+      "last_price": 1030.24,
       "entry_features": {
         "pc_1h": -0.7,
         "pc_24h": 7.07911,
@@ -129,8 +129,8 @@
       "entry_price": 529.32,
       "entry_time": "2026-09-05T01:56:32Z",
       "entry_cost": 0.0,
-      "peak_pct": 0.3117206982543598,
-      "last_price": 530.97,
+      "peak_pct": 0.5743217713292458,
+      "last_price": 532.35,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 3.2169,
@@ -158,5 +158,5 @@
   "moons": 0,
   "wins": 1,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-05T02:44:46Z"
+  "updated": "2026-09-05T03:01:32Z"
 }
