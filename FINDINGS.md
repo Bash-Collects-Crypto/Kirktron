@@ -755,3 +755,45 @@ That points at a possible time-based early exit for positions showing no
 movement well before the cap — but it is a hold-logic change, so it is the
 owner's call and nothing has been changed. n=5 max-hold exits, which is far
 too few to size such a rule from.
+
+## daytrade deploys under half its capital, and that halves whatever edge exists (00:35)
+
+Reconstructing slot occupancy from every open and close in `trade_log.csv`
+across 28.0 hours of live trading:
+
+| open positions | share of time | hours |
+|---|---|---|
+| 0 | 15.2% | 4.3 |
+| 1 | 9.9% | 2.8 |
+| 2 | 8.6% | 2.4 |
+| 3 | 15.7% | 4.4 |
+| 4 | **37.9%** | 10.6 |
+| 5 | 12.0% | 3.4 |
+| 6 | 0.7% | 0.2 |
+
+Time-weighted average: **2.90 positions of a possible 6 — 48% of capital
+deployed.** The book has been completely flat 15% of the time and has touched
+its six-position cap for twelve minutes in twenty-eight hours.
+
+This matters for two separate reasons and they should not be confused.
+
+**For returns:** if the strategy has a positive expectancy per unit of capital
+per unit of time, running at 48% deployment collects roughly half of it. That
+is a straightforward scaling loss, not a subtlety — though it cuts both ways,
+and with the book currently at −1.90% the idle half has been protective, not
+costly.
+
+**For measurement, which matters more right now:** half-idle capital is also
+half the resolutions per day. The 21-per-day rate that puts a meaningful win
+rate ten days out is itself a consequence of this, so utilisation and
+statistical convergence are the same problem wearing two hats.
+
+The cause is not slot capacity or cash — the book holds $7,792 idle with four
+free slots as this is written. It is the gates: the census shows `ret_30m`
+rejecting 9 of 10 eligible coins on both sides for the last hour. Raising
+utilisation therefore means loosening entry admission, which is exactly the
+change the live scorer evidence currently argues against (the highest-scoring
+recent entry resolved worst). Those two pull in opposite directions, and n is
+far too small to resolve the tension.
+
+Surfaced, not actioned. No parameter changed. 28 hours, one book, one regime.
