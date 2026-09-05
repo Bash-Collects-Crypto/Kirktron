@@ -1601,3 +1601,38 @@ changes; both trade a real cost for a cleaner counter. Recorded so the choice
 is made with the frequency known.
 
 n = 1 occurrence in 31 daytrade resolutions.
+
+## 14:45 — `max_entries_per_cycle` is doing nothing, and that is the right answer
+
+Grouping every entry by cycle (entries within 10 seconds of each other are one
+cycle pass), across the whole record:
+
+| book | cap | entries | cycles | cycle sizes | cycles at the cap |
+|---|---|---|---|---|---|
+| daytrade | 2 | 37 | 36 | 35×1, 1×2 | **1** |
+| conservative | 2 | 14 | 11 | 10×1, 1×4 | 1 |
+| longshort | 2 | 9 | 6 | 4×1, 1×2, 1×3 | 2 |
+| aggressive | 3 | 5 | 2 | 1×1, 1×4 | 1 |
+
+The over-cap groups look alarming until they are dated: **conservative's 4 and
+aggressive's 4 both landed at 2026-09-03 17:32:30, and longshort's 3 at
+19:32:43 — all on the first day, before the guard existed.** The guard was
+written in response to exactly that event; its own comment records "all 8
+original positions opened in the same second". Every group since has respected
+the cap. Nothing is broken.
+
+**The finding is that the guard has bound once in 36 daytrade cycles.** Even
+through the burst hours measured at 10:35 — when the book went from one position
+to six — entries arrived one per cycle, never two. The cap is not what limits
+entry rate; the gates are, and their opening is spread across cycles rather than
+clustered inside one.
+
+**This closes a lever.** "Raise `max_entries_per_cycle` to exploit burst hours"
+would change nothing, because the book has wanted a second entry in a single
+cycle exactly once. Anyone reaching for that knob should reach elsewhere.
+
+It also means the guard is now free insurance: it costs no opportunity and still
+prevents a repeat of the startup concentration that made aggressive a
+single-instant snapshot (FINDINGS 12:40).
+
+n = 55 entry cycles across four books.
