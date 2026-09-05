@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 4762.686793065038,
+  "cash": 4745.897338287357,
   "positions": {
-    "BCH": {
-      "symbol": "BCH",
-      "name": "Bitcoin Cash",
-      "side": "short",
-      "quantity": 3.9913786221760996,
-      "entry_price": 250.54,
-      "entry_time": "2026-09-05T12:12:39Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.7503791809691049,
-      "last_price": 252.53,
-      "entry_features": {
-        "pc_1h": 0.2,
-        "pc_24h": -3.52219,
-        "pc_7d": 3.5,
-        "pc_14d": -8.5,
-        "pc_30d": 19.4,
-        "vol_mcap": 2.999191822898629,
-        "cap_rank": 91.60000000000001,
-        "ret_30m": -0.5336508862192058,
-        "ret_2h": -0.4970987284174666,
-        "ema_spread": -0.0954365566030769,
-        "rsi14": 40.42682232830499,
-        "range_pos": 37.65807312752471,
-        "vol_5m": 0.22256529085282212
-      },
-      "entry_score": 0.8221593090890114,
-      "pattern_bonus": 0.0
-    },
     "XRP": {
       "symbol": "XRP",
       "name": "XRP",
@@ -39,7 +11,7 @@
       "entry_time": "2026-09-05T14:31:58Z",
       "entry_cost": 1.5,
       "peak_pct": 0.0,
-      "last_price": 1.41,
+      "last_price": 1.42,
       "entry_features": {
         "pc_1h": -0.1,
         "pc_24h": 0.92037,
@@ -66,8 +38,8 @@
       "entry_price": 769.47,
       "entry_time": "2026-09-05T15:11:06Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.5510286300960413,
-      "last_price": 773.12,
+      "peak_pct": 0.8889235447775635,
+      "last_price": 776.3,
       "entry_features": {
         "pc_1h": 1.2,
         "pc_24h": 7.7601,
@@ -95,7 +67,7 @@
       "entry_time": "2026-09-05T15:32:08Z",
       "entry_cost": 1.5,
       "peak_pct": 0.21008981568975799,
-      "last_price": 0.217944,
+      "last_price": 0.2184,
       "entry_features": {
         "pc_1h": 1.0,
         "pc_24h": 2.21349,
@@ -122,8 +94,8 @@
       "entry_price": 85.58,
       "entry_time": "2026-09-05T16:33:32Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.42065903248422465,
-      "last_price": 85.81,
+      "peak_pct": 0.5842486562280906,
+      "last_price": 86.08,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 0.80796,
@@ -141,18 +113,47 @@
       },
       "entry_score": 0.625238376099109,
       "pattern_bonus": 0.0
+    },
+    "LINK": {
+      "symbol": "LINK",
+      "name": "Chainlink",
+      "side": "long",
+      "quantity": 83.47245409015025,
+      "entry_price": 11.98,
+      "entry_time": "2026-09-05T16:59:42Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 11.98,
+      "entry_features": {
+        "pc_1h": 0.5,
+        "pc_24h": 2.35207,
+        "pc_7d": 4.2,
+        "pc_14d": 2.6,
+        "pc_30d": 45.5,
+        "vol_mcap": 3.2081975606375166,
+        "cap_rank": 93.6,
+        "ret_30m": 0.49425922188699456,
+        "ret_2h": 0.8341081359886982,
+        "ema_spread": 0.2531861440194747,
+        "rsi14": 62.78022761255328,
+        "range_pos": 100.0,
+        "vol_5m": 0.14882061113982825
+      },
+      "entry_score": 1.0900204423064086,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {
     "ZEC": "2026-09-05T17:03:32Z",
-    "XLM": "2026-09-05T17:15:59Z"
+    "XLM": "2026-09-05T17:15:59Z",
+    "BCH": "2026-09-05T17:28:36Z"
   },
-  "realized_pnl": -229.81605305129858,
-  "fees_paid": 121.92692057045323,
-  "trades_opened": 40,
-  "trades_closed": 35,
+  "realized_pnl": -246.60550782897883,
+  "fees_paid": 124.90620531540414,
+  "trades_opened": 41,
+  "trades_closed": 36,
   "moons": 3,
   "wins": 11,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T16:50:56Z"
+  "updated": "2026-09-05T16:59:42Z"
 }

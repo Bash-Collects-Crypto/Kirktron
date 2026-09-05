@@ -8,7 +8,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 773.12,
+      "last_price": 776.3,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -21,7 +21,7 @@
       "entry_score": 21.44408,
       "pattern_bonus": 0.0,
       "side": "long",
-      "peak_pct": 7.4746492568412375
+      "peak_pct": 7.8358105292401685
     },
     "LINK": {
       "symbol": "LINK",
@@ -30,8 +30,8 @@
       "quantity": 86.13264427217916,
       "entry_price": 11.61,
       "entry_time": "2026-09-04T12:48:26Z",
-      "peak_pct": 3.014642549526283,
-      "last_price": 11.92,
+      "peak_pct": 3.186907838070638,
+      "last_price": 11.98,
       "entry_features": {
         "pc_1h": -0.4,
         "pc_24h": 2.12533,
@@ -52,8 +52,8 @@
       "entry_price": 85.21,
       "entry_time": "2026-09-04T18:25:04Z",
       "entry_cost": 0.0,
-      "peak_pct": 0.8567069592770848,
-      "last_price": 85.81,
+      "peak_pct": 1.0210069240699502,
+      "last_price": 86.08,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 1.34567,
@@ -80,8 +80,8 @@
       "entry_price": 1017.85,
       "entry_time": "2026-09-04T22:00:50Z",
       "entry_cost": 0.0,
-      "peak_pct": 1.5198703148793942,
-      "last_price": 1023.09,
+      "peak_pct": 1.5287124821928633,
+      "last_price": 1033.41,
       "entry_features": {
         "pc_1h": -0.7,
         "pc_24h": 7.07911,
@@ -109,7 +109,7 @@
       "entry_time": "2026-09-05T01:56:32Z",
       "entry_cost": 0.0,
       "peak_pct": 3.4364845462102203,
-      "last_price": 539.42,
+      "last_price": 540.2,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 3.2169,
@@ -137,7 +137,7 @@
       "entry_time": "2026-09-05T10:04:07Z",
       "entry_cost": 0.0,
       "peak_pct": 1.2160886415581755,
-      "last_price": 0.08039,
+      "last_price": 0.080625,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 1.72836,
@@ -159,5 +159,5 @@
   "moons": 0,
   "wins": 2,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-05T16:50:56Z"
+  "updated": "2026-09-05T16:59:42Z"
 }
