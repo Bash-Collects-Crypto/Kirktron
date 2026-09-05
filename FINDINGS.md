@@ -1258,3 +1258,48 @@ scratch, not because n = 1 supports it.
 Separately: conservative's **LTC is +5.56% after 38 hours**, the closest any
 position outside daytrade has come to a moon — that book's threshold is +7.0%.
 Its stop is 3% and its cap is 168 hours, so it has room to run.
+
+## 08:35 — the gates are conjunctive, and that ceiling is why daytrade sits at 90% cash
+
+daytrade holds one position and 90% cash. The census says why, and it is not
+`min_score`: across the 08:24–08:32 cycles the book showed **11 eligible coins,
+0 passing long, 0 passing short, and `n_score_cut` of 0** — nothing reached the
+scorer at all. Lowering `min_score` from 0.6 to 0.4 would have changed nothing
+in this regime, because the score is never consulted.
+
+Measuring each gate separately against the live 12-coin universe:
+
+| gate | long threshold | passes | short threshold | passes |
+|---|---|---|---|---|
+| `ret_30m` | ≥ +0.15% | **2/12** | ≤ −0.15% | 5/12 |
+| `ema_spread` | ≥ +0.05 | 9/12 | ≤ −0.05 | **2/12** |
+| `rsi14` | ≥ 50 | 6/12 | ≤ 50 | 6/12 |
+| `range_pos` | ≥ 55 | **2/12** | ≤ 45 | 8/12 |
+| **all four** | | **1/12** | | **1/12** |
+
+Every gate is individually permissive — the loosest admits three quarters of the
+universe — but they are joined by AND, so the intersection is one coin per side.
+Subtract the coins already held or on cooldown and most cycles produce zero
+candidates. **This, not cash and not slots, is the utilisation ceiling recorded
+at 00:35.**
+
+**The gates are not independent, and that is the encouraging part.** If they
+were, the expected joint pass count would be 0.12 long and 0.28 short; the
+actual is 1 and 1, roughly eight and four times higher. Coins that clear one
+gate tend to clear the others, which is what you want — the four features are
+reading the same underlying "this coin is trending" state rather than
+independently sampling noise. A four-way AND on genuinely independent features
+would admit almost nothing, ever.
+
+**The binding gate differs by side**, which is worth knowing before anyone
+tunes one: on the long side `ret_30m` and `range_pos` are the tight pair (2/12
+each); on the short side it is `ema_spread` alone (2/12) while `range_pos`
+admits 8/12. Loosening the wrong one would do nothing.
+
+**Nothing actioned.** Widening any gate is a strategy change and the owner's
+call, and the 04:35 finding argues against it from the other direction: with
+daytrade's gross edge indistinguishable from zero, every additional admitted
+trade is worth −0.30% in costs. Higher utilisation is only worth having if the
+marginal trade is better than free, and there is no evidence yet that it is.
+
+Snapshot of one moment, n = 12 coins, one regime.
