@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 5789.040852481266,
+  "cash": 6795.897978498005,
   "positions": {
-    "HYPE": {
-      "symbol": "HYPE",
-      "name": "Hyperliquid",
-      "side": "short",
-      "quantity": 11.788282447247436,
-      "entry_price": 84.83,
-      "entry_time": "2026-09-04T20:36:25Z",
-      "entry_cost": 1.5,
-      "peak_pct": 1.3084993516444647,
-      "last_price": 84.1,
-      "entry_features": {
-        "pc_1h": -0.3,
-        "pc_24h": -0.84308,
-        "pc_7d": 7.2,
-        "pc_14d": 14.1,
-        "pc_30d": 48.4,
-        "vol_mcap": 7.583785305197462,
-        "cap_rank": 96.0,
-        "ret_30m": -0.2882824900845016,
-        "ret_2h": -0.5739230217548852,
-        "ema_spread": -0.11999136809277158,
-        "rsi14": 37.67503014787199,
-        "range_pos": 26.529148916591904,
-        "vol_5m": 0.1386455072367399
-      },
-      "entry_score": 0.6331451894100373,
-      "pattern_bonus": 0.0
-    },
     "BCH": {
       "symbol": "BCH",
       "name": "Bitcoin Cash",
@@ -39,7 +11,7 @@
       "entry_time": "2026-09-04T23:09:25Z",
       "entry_cost": 1.5,
       "peak_pct": 1.8133055800176132,
-      "last_price": 246.36,
+      "last_price": 246.85,
       "entry_features": {
         "pc_1h": -1.2,
         "pc_24h": -3.02229,
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-05T01:37:48Z",
       "entry_cost": 1.5,
       "peak_pct": 0.0,
-      "last_price": 720.79,
+      "last_price": 721.67,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 0.42605,
@@ -95,7 +67,7 @@
       "entry_time": "2026-09-05T01:59:52Z",
       "entry_cost": 1.5,
       "peak_pct": 0.4103056610770655,
-      "last_price": 0.210606,
+      "last_price": 0.210736,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": -5.46417,
@@ -115,13 +87,15 @@
       "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -204.96199363507225,
-  "fees_paid": 84.41017654353718,
+  "cooldowns": {
+    "HYPE": "2026-09-05T03:06:53Z"
+  },
+  "realized_pnl": -199.60486761833295,
+  "fees_paid": 85.9227310643435,
   "trades_opened": 27,
-  "trades_closed": 23,
+  "trades_closed": 24,
   "moons": 3,
-  "wins": 5,
+  "wins": 6,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T02:32:13Z"
+  "updated": "2026-09-05T02:44:46Z"
 }
