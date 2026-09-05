@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 6803.9693298709935,
+  "cash": 7789.83647592094,
   "positions": {
     "BNB": {
       "symbol": "BNB",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-05T01:37:48Z",
       "entry_cost": 1.5,
       "peak_pct": 0.12721942585320992,
-      "last_price": 721.8,
+      "last_price": 721.27,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 0.42605,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-05T01:59:52Z",
       "entry_cost": 1.5,
       "peak_pct": 0.4103056610770655,
-      "last_price": 0.210812,
+      "last_price": 0.210602,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": -5.46417,
@@ -57,43 +57,17 @@
       },
       "entry_score": 0.7639463191354977,
       "pattern_bonus": 0.0
-    },
-    "ZEC": {
-      "symbol": "ZEC",
-      "name": "Zcash",
-      "side": "long",
-      "quantity": 0.971722864639005,
-      "entry_price": 1029.1,
-      "entry_time": "2026-09-05T02:56:01Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.2594500048586214,
-      "last_price": 1019.07,
-      "entry_features": {
-        "pc_1h": -0.5,
-        "pc_24h": 9.53165,
-        "pc_7d": 26.5,
-        "pc_14d": 37.9,
-        "pc_30d": 98.6,
-        "vol_mcap": 7.498770611253207,
-        "cap_rank": 95.6,
-        "ret_30m": 0.9413220996067784,
-        "ret_2h": 0.47659264687274216,
-        "ema_spread": 0.1493658525136225,
-        "rsi14": 67.16244129378796,
-        "range_pos": 87.95897451828274,
-        "vol_5m": 0.22010179123767068
-      },
-      "entry_score": 1.287368549028585,
-      "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -191.53351624534446,
-  "fees_paid": 88.93936303936552,
+  "cooldowns": {
+    "ZEC": "2026-09-05T05:29:51Z"
+  },
+  "realized_pnl": -207.1663701953978,
+  "fees_paid": 90.42038529181912,
   "trades_opened": 28,
-  "trades_closed": 25,
+  "trades_closed": 26,
   "moons": 3,
   "wins": 7,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T04:54:11Z"
+  "updated": "2026-09-05T05:04:13Z"
 }
