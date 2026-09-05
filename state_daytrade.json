@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 6788.33647592094,
+  "cash": 5786.83647592094,
   "positions": {
     "BNB": {
       "symbol": "BNB",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-05T01:37:48Z",
       "entry_cost": 1.5,
       "peak_pct": 0.12721942585320992,
-      "last_price": 722.14,
+      "last_price": 722.95,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 0.42605,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-05T01:59:52Z",
       "entry_cost": 1.5,
       "peak_pct": 0.4103056610770655,
-      "last_price": 0.210368,
+      "last_price": 0.212176,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": -5.46417,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-05T05:43:30Z",
       "entry_cost": 1.5,
       "peak_pct": 0.0,
-      "last_price": 11.63,
+      "last_price": 11.66,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": -2.28708,
@@ -85,15 +85,43 @@
       },
       "entry_score": 0.6582776523861114,
       "pattern_bonus": 0.0
+    },
+    "XMR": {
+      "symbol": "XMR",
+      "name": "Monero",
+      "side": "short",
+      "quantity": 1.8947288642995188,
+      "entry_price": 527.78,
+      "entry_time": "2026-09-05T06:06:27Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.25957785440903497,
+      "last_price": 526.93,
+      "entry_features": {
+        "pc_1h": -1.0,
+        "pc_24h": 4.62431,
+        "pc_7d": 12.8,
+        "pc_14d": 14.6,
+        "pc_30d": 45.3,
+        "vol_mcap": 2.0301433250795484,
+        "cap_rank": 94.39999999999999,
+        "ret_30m": -0.6746691387448434,
+        "ret_2h": -1.173576198804005,
+        "ema_spread": -0.105139869121787,
+        "rsi14": 26.86521666220922,
+        "range_pos": 36.124713963110885,
+        "vol_5m": 0.3310744774711944
+      },
+      "entry_score": 1.2115886512723895,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": -207.1663701953978,
-  "fees_paid": 91.92038529181912,
-  "trades_opened": 29,
+  "fees_paid": 93.42038529181912,
+  "trades_opened": 30,
   "trades_closed": 26,
   "moons": 3,
   "wins": 7,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T05:53:08Z"
+  "updated": "2026-09-05T06:13:37Z"
 }
