@@ -1138,3 +1138,44 @@ Sample: n = 25 resolved, one regime, 12 distinct symbols. The gross mean of
 −0.046% has a standard error around ±0.31pp, so "zero" here means "cannot be
 distinguished from zero", not "proven to be zero". A real edge of ±0.3% per
 trade would be invisible at this sample size.
+
+## 05:35 — Every daytrade winner landed inside two hours, but most of that is tautology
+
+Splitting daytrade's 26 resolved trades by hold time:
+
+| hold | n | mean | wins | reached +2.0% |
+|---|---|---|---|---|
+| 0–1h | 3 | **+1.505%** | 2 | — |
+| 1–2h | 4 | −0.383% | 1 | — |
+| 2–4h | 11 | −0.954% | 2 | — |
+| 4–6h | 8 | −0.302% | 2 | — |
+
+Collapsed: **under 2h, n=7, mean +0.426%, and 3 of them reached the +2.0% moon
+line. Past 2h, n=19, mean −0.680%, and none did — the best was +1.323%.** All
+three of daytrade's moons landed inside two hours. Fisher's exact on 3/7 vs
+0/19 gives p ≈ 0.013, and the hold/outcome correlation is r = −0.145.
+
+**Most of this is mechanical and I want that stated before the number gets
+quoted.** The take-profit fires at +2.5% and closes the position on the spot, so
+a trade that moves hard is *forced* to have a short hold. "Winners are short"
+is close to a definition, not a discovery — the same trap as the max-hold split
+at 23:40. The p-value is inflated by exactly that truncation.
+
+**The half that is not tautological** is the reverse reading: does a position
+that has survived two hours without triggering anything still have upside left?
+The sample says its mean is −0.680% and its best outcome in 19 tries was
++1.323%, which never covers the 0.30% round trip by much. That is suggestive of
+a real decay, but it cannot be separated from the truncation using
+`trade_log.csv` alone, because the log records only the outcome, not the path.
+
+**It is testable now.** `intraday_bars.csv` has been archiving 5-minute bars
+since 01:22, so once enough trades have been opened under the archive, the
+actual price path of each position can be reconstructed and the question asked
+properly: conditional on being flat at two hours, what is the distribution of
+the *subsequent* move? Nothing before 01:22 can be used — those bars were never
+kept. This is the first concrete payoff the archive enables.
+
+**Bearing on the pending time-based early exit** (proposed 23:40 at n=5, not
+actioned): the sample has grown to n=26 and still points the same way, but the
+confound has not gone away, so it remains a proposal. Acting on it now would be
+acting on a truncation artifact. n = 26 resolved, one regime, 12 symbols.
