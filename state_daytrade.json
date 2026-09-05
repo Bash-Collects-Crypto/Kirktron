@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 6790.540852481266,
+  "cash": 5789.040852481266,
   "positions": {
     "HYPE": {
       "symbol": "HYPE",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-04T20:36:25Z",
       "entry_cost": 1.5,
       "peak_pct": 1.3084993516444647,
-      "last_price": 84.19,
+      "last_price": 84.16,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": -0.84308,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-04T23:09:25Z",
       "entry_cost": 1.5,
       "peak_pct": 1.8133055800176132,
-      "last_price": 246.42,
+      "last_price": 245.84,
       "entry_features": {
         "pc_1h": -1.2,
         "pc_24h": -3.02229,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-05T01:37:48Z",
       "entry_cost": 1.5,
       "peak_pct": 0.0,
-      "last_price": 722.78,
+      "last_price": 721.39,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 0.42605,
@@ -85,15 +85,43 @@
       },
       "entry_score": 0.6505282959779917,
       "pattern_bonus": 0.0
+    },
+    "ADA": {
+      "symbol": "ADA",
+      "name": "Cardano",
+      "side": "short",
+      "quantity": 4754.410904716851,
+      "entry_price": 0.210331,
+      "entry_time": "2026-09-05T01:59:52Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.08272674974206358,
+      "last_price": 0.210157,
+      "entry_features": {
+        "pc_1h": -0.3,
+        "pc_24h": -5.46417,
+        "pc_7d": 3.7,
+        "pc_14d": -8.1,
+        "pc_30d": 10.2,
+        "vol_mcap": 7.182875319422917,
+        "cap_rank": 92.4,
+        "ret_30m": -0.4730117882592477,
+        "ret_2h": -0.4617456382182916,
+        "ema_spread": -0.10776963124987328,
+        "rsi14": 41.696415782474155,
+        "range_pos": 3.468829090699208,
+        "vol_5m": 0.1267992005131932
+      },
+      "entry_score": 0.7639463191354977,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": -204.96199363507225,
-  "fees_paid": 82.91017654353718,
-  "trades_opened": 26,
+  "fees_paid": 84.41017654353718,
+  "trades_opened": 27,
   "trades_closed": 23,
   "moons": 3,
   "wins": 5,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T01:38:59Z"
+  "updated": "2026-09-05T02:01:02Z"
 }
