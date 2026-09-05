@@ -1191,3 +1191,7 @@ timestamp,strategy,n_eligible,n_busy,n_pass_long,n_pass_short,n_score_cut,n_cand
 2026-09-05T04:32:34Z,longshort,16,5,2,0,0,2,pc_1h<,13,pc_1h>,15,pc_1h<=13;pc_24h<=1,pc_1h>=15;pc_24h>=1
 2026-09-05T04:32:34Z,daytrade,9,3,0,0,0,0,ret_30m<,8,ret_30m>,8,ret_30m<=8;range_pos<=1,ret_30m>=8;ema_spread>=1
 2026-09-05T04:32:34Z,aggressive,34,2,4,0,0,4,pc_1h<,23,,0,pc_1h<=23;pc_24h<=7,
+2026-09-05T04:54:11Z,conservative,10,6,0,0,0,0,pc_24h<,7,,0,pc_24h<=7;pc_14d<=2;pc_7d<=1,
+2026-09-05T04:54:11Z,longshort,16,5,2,0,0,2,pc_1h<,13,pc_1h>,15,pc_1h<=13;pc_24h<=1,pc_1h>=15;pc_24h>=1
+2026-09-05T04:54:11Z,daytrade,3,1,0,0,0,0,ret_30m<,3,ret_30m>,3,ret_30m<=3,ret_30m>=3
+2026-09-05T04:54:11Z,aggressive,34,2,4,0,0,4,pc_1h<,23,,0,pc_1h<=23;pc_24h<=7,
