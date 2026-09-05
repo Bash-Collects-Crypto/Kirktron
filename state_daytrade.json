@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 4720.794301453617,
+  "cash": 5718.360905800427,
   "positions": {
-    "HYPE": {
-      "symbol": "HYPE",
-      "name": "Hyperliquid",
-      "side": "long",
-      "quantity": 11.684973124561814,
-      "entry_price": 85.58,
-      "entry_time": "2026-09-05T16:33:32Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.6076186024772097,
-      "last_price": 85.42,
-      "entry_features": {
-        "pc_1h": 0.2,
-        "pc_24h": 0.80796,
-        "pc_7d": 3.2,
-        "pc_14d": 10.5,
-        "pc_30d": 53.0,
-        "vol_mcap": 4.289669081728905,
-        "cap_rank": 96.0,
-        "ret_30m": 0.24467387561832865,
-        "ret_2h": 0.49886483765786416,
-        "ema_spread": 0.17163483941710658,
-        "rsi14": 66.32780798438137,
-        "range_pos": 94.06186792086386,
-        "vol_5m": 0.11373659436718817
-      },
-      "entry_score": 0.625238376099109,
-      "pattern_bonus": 0.0
-    },
     "XLM": {
       "symbol": "XLM",
       "name": "Stellar",
@@ -39,7 +11,7 @@
       "entry_time": "2026-09-05T17:16:30Z",
       "entry_cost": 1.5,
       "peak_pct": 0.42366920254959356,
-      "last_price": 0.184579,
+      "last_price": 0.184699,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 3.30073,
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-05T20:07:15Z",
       "entry_cost": 1.5,
       "peak_pct": 0.5818095464260267,
-      "last_price": 1015.65,
+      "last_price": 1018.1,
       "entry_features": {
         "pc_1h": -0.9,
         "pc_24h": -2.63869,
@@ -95,7 +67,7 @@
       "entry_time": "2026-09-05T21:27:35Z",
       "entry_cost": 1.5,
       "peak_pct": 0.9252420013217725,
-      "last_price": 258.79,
+      "last_price": 258.07,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": 1.69867,
@@ -123,7 +95,7 @@
       "entry_time": "2026-09-05T21:34:47Z",
       "entry_cost": 1.5,
       "peak_pct": 0.24855012427505685,
-      "last_price": 11.99,
+      "last_price": 12.02,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 3.43528,
@@ -144,14 +116,15 @@
     }
   },
   "cooldowns": {
-    "UNI": "2026-09-05T22:59:38Z"
+    "UNI": "2026-09-05T22:59:38Z",
+    "HYPE": "2026-09-05T23:04:19Z"
   },
-  "realized_pnl": -271.7085446627197,
-  "fees_paid": 142.89553475431185,
+  "realized_pnl": -275.6419403159097,
+  "fees_paid": 144.3941325575369,
   "trades_opened": 47,
-  "trades_closed": 42,
+  "trades_closed": 43,
   "moons": 3,
   "wins": 13,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T22:31:48Z"
+  "updated": "2026-09-05T22:42:09Z"
 }
