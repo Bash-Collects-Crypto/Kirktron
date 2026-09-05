@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 4747.248829099679,
+  "cash": 5738.717138958834,
   "positions": {
-    "XRP": {
-      "symbol": "XRP",
-      "name": "XRP",
-      "side": "long",
-      "quantity": 704.2253521126761,
-      "entry_price": 1.42,
-      "entry_time": "2026-09-05T14:31:58Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.7042253521126767,
-      "last_price": 1.41,
-      "entry_features": {
-        "pc_1h": -0.1,
-        "pc_24h": 0.92037,
-        "pc_7d": 2.0,
-        "pc_14d": -6.1,
-        "pc_30d": 35.1,
-        "vol_mcap": 1.7968780625917162,
-        "cap_rank": 98.0,
-        "ret_30m": 0.2084520761215236,
-        "ret_2h": 0.7474334126317927,
-        "ema_spread": 0.15910617872298147,
-        "rsi14": 52.53425445810104,
-        "range_pos": 94.84511554818796,
-        "vol_5m": 0.12328467250205023
-      },
-      "entry_score": 0.6609811850102288,
-      "pattern_bonus": 0.0
-    },
     "BNB": {
       "symbol": "BNB",
       "name": "BNB",
@@ -39,7 +11,7 @@
       "entry_time": "2026-09-05T15:11:06Z",
       "entry_cost": 1.5,
       "peak_pct": 1.2891990590926168,
-      "last_price": 770.71,
+      "last_price": 771.28,
       "entry_features": {
         "pc_1h": 1.2,
         "pc_24h": 7.7601,
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-05T16:33:32Z",
       "entry_cost": 1.5,
       "peak_pct": 0.6076186024772097,
-      "last_price": 85.32,
+      "last_price": 85.36,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 0.80796,
@@ -95,7 +67,7 @@
       "entry_time": "2026-09-05T17:16:30Z",
       "entry_cost": 1.5,
       "peak_pct": 0.38687545315830696,
-      "last_price": 0.18407,
+      "last_price": 0.183911,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 3.30073,
@@ -122,8 +94,8 @@
       "entry_price": 1010.64,
       "entry_time": "2026-09-05T20:07:15Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.3017889654080538,
-      "last_price": 1008.76,
+      "peak_pct": 0.5818095464260267,
+      "last_price": 1009.81,
       "entry_features": {
         "pc_1h": -0.9,
         "pc_24h": -2.63869,
@@ -143,13 +115,15 @@
       "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -245.25401701665717,
-  "fees_paid": 133.9217558774657,
+  "cooldowns": {
+    "XRP": "2026-09-05T21:02:23Z"
+  },
+  "realized_pnl": -255.28570715750226,
+  "fees_paid": 135.411192497184,
   "trades_opened": 44,
-  "trades_closed": 39,
+  "trades_closed": 40,
   "moons": 3,
   "wins": 13,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T20:31:44Z"
+  "updated": "2026-09-05T20:41:06Z"
 }
