@@ -1,6 +1,6 @@
 {
   "name": "conservative",
-  "cash": 4888.9544346805105,
+  "cash": 3888.9544346805105,
   "positions": {
     "BNB": {
       "symbol": "BNB",
@@ -8,7 +8,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 747.23,
+      "last_price": 748.51,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -31,7 +31,7 @@
       "entry_price": 11.61,
       "entry_time": "2026-09-04T12:48:26Z",
       "peak_pct": 2.1533161068044793,
-      "last_price": 11.81,
+      "last_price": 11.79,
       "entry_features": {
         "pc_1h": -0.4,
         "pc_24h": 2.12533,
@@ -53,7 +53,7 @@
       "entry_time": "2026-09-04T18:25:04Z",
       "entry_cost": 0.0,
       "peak_pct": 0.10562140593827418,
-      "last_price": 84.78,
+      "last_price": 84.81,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 1.34567,
@@ -81,7 +81,7 @@
       "entry_time": "2026-09-04T22:00:50Z",
       "entry_cost": 0.0,
       "peak_pct": 1.5198703148793942,
-      "last_price": 1011.23,
+      "last_price": 1010.75,
       "entry_features": {
         "pc_1h": -0.7,
         "pc_24h": 7.07911,
@@ -109,7 +109,7 @@
       "entry_time": "2026-09-05T01:56:32Z",
       "entry_cost": 0.0,
       "peak_pct": 0.9276052293508592,
-      "last_price": 524.6,
+      "last_price": 524.67,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 3.2169,
@@ -127,6 +127,28 @@
       },
       "entry_score": 49.546899999999994,
       "pattern_bonus": 0.0
+    },
+    "HBAR": {
+      "symbol": "HBAR",
+      "name": "Hedera",
+      "side": "long",
+      "quantity": 12421.743018980422,
+      "entry_price": 0.080504,
+      "entry_time": "2026-09-05T10:04:07Z",
+      "entry_cost": 0.0,
+      "peak_pct": 0.0,
+      "last_price": 0.080298,
+      "entry_features": {
+        "pc_1h": 0.5,
+        "pc_24h": 1.72836,
+        "pc_7d": 7.6,
+        "pc_14d": 2.9,
+        "pc_30d": 17.5,
+        "vol_mcap": 1.8872699714173786,
+        "cap_rank": 88.4
+      },
+      "entry_score": 18.31836,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {
@@ -134,10 +156,10 @@
   },
   "realized_pnl": -111.0455653194906,
   "fees_paid": 0.0,
-  "trades_opened": 13,
+  "trades_opened": 14,
   "trades_closed": 8,
   "moons": 0,
   "wins": 2,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-05T09:53:09Z"
+  "updated": "2026-09-05T10:12:20Z"
 }
