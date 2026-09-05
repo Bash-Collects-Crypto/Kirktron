@@ -1303,3 +1303,47 @@ trade is worth −0.30% in costs. Higher utilisation is only worth having if the
 marginal trade is better than free, and there is no evidence yet that it is.
 
 Snapshot of one moment, n = 12 coins, one regime.
+
+## 09:35 — daytrade reverses its own position on the same name, six times so far
+
+daytrade has opened 32 positions, and **22 of them were re-entries into a symbol
+it had recently closed.** That number is not itself meaningful: the intraday
+universe is 12 coins, so after the first dozen opens almost every entry must be
+a repeat. It is forced by the universe size, not a behaviour.
+
+**The six side reversals are the part that costs money.** In each of these the
+book exited a position and then took the opposite side in the same name:
+
+| symbol | gap | prev → new | the exit it reversed |
+|---|---|---|---|
+| XRP | 4.7h | long → short | −2.069% |
+| ADA | 11.9h | long → short | −1.244% |
+| LINK | 14.7h | long → short | −0.252% |
+| HYPE | 8.0h | long → short | −1.268% |
+| BCH | 23.0h | long → short | −1.257% |
+| **LINK** | **1.6h** | **short → long** | **−1.204%** |
+
+Five of the six reversed *into* the direction that had just stopped them out,
+which is momentum doing its job — the trend changed, the book followed. The
+last one is different: **LINK stopped out short at −1.204% at 07:48 and was
+re-opened long at 09:23, 1.6 hours later.** The cooldown is 30 minutes, so
+nothing prevented it.
+
+That single name paid two full round trips — **0.60% of position value in costs
+inside 100 minutes** — to end up on the opposite side of itself. Against the
+04:35 result that daytrade's gross edge is indistinguishable from zero, a
+reversal like that is close to a guaranteed 0.60% loss unless the new direction
+is genuinely better informed than the old one.
+
+**Whether it is, this sample cannot say.** Six reversals is far too few, and the
+honest test is not "did the flip win" but "did flips do better than the book's
+other entries", which needs many more of them. Recorded because the mechanism is
+concrete and the cost is exactly known, not because six trades demonstrate
+anything.
+
+**Proposed, not actioned — a direction-change cooldown.** A longer bar on
+re-entering a name on the *opposite* side than on the same side would price the
+whipsaw without touching normal re-entry. It is a strategy change and the
+owner's call, and it may well be wrong: a momentum book that cannot flip cannot
+follow a turn, which is the one thing the 06:35 finding showed it does do.
+LINK is now live long at $11.84 — it is the test of this exact reversal.
