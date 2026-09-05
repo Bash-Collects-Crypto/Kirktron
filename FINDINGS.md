@@ -997,3 +997,51 @@ carry no cross-book meaning.
 
 No code change. Adding a normalised column would require rotating the log's
 schema, and the rule costs nothing to follow.
+
+## 03:01 — BCH resolved exactly on the predicted line; the model did NOT activate
+
+The trailing-stop/moon interaction predicted at 17:57 was tested live and held
+to four decimal places.
+
+daytrade SHORT BCH @ $249.82 (23:09, score 1.671) covered at $247.05 on a
+**trailing stop, peak +1.813%, exit +1.109%, +$8.07**, held 3.9h against a 6h
+cap. The trail arms at +1.5% and gives back 0.7%, so from that peak the exit
+line sat at **+1.113%** — the fill came in at +1.109%, 0.004pp away.
+
+**It never entered the dead band.** The +2.0%–+2.5% band is where a peak is
+high enough to look like a moon but too low for the take-profit to fire; BCH
+peaked at +1.813%, below the moon line entirely, so it was a non-moon by a
+clearer margin than the mechanism being tested. The prediction that it could
+only moon by hitting +2.5% outright was never put to the test.
+
+**daytrade stays at 3/4 moons with 25 resolved. The pattern model did not
+activate.** It remains one moon short.
+
+### The scorer test set, now fully resolved
+
+| coin | score | outcome | exit |
+|---|---|---|---|
+| XMR | 2.615 | **−1.229%** | stop-loss |
+| BCH | 1.671 | **+1.109%** | trailing stop |
+| HYPE | 0.630 | **+0.837%** | max hold 6h |
+
+**Correction to the 20:33 and 02:44 readings:** while only XMR and HYPE had
+resolved, the outcome ordering was the exact reverse of the score ordering, and
+that is how it was reported. With BCH resolved it is no longer a clean reverse
+— the middle-scored trade did best. What survives is narrower and weaker: the
+**highest-scored** setup was the only loser, and Spearman's rho over the three
+is −0.5. At n=3 that is worth nothing on its own; it is one weak strike against
+the scorer, not the clean inversion previously described.
+
+It still does not support loosening `min_score` 0.6 → 0.4, but it no longer
+argues against it as strongly as reported an hour ago.
+
+### What the exit itself shows
+
+The trailing stop did its job precisely: it converted a position that had given
+back 39% of its peak into a locked +1.11% instead of riding to expiry. Against
+daytrade's 0.30% round-trip cost that is a real, if small, win — the sixth of
+25 resolutions. But it also means **a trade can run 3.9 hours, peak within
+0.19pp of the moon line, and still resolve as an ordinary winner.** The gap
+between "nearly a full thesis" and "counts as a moon" is unforgiving, which is
+why the moon half of the pattern-model gate is the binding one.
