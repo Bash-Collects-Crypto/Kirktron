@@ -11,7 +11,7 @@
       "entry_time": "2026-09-05T14:31:58Z",
       "entry_cost": 1.5,
       "peak_pct": 0.7042253521126767,
-      "last_price": 1.42,
+      "last_price": 1.41,
       "entry_features": {
         "pc_1h": -0.1,
         "pc_24h": 0.92037,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-05T15:11:06Z",
       "entry_cost": 1.5,
       "peak_pct": 1.2891990590926168,
-      "last_price": 772.99,
+      "last_price": 771.07,
       "entry_features": {
         "pc_1h": 1.2,
         "pc_24h": 7.7601,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-05T16:33:32Z",
       "entry_cost": 1.5,
       "peak_pct": 0.6076186024772097,
-      "last_price": 85.56,
+      "last_price": 85.28,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 0.80796,
@@ -95,7 +95,7 @@
       "entry_time": "2026-09-05T17:16:30Z",
       "entry_cost": 1.5,
       "peak_pct": 0.38687545315830696,
-      "last_price": 0.184425,
+      "last_price": 0.184036,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 3.30073,
@@ -122,8 +122,8 @@
       "entry_price": 1010.64,
       "entry_time": "2026-09-05T20:07:15Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.009894720177315635,
-      "last_price": 1010.54,
+      "peak_pct": 0.3017889654080538,
+      "last_price": 1007.59,
       "entry_features": {
         "pc_1h": -0.9,
         "pc_24h": -2.63869,
@@ -151,5 +151,5 @@
   "moons": 3,
   "wins": 13,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T20:11:47Z"
+  "updated": "2026-09-05T20:22:02Z"
 }
