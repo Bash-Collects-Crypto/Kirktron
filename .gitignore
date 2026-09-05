@@ -1,0 +1,27 @@
+# Runtime noise: verbose, rewritten constantly, no value in history.
+trader.log
+supervisor.log
+STOP
+__pycache__/
+
+# The trading record IS the deliverable, so trade_log.csv, state_*.json and
+# exclusions_cache.json are tracked and snapshotted by snapshot.sh.
+
+dashboard_build.html
+dashboard_current.json
+dashboard_history.json
+equity_history.csv
+supervisor.pid
+intraday_cache.json
+equity_history.*.csv
+trade_log.csv
+state_*.json
+equity_history.csv
+exclusions_cache.json
+market_context.csv
+market_context_reconstructed.csv
+range_pos_survey.csv
+gate_census.csv
+gate_census_v1.csv
+intraday_bars.csv
+.headless.lock
