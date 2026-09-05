@@ -1347,3 +1347,60 @@ whipsaw without touching normal re-entry. It is a strategy change and the
 owner's call, and it may well be wrong: a momentum book that cannot flip cannot
 follow a turn, which is the one thing the 06:35 finding showed it does do.
 LINK is now live long at $11.84 — it is the test of this exact reversal.
+
+## 10:35 — the gate ceiling is a regime, not a constant; it swings 0% to 38% by hour
+
+The 08:35 entry measured the gates at one moment, found they admitted one coin
+of twelve per side, and called that the utilisation ceiling. That framing was
+too static. Across all 550 daytrade census cycles on record, the fraction of
+cycles producing **at least one gate pass**, by hour:
+
+| hour (UTC) | cycles | with ≥1 pass |
+|---|---|---|
+| 19 | 18 | **0%** |
+| 20 | 37 | 27% |
+| 21 | 39 | 10% |
+| 22 | 37 | **38%** |
+| 23 | 38 | 3% |
+| 00 | 36 | 22% |
+| 01 | 35 | 34% |
+| 02 | 32 | 3% |
+| 03 | 16 | 31% |
+| 04 | 16 | **0%** |
+| 05 | 47 | 32% |
+| 06 | 43 | 2% |
+| 07 | 44 | **0%** |
+| 08 | 43 | **0%** |
+| 09 | 43 | 5% |
+| 10 | 26 | 8% |
+
+Overall 75 of 550 cycles, 13.6%. **Four separate hours produced zero passes in
+144 consecutive cycles, and one hour produced 38%.** The gates are not a fixed
+filter admitting a steady trickle; they are closed for long stretches and then
+open in bursts.
+
+**The distribution is bimodal.** Ten of the sixteen hours sit at or below 10%,
+five sit at or above 27%, and almost nothing lands in between. Opportunity
+arrives clustered, which is consistent with the gates keying on `ret_30m` and
+`ema_spread` — both of which move together across the universe when the whole
+market starts trending and sit dead when it does not. It is the same
+correlation that made the four-way AND admit eight times more than independence
+would predict.
+
+**Consequence for the utilisation question.** daytrade went from one position
+and 90% cash at 08:35 to five positions and 49% cash by 10:33 without any change
+to the code. The idle cash at any given moment is mostly the market being quiet,
+not the gates being miscalibrated — so "raise utilisation" is not a well-posed
+target: you cannot hold six positions through an hour that offers none. What
+can be asked is whether the burst hours are being fully exploited, and with
+`max_entries_per_cycle` at 2 the answer is probably yes.
+
+**Correction to 08:35:** that entry's numbers stand as a snapshot but its
+conclusion — that the conjunctive gates are the binding utilisation ceiling —
+holds only during quiet hours. During burst hours the binding constraint is
+`max_positions` and cash. Both entries describe the same system in different
+regimes.
+
+n = 550 census cycles over 16 hours of one day. Hour-of-day is confounded with
+market regime here — this is one day, so "hour 07 is dead" may be a property of
+this particular Saturday morning, not of 07:00 UTC in general.
