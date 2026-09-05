@@ -24,3 +24,4 @@ range_pos_survey.csv
 gate_census.csv
 gate_census_v1.csv
 intraday_bars.csv
+.headless.lock

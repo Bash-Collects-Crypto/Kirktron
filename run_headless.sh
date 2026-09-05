@@ -17,6 +17,16 @@
 cd "$(dirname "$0")" || exit 1
 DURATION="${1:-540}"
 
+# Several supervisors can call this: the self-scheduled loop, the watchdog
+# Routine, and the hourly check-in. Two traders on the same books interleave
+# their writes to state_<book>.json and trade_log.csv and corrupt both, so
+# take an exclusive lock and exit quietly rather than run a second copy.
+exec 9>.headless.lock
+if ! flock -n 9; then
+    echo "another cycle is already running; skipping"
+    exit 0
+fi
+
 before=$(wc -l < trade_log.csv 2>/dev/null || echo 0)
 rm -f STOP
 

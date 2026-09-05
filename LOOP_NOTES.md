@@ -15,6 +15,23 @@ is only an index and an operating manual.
 ./run_headless.sh 540      # trade, snapshot, export, summarise -- one call
 ```
 
+It takes an exclusive `flock` on `.headless.lock` and exits quietly if another
+supervisor is mid-cycle. That is the correct outcome, not a fault: several
+supervisors call it and two traders on the same books would interleave writes
+to `state_<book>.json` and `trade_log.csv` and corrupt both.
+
+**Supervisors, in order of reliability.** Self-scheduled `ScheduleWakeup` ticks
+are the cheapest but have missed outright — two consecutive failures on the
+night of 5 September left 21- and 20-minute holes. The cron Routines are what
+actually kept it alive, so cycle Routines now fire at **:03, :13, :33 and :43**,
+with the hourly check-in at **:23** and the watchdog at **:53**. That is roughly
+ten-minute coverage from a mechanism that does not silently skip. Cron cannot go
+below hourly here, which is why it is six separate Routines rather than one.
+
+Compare `tail -1 trader.log` to the clock at the start of every tick and say the
+gap if it exceeds ten minutes. Stops and targets are evaluated only during a
+cycle, so a gap means an exit fires late, at the next cycle's price.
+
 Then push the dashboard (Artifact `write_db`, `db_op` batch, url
 `https://claude.ai/code/artifact/1a3f5653-a47e-405f-8aaf-79a0fa22d212`,
 writes = `state/current` ← `dashboard_current.json`, `state/history` ←
