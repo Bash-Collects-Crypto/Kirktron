@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 7792.040852481266,
+  "cash": 6790.540852481266,
   "positions": {
     "HYPE": {
       "symbol": "HYPE",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-04T20:36:25Z",
       "entry_cost": 1.5,
       "peak_pct": 1.3084993516444647,
-      "last_price": 84.15,
+      "last_price": 84.19,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": -0.84308,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-04T23:09:25Z",
       "entry_cost": 1.5,
       "peak_pct": 1.8133055800176132,
-      "last_price": 246.35,
+      "last_price": 246.42,
       "entry_features": {
         "pc_1h": -1.2,
         "pc_24h": -3.02229,
@@ -57,15 +57,43 @@
       },
       "entry_score": 1.670696449290034,
       "pattern_bonus": 0.0
+    },
+    "BNB": {
+      "symbol": "BNB",
+      "name": "BNB",
+      "side": "long",
+      "quantity": 1.382819846230433,
+      "entry_price": 723.16,
+      "entry_time": "2026-09-05T01:37:48Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 722.78,
+      "entry_features": {
+        "pc_1h": -0.2,
+        "pc_24h": 0.42605,
+        "pc_7d": 4.1,
+        "pc_14d": 4.8,
+        "pc_30d": 21.3,
+        "vol_mcap": 1.0269758963017475,
+        "cap_rank": 98.4,
+        "ret_30m": 0.40358002450762154,
+        "ret_2h": 0.29069079126771147,
+        "ema_spread": 0.12100541210555925,
+        "rsi14": 69.57492341377916,
+        "range_pos": 73.31367048682716,
+        "vol_5m": 0.08595680753876334
+      },
+      "entry_score": 0.6505282959779917,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": -204.96199363507225,
-  "fees_paid": 81.41017654353718,
-  "trades_opened": 25,
+  "fees_paid": 82.91017654353718,
+  "trades_opened": 26,
   "trades_closed": 23,
   "moons": 3,
   "wins": 5,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T01:27:34Z"
+  "updated": "2026-09-05T01:38:59Z"
 }
