@@ -913,3 +913,51 @@ reads, so trading behaviour is untouched.
 The remaining loss on a session ending is real but bounded: the trader stops,
 so positions stop being marked and stops do not fire until it is restarted,
 and that gap is a hole in `equity_history.csv` rather than an error.
+
+## 01:31 — Across all four books, return is 93% explained by exposure alone
+
+The four books differ in nearly everything a strategy can differ in: universe
+(rank ≤ 25 / 30 / 50 / 150), direction (long-only vs both), hold (6h to 168h),
+stop and target geometry, and costs. If any of that were producing selection
+skill over the last 30.2 hours, the books should not line up on a single line.
+
+They do. Time-weighted capital deployment reconstructed from `trade_log.csv`
+(each position's `usd_amount` integrated over its life, divided by $10,000 ×
+30.2h), against return with daytrade's $81.41 of costs added back so the
+comparison is like-for-like:
+
+| book | deployed | return | ex-cost return | residual |
+|---|---|---|---|---|
+| daytrade | 29.7% | −1.86% | −1.05% | −0.07pp |
+| conservative | 55.4% | −1.49% | −1.49% | +0.29pp |
+| longshort | 69.1% | −2.47% | −2.47% | −0.26pp |
+| aggressive | 92.1% | −2.87% | −2.87% | +0.05pp |
+
+`ex-cost return = −0.0312 × deployed% − 0.048`, **r = −0.963, r² = 0.927**.
+Every book sits within 0.29pp of that line. The slope says a fully deployed
+long book gives up about 3.1% over this window — which is simply what the
+market did.
+
+**No book has yet demonstrated selection skill.** The entire performance spread
+between four quite different strategies is accounted for by how much money each
+had at risk, not by which coins it chose or when it exited. That is not a
+verdict on the strategies; it is a statement about what 30 hours of a single
+directional selloff can resolve. Skill, if present, is currently smaller than
+the ±0.29pp of residual.
+
+Worth noting separately: **longshort's residual is the worst of the four
+(−0.26pp) despite being the only book that can go short.** Its ability to
+hedge has produced nothing so far — consistent with its two live shorts, which
+have never once been in profit.
+
+Sample caveats, which are severe. n = 4 books gives the regression 2 degrees of
+freedom; r = −0.963 there is t = −5.03, p ≈ 0.04, marginal on its own. And the
+four books are not independent observations — they trade overlapping universes
+(HYPE is held by three of them, ZEC by two) over the same 30 hours of one
+regime. This is closer to one observation than to four.
+
+What it is good for is a **measurement standard**: from here, judge a book by
+its residual from this line rather than by raw return, so that a book which
+merely held more cash during a selloff is not mistaken for a book that picked
+better. Recording deployment per cycle is unnecessary — `trade_log.csv`
+reconstructs it exactly, as above.
