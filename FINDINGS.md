@@ -1707,3 +1707,51 @@ independent trades.
 current marks or diverge from them. A large gap between the 16:45 mark and the
 17:32 fill would mean the last 47 minutes moved these names materially, which
 is itself the slippage question from 11:35 applied to a 48-hour hold.
+
+## 17:45 — the cap event: prediction scored, and the book immediately rebuilt itself
+
+The prediction registered at 16:45 resolved at **17:33:38**. Scoring it against
+the actual fills:
+
+| symbol | predicted | actual | diff | predicted $ | actual $ |
+|---|---|---|---|---|---|
+| ENA | −6.50% | **−5.55%** | +0.95pp | −$143 | −$122.04 |
+| STX | −6.11% | **−5.65%** | +0.46pp | −$134 | −$124.39 |
+| XPL | −2.32% | **−2.77%** | −0.45pp | −$51 | −$60.98 |
+| NIGHT | +1.46% | **+1.20%** | −0.26pp | +$32 | +$26.30 |
+| **aggregate** | | | | **−$296** | **−$281.11** |
+
+**The structural call was right: 4 of 4 exited on max hold, no stops, no
+moons.** The aggregate came in $14.89 light, 5% better than predicted, because
+the market rose between the 16:45 mark and the 17:33 fill. Individual errors
+ran ±0.95pp with no consistent sign — two better, two worse — which is what
+47 minutes of drift looks like, not slippage. This is the opposite of the tight
+stop case at 11:35: a 48-hour hold exiting on a clock has no trigger price to
+overshoot, so the "slippage" is just market movement over the gap between
+observations.
+
+**aggressive's realised P/L went from $0.00 to −$281.11 in one second**, with
+nothing about the market changing at that instant. As flagged in advance, that
+is a clock converting paper losses into realised ones. The book's *value* barely
+moved.
+
+**Then it did something none of the other books have done: it rebuilt from
+scratch.** Freed cash immediately funded **eleven new entries** across four
+cycles — NEAR, BNB, LTC, SUI, ICP, LINK, HBAR, TIA, ETC, ADA, AVAX, all long,
+all at **$750** (the current `position_pct` of 0.075, versus the legacy $2,200).
+It went from 5 positions to **12, its configured maximum**, and from $482 of
+cash to $751.
+
+**This retires the 12:40 finding's main caveat.** aggressive is no longer a
+single-instant snapshot: the four coins picked at 17:32 on 3 September are gone,
+replaced by twelve positions sized correctly and opened across four cycles. From
+here its P/L will actually measure the strategy rather than one moment. The book
+that has been the least informative for two days just became the most
+diversified of the four.
+
+**Worth watching from here.** Twelve positions at 7.5% each is 90% deployed with
+a 5% reserve — the most concentrated-in-aggregate but least concentrated
+per-name book in the program. Its next resolutions fall 48 hours out, around
+17:33 on 7 September, unless the 8% stop or 22% target fires first.
+
+n = 4 scored predictions, 11 new entries.
