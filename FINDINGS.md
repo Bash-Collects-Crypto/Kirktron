@@ -1500,3 +1500,64 @@ worth watching not because four trades mean anything, but because they are the
 only evidence this book will have produced in two days.
 
 n = 5 positions, 1 book, 43 hours.
+
+## 13:35 — a preview of what the pattern model will learn, and why it is not ready
+
+daytrade sits at 3 of the 4 moons its pattern model needs. Running the
+separation the model will run — entry features of moons against non-moons,
+27 versus 3, as Cohen's d against the non-moon spread:
+
+| feature | moon mean | rest mean | d |
+|---|---|---|---|
+| `pc_14d` | 42.03 | 15.39 | **+1.51** |
+| `pc_30d` | 76.90 | 42.38 | **+1.40** |
+| `pc_1h` | 0.80 | −0.26 | **+1.02** |
+| `vol_5m` | 0.315 | 0.201 | +0.98 |
+| `pc_7d` | 14.27 | 6.20 | +0.93 |
+| `ret_2h` | 1.017 | 0.211 | +0.80 |
+| `ema_spread` | 0.316 | 0.063 | +0.80 |
+| `ret_30m` | 0.508 | 0.132 | +0.70 |
+| `rsi14` | 60.7 | 52.9 | +0.54 |
+| `range_pos` | 83.1 | 64.7 | +0.54 |
+| `cap_rank` | 95.7 | 95.3 | +0.18 |
+
+**The three features that separate best are multi-day momentum — and the
+daytrade scorer weights none of them.** Its weights are `ret_30m` 1.0,
+`ema_spread` 1.2, `ret_2h` 0.35; those three sit at d = +0.70 to +0.80, below
+the `pc_14d` and `pc_30d` the book ignores entirely. If this held up it would
+say the day-trading book's best predictor of a full-thesis win is the coin's
+two-week trend, not anything about the last two hours.
+
+**It almost certainly does not hold up, and the reason matters.** The three
+moons are:
+
+| when | coin | side | result |
+|---|---|---|---|
+| 22:44 | HYPE | long | +2.566% |
+| 08:12 | ZEC | long | +3.869% |
+| 16:17 | ZEC | long | +2.635% |
+
+All three are longs. **Two of the three are the same coin.** ZEC was in a
+strong multi-week uptrend throughout, so "high `pc_14d` and `pc_30d`" is very
+nearly a restatement of "this row is ZEC". The apparent feature separation is
+confounded with symbol identity on a sample of two distinct symbols — this is
+the 16:40 non-independence problem showing up inside the model's own training
+set.
+
+**This is the concrete form of the risk flagged at 23:48.** When the fourth moon
+lands the model activates and starts applying a bonus derived from exactly this
+table. On today's data it would learn "prefer coins already up a lot over two
+weeks", which is a real strategy — but it would have learned it from two coins
+in one regime, and it would be applying it to a book whose gross edge is
+indistinguishable from zero.
+
+**Not a recommendation to change the gate.** The 20-resolution and 4-moon
+thresholds were set deliberately and are the owner's to move. What this argues
+for is *reading the model's output sceptically when it activates*: the first
+thing to check is whether its bonus is a coin-identity effect wearing a feature
+name. The check is cheap — recompute the same table excluding ZEC and see what
+survives.
+
+n = 30 resolved daytrade trades, 3 moons across 2 distinct symbols, one regime.
+Cohen's d at n = 3 has an enormous confidence interval; these numbers rank the
+features, they do not measure them.
