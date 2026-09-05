@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 7789.83647592094,
+  "cash": 6788.33647592094,
   "positions": {
     "BNB": {
       "symbol": "BNB",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-05T01:37:48Z",
       "entry_cost": 1.5,
       "peak_pct": 0.12721942585320992,
-      "last_price": 722.46,
+      "last_price": 722.54,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 0.42605,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-05T01:59:52Z",
       "entry_cost": 1.5,
       "peak_pct": 0.4103056610770655,
-      "last_price": 0.210831,
+      "last_price": 0.210481,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": -5.46417,
@@ -57,15 +57,43 @@
       },
       "entry_score": 0.7639463191354977,
       "pattern_bonus": 0.0
+    },
+    "LINK": {
+      "symbol": "LINK",
+      "name": "Chainlink",
+      "side": "short",
+      "quantity": 85.98452278589853,
+      "entry_price": 11.63,
+      "entry_time": "2026-09-05T05:43:30Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 11.63,
+      "entry_features": {
+        "pc_1h": -0.2,
+        "pc_24h": -2.28708,
+        "pc_7d": 2.7,
+        "pc_14d": -5.9,
+        "pc_30d": 43.7,
+        "vol_mcap": 4.892461395162652,
+        "cap_rank": 93.6,
+        "ret_30m": -0.3152088730732361,
+        "ret_2h": -0.6312442544632924,
+        "ema_spread": -0.10177774187560246,
+        "rsi14": 38.795024677048424,
+        "range_pos": 23.717483697478297,
+        "vol_5m": 0.10795735272915588
+      },
+      "entry_score": 0.6582776523861114,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": -207.1663701953978,
-  "fees_paid": 90.42038529181912,
-  "trades_opened": 28,
+  "fees_paid": 91.92038529181912,
+  "trades_opened": 29,
   "trades_closed": 26,
   "moons": 3,
   "wins": 7,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T05:32:09Z"
+  "updated": "2026-09-05T05:43:30Z"
 }
