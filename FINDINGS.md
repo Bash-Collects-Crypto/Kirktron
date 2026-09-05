@@ -1221,3 +1221,40 @@ feature. Testing that needs several regime turns, not one.
 
 n = 30 opens, 36 resolutions, a single down-then-flat regime. The breadth
 figures are the first and last rows of `market_context.csv`, not a fitted trend.
+
+## 07:35 — the first "never once in profit" position resolved, at the stop
+
+longshort's SUI short was opened at $0.747839 on 4 September at 15:29 and
+covered at $0.787883 today at 07:30: **stop-loss −5.355%, −$80.32, held 17.1
+hours.** Its `peak_pct` was **exactly 0.00% for its entire life** — from entry
+to stop, not one favourable tick was ever recorded.
+
+That is the largest single dollar loss of the program so far, and the first
+resolution of a position from the never-positive cohort flagged repeatedly
+overnight.
+
+**The observation worth keeping.** `peak_pct` is a free running signal that the
+books already maintain but never act on: a position that has not printed a
+single favourable tick after many hours is qualitatively different from one
+oscillating around entry. SUI ran 17.1 hours in that state and went to the stop
+without ever threatening to recover.
+
+**It is n = 1.** One resolution cannot distinguish "never-positive predicts the
+stop" from "a position that goes straight down is obviously losing", which is
+close to circular. The honest version of the claim needs the *conditional*
+distribution — of positions never positive at hour six, what fraction recover —
+and that needs many more resolutions than exist.
+
+**A live test is already running.** longshort's XLM short (entered 4 September
+18:01 at $0.178064) is at −2.84% after 13.5 hours with `peak_pct` still exactly
+0.00%. Its 48-hour cap falls around 18:01 today, and its 5% stop is 2.2pp away.
+Whether it stops out, drifts to the cap, or recovers is the second data point,
+and it will arrive today either way.
+
+**Proposed, not actioned, and weaker than it looks:** an early exit on
+"never positive after N hours". Recorded so the idea is not re-invented from
+scratch, not because n = 1 supports it.
+
+Separately: conservative's **LTC is +5.56% after 38 hours**, the closest any
+position outside daytrade has come to a moon — that book's threshold is +7.0%.
+Its stop is 3% and its cap is 168 hours, so it has room to run.
