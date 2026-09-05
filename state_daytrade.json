@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 5718.360905800427,
+  "cash": 4716.860905800427,
   "positions": {
     "XLM": {
       "symbol": "XLM",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-05T17:16:30Z",
       "entry_cost": 1.5,
       "peak_pct": 0.42366920254959356,
-      "last_price": 0.184699,
+      "last_price": 0.18457,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 3.30073,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-05T20:07:15Z",
       "entry_cost": 1.5,
       "peak_pct": 0.5818095464260267,
-      "last_price": 1018.1,
+      "last_price": 1018.41,
       "entry_features": {
         "pc_1h": -0.9,
         "pc_24h": -2.63869,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-05T21:27:35Z",
       "entry_cost": 1.5,
       "peak_pct": 0.9252420013217725,
-      "last_price": 258.07,
+      "last_price": 257.03,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": 1.69867,
@@ -95,7 +95,7 @@
       "entry_time": "2026-09-05T21:34:47Z",
       "entry_cost": 1.5,
       "peak_pct": 0.24855012427505685,
-      "last_price": 12.02,
+      "last_price": 12.0,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 3.43528,
@@ -113,6 +113,34 @@
       },
       "entry_score": 0.6195337668083725,
       "pattern_bonus": 0.0
+    },
+    "LTC": {
+      "symbol": "LTC",
+      "name": "Litecoin",
+      "side": "long",
+      "quantity": 18.16860465116279,
+      "entry_price": 55.04,
+      "entry_time": "2026-09-05T22:49:39Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 54.98,
+      "entry_features": {
+        "pc_1h": 1.0,
+        "pc_24h": 8.39031,
+        "pc_7d": 11.3,
+        "pc_14d": 2.9,
+        "pc_30d": 19.7,
+        "vol_mcap": 11.181372099779752,
+        "cap_rank": 90.0,
+        "ret_30m": 0.6021146098858621,
+        "ret_2h": 2.122474806547814,
+        "ema_spread": 0.5456669378590142,
+        "rsi14": 69.87681871100794,
+        "range_pos": 96.75324162554513,
+        "vol_5m": 0.24954069666373568
+      },
+      "entry_score": 1.999781117608414,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {
@@ -120,11 +148,11 @@
     "HYPE": "2026-09-05T23:04:19Z"
   },
   "realized_pnl": -275.6419403159097,
-  "fees_paid": 144.3941325575369,
-  "trades_opened": 47,
+  "fees_paid": 145.8941325575369,
+  "trades_opened": 48,
   "trades_closed": 43,
   "moons": 3,
   "wins": 13,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T22:42:09Z"
+  "updated": "2026-09-05T22:51:47Z"
 }
