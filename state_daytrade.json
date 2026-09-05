@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 7773.674792120748,
+  "cash": 6772.174792120748,
   "positions": {
     "XMR": {
       "symbol": "XMR",
@@ -10,8 +10,8 @@
       "entry_price": 527.78,
       "entry_time": "2026-09-05T06:06:27Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.35810375535260647,
-      "last_price": 527.82,
+      "peak_pct": 0.5229451665466655,
+      "last_price": 525.14,
       "entry_features": {
         "pc_1h": -1.0,
         "pc_24h": 4.62431,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-05T09:10:06Z",
       "entry_cost": 1.5,
       "peak_pct": 0.029202764528376456,
-      "last_price": 102.66,
+      "last_price": 102.57,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": -1.48893,
@@ -57,15 +57,43 @@
       },
       "entry_score": 0.7373663788063358,
       "pattern_bonus": 0.0
+    },
+    "LINK": {
+      "symbol": "LINK",
+      "name": "Chainlink",
+      "side": "long",
+      "quantity": 84.45945945945947,
+      "entry_price": 11.84,
+      "entry_time": "2026-09-05T09:23:43Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.16891891891891533,
+      "last_price": 11.83,
+      "entry_features": {
+        "pc_1h": 0.4,
+        "pc_24h": -1.74377,
+        "pc_7d": 4.0,
+        "pc_14d": 0.4,
+        "pc_30d": 44.0,
+        "vol_mcap": 4.63643958435492,
+        "cap_rank": 93.6,
+        "ret_30m": 0.5531737253988034,
+        "ret_2h": 0.8486833150385342,
+        "ema_spread": 0.323609000020833,
+        "rsi14": 67.98780386156938,
+        "range_pos": 57.942971524041184,
+        "vol_5m": 0.13829372394344727
+      },
+      "entry_score": 1.23854368568729,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": -223.32805399558887,
-  "fees_paid": 99.40962662812329,
-  "trades_opened": 31,
+  "fees_paid": 100.90962662812329,
+  "trades_opened": 32,
   "trades_closed": 29,
   "moons": 3,
   "wins": 8,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T09:22:48Z"
+  "updated": "2026-09-05T09:32:32Z"
 }
