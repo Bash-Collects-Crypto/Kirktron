@@ -11,7 +11,7 @@
       "entry_time": "2026-09-05T09:10:06Z",
       "entry_cost": 1.5,
       "peak_pct": 0.029202764528376456,
-      "last_price": 102.29,
+      "last_price": 102.27,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": -1.48893,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-05T10:26:16Z",
       "entry_cost": 1.5,
       "peak_pct": 0.5878432418021818,
-      "last_price": 752.15,
+      "last_price": 748.0,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": 4.52883,
@@ -95,7 +95,7 @@
       "entry_time": "2026-09-05T10:33:02Z",
       "entry_cost": 1.5,
       "peak_pct": 0.22319224160066276,
-      "last_price": 1010.03,
+      "last_price": 1010.8,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 1.98028,
@@ -123,7 +123,7 @@
       "entry_time": "2026-09-05T10:45:00Z",
       "entry_cost": 1.5,
       "peak_pct": 0.09252607058106561,
-      "last_price": 0.183272,
+      "last_price": 0.18334,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": -0.56913,
@@ -143,9 +143,7 @@
       "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {
-    "XMR": "2026-09-05T11:34:21Z"
-  },
+  "cooldowns": {},
   "realized_pnl": -244.41449152637833,
   "fees_paid": 106.88245621620923,
   "trades_opened": 35,
@@ -153,5 +151,5 @@
   "moons": 3,
   "wins": 8,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T11:32:46Z"
+  "updated": "2026-09-05T11:43:22Z"
 }
