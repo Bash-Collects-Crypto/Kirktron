@@ -875,3 +875,41 @@ above, which did not survive six hours).
 result is the correct place to stop. n = 287 returns, 12 coins, **one
 regime** — a 24-hour window that was a single sustained selloff. Worth
 re-running across a different regime before treating the bound as general.
+
+## 01:22 — What survives the container, and the one thing that did not
+
+The container is ephemeral, so it is worth stating precisely what is durable.
+
+Durable, pushed to GitHub:
+
+- **`trade_log.csv`** — every fill with its full entry feature vector and its
+  outcome. This is the pattern models' entire training set. The models are not
+  a saved artifact; they are derived from this file at runtime, so as long as
+  it is on the data branch nothing about them is lost.
+- `state_<book>.json`, `equity_history.csv`, `market_context.csv`,
+  `gate_census.csv`, `exclusions_cache.json` — on `kirktron-trading-data`.
+- All code and this file — on the feature branch.
+
+Not durable, and one of them mattered: **`intraday_cache.json`**. It holds
+5-minute bars for the day-trading universe, and CoinGecko's `days=1` endpoint
+only serves the last 24 hours, so a bar that ages out of that window cannot be
+refetched at any price. The cache was gitignored and never snapshotted, so
+every bar the program had paid an API call for was discarded when the container
+went away — and the multi-regime bar history the strategy work needs can only
+be accumulated, never backfilled.
+
+Fixed with `archive_bars.py`: bars are immutable once observed, so it merges
+`(coin, ts_ms, price)` into an append-only `intraday_bars.csv`, deduplicated
+and idempotent, and `snapshot.sh` runs it before each commit. Archiving the
+cache file itself would have rewritten 120KB of JSON per snapshot; the archive
+grows by only the genuinely new bars — 34 rows on the second run of the same
+iteration. First run captured 3,462 bars across 12 coins.
+
+This depends on the timestamp fix from 00:52 (`f2f850e`). Bars cached before
+that have no wall-clock anchor and are skipped — they cannot be placed on a
+timeline. It reads nothing the trader writes and writes nothing the trader
+reads, so trading behaviour is untouched.
+
+The remaining loss on a session ending is real but bounded: the trader stops,
+so positions stop being marked and stops do not fire until it is restarted,
+and that gap is a hole in `equity_history.csv` rather than an error.
