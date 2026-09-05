@@ -1404,3 +1404,55 @@ regimes.
 n = 550 census cycles over 16 hours of one day. Hour-of-day is confounded with
 market regime here — this is one day, so "hour 07 is dead" may be a property of
 this particular Saturday morning, not of 07:00 UTC in general.
+
+## 11:35 — stop slippage is roughly constant in absolute terms, so it punishes tight stops six times harder
+
+Every stop-loss fill so far, measured as overshoot past the configured stop
+(XRP excluded for its cent-precision marking), n = 23:
+
+| side | n | mean | median | worst |
+|---|---|---|---|---|
+| long | 17 | −0.248pp | −0.079pp | −1.320pp (ETH) |
+| short | 6 | −0.203pp | −0.109pp | −0.611pp (XMR) |
+
+**There is no directional asymmetry** — long and short overshoot the same
+amount, which is worth recording as a negative result since a short squeeze
+overshooting worse than a long flush is a plausible prior and this sample does
+not show it.
+
+**The asymmetry is by book, and it is large:**
+
+| book | stop | n | mean overshoot | as % of the stop |
+|---|---|---|---|---|
+| conservative | 3.0% | 6 | −0.115pp | **3.8%** |
+| daytrade | 1.2% | 15 | −0.292pp | **24.3%** |
+
+Overshoot is roughly a fixed number of basis points — whatever the price does
+between two marks — so it is nearly independent of where the stop sits. A wide
+stop absorbs it; a tight one does not. **daytrade's 1.2% stop is effectively a
+1.49% stop**, and all four of the worst fills in the whole record (ETH −1.320pp,
+SOL −0.795pp, ZEC −0.789pp, XMR −0.611pp) belong to it.
+
+The mechanism is the marking interval: positions are priced once per ~70-second
+cycle from `/coins/markets`, so a fast move crosses a tight stop and keeps going
+before the next mark. It is not a bug — a real exchange stop would also slip —
+but the simulation's slippage is set by the polling rate, which is an artifact
+of this program rather than of the market.
+
+**This explains the 04:35 numbers rather than changing them.** That entry
+measured daytrade's 13 stops averaging −1.559% against a 1.2% setting; the gap
+is exactly this slippage. The breakeven arithmetic there already used realised
+fills, so it stands.
+
+**What it bears on.** It sharpens why daytrade's economics are hard: a losing
+trade costs 1.49% of price plus 0.30% in fees against a 2.5% take-profit, so
+the real reward-to-risk is 2.5 : 1.79, not 2.5 : 1.2. Anyone proposing to
+*tighten* the stop to cut losses should know the overshoot does not shrink with
+it — a 0.8% stop would still slip ~0.29pp and would be a 36% overshoot.
+
+**Proposed, not actioned:** mark daytrade positions from the intraday 5-minute
+series rather than the per-cycle `/coins/markets` snapshot. It was already
+proposed at 22:38 for a different reason and is more feasible now that bars
+carry timestamps, but it changes exit timing, so it stays the owner's call.
+
+n = 23 stop fills, one regime, XRP excluded.
