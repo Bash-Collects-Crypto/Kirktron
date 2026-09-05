@@ -1561,3 +1561,43 @@ survives.
 n = 30 resolved daytrade trades, 3 moons across 2 distinct symbols, one regime.
 Cohen's d at n = 3 has an enormous confidence interval; these numbers rank the
 features, they do not measure them.
+
+## 14:05 — the moon dead band fired for the first time
+
+The interaction predicted at 17:57 yesterday has now happened. daytrade's BNB
+long, opened at $750.20 on 5 September at 10:26, closed at $760.39 at 13:55:
+
+**trailing stop, peak +2.26%, exit +1.358%, +$10.56, held 6.6 hours, NOT a
+moon.**
+
+Its peak cleared the **+2.0% moon line** by 0.26pp. It never reached the +2.5%
+take-profit, so the trailing stop — armed at +1.5%, giving back 0.7% — closed
+it at +1.36%. A trade that got into moon territory was denied the label by the
+exit mechanism.
+
+**This is the dead band, confirmed rather than merely derived.** Any daytrade
+peak in [+2.0%, +2.5%] is a guaranteed non-moon: too high to be an ordinary
+winner, too low for the take-profit that would have recorded it. BCH was
+tracked for six hours as the candidate and never entered the band (peak
++1.813%); BNB entered it without being watched.
+
+**The consequence is specific and it is now real, not hypothetical.** daytrade
+stands at 31 resolved, 9 wins, **still 3 of 4 moons**. The pattern model remains
+inactive not because the book failed to produce a full-thesis trade, but
+because the exit geometry declined to record one. The moon counter measures
+what the exits let through, not what the entries achieved.
+
+**Frequency.** One occurrence in 31 resolutions, and the band is 0.5pp wide
+against a distribution whose winners run to +3.9%. So this is not a common
+event — but it is not negligible either, and it will recur, because nothing
+about the geometry has changed.
+
+**Not actioned, and the fix is not obvious.** Setting `moon_pct` above
+`take_profit_pct` would close the band by definition but would make a moon
+unreachable except by gapping through the target. Widening the trail giveback
+would let more trades run into the band and out the far side, at the cost of
+returning more open profit on every trade that does not. Both are strategy
+changes; both trade a real cost for a cleaner counter. Recorded so the choice
+is made with the frequency known.
+
+n = 1 occurrence in 31 daytrade resolutions.
