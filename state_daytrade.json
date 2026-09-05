@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 8775.174792120748,
+  "cash": 7773.674792120748,
   "positions": {
     "XMR": {
       "symbol": "XMR",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-05T06:06:27Z",
       "entry_cost": 1.5,
       "peak_pct": 0.35810375535260647,
-      "last_price": 531.17,
+      "last_price": 528.87,
       "entry_features": {
         "pc_1h": -1.0,
         "pc_24h": 4.62431,
@@ -29,15 +29,43 @@
       },
       "entry_score": 1.2115886512723895,
       "pattern_bonus": 0.0
+    },
+    "SOL": {
+      "symbol": "SOL",
+      "name": "Solana",
+      "side": "long",
+      "quantity": 9.734254842791785,
+      "entry_price": 102.73,
+      "entry_time": "2026-09-05T09:10:06Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 102.7,
+      "entry_features": {
+        "pc_1h": 0.3,
+        "pc_24h": -1.48893,
+        "pc_7d": -1.1,
+        "pc_14d": 8.6,
+        "pc_30d": 39.0,
+        "vol_mcap": 4.883402801509513,
+        "cap_rank": 97.2,
+        "ret_30m": 0.38755827793435227,
+        "ret_2h": 0.38408946463410754,
+        "ema_spread": 0.17948065687503822,
+        "rsi14": 69.13708444670507,
+        "range_pos": 55.69582772979157,
+        "vol_5m": 0.09677936812070397
+      },
+      "entry_score": 0.7373663788063358,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {},
   "realized_pnl": -223.32805399558887,
-  "fees_paid": 97.90962662812329,
-  "trades_opened": 30,
+  "fees_paid": 99.40962662812329,
+  "trades_opened": 31,
   "trades_closed": 29,
   "moons": 3,
   "wins": 8,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T08:52:18Z"
+  "updated": "2026-09-05T09:12:25Z"
 }
