@@ -1179,3 +1179,45 @@ kept. This is the first concrete payoff the archive enables.
 actioned): the sample has grown to n=26 and still points the same way, but the
 confound has not gone away, so it remains a proposal. Acting on it now would be
 acting on a truncation artifact. n = 26 resolved, one regime, 12 symbols.
+
+## 06:35 — daytrade's direction mix does track the market, with roughly a half-day lag
+
+Across all four books, 36 resolved trades split by side:
+
+| side | n | mean | median | wins |
+|---|---|---|---|---|
+| long | 29 | **−1.062%** | −1.268% | 6 |
+| short | 7 | **+0.024%** | +0.000% | 3 |
+
+Shorts beat longs by 1.09pp per trade. That is not evidence of skill — the
+market fell throughout, so being short paid. It is the 01:31 exposure finding
+restated at the level of individual trades.
+
+The non-obvious part is *when* the book chose each side. daytrade opened 30
+positions over 33.6 hours, 20 long to 10 short, and the mix rotated:
+
+| hours since first entry | n | long | short | market breadth |
+|---|---|---|---|---|
+| 0–12 | 11 | **11** | 0 | 84.7% of the universe up |
+| 12–24 | 11 | 7 | 4 | — |
+| 24–36 | 8 | 2 | **6** | 58.3% up |
+
+**The entry logic is not direction-blind — it flipped from all-long to
+predominantly short as breadth deteriorated.** I had assumed a static long bias
+and the data says otherwise.
+
+But the rotation *lags*. The book was 11-for-11 long while breadth was near its
+peak, and only reached a short majority after the fall was well underway. That
+is what momentum does by construction — it buys strength and sells weakness, so
+it is structurally late at both turns — and it explains the side split above:
+the longs were opened near the top and lost 1.06% each, the shorts were opened
+after the decline and roughly broke even.
+
+**This is a cost of the strategy family, not a bug in it.** A momentum entry
+cannot lead a turn; that is what "momentum" means. The question it raises, which
+the data cannot yet answer, is whether the half-day lag is a tunable property of
+the lookback windows (`ret_30m`, `ret_2h`, `ema_spread`) or an irreducible
+feature. Testing that needs several regime turns, not one.
+
+n = 30 opens, 36 resolutions, a single down-then-flat regime. The breadth
+figures are the first and last rows of `market_context.csv`, not a fitted trend.
