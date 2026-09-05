@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 3754.7328975528,
+  "cash": 4763.107880351123,
   "positions": {
     "XRP": {
       "symbol": "XRP",
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-05T15:11:06Z",
       "entry_cost": 1.5,
       "peak_pct": 1.2515107801473735,
-      "last_price": 777.26,
+      "last_price": 777.12,
       "entry_features": {
         "pc_1h": 1.2,
         "pc_24h": 7.7601,
@@ -58,34 +58,6 @@
       "entry_score": 1.1111409740647447,
       "pattern_bonus": 0.0
     },
-    "ADA": {
-      "symbol": "ADA",
-      "name": "Cardano",
-      "side": "long",
-      "quantity": 4587.113879689177,
-      "entry_price": 0.218002,
-      "entry_time": "2026-09-05T15:32:08Z",
-      "entry_cost": 1.5,
-      "peak_pct": 1.6995256924248339,
-      "last_price": 0.220598,
-      "entry_features": {
-        "pc_1h": 1.0,
-        "pc_24h": 2.21349,
-        "pc_7d": 8.8,
-        "pc_14d": -3.8,
-        "pc_30d": 12.4,
-        "vol_mcap": 4.825884319406182,
-        "cap_rank": 92.4,
-        "ret_30m": 0.30845831334713747,
-        "ret_2h": 0.8362658292000891,
-        "ema_spread": 0.44725159908255496,
-        "rsi14": 70.03033436758163,
-        "range_pos": 95.76569594477044,
-        "vol_5m": 0.2053018780018224
-      },
-      "entry_score": 1.1378532724662347,
-      "pattern_bonus": 0.0
-    },
     "HYPE": {
       "symbol": "HYPE",
       "name": "Hyperliquid",
@@ -95,7 +67,7 @@
       "entry_time": "2026-09-05T16:33:32Z",
       "entry_cost": 1.5,
       "peak_pct": 0.6076186024772097,
-      "last_price": 85.59,
+      "last_price": 85.78,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 0.80796,
@@ -123,7 +95,7 @@
       "entry_time": "2026-09-05T17:16:30Z",
       "entry_cost": 1.5,
       "peak_pct": 0.38687545315830696,
-      "last_price": 0.184871,
+      "last_price": 0.184647,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 3.30073,
@@ -151,7 +123,7 @@
       "entry_time": "2026-09-05T17:54:28Z",
       "entry_cost": 1.5,
       "peak_pct": 0.3736376782057539,
-      "last_price": 1026.46,
+      "last_price": 1024.36,
       "entry_features": {
         "pc_1h": 2.3,
         "pc_24h": 2.7751,
@@ -171,13 +143,15 @@
       "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -236.2699485635364,
-  "fees_paid": 129.42623870438575,
+  "cooldowns": {
+    "ADA": "2026-09-05T19:27:56Z"
+  },
+  "realized_pnl": -229.39496576521347,
+  "fees_paid": 130.94107343067267,
   "trades_opened": 43,
-  "trades_closed": 37,
+  "trades_closed": 38,
   "moons": 3,
-  "wins": 12,
+  "wins": 13,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T18:50:59Z"
+  "updated": "2026-09-05T19:01:16Z"
 }
