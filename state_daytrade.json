@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 3764.088971237594,
+  "cash": 4762.686793065038,
   "positions": {
-    "XLM": {
-      "symbol": "XLM",
-      "name": "Stellar",
-      "side": "long",
-      "quantity": 5442.710034180219,
-      "entry_price": 0.183732,
-      "entry_time": "2026-09-05T10:45:00Z",
-      "entry_cost": 1.5,
-      "peak_pct": 1.399320749787729,
-      "last_price": 0.183916,
-      "entry_features": {
-        "pc_1h": 0.2,
-        "pc_24h": -0.56913,
-        "pc_7d": 3.3,
-        "pc_14d": -10.2,
-        "pc_30d": 12.8,
-        "vol_mcap": 2.1602091020284866,
-        "cap_rank": 92.0,
-        "ret_30m": 0.354497665924991,
-        "ret_2h": 0.7231090296856868,
-        "ema_spread": 0.20011878506880115,
-        "rsi14": 68.67695113893345,
-        "range_pos": 81.59282680432295,
-        "vol_5m": 0.07473929776529654
-      },
-      "entry_score": 0.8477283683975427,
-      "pattern_bonus": 0.0
-    },
     "BCH": {
       "symbol": "BCH",
       "name": "Bitcoin Cash",
@@ -39,7 +11,7 @@
       "entry_time": "2026-09-05T12:12:39Z",
       "entry_cost": 1.5,
       "peak_pct": 0.7503791809691049,
-      "last_price": 252.15,
+      "last_price": 252.53,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": -3.52219,
@@ -94,8 +66,8 @@
       "entry_price": 769.47,
       "entry_time": "2026-09-05T15:11:06Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.5003443928938129,
-      "last_price": 772.08,
+      "peak_pct": 0.5510286300960413,
+      "last_price": 773.12,
       "entry_features": {
         "pc_1h": 1.2,
         "pc_24h": 7.7601,
@@ -123,7 +95,7 @@
       "entry_time": "2026-09-05T15:32:08Z",
       "entry_cost": 1.5,
       "peak_pct": 0.21008981568975799,
-      "last_price": 0.217902,
+      "last_price": 0.217944,
       "entry_features": {
         "pc_1h": 1.0,
         "pc_24h": 2.21349,
@@ -150,8 +122,8 @@
       "entry_price": 85.58,
       "entry_time": "2026-09-05T16:33:32Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.3038093012386131,
-      "last_price": 85.84,
+      "peak_pct": 0.42065903248422465,
+      "last_price": 85.81,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 0.80796,
@@ -172,14 +144,15 @@
     }
   },
   "cooldowns": {
-    "ZEC": "2026-09-05T17:03:32Z"
+    "ZEC": "2026-09-05T17:03:32Z",
+    "XLM": "2026-09-05T17:15:59Z"
   },
-  "realized_pnl": -226.91387487874292,
-  "fees_paid": 120.42677361728231,
+  "realized_pnl": -229.81605305129858,
+  "fees_paid": 121.92692057045323,
   "trades_opened": 40,
-  "trades_closed": 34,
+  "trades_closed": 35,
   "moons": 3,
   "wins": 11,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T16:40:28Z"
+  "updated": "2026-09-05T16:50:56Z"
 }
