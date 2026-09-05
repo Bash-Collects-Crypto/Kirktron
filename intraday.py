@@ -89,6 +89,13 @@ class IntradayCache:
 
     def __init__(self, log=print, path=None):
         self.series = {}          # coin id -> list of closes
+        # Bars for different coins are fetched minutes apart and come back with
+        # different lengths, so aligning two coins by list index silently
+        # compares different instants -- a cross-coin study run that way
+        # reported 0.93 "lead-lag" correlations that were the contemporaneous
+        # correlation shifted by one bar. Keep the exchange timestamps so
+        # anything comparing coins can align on wall-clock time instead.
+        self.times = {}           # coin id -> list of epoch-ms, parallel to series
         self.stamp = {}           # coin id -> unix seconds of last successful fetch
         self.log = log
         self.last_error = None
@@ -108,6 +115,7 @@ class IntradayCache:
             with open(self.path) as fh:
                 blob = json.load(fh)
             self.series = {k: list(v) for k, v in blob.get("series", {}).items()}
+            self.times = {k: list(v) for k, v in blob.get("times", {}).items()}
             self.stamp = {k: float(v) for k, v in blob.get("stamp", {}).items()}
         except (OSError, ValueError, TypeError) as exc:
             self.log("intraday cache unreadable (%s); starting cold" % exc)
@@ -116,7 +124,8 @@ class IntradayCache:
         try:
             tmp = self.path + ".tmp"
             with open(tmp, "w") as fh:
-                json.dump({"series": self.series, "stamp": self.stamp}, fh)
+                json.dump({"series": self.series, "times": self.times,
+                           "stamp": self.stamp}, fh)
             os.replace(tmp, self.path)
         except OSError as exc:
             self.log("intraday cache write failed: %s" % exc)
@@ -131,10 +140,12 @@ class IntradayCache:
         if resp.status_code == 429:
             raise RuntimeError("rate limited")
         resp.raise_for_status()
-        prices = [p[1] for p in resp.json().get("prices", []) if p and p[1]]
+        rows = [p for p in resp.json().get("prices", []) if p and p[1]]
+        prices = [p[1] for p in rows]
+        times = [p[0] for p in rows]
         if len(prices) < 40:
             raise RuntimeError("only %d bars" % len(prices))
-        return prices
+        return prices, times
 
     def refresh(self, coin_ids, budget=REFRESH_BUDGET):
         """Refresh up to `budget` of the stalest coins, round-robin."""
@@ -148,7 +159,7 @@ class IntradayCache:
             if time.time() - self.stamp.get(coin_id, 0.0) < CACHE_TTL:
                 continue          # still fresh; nothing to gain
             try:
-                self.series[coin_id] = self._fetch(coin_id)
+                self.series[coin_id], self.times[coin_id] = self._fetch(coin_id)
                 self.stamp[coin_id] = time.time()
                 done += 1
             except Exception as exc:      # noqa: BLE001
@@ -179,6 +190,6 @@ class IntradayCache:
     def prune(self, keep_ids):
         """Drop coins that left the day-trading universe, so the file stays small."""
         keep = set(keep_ids)
-        for store in (self.series, self.stamp):
+        for store in (self.series, self.times, self.stamp):
             for gone in [k for k in store if k not in keep]:
                 del store[gone]

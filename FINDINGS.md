@@ -797,3 +797,81 @@ recent entry resolved worst). Those two pull in opposite directions, and n is
 far too small to resolve the tension.
 
 Surfaced, not actioned. No parameter changed. 28 hours, one book, one regime.
+
+## The cross-coin lead-lag study: run, and it found nothing (00:52)
+
+The owner asked for this study and it is now done. **No cross-coin lead-lag
+relationship survives at 5-minute resolution over the last 24 hours.**
+
+### The first run was wrong, and how it was wrong is the more useful finding
+
+The initial run aligned each coin's return series **by list index from the
+end** and produced spectacular results: `ethereum` "leads" `bitcoin` by 5
+minutes at **r = 0.935**, with everything appearing to lead BTC and BCH at
+r ≈ 0.8–0.9, twenty-eight pairs clearing a Bonferroni threshold.
+
+None of it was real. The cache stored bare prices with **no timestamps**;
+coins are fetched minutes apart (up to 4.6 minutes of spread was observed) and
+come back with different bar counts (288 vs 289). Aligning by index therefore
+compares different instants, and shifting a contemporaneous correlation by one
+bar reproduces it almost exactly. The giveaway was that the "lagged"
+correlations exceeded the contemporaneous ones — impossible for a genuine
+predictive relationship, and a money machine if true.
+
+This is precisely the failure mode worth guarding against: a plausible
+pipeline, a clean-looking output, an effect size that should have been
+unbelievable, and a result that would have lost money live.
+
+**Fix applied to `intraday.py`:** `_fetch` now keeps the exchange timestamp
+alongside each close, stored in a parallel `times` map. `series` keeps its
+exact previous shape so `indicators()` and every existing consumer are
+untouched; the change is purely additive and alters no trading behaviour.
+Confirmed live: all 12 coins now carry timestamps aligned 1:1 with their bars.
+
+### The corrected result
+
+Aligning on 5-minute wall-clock buckets and keeping only buckets every coin
+shares (288 of 289; one bar discarded as unalignable):
+
+- 12 coins, 287 returns, 24.0 hours, null SE **0.0590**
+- 528 directed pair × lag tests at 5, 10, 15 and 30 minutes
+- family-wise threshold |r| > **0.236** (z = 4.0; 0.03 false positives expected)
+- **pairs passing: 0 of 528**
+
+Strongest observed: `ripple` → `bitcoin` at 15 minutes, r = 0.212 (z = 3.58).
+At 528 tests roughly one result of that size is expected by chance.
+
+**Bitcoin does not lead the pool.** Across 44 BTC-leads tests the largest is
+z = 2.50, against a threshold of 4.0. The 5-minute column is uniformly
+*negative* (−0.001 to −0.148), the 15-minute column uniformly slightly
+positive — a sign flip with no magnitude behind it.
+
+Meanwhile contemporaneous correlation is **mean 0.639, max 0.949**. The coins
+move together *now* and predict nothing about each other later. That is one
+coherent picture, not a null: it is a market where cross-sectional information
+is already in the price within one bar.
+
+### What this rules out
+
+Mean 5-minute return sigma across the pool is **0.244%**, against daytrade's
+**0.30% round-trip cost**. A predictor with correlation r delivers about
+r × sigma of expected move per bar, so:
+
+| r | edge per bar | bars to clear costs |
+|---|---|---|
+| 0.10 | 0.024% | 12.3 |
+| 0.20 | 0.049% | 6.2 |
+| **0.236** (detection limit) | 0.058% | **5.2** |
+
+Anything strong enough to be worth trading after costs would have had to be
+close to the detection threshold, and nothing came near it. The study does not
+prove no lead-lag exists — it bounds it: **no relationship stronger than
+|r| ≈ 0.24 was present in this window**, and weaker ones need five or more
+bars of holding to pay for the spread, by which point the effect must persist
+far longer than anything measured here does (see the 30-minute-signal cohort
+above, which did not survive six hours).
+
+**Not implemented as a trading signal, and it should not be.** A negative
+result is the correct place to stop. n = 287 returns, 12 coins, **one
+regime** — a 24-hour window that was a single sustained selloff. Worth
+re-running across a different regime before treating the bound as general.
