@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 5786.83647592094,
+  "cash": 6772.741943968921,
   "positions": {
     "BNB": {
       "symbol": "BNB",
@@ -10,8 +10,8 @@
       "entry_price": 723.16,
       "entry_time": "2026-09-05T01:37:48Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.12721942585320992,
-      "last_price": 722.9,
+      "peak_pct": 0.5641904972620224,
+      "last_price": 727.09,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 0.42605,
@@ -30,34 +30,6 @@
       "entry_score": 0.6505282959779917,
       "pattern_bonus": 0.0
     },
-    "ADA": {
-      "symbol": "ADA",
-      "name": "Cardano",
-      "side": "short",
-      "quantity": 4754.410904716851,
-      "entry_price": 0.210331,
-      "entry_time": "2026-09-05T01:59:52Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.4103056610770655,
-      "last_price": 0.212536,
-      "entry_features": {
-        "pc_1h": -0.3,
-        "pc_24h": -5.46417,
-        "pc_7d": 3.7,
-        "pc_14d": -8.1,
-        "pc_30d": 10.2,
-        "vol_mcap": 7.182875319422917,
-        "cap_rank": 92.4,
-        "ret_30m": -0.4730117882592477,
-        "ret_2h": -0.4617456382182916,
-        "ema_spread": -0.10776963124987328,
-        "rsi14": 41.696415782474155,
-        "range_pos": 3.468829090699208,
-        "vol_5m": 0.1267992005131932
-      },
-      "entry_score": 0.7639463191354977,
-      "pattern_bonus": 0.0
-    },
     "LINK": {
       "symbol": "LINK",
       "name": "Chainlink",
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-05T05:43:30Z",
       "entry_cost": 1.5,
       "peak_pct": 0.0,
-      "last_price": 11.69,
+      "last_price": 11.71,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": -2.28708,
@@ -94,8 +66,8 @@
       "entry_price": 527.78,
       "entry_time": "2026-09-05T06:06:27Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.25957785440903497,
-      "last_price": 527.67,
+      "peak_pct": 0.35810375535260647,
+      "last_price": 526.19,
       "entry_features": {
         "pc_1h": -1.0,
         "pc_24h": 4.62431,
@@ -115,13 +87,15 @@
       "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -207.1663701953978,
-  "fees_paid": 93.42038529181912,
+  "cooldowns": {
+    "ADA": "2026-09-05T07:09:17Z"
+  },
+  "realized_pnl": -222.76090214741637,
+  "fees_paid": 94.9014651136238,
   "trades_opened": 30,
-  "trades_closed": 26,
+  "trades_closed": 27,
   "moons": 3,
   "wins": 7,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T06:33:00Z"
+  "updated": "2026-09-05T06:43:47Z"
 }
