@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 5737.845279107248,
+  "cash": 3734.8452791072477,
   "positions": {
     "HYPE": {
       "symbol": "HYPE",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-05T16:33:32Z",
       "entry_cost": 1.5,
       "peak_pct": 0.6076186024772097,
-      "last_price": 85.7,
+      "last_price": 85.9,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 0.80796,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-05T17:16:30Z",
       "entry_cost": 1.5,
       "peak_pct": 0.38687545315830696,
-      "last_price": 0.185222,
+      "last_price": 0.185111,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 3.30073,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-05T20:07:15Z",
       "entry_cost": 1.5,
       "peak_pct": 0.5818095464260267,
-      "last_price": 1012.56,
+      "last_price": 1013.74,
       "entry_features": {
         "pc_1h": -0.9,
         "pc_24h": -2.63869,
@@ -94,8 +94,8 @@
       "entry_price": 257.23,
       "entry_time": "2026-09-05T21:27:35Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.26824242895463113,
-      "last_price": 257.92,
+      "peak_pct": 0.3071181432958689,
+      "last_price": 257.45,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": 1.69867,
@@ -113,17 +113,71 @@
       },
       "entry_score": 0.9171486827196682,
       "pattern_bonus": 0.0
+    },
+    "LINK": {
+      "symbol": "LINK",
+      "name": "Chainlink",
+      "side": "long",
+      "quantity": 82.8500414250207,
+      "entry_price": 12.07,
+      "entry_time": "2026-09-05T21:34:47Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.08285004142501894,
+      "last_price": 12.08,
+      "entry_features": {
+        "pc_1h": 0.1,
+        "pc_24h": 3.43528,
+        "pc_7d": 5.2,
+        "pc_14d": 2.4,
+        "pc_30d": 46.7,
+        "vol_mcap": 3.9916799138334533,
+        "cap_rank": 93.6,
+        "ret_30m": 0.4371488949426183,
+        "ret_2h": 0.06897637110681032,
+        "ema_spread": 0.13186928498197548,
+        "rsi14": 68.78439791832209,
+        "range_pos": 76.88918225035388,
+        "vol_5m": 0.18748366095371494
+      },
+      "entry_score": 0.6195337668083725,
+      "pattern_bonus": 0.0
+    },
+    "UNI": {
+      "symbol": "UNI",
+      "name": "Uniswap",
+      "side": "long",
+      "quantity": 139.66480446927375,
+      "entry_price": 7.16,
+      "entry_time": "2026-09-05T21:38:02Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.27932960893854153,
+      "last_price": 7.18,
+      "entry_features": {
+        "pc_1h": -0.5,
+        "pc_24h": 16.15131,
+        "pc_7d": 40.0,
+        "pc_14d": 60.0,
+        "pc_30d": 78.1,
+        "vol_mcap": 18.01751000439489,
+        "cap_rank": 90.8,
+        "ret_30m": 1.2020775808282425,
+        "ret_2h": 0.4022704338334737,
+        "ema_spread": 0.8860133609939798,
+        "rsi14": 60.21900169514413,
+        "range_pos": 95.87414465980862,
+        "vol_5m": 0.4287007344939354
+      },
+      "entry_score": 2.406088265862734,
+      "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {
-    "BNB": "2026-09-05T21:41:16Z"
-  },
+  "cooldowns": {},
   "realized_pnl": -256.15756700908844,
-  "fees_paid": 138.4143895029152,
-  "trades_opened": 45,
+  "fees_paid": 141.4143895029152,
+  "trades_opened": 47,
   "trades_closed": 41,
   "moons": 3,
   "wins": 13,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T21:31:58Z"
+  "updated": "2026-09-05T21:41:26Z"
 }
