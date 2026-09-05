@@ -71,6 +71,9 @@ conclusions the loop must not re-derive.
   lockstep with breakeven.
 - A **blocker census describes a book's reachable set, not the market**;
   `pc_1h` turns over hourly and decides which side a book can trade.
+- **`score` is not comparable across books** — medians run 0.77 (daytrade) to
+  55.86 (aggressive), a 41× spread with non-overlapping ranges. Never pool it;
+  a model fitted on the pooled log would learn book identity, not signal.
 - **XRP is marked at cent precision** (0.714% quantisation at $1.40) — exclude
   it from the slippage series.
 - **The `--report` percent column is `change_pct`**, the signed return on

@@ -961,3 +961,39 @@ its residual from this line rather than by raw return, so that a book which
 merely held more cash during a selloff is not mistaken for a book that picked
 better. Recording deployment per cycle is unnecessary — `trade_log.csv`
 reconstructs it exactly, as above.
+
+## 02:35 — `score` is not comparable across books, and the shared column is a trap
+
+`trade_log.csv` has a single `score` column written by all four books, but each
+book scores on its own scale. Across all 53 entries so far:
+
+| book | n | min | median | max |
+|---|---|---|---|---|
+| daytrade | 27 | 0.62 | 0.77 | 2.62 |
+| longshort | 8 | 9.71 | 18.28 | 65.38 |
+| conservative | 13 | 16.37 | 31.62 | 104.80 |
+| aggressive | 5 | 45.66 | 55.86 | 67.92 |
+
+The medians differ by **41×** between daytrade and conservative, and the ranges
+do not overlap at all: daytrade's best entry ever (2.62) scores below
+conservative's worst (16.37). This is by design — daytrade scores intraday
+features while the others score multi-day momentum percentages — but the log
+does not say so anywhere.
+
+The trap is that `trade_log.csv` is the training set, and it is one file. Any
+model fitted on the pooled log with `score` as a feature would learn **book
+identity**, not signal: "score below 3" perfectly separates daytrade from
+everything else, and daytrade has 23 of the 33 resolutions, so the feature
+would look strongly predictive while carrying no information about the trade.
+
+Nothing is broken today — the pattern models are per-book and never see another
+book's rows. But this is a live tripwire for exactly the analysis the project
+is accumulating data for, so:
+
+**Rule: never pool `score` across books.** Compare a score only within its own
+book, or rank-normalise per book first. `min_score` thresholds (conservative
+1.0, longshort 2.0, daytrade 0.6, aggressive 3.0) are likewise per-book and
+carry no cross-book meaning.
+
+No code change. Adding a normalised column would require rotating the log's
+schema, and the rule costs nothing to follow.
