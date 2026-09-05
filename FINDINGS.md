@@ -1045,3 +1045,47 @@ daytrade's 0.30% round-trip cost that is a real, if small, win — the sixth of
 0.19pp of the moon line, and still resolve as an ordinary winner.** The gap
 between "nearly a full thesis" and "counts as a moon" is unforgiving, which is
 why the moon half of the pattern-model gate is the binding one.
+
+## 03:33 — The four books stack rather than diversify: 27.7% of exposure is shared, all same-side
+
+The books are described as independent, and they choose independently, but they
+draw from overlapping universes (rank ≤ 25 / 30 / 50 / 150) and so keep landing
+on the same names. Measured across all 19 open positions, $26,018 gross:
+
+| name | gross | net | books |
+|---|---|---|---|
+| ZEC | $2,718 | **+$2,718** | conservative, daytrade, aggressive |
+| HYPE | $2,500 | **+$2,500** | conservative, longshort |
+| BNB | $2,000 | **+$2,000** | conservative, daytrade |
+
+**$7,218 — 27.7% of gross exposure — sits in names held by more than one book,
+and every overlap is on the same side.** Net equals gross in all three: not one
+dollar of the shared exposure offsets. The books are not hedging each other,
+they are concentrating.
+
+By name count the spread looks healthy — Herfindahl 0.0739, an effective 13.5
+independent names of 15. That number is misleading on its own, because it
+counts names, not co-movement: the 00:52 study measured mean pairwise 5-minute
+correlation at 0.308 across the intraday universe, which puts the effective
+independent count nearer 3 than 13.
+
+**ZEC is the sharpest case.** It is the single largest exposure at 10.4% of
+gross, held long by three of the four books at once (conservative +1.13%,
+aggressive +8.40%, daytrade +0.03%), and it produced four of the program's
+first five resolved wins. Aggressive's ZEC is currently its only position in
+profit — the one thing holding that book off its lows. If ZEC reverses, three
+books take the loss in the same hour, and the equity curves that look like four
+independent experiments will move as one.
+
+This sharpens the 01:31 exposure finding rather than repeating it. That one said
+returns are explained by *how much* capital is deployed; this one says the four
+books' deployments are not independent draws, so the combined P/L has fewer
+effective bets behind it than four books × five positions suggests.
+
+**Proposed, not actioned — a cross-book exposure cap.** A shared ledger that
+refuses an entry when a symbol already carries more than some fraction of total
+gross across all books would prevent a three-book stack in one name. It changes
+which candidates get filled, so it is a strategy change and the owner's call.
+The counter-argument is real: each book is meant to be an independent test of
+its own parameters, and a shared veto couples them by construction. n = 19
+positions, one regime.
