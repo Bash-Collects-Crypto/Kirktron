@@ -1636,3 +1636,39 @@ prevents a repeat of the startup concentration that made aggressive a
 single-instant snapshot (FINDINGS 12:40).
 
 n = 55 entry cycles across four books.
+
+## 15:45 — amendment to 04:35: max-hold exits are no longer flat, and the reason is the regime
+
+The 04:35 entry recorded daytrade's seven max-hold exits averaging **+0.015%** —
+"dead flat, and each one still paid 0.30% to get there". With three more they
+now read differently:
+
+| | 04:35 | now |
+|---|---|---|
+| max-hold exits | n=7, **+0.015%** | n=10, **+0.248%** |
+| all resolutions | n=26, −0.346% net | n=33, −0.317% net |
+| gross of the 0.30% round trip | −0.046% | **−0.017%** |
+
+The three additions were BNB +1.748%, SOL +0.130% and LINK +0.510% — all
+positive, all opened and closed inside today's rally, and all long. **That is
+the regime, not a change in the exit rule.** A max-hold exit returns whatever
+the market did over six hours, and the market went up; the same rule returned
+zero yesterday when it did not. Nothing about hold logic improved.
+
+**The headline number is unchanged and that is the point.** Gross of costs the
+book is at −0.017% over 33 trades, against a standard error of 0.267pp. It was
+−0.046% at n=26. Eight more resolutions moved it by three hundredths of a
+percentage point and it remains indistinguishable from zero — which is what a
+zero-edge series looks like as it accumulates, and is more informative than the
+individual trades that made it up.
+
+**Also resolved: the 09:35 side-reversal test.** daytrade stopped out of LINK
+short at −1.204%, re-opened it long 1.6 hours later, and that long exited at
+max hold **+0.510%**. The reversal cost 0.60% in two round trips to end up
+opposite itself and recovered +0.51%, so it netted about **−0.09%** against not
+trading at all. One observation, landing within a rounding error of break-even
+— exactly what a zero-edge book paying friction should produce. It neither
+supports nor refutes the proposed direction-change cooldown; it is one data
+point on a question that needs many.
+
+n = 33 daytrade resolutions, 10 max-hold, 1 completed reversal.
