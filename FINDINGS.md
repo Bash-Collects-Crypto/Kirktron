@@ -1803,3 +1803,50 @@ best-scoring names. Still the owner's call, still not actioned; recorded because
 the number moved enough that the decision is different now.
 
 n = 29 open positions, 17 names, one snapshot.
+
+## 20:45 — XRP's price granularity is 59% of daytrade's entire stop distance
+
+The 22:38 entry noted XRP is marked at cent precision and should be excluded
+from the slippage series. Today's resolution sharpens what that actually costs.
+Every XRP price the program has ever seen:
+
+```
+1.470  1.480  1.460  1.450  1.420  1.390  1.400  1.400  1.420  1.410
+```
+
+**Ten observations, every one an exact cent.** The feed gives XRP two decimal
+places, so the smallest move it can express near $1.40 is one cent:
+
+| price | one tick | vs daytrade's 1.2% stop | vs the 0.30% round trip |
+|---|---|---|---|
+| $1.40 | 0.714% | **60%** | 2.4× |
+| $1.42 | 0.704% | **59%** | 2.3× |
+
+**A single tick is more than half the stop.** daytrade's XRP long today entered
+at $1.42 and exited at $1.41 on max hold: **−0.704%, exactly one tick**, which
+after costs cost $10.04. It could not have resolved any closer to flat — zero
+or ±0.70% were the only outcomes available to it.
+
+The consequences are specific:
+
+- **The stop can only fire in ~2-tick jumps.** A 1.2% stop on a 0.71% grid
+  means the first tick below entry (−0.71%) does not trigger and the second
+  (−1.41%) overshoots by 0.21pp. XRP's two stop-outs on record are −1.351% and
+  −2.069% — both consistent with landing on grid points rather than at the stop.
+- **The +0.000% cover on 4 September was not a flat market**, it was the price
+  returning to the same cent it left. Real movement inside the tick is invisible.
+- **Every XRP feature is quantised too** — `ret_30m` and `ret_2h` computed from
+  cent-grid bars have the same floor, so the gates are reading a coarser signal
+  for this name than for any other in the universe.
+
+**This is a data-quality boundary, not a strategy problem.** It affects one
+symbol, and only in the book whose stop is tight enough for a tick to matter:
+conservative's 3% stop and longshort's 5% absorb a 0.71% grid without
+distortion; daytrade's 1.2% does not.
+
+**Proposed, not actioned, and narrower than the earlier version:** exclude XRP
+from `daytrade`'s intraday universe specifically, rather than marking all
+daytrade positions from the bar series. It is a one-name fix for a one-name
+problem, and it is still a universe change, so it stays the owner's call.
+
+n = 10 XRP observations, 4 resolved.
