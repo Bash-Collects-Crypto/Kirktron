@@ -1,49 +1,7 @@
 {
   "name": "longshort",
-  "cash": 2325.459684752655,
+  "cash": 3816.8243457040653,
   "positions": {
-    "BTC": {
-      "symbol": "BTC",
-      "name": "Bitcoin",
-      "side": "long",
-      "quantity": 0.01839926402943882,
-      "entry_price": 81525.0,
-      "entry_time": "2026-09-03T19:32:43Z",
-      "peak_pct": 0.5274455688439129,
-      "last_price": 79964.0,
-      "entry_features": {
-        "pc_1h": 0.3,
-        "pc_24h": 5.70304,
-        "pc_7d": 1.0,
-        "pc_14d": 11.7,
-        "pc_30d": 27.1,
-        "vol_mcap": 2.1686415514975677,
-        "cap_rank": 99.6
-      },
-      "entry_score": 15.134864,
-      "pattern_bonus": 0.0
-    },
-    "AVAX": {
-      "symbol": "AVAX",
-      "name": "Avalanche",
-      "side": "long",
-      "quantity": 199.203187250996,
-      "entry_price": 7.53,
-      "entry_time": "2026-09-03T19:32:43Z",
-      "peak_pct": 1.3280212483399687,
-      "last_price": 7.63,
-      "entry_features": {
-        "pc_1h": 0.3,
-        "pc_24h": 5.44673,
-        "pc_7d": 0.0,
-        "pc_14d": 3.7,
-        "pc_30d": 12.5,
-        "vol_mcap": 8.003814691305214,
-        "cap_rank": 88.0
-      },
-      "entry_score": 11.064767999999999,
-      "pattern_bonus": 0.0
-    },
     "HYPE": {
       "symbol": "HYPE",
       "name": "Hyperliquid",
@@ -52,7 +10,7 @@
       "entry_price": 87.07,
       "entry_time": "2026-09-04T04:08:29Z",
       "peak_pct": 0.2641552773630458,
-      "last_price": 85.87,
+      "last_price": 85.56,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 5.6688,
@@ -80,7 +38,7 @@
       "entry_time": "2026-09-04T18:01:34Z",
       "entry_cost": 0.0,
       "peak_pct": 0.0,
-      "last_price": 0.185089,
+      "last_price": 0.184536,
       "entry_features": {
         "pc_1h": -0.8,
         "pc_24h": -4.74983,
@@ -102,7 +60,7 @@
       "entry_time": "2026-09-05T07:30:30Z",
       "entry_cost": 0.0,
       "peak_pct": 2.2321428571428488,
-      "last_price": 2.23,
+      "last_price": 2.21,
       "entry_features": {
         "pc_1h": 2.2,
         "pc_24h": 13.28189,
@@ -114,15 +72,46 @@
       },
       "entry_score": 45.721024,
       "pattern_bonus": 0.0
+    },
+    "UNI": {
+      "symbol": "UNI",
+      "name": "Uniswap",
+      "side": "long",
+      "quantity": 208.91364902506965,
+      "entry_price": 7.18,
+      "entry_time": "2026-09-05T19:33:43Z",
+      "entry_cost": 0.0,
+      "peak_pct": 0.0,
+      "last_price": 7.14,
+      "entry_features": {
+        "pc_1h": 4.3,
+        "pc_24h": 15.58992,
+        "pc_7d": 40.0,
+        "pc_14d": 60.0,
+        "pc_30d": 74.2,
+        "vol_mcap": 15.43923145629499,
+        "cap_rank": 90.8,
+        "ret_30m": 2.6058760430942574,
+        "ret_2h": 6.541614210775948,
+        "ema_spread": 2.900093614514202,
+        "rsi14": 83.75963853656225,
+        "range_pos": 100.0,
+        "vol_5m": 0.533296859550438
+      },
+      "entry_score": 73.523872,
+      "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -174.5403152473449,
+  "cooldowns": {
+    "BTC": "2026-09-05T21:33:43Z",
+    "AVAX": "2026-09-05T21:33:43Z"
+  },
+  "realized_pnl": -183.17565429593458,
   "fees_paid": 0.0,
-  "trades_opened": 9,
-  "trades_closed": 4,
+  "trades_opened": 10,
+  "trades_closed": 6,
   "moons": 0,
-  "wins": 1,
+  "wins": 2,
   "started": "2026-09-03T19:32:42Z",
-  "updated": "2026-09-05T19:32:05Z"
+  "updated": "2026-09-05T19:41:25Z"
 }
