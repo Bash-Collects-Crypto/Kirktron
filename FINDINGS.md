@@ -1905,3 +1905,53 @@ size; a real effect of ±0.3%/trade would be invisible here. It is a reason not
 to tune it on this data.
 
 n = 41 daytrade resolutions, one regime, 19 distinct symbols.
+
+## 22:35 — the rank bypass admitted a third non-layer-1, and both books traded it
+
+The 22:30 audit reads **250 fetched → 189 excluded → 61 tradeable**. Every
+previous audit today read 190/60. One coin moved from the exclusion list into
+the tradeable universe, and it is **UNI**.
+
+UNI is Uniswap's governance token — a DEX token, not a layer-1 chain and not a
+blue chip by the project's own definition. It appears in the exclusion list's
+own "not a layer-1 or blue chip" category at every earlier audit; today it sits
+at **rank 23**, and the `rank <= 25` bypass overrides the category rule.
+
+**Both books that could reach it, did:**
+
+| when | book | action | score |
+|---|---|---|---|
+| 19:33 | longshort | BUY @ $7.18 | **73.52** — the highest entry score ever recorded |
+| 21:38 | daytrade | BUY @ $7.16 | 2.41 |
+| 22:29 | daytrade | SELL @ $7.07 | **stop-loss −1.26%** |
+
+So the scorer's all-time top-ranked entry is a coin the universe rule was
+written to exclude, and the first resolution from it is a stop-out.
+
+**This is the same leak as RAIN and LEO, now with three instances and a
+resolved trade.** Current state of the bypass:
+
+| symbol | rank | what it is | volume | reachable |
+|---|---|---|---|---|
+| RAIN | 13 | GambleFi | $34M | yes |
+| LEO | 18 | exchange token | $0.2M | no (volume floor) |
+| **UNI** | **23** | **DEX governance** | **$816M** | **yes, and traded** |
+
+RAIN has never been opened. UNI has, twice, within three hours of becoming
+eligible — because unlike RAIN it clears every volume and momentum filter
+easily.
+
+**It is not a correctness bug by the letter of the rule.** `rank <= 25 blue
+chips` is a deliberate bypass and UNI is rank 23; the code is doing what it was
+told. It is a bug in the *intent*, which `CLAUDE.md` states as "layer-1 chains
+and blue chips only". Whether a top-25 DEX token counts as a blue chip is
+exactly the judgement the bypass was meant to encode and clearly does not.
+
+**Not actioned — this is the owner's call, and it is now more urgent than when
+it was RAIN alone.** The proposal from 22:58 yesterday stands: drop the rank
+bypass and replace it with an explicit blue-chip id set. That would exclude UNI,
+RAIN and LEO while keeping BTC, ETH, BNB, SOL and the rest. The counter-argument
+is that an explicit list needs maintaining as ranks shift, which is precisely
+what the bypass was avoiding.
+
+n = 3 leaked symbols, 2 opened, 1 resolved.
