@@ -8,7 +8,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 754.5,
+      "last_price": 756.61,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -21,7 +21,7 @@
       "entry_score": 21.44408,
       "pattern_bonus": 0.0,
       "side": "long",
-      "peak_pct": 4.911793304625645
+      "peak_pct": 5.168773440755666
     },
     "LINK": {
       "symbol": "LINK",
@@ -31,7 +31,7 @@
       "entry_price": 11.61,
       "entry_time": "2026-09-04T12:48:26Z",
       "peak_pct": 2.1533161068044793,
-      "last_price": 11.75,
+      "last_price": 11.81,
       "entry_features": {
         "pc_1h": -0.4,
         "pc_24h": 2.12533,
@@ -53,7 +53,7 @@
       "entry_time": "2026-09-04T18:25:04Z",
       "entry_cost": 0.0,
       "peak_pct": 0.10562140593827418,
-      "last_price": 85.12,
+      "last_price": 84.95,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 1.34567,
@@ -81,7 +81,7 @@
       "entry_time": "2026-09-04T22:00:50Z",
       "entry_cost": 0.0,
       "peak_pct": 1.5198703148793942,
-      "last_price": 1010.36,
+      "last_price": 1017.03,
       "entry_features": {
         "pc_1h": -0.7,
         "pc_24h": 7.07911,
@@ -108,8 +108,8 @@
       "entry_price": 529.32,
       "entry_time": "2026-09-05T01:56:32Z",
       "entry_cost": 0.0,
-      "peak_pct": 2.4087508501473587,
-      "last_price": 538.24,
+      "peak_pct": 3.134209929721136,
+      "last_price": 545.91,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 3.2169,
@@ -136,8 +136,8 @@
       "entry_price": 0.080504,
       "entry_time": "2026-09-05T10:04:07Z",
       "entry_cost": 0.0,
-      "peak_pct": 0.0,
-      "last_price": 0.080406,
+      "peak_pct": 0.4397297028718985,
+      "last_price": 0.080858,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 1.72836,
@@ -151,9 +151,7 @@
       "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {
-    "LTC": "2026-09-05T12:34:01Z"
-  },
+  "cooldowns": {},
   "realized_pnl": -111.0455653194906,
   "fees_paid": 0.0,
   "trades_opened": 14,
@@ -161,5 +159,5 @@
   "moons": 0,
   "wins": 2,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-05T12:29:51Z"
+  "updated": "2026-09-05T12:39:09Z"
 }
