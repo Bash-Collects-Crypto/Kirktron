@@ -1850,3 +1850,58 @@ daytrade positions from the bar series. It is a one-name fix for a one-name
 problem, and it is still a universe change, so it stays the owner's call.
 
 n = 10 XRP observations, 4 resolved.
+
+## 21:45 — the daytrade scorer does not predict outcomes, at n = 41
+
+The earlier "scorer test set" was three trades and settled nothing. There are now
+41 resolved daytrade trades with both an entry score and an outcome, which is
+enough to ask the question properly.
+
+**Entry score against realised P/L: Pearson r = +0.042 (t = 0.26, df = 39),
+Spearman rho = +0.123.** Both are indistinguishable from zero. Scores ranged
+0.62 to 2.62 with a mean of 1.07.
+
+The book's entry ranking has **no measurable relationship to how the trade turns
+out.** That is the headline and it is what the sample supports.
+
+### The tempting pattern, and why I am not acting on it
+
+Split into score quartiles, the picture looks less flat:
+
+| quartile | n | score range | mean P/L | wins |
+|---|---|---|---|---|
+| Q1 (lowest) | 10 | 0.62–0.68 | −1.002% | 2 |
+| Q2 | 10 | 0.68–0.82 | −0.169% | 3 |
+| **Q3** | 10 | 0.85–1.21 | **+0.676%** | **8** |
+| Q4 (highest) | 11 | 1.24–2.62 | −0.489% | 3 |
+
+Q3 shows 8 wins in 10 against a 32% base rate, and a mean 1.7pp above the book.
+It is easy to read that as "the sweet spot is scores between 0.85 and 1.21".
+
+**It is almost certainly noise, and the shape is the tell.** An inverted U —
+worst at both ends, best in the middle — is what you get from slicing a
+zero-signal series into buckets and reporting the extreme one. Four buckets were
+tested, so a 1-in-20 result in one of them is expected roughly a fifth of the
+time. The overall correlation, which does not depend on where the cuts fall, is
++0.042.
+
+If the middle-band effect were real it would also have to survive the fact that
+**Q4 — the highest-scoring trades the book ever took — did worse than Q3.** A
+scorer that works does not peak in its third quartile.
+
+**This is the same failure mode as the lead-lag study on 4 September**: a
+plausible pipeline, a clean-looking output, and an effect that vanishes when you
+ask whether the analysis was chosen before or after seeing the data. It was
+chosen after. Recorded so the temptation is documented rather than acted on.
+
+### What it means for the project
+
+The scorer is daytrade's entry-selection mechanism, applied after the gates
+admit a candidate. At 41 trades it adds nothing measurable. Combined with the
+04:35 result — gross edge indistinguishable from zero — the two findings agree:
+**the book's trades are, so far, not distinguishable from randomly chosen
+admissible trades.** That is not a reason to abandon the scorer at this sample
+size; a real effect of ±0.3%/trade would be invisible here. It is a reason not
+to tune it on this data.
+
+n = 41 daytrade resolutions, one regime, 19 distinct symbols.
