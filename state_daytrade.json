@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 4716.860905800427,
+  "cash": 5712.173295554449,
   "positions": {
-    "XLM": {
-      "symbol": "XLM",
-      "name": "Stellar",
-      "side": "long",
-      "quantity": 5410.845498717629,
-      "entry_price": 0.184814,
-      "entry_time": "2026-09-05T17:16:30Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.42366920254959356,
-      "last_price": 0.184365,
-      "entry_features": {
-        "pc_1h": 0.4,
-        "pc_24h": 3.30073,
-        "pc_7d": 3.2,
-        "pc_14d": -5.6,
-        "pc_30d": 14.1,
-        "vol_mcap": 1.8106669238065864,
-        "cap_rank": 92.0,
-        "ret_30m": 0.5451941915435299,
-        "ret_2h": 0.3624497196373033,
-        "ema_spread": 0.09842794400025452,
-        "rsi14": 72.25611797969353,
-        "range_pos": 83.84760537736572,
-        "vol_5m": 0.29863516546162877
-      },
-      "entry_score": 0.7901651262168915,
-      "pattern_bonus": 0.0
-    },
     "ZEC": {
       "symbol": "ZEC",
       "name": "Zcash",
@@ -39,7 +11,7 @@
       "entry_time": "2026-09-05T20:07:15Z",
       "entry_cost": 1.5,
       "peak_pct": 0.5818095464260267,
-      "last_price": 1019.92,
+      "last_price": 1021.28,
       "entry_features": {
         "pc_1h": -0.9,
         "pc_24h": -2.63869,
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-05T21:27:35Z",
       "entry_cost": 1.5,
       "peak_pct": 0.9252420013217725,
-      "last_price": 256.84,
+      "last_price": 256.91,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": 1.69867,
@@ -95,7 +67,7 @@
       "entry_time": "2026-09-05T21:34:47Z",
       "entry_cost": 1.5,
       "peak_pct": 0.24855012427505685,
-      "last_price": 11.98,
+      "last_price": 12.0,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 3.43528,
@@ -123,7 +95,7 @@
       "entry_time": "2026-09-05T22:49:39Z",
       "entry_cost": 1.5,
       "peak_pct": 0.0,
-      "last_price": 54.86,
+      "last_price": 54.94,
       "entry_features": {
         "pc_1h": 1.0,
         "pc_24h": 8.39031,
@@ -143,13 +115,15 @@
       "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -275.6419403159097,
-  "fees_paid": 145.8941325575369,
+  "cooldowns": {
+    "XLM": "2026-09-05T23:46:40Z"
+  },
+  "realized_pnl": -281.82955056188683,
+  "fees_paid": 147.38934395927052,
   "trades_opened": 48,
-  "trades_closed": 43,
+  "trades_closed": 44,
   "moons": 3,
   "wins": 13,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T23:12:03Z"
+  "updated": "2026-09-05T23:22:13Z"
 }
