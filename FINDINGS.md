@@ -1672,3 +1672,38 @@ supports nor refutes the proposed direction-change cooldown; it is one data
 point on a question that needs many.
 
 n = 33 daytrade resolutions, 10 max-hold, 1 completed reversal.
+
+## 16:45 — a registered prediction for aggressive's four caps, 47 minutes out
+
+aggressive's four original positions hit their 48-hour cap at **17:32:30**, and
+none has reached its 8% stop. Recording the prediction *before* the event, so
+the check afterwards is honest rather than reconstructed:
+
+| symbol | current | predicted exit | predicted P/L on $2,200 |
+|---|---|---|---|
+| ENA | −6.50% | max hold 48h | ≈ −$143 |
+| STX | −6.11% | max hold 48h | ≈ −$134 |
+| XPL | −2.32% | max hold 48h | ≈ −$51 |
+| NIGHT | +1.46% | max hold 48h | ≈ +$32 |
+
+**Predicted: 4 of 4 exit on max hold, none on stop or target, aggregate about
+−$296, no moons** (a moon needs +17%). ENA and STX would each need to fall a
+further 1.5–1.9pp inside the next 47 minutes to stop out instead, which is
+possible but not likely on today's tape.
+
+**What the outcome will and will not show.** It will be aggressive's first four
+resolutions in 48 hours, and it will convert a paper drawdown into a realised
+one — the book's realised P/L moves from exactly $0.00 to roughly −$296 without
+anything about the market changing. That is worth stating plainly because the
+realised number will look like a sudden collapse and will not be one.
+
+It will *not* say anything about the aggressive strategy. Per 12:40 these four
+are 88% of the book committed in a single cycle on 3 September, so the outcome
+measures four coins picked at one instant, held to a fixed clock. Four
+simultaneous max-hold exits are one observation of one moment, not four
+independent trades.
+
+**The one thing to watch** is whether the max-hold exits cluster near the
+current marks or diverge from them. A large gap between the 16:45 mark and the
+17:32 fill would mean the last 47 minutes moved these names materially, which
+is itself the slippage question from 11:35 applied to a 48-hour hold.
