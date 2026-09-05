@@ -1502,7 +1502,10 @@ def report():
     print("combined value $%.2f" % sum(p.value(universe) for p in portfolios))
     for pf in portfolios:
         print(pf.summary(universe, rows))
-    recent = [r for r in rows if r.get("action") == "SELL"][-10:]
+    # Short exits are logged as COVER, not SELL; filtering on SELL alone hid
+    # every short close from this list while the counters above still
+    # counted them, so the two disagreed.
+    recent = [r for r in rows if r.get("action") in ("SELL", "COVER")][-10:]
     if recent:
         print("\nlast %d resolved trades:" % len(recent))
         for r in recent:

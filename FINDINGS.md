@@ -1955,3 +1955,38 @@ is that an explicit list needs maintaining as ranks shift, which is precisely
 what the bypass was avoiding.
 
 n = 3 leaked symbols, 2 opened, 1 resolved.
+
+## 2026-09-05 23:45 — the report hid every short close, and daytrade shorts are not actually broken
+
+**A reporting bug, fixed.** `report()` built its "last N resolved trades" list with
+`r.get("action") == "SELL"`. Short exits are written as `COVER` (paper_trader.py:1078),
+so every short close was invisible in that list while the counters printed directly
+above it — closed, wins, moons — counted them normally. Thirteen resolved trades
+(12 daytrade, 1 longshort) had been silently missing from every hourly report,
+including all seven daytrade side reversals. The pattern-model reader at line 837
+already filtered on `("SELL", "COVER")`; only the display path was wrong. Filter
+widened to match. This is a schema mismatch in a reporting path, not a strategy
+change: no trading behaviour was touched.
+
+**What the restored rows show.** With shorts visible, daytrade's 45 resolved trades
+split 33 long / 12 short:
+
+| side | n | wins | mean | median | best | take-profit | stop-loss |
+|---|---|---|---|---|---|---|---|
+| long | 33 | 13 (39%) | −0.197% | −0.452% | +3.87% | 3 | 14 |
+| short | 12 | 3 (25%) | −0.569% | −1.216% | **+1.11%** | **0** | 7 |
+
+The eye-catching part is real as description: no short has ever reached the +2.0%
+moon line or the +2.5% take-profit, the best one topped out at +1.11%, and 58% of
+them stopped out against 42% of longs. All three of the book's moons are longs.
+
+**It does not survive testing.** Long-minus-short mean difference +0.372pp with a
+95% CI of −0.439 to +1.184 — straddling zero. Welch t = 0.92 (df 28.3), Cohen's
+d = 0.26. Fisher exact on take-profit rate (3/33 vs 0/12) p = 0.553; on stop-out
+rate (14/33 vs 7/12) p = 0.501. At n = 12 shorts, a book that shorted exactly as
+well as it goes long would produce this table often.
+
+So: **no side effect is detectable, and the short leg is not to be disabled or
+re-parameterised on this evidence.** Recorded so the same table is not rediscovered
+and mistaken for a signal. Revisit at ~30 resolved shorts, where a real 0.4pp gap
+would begin to separate from noise. Sample: 45 resolved daytrade trades, 12 short.
