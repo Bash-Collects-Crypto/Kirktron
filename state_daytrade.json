@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 6739.345279107248,
+  "cash": 5737.845279107248,
   "positions": {
     "HYPE": {
       "symbol": "HYPE",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-05T16:33:32Z",
       "entry_cost": 1.5,
       "peak_pct": 0.6076186024772097,
-      "last_price": 85.44,
+      "last_price": 85.7,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 0.80796,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-05T17:16:30Z",
       "entry_cost": 1.5,
       "peak_pct": 0.38687545315830696,
-      "last_price": 0.184617,
+      "last_price": 0.185222,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 3.30073,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-05T20:07:15Z",
       "entry_cost": 1.5,
       "peak_pct": 0.5818095464260267,
-      "last_price": 1012.71,
+      "last_price": 1012.56,
       "entry_features": {
         "pc_1h": -0.9,
         "pc_24h": -2.63869,
@@ -85,17 +85,45 @@
       },
       "entry_score": 1.5608740796450133,
       "pattern_bonus": 0.0
+    },
+    "BCH": {
+      "symbol": "BCH",
+      "name": "Bitcoin Cash",
+      "side": "long",
+      "quantity": 3.887571434125102,
+      "entry_price": 257.23,
+      "entry_time": "2026-09-05T21:27:35Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.26824242895463113,
+      "last_price": 257.92,
+      "entry_features": {
+        "pc_1h": -0.3,
+        "pc_24h": 1.69867,
+        "pc_7d": 3.3,
+        "pc_14d": -8.9,
+        "pc_30d": 19.7,
+        "vol_mcap": 3.0714502084298636,
+        "cap_rank": 91.60000000000001,
+        "ret_30m": 0.7659259777047511,
+        "ret_2h": 0.11233279095488324,
+        "ema_spread": 0.09325519015058999,
+        "rsi14": 65.54580473735385,
+        "range_pos": 86.54090379537833,
+        "vol_5m": 0.1781120618246838
+      },
+      "entry_score": 0.9171486827196682,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {
     "BNB": "2026-09-05T21:41:16Z"
   },
   "realized_pnl": -256.15756700908844,
-  "fees_paid": 136.9143895029152,
-  "trades_opened": 44,
+  "fees_paid": 138.4143895029152,
+  "trades_opened": 45,
   "trades_closed": 41,
   "moons": 3,
   "wins": 13,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T21:22:15Z"
+  "updated": "2026-09-05T21:31:58Z"
 }
