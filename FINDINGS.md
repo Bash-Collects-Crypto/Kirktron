@@ -1755,3 +1755,51 @@ per-name book in the program. Its next resolutions fall 48 hours out, around
 17:33 on 7 September, unless the 8% stop or 22% target fires first.
 
 n = 4 scored predictions, 11 new entries.
+
+## 18:45 — the rebuild fixed one problem and created another: shared exposure jumped to 74.5%
+
+Re-running the 03:33 concentration measurement after aggressive rebuilt into
+twelve positions. Across 29 open positions, $28,468 gross:
+
+| | 03:33 | now |
+|---|---|---|
+| positions / names | 19 / 15 | 29 / 17 |
+| in more than one book | **27.7%** | **74.5%** |
+| largest single name | ZEC, 10.4% | HYPE, 12.3% |
+| Herfindahl → effective names | 13.5 of 15 | 13.5 of 17 |
+
+**Three names are now held by three books each** — HYPE (conservative,
+longshort, daytrade), BNB and ZEC (conservative, daytrade, aggressive) — and
+nine of seventeen names are in at least two.
+
+**The cause is structural, not a coincidence.** aggressive's universe is rank
+≤ 150, a superset of every other book's. When it rebuilt by taking its eleven
+highest-scoring momentum names, it was drawing from a pool that contains
+everything conservative (≤30), longshort (≤50) and daytrade (≤25) can see. A
+book with the widest universe, filling all its slots at once on a momentum
+ranking, will land on the same names the narrower books already hold. The
+17:33 rebuild that removed aggressive's single-instant problem replaced it with
+this one.
+
+**What did and did not get worse.** The Herfindahl is unchanged at 0.0738 —
+per-name spread is the same, so this is not a portfolio-risk story. What
+degraded is **cross-book independence**: the four books are supposed to be four
+separate tests of four parameter sets, and three quarters of the money is now
+in names that more than one of them holds. Their equity curves will move
+together more than their strategies differ, which makes the 01:31 exposure
+finding harder to escape rather than easier.
+
+**One genuinely new thing: the first offsetting overlap.** XLM shows gross
+$2,500 but **net −$500** — longshort is short it while daytrade is long. Every
+previous cross-book overlap in this program has been same-side, with net equal
+to gross. This is the first dollar of internal hedge the four books have ever
+produced, and it happened by accident rather than design.
+
+**Bearing on the cross-book exposure cap proposed at 03:33.** That proposal
+looked marginal when sharing was 27.7%. At 74.5% it is a materially bigger
+lever — but the counter-argument also got stronger, because a cap would now
+bind constantly and would effectively be dictating which book gets to hold the
+best-scoring names. Still the owner's call, still not actioned; recorded because
+the number moved enough that the decision is different now.
+
+n = 29 open positions, 17 names, one snapshot.
