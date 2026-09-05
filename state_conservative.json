@@ -8,7 +8,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 764.97,
+      "last_price": 765.94,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -21,7 +21,7 @@
       "entry_score": 21.44408,
       "pattern_bonus": 0.0,
       "side": "long",
-      "peak_pct": 6.260591748854015
+      "peak_pct": 6.559244339491601
     },
     "LINK": {
       "symbol": "LINK",
@@ -31,7 +31,7 @@
       "entry_price": 11.61,
       "entry_time": "2026-09-04T12:48:26Z",
       "peak_pct": 2.1533161068044793,
-      "last_price": 11.84,
+      "last_price": 11.83,
       "entry_features": {
         "pc_1h": -0.4,
         "pc_24h": 2.12533,
@@ -52,8 +52,8 @@
       "entry_price": 85.21,
       "entry_time": "2026-09-04T18:25:04Z",
       "entry_cost": 0.0,
-      "peak_pct": 0.10562140593827418,
-      "last_price": 85.06,
+      "peak_pct": 0.45769275906583806,
+      "last_price": 85.6,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 1.34567,
@@ -81,7 +81,7 @@
       "entry_time": "2026-09-04T22:00:50Z",
       "entry_cost": 0.0,
       "peak_pct": 1.5198703148793942,
-      "last_price": 1012.9,
+      "last_price": 1017.11,
       "entry_features": {
         "pc_1h": -0.7,
         "pc_24h": 7.07911,
@@ -109,7 +109,7 @@
       "entry_time": "2026-09-05T01:56:32Z",
       "entry_cost": 0.0,
       "peak_pct": 3.4364845462102203,
-      "last_price": 544.52,
+      "last_price": 546.09,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 3.2169,
@@ -136,8 +136,8 @@
       "entry_price": 0.080504,
       "entry_time": "2026-09-05T10:04:07Z",
       "entry_cost": 0.0,
-      "peak_pct": 1.0993242571797635,
-      "last_price": 0.081389,
+      "peak_pct": 1.1775812381993322,
+      "last_price": 0.08145,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 1.72836,
@@ -159,5 +159,5 @@
   "moons": 0,
   "wins": 2,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-05T13:13:31Z"
+  "updated": "2026-09-05T13:23:08Z"
 }
