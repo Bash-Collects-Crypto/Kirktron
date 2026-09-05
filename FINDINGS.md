@@ -1456,3 +1456,47 @@ proposed at 22:38 for a different reason and is more feasible now that bars
 carry timestamps, but it changes exit timing, so it stays the owner's call.
 
 n = 23 stop fills, one regime, XRP excluded.
+
+## 12:40 — aggressive is not a strategy under test; it is one cycle's snapshot, held 43 hours
+
+Chasing why aggressive has produced zero resolutions in 43 hours turned up two
+things, one a documentation error and one structural.
+
+**Documentation error, fixed.** `CLAUDE.md` listed aggressive's maximum hold as
+96 hours. The code says **48** (`paper_trader.py:362`). Every estimate of when
+its positions expire has been made from the code, so nothing downstream was
+wrong, but the table was. Corrected in this commit.
+
+**The structural part.** Its whole book went on at one instant:
+
+| symbol | opened | size |
+|---|---|---|
+| ENA | 2026-09-03 17:32:30 | $2,200 |
+| XPL | 2026-09-03 17:32:30 | $2,200 |
+| NIGHT | 2026-09-03 17:32:30 | $2,200 |
+| STX | 2026-09-03 17:32:30 | $2,200 |
+| ZEC | 2026-09-04 06:39:15 | $718 |
+
+**$8,800 of $10,000 — 88% of the book — was committed in a single cycle, all
+long, and has not moved since.** The $2,200 sizing is legacy: `position_pct` is
+now 0.075, and the later ZEC entry at $717.86 confirms the current config sizes
+correctly. Nothing is broken; the four large positions simply predate a
+parameter change.
+
+The consequence is that **aggressive's P/L is not a measurement of its
+strategy.** It is the outcome of four coins picked at 17:32 on 3 September,
+marked continuously for two days. There is no sampling across entries, no
+sequence of independent decisions — one draw, held. Comparing its −2.3% to the
+other books' performance is comparing a strategy to a snapshot.
+
+It is also why the book is frozen: $482 of cash against a $750 target means it
+cannot open anything, and `max_positions` of 12 is unreachable — cash binds at
+five. The 12 is dead configuration.
+
+**Its four caps fall at 2026-09-05 17:32:30**, 48 hours after entry. That will
+produce aggressive's first four resolutions, almost certainly all "max hold"
+unless STX (−6.65%) or ENA (−5.64%) reaches the 8% stop first. Those four are
+worth watching not because four trades mean anything, but because they are the
+only evidence this book will have produced in two days.
+
+n = 5 positions, 1 book, 43 hours.

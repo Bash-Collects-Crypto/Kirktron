@@ -23,7 +23,7 @@ so the same ground is not re-covered.
 | book | universe | direction | hold | stop / target | costs |
 |---|---|---|---|---|---|
 | conservative | rank <= 30 | long | <= 168h | 3% / 9% | none |
-| aggressive | rank <= 150 | long | <= 96h | 8% / 22% | none |
+| aggressive | rank <= 150 | long | <= 48h | 8% / 22% | none |
 | longshort | rank <= 50 | both | <= 48h | 5% / 12% | none |
 | daytrade | rank <= 25, 5-min bars | both | <= 6h | 1.2% / 2.5% | 15bps/side |
 
