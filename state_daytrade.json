@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 3757.474545710722,
+  "cash": 3764.088971237594,
   "positions": {
-    "ZEC": {
-      "symbol": "ZEC",
-      "name": "Zcash",
-      "side": "long",
-      "quantity": 0.9875762902684232,
-      "entry_price": 1012.58,
-      "entry_time": "2026-09-05T10:33:02Z",
-      "entry_cost": 1.5,
-      "peak_pct": 1.309526160895917,
-      "last_price": 1022.16,
-      "entry_features": {
-        "pc_1h": 0.4,
-        "pc_24h": 1.98028,
-        "pc_7d": 27.2,
-        "pc_14d": 27.3,
-        "pc_30d": 99.5,
-        "vol_mcap": 6.618439922393793,
-        "cap_rank": 95.6,
-        "ret_30m": 0.5360783067875685,
-        "ret_2h": 0.9937548128284623,
-        "ema_spread": 0.07076886971672548,
-        "rsi14": 62.65058579853977,
-        "range_pos": 63.05144615309807,
-        "vol_5m": 0.17735010692807313
-      },
-      "entry_score": 0.9688151349376009,
-      "pattern_bonus": 0.0
-    },
     "XLM": {
       "symbol": "XLM",
       "name": "Stellar",
@@ -39,7 +11,7 @@
       "entry_time": "2026-09-05T10:45:00Z",
       "entry_cost": 1.5,
       "peak_pct": 1.399320749787729,
-      "last_price": 0.183866,
+      "last_price": 0.183916,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": -0.56913,
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-05T12:12:39Z",
       "entry_cost": 1.5,
       "peak_pct": 0.7503791809691049,
-      "last_price": 252.12,
+      "last_price": 252.15,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": -3.52219,
@@ -123,7 +95,7 @@
       "entry_time": "2026-09-05T15:11:06Z",
       "entry_cost": 1.5,
       "peak_pct": 0.5003443928938129,
-      "last_price": 770.67,
+      "last_price": 772.08,
       "entry_features": {
         "pc_1h": 1.2,
         "pc_24h": 7.7601,
@@ -150,8 +122,8 @@
       "entry_price": 0.218002,
       "entry_time": "2026-09-05T15:32:08Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.13302630251099187,
-      "last_price": 0.217747,
+      "peak_pct": 0.21008981568975799,
+      "last_price": 0.217902,
       "entry_features": {
         "pc_1h": 1.0,
         "pc_24h": 2.21349,
@@ -169,15 +141,45 @@
       },
       "entry_score": 1.1378532724662347,
       "pattern_bonus": 0.0
+    },
+    "HYPE": {
+      "symbol": "HYPE",
+      "name": "Hyperliquid",
+      "side": "long",
+      "quantity": 11.684973124561814,
+      "entry_price": 85.58,
+      "entry_time": "2026-09-05T16:33:32Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.3038093012386131,
+      "last_price": 85.84,
+      "entry_features": {
+        "pc_1h": 0.2,
+        "pc_24h": 0.80796,
+        "pc_7d": 3.2,
+        "pc_14d": 10.5,
+        "pc_30d": 53.0,
+        "vol_mcap": 4.289669081728905,
+        "cap_rank": 96.0,
+        "ret_30m": 0.24467387561832865,
+        "ret_2h": 0.49886483765786416,
+        "ema_spread": 0.17163483941710658,
+        "rsi14": 66.32780798438137,
+        "range_pos": 94.06186792086386,
+        "vol_5m": 0.11373659436718817
+      },
+      "entry_score": 0.625238376099109,
+      "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -233.52830040561483,
-  "fees_paid": 117.41233031403713,
-  "trades_opened": 39,
-  "trades_closed": 33,
+  "cooldowns": {
+    "ZEC": "2026-09-05T17:03:32Z"
+  },
+  "realized_pnl": -226.91387487874292,
+  "fees_paid": 120.42677361728231,
+  "trades_opened": 40,
+  "trades_closed": 34,
   "moons": 3,
-  "wins": 10,
+  "wins": 11,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-05T16:31:47Z"
+  "updated": "2026-09-05T16:40:28Z"
 }
