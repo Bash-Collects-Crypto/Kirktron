@@ -1,6 +1,6 @@
 {
   "name": "conservative",
-  "cash": 3855.809572134205,
+  "cash": 4888.9544346805105,
   "positions": {
     "BNB": {
       "symbol": "BNB",
@@ -8,7 +8,7 @@
       "quantity": 1.3890818169190167,
       "entry_price": 719.9,
       "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 746.82,
+      "last_price": 750.84,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 5.05408,
@@ -21,28 +21,7 @@
       "entry_score": 21.44408,
       "pattern_bonus": 0.0,
       "side": "long",
-      "peak_pct": 3.940825114599251
-    },
-    "LTC": {
-      "symbol": "LTC",
-      "name": "Litecoin",
-      "quantity": 19.496977968414896,
-      "entry_price": 51.29,
-      "entry_time": "2026-09-03T17:32:30Z",
-      "last_price": 53.19,
-      "entry_features": {
-        "pc_1h": 0.0,
-        "pc_24h": 3.74788,
-        "pc_7d": 2.2,
-        "pc_14d": 6.9,
-        "pc_30d": 15.7,
-        "vol_mcap": 6.8767079817606405,
-        "cap_rank": 89.60000000000001
-      },
-      "entry_score": 16.36788,
-      "pattern_bonus": 0.0,
-      "side": "long",
-      "peak_pct": 5.907584324429715
+      "peak_pct": 4.2978191415474445
     },
     "LINK": {
       "symbol": "LINK",
@@ -52,7 +31,7 @@
       "entry_price": 11.61,
       "entry_time": "2026-09-04T12:48:26Z",
       "peak_pct": 1.3781223083548677,
-      "last_price": 11.76,
+      "last_price": 11.75,
       "entry_features": {
         "pc_1h": -0.4,
         "pc_24h": 2.12533,
@@ -74,7 +53,7 @@
       "entry_time": "2026-09-04T18:25:04Z",
       "entry_cost": 0.0,
       "peak_pct": 0.10562140593827418,
-      "last_price": 84.56,
+      "last_price": 84.6,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 1.34567,
@@ -102,7 +81,7 @@
       "entry_time": "2026-09-04T22:00:50Z",
       "entry_cost": 0.0,
       "peak_pct": 1.5198703148793942,
-      "last_price": 1006.97,
+      "last_price": 1004.87,
       "entry_features": {
         "pc_1h": -0.7,
         "pc_24h": 7.07911,
@@ -130,7 +109,7 @@
       "entry_time": "2026-09-05T01:56:32Z",
       "entry_cost": 0.0,
       "peak_pct": 0.9276052293508592,
-      "last_price": 528.06,
+      "last_price": 528.52,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 3.2169,
@@ -150,13 +129,15 @@
       "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -144.19042786579598,
+  "cooldowns": {
+    "LTC": "2026-09-05T12:34:01Z"
+  },
+  "realized_pnl": -111.0455653194906,
   "fees_paid": 0.0,
   "trades_opened": 13,
-  "trades_closed": 7,
+  "trades_closed": 8,
   "moons": 0,
-  "wins": 1,
+  "wins": 2,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-05T08:32:05Z"
+  "updated": "2026-09-05T08:41:54Z"
 }
