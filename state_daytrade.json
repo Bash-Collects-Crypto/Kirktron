@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 3758.7145115820895,
+  "cash": 4769.328525720415,
   "positions": {
     "HYPE": {
       "symbol": "HYPE",
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-06T01:33:32Z",
       "entry_cost": 1.5,
       "peak_pct": 0.8956787113783636,
-      "last_price": 0.222875,
+      "last_price": 0.221541,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 4.83672,
@@ -66,8 +66,8 @@
       "entry_price": 1069.95,
       "entry_time": "2026-09-06T01:36:48Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.20000934623112038,
-      "last_price": 1070.51,
+      "peak_pct": 0.4074956773680919,
+      "last_price": 1073.73,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 5.04324,
@@ -95,7 +95,7 @@
       "entry_time": "2026-09-06T02:05:16Z",
       "entry_cost": 1.5,
       "peak_pct": 0.3277157295566871,
-      "last_price": 2508.07,
+      "last_price": 2507.13,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 2.23191,
@@ -114,34 +114,6 @@
       "entry_score": 0.6877103250084114,
       "pattern_bonus": -0.41170026230695334
     },
-    "SOL": {
-      "symbol": "SOL",
-      "name": "Solana",
-      "side": "long",
-      "quantity": 9.552923194497515,
-      "entry_price": 104.68,
-      "entry_time": "2026-09-06T03:20:29Z",
-      "entry_cost": 1.5,
-      "peak_pct": 2.072984333205949,
-      "last_price": 106.27,
-      "entry_features": {
-        "pc_1h": 0.4,
-        "pc_24h": 2.74157,
-        "pc_7d": -0.8,
-        "pc_14d": 8.7,
-        "pc_30d": 43.7,
-        "vol_mcap": 4.204054389361925,
-        "cap_rank": 97.2,
-        "ret_30m": 0.3051162617165426,
-        "ret_2h": 1.062360304618526,
-        "ema_spread": 0.33434567261584425,
-        "rsi14": 64.68116039245848,
-        "range_pos": 100.0,
-        "vol_5m": 0.128593011646777
-      },
-      "entry_score": 0.6725347988610384,
-      "pattern_bonus": -0.4056223766110014
-    },
     "LTC": {
       "symbol": "LTC",
       "name": "Litecoin",
@@ -151,7 +123,7 @@
       "entry_time": "2026-09-06T03:41:20Z",
       "entry_cost": 1.5,
       "peak_pct": 0.03630422944272285,
-      "last_price": 54.76,
+      "last_price": 54.52,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 4.55732,
@@ -171,13 +143,15 @@
       "pattern_bonus": 0.006123470885526232
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -232.28833453424704,
-  "fees_paid": 171.4953147394823,
+  "cooldowns": {
+    "SOL": "2026-09-06T04:34:21Z"
+  },
+  "realized_pnl": -223.1743203959207,
+  "fees_paid": 173.0135130581678,
   "trades_opened": 57,
-  "trades_closed": 51,
+  "trades_closed": 52,
   "moons": 7,
-  "wins": 17,
+  "wins": 18,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T03:52:02Z"
+  "updated": "2026-09-06T04:12:14Z"
 }

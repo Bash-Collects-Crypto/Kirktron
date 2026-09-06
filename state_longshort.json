@@ -1,34 +1,7 @@
 {
   "name": "longshort",
-  "cash": 2241.387985743602,
+  "cash": 2220.370413675151,
   "positions": {
-    "HYPE": {
-      "symbol": "HYPE",
-      "name": "Hyperliquid",
-      "side": "long",
-      "quantity": 17.227518088893994,
-      "entry_price": 87.07,
-      "entry_time": "2026-09-04T04:08:29Z",
-      "peak_pct": 0.2641552773630458,
-      "last_price": 85.94,
-      "entry_features": {
-        "pc_1h": 0.4,
-        "pc_24h": 5.6688,
-        "pc_7d": 4.6,
-        "pc_14d": 18.2,
-        "pc_30d": 54.8,
-        "vol_mcap": 8.646430020859967,
-        "cap_rank": 96.0,
-        "ret_30m": -0.1044998961605037,
-        "ret_2h": 0.18548722135578455,
-        "ema_spread": 0.12614261236830399,
-        "rsi14": 52.803357431771296,
-        "range_pos": 87.38090156553989,
-        "vol_5m": 0.16476716272911804
-      },
-      "entry_score": 21.430080000000004,
-      "pattern_bonus": 0.0
-    },
     "NEAR": {
       "symbol": "NEAR",
       "name": "NEAR Protocol",
@@ -60,7 +33,7 @@
       "entry_time": "2026-09-05T19:33:43Z",
       "entry_cost": 0.0,
       "peak_pct": 3.8997214484679703,
-      "last_price": 7.21,
+      "last_price": 7.22,
       "entry_features": {
         "pc_1h": 4.3,
         "pc_24h": 15.58992,
@@ -88,7 +61,7 @@
       "entry_time": "2026-09-05T21:00:46Z",
       "entry_cost": 0.0,
       "peak_pct": 2.2586554313976994,
-      "last_price": 556.1,
+      "last_price": 555.64,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 1.9241,
@@ -109,8 +82,8 @@
       "entry_price": 1064.3,
       "entry_time": "2026-09-06T03:41:20Z",
       "entry_cost": 0.0,
-      "peak_pct": 0.7319364840740359,
-      "last_price": 1070.51,
+      "peak_pct": 0.9405242882645862,
+      "last_price": 1073.73,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": 3.59676,
@@ -128,17 +101,46 @@
       },
       "entry_score": 39.854816,
       "pattern_bonus": 0.0
+    },
+    "ADA": {
+      "symbol": "ADA",
+      "name": "Cardano",
+      "side": "long",
+      "quantity": 6757.365528425984,
+      "entry_price": 0.22198,
+      "entry_time": "2026-09-06T04:08:43Z",
+      "entry_cost": 0.0,
+      "peak_pct": 0.0,
+      "last_price": 0.221541,
+      "entry_features": {
+        "pc_1h": 0.7,
+        "pc_24h": 5.44607,
+        "pc_7d": 11.0,
+        "pc_14d": -0.2,
+        "pc_30d": 11.3,
+        "vol_mcap": 5.2659327380356915,
+        "cap_rank": 92.80000000000001,
+        "ret_30m": 0.23999833097880785,
+        "ret_2h": 0.48803383929418853,
+        "ema_spread": 0.32501892659635256,
+        "rsi14": 57.77853024815125,
+        "range_pos": 90.68987513642021,
+        "vol_5m": 0.21547182432688702
+      },
+      "entry_score": 17.243712,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {
-    "XLM": "2026-09-06T05:41:20Z"
+    "XLM": "2026-09-06T05:41:20Z",
+    "HYPE": "2026-09-06T06:08:43Z"
   },
-  "realized_pnl": -258.61201425639814,
+  "realized_pnl": -279.62958632484873,
   "fees_paid": 0.0,
-  "trades_opened": 12,
-  "trades_closed": 7,
+  "trades_opened": 13,
+  "trades_closed": 8,
   "moons": 0,
   "wins": 2,
   "started": "2026-09-03T19:32:42Z",
-  "updated": "2026-09-06T03:52:02Z"
+  "updated": "2026-09-06T04:12:14Z"
 }
