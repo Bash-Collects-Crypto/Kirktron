@@ -49,6 +49,34 @@ cut -d, -f1,2 | sort | uniq -d` is empty, `rm -f STOP`, run another cycle.
 Never `pkill` a pattern matching `paper_trader.py` — it matches the agent's own
 shell. Use `touch STOP` or kill by PID.
 
+## The funding book (added 2026-09-06 10:00)
+
+A FIFTH book, `funding_book.py`, on `okx.py` data. It is not a momentum book: it
+holds spot and shorts the perpetual in equal size, so it has no net price
+exposure, and its return is the 8-hourly funding payment leveraged longs make to
+shorts. Measured over 33 days an equal-weight basket of majors paid ~+5.1%/year,
+13 of 15 positive. That is ~$1.40/day on $10,000 -- small and real, against four
+momentum books whose per-trade intervals all straddle zero.
+
+- It runs once per cycle from `run_headless.sh`; a venue outage is reported, not
+  fatal, because the book halts rather than trade on stale rates.
+- OKX is the only reachable venue: Binance 451, Bybit 403 (checked 2026-09-06).
+- Costs are charged from the first tick: 5bps per leg, 0.20% per round trip
+  across both legs, about fourteen days of median funding. Hence
+  `MIN_HOLD_HOURS = 72`. **This strategy dies if it churns.**
+- Majors only. The fattest OKX funding sits on illiquid alt perps where the spot
+  leg cannot be exited at the mark -- that is a liquidity premium, not a return.
+- Its first cycle opened 7 pairs and paid $7.70 in entry fees, so it starts
+  BELOW $10,000 and needs about five days just to recover them. Do not read the
+  first week's drawdown as failure.
+- `funding.log` is gitignored; `funding_log.csv` and `state_funding.json` go to
+  the data branch via `snapshot.sh`.
+
+**THE 3%/DAY TARGET IS NOT REACHABLE.** It compounds to 48,500x a year, roughly
+20x the best sustained record in financial history. Report actual numbers and say
+plainly where they stand; never score progress against it as though it were in
+range. Recorded here because it will be asked again.
+
 **daytrade's pattern model is ACTIVE** as of 2026-09-06T01:06:12Z (48 resolved,
 5 moons). It scores on pc_14d / pc_30d / pc_7d and its bonus now moves live
 entries. The other three books remain inactive.
