@@ -1990,3 +1990,37 @@ So: **no side effect is detectable, and the short leg is not to be disabled or
 re-parameterised on this evidence.** Recorded so the same table is not rediscovered
 and mistaken for a signal. Revisit at ~30 resolved shorts, where a real 0.4pp gap
 would begin to separate from noise. Sample: 45 resolved daytrade trades, 12 short.
+
+## 2026-09-06 00:45 — no support for a re-entry or direction-change cooldown
+
+Prompted by daytrade doing both things in one cycle at 00:33–00:34: it re-bought
+UNI 2.1 hours after stopping out of UNI at −1.26%, and went long ZEC at $1,033.00
+64 minutes after covering a ZEC short at $1,024.19 on a stop. Both look like the
+book fighting itself, and a "direction-change cooldown" and a "same-symbol
+cooldown" have been sitting on the open-decisions list on exactly that intuition.
+
+Matched all 45 resolved daytrade trades back to their entries and split them by
+how long it had been since that symbol last resolved in this book:
+
+| entry | n | wins | mean | median |
+|---|---|---|---|---|
+| re-entered within 2h of a close | 9 | 4 (44%) | **−0.086%** | −0.319% |
+| fresh, or >2h since last close | 36 | 12 (33%) | −0.349% | −0.769% |
+
+The fast re-entries did **better**, not worse — fast-minus-slow +0.263pp, 95% CI
+−1.067 to +1.592. Nothing is established at n = 9; what matters is the sign. The
+proposed cooldowns rest on the claim that these entries are worse, and the data
+leans the other way.
+
+Two details sharpen it. Of the nine fast re-entries only two flipped direction
+(mean −0.417%) and seven kept the same side (mean +0.008%), so there is no
+direction-flip penalty visible either. And **one of daytrade's three moons is
+itself a 0.5-hour re-entry** — long ZEC, +3.869%, opened half an hour after a ZEC
+long closed. A same-symbol cooldown of even one hour would have deleted a third of
+the book's moons, and the pattern model needs four to activate.
+
+Recommendation: **drop both cooldowns from the open-decisions list.** They would
+cost entries the log says are no worse than average and would directly reduce the
+moon count that gates the model. Not a parameter change either way — nothing was
+touched. Revisit only if the fast-re-entry mean turns negative relative to fresh
+entries at n ≈ 25. Sample: 45 resolved daytrade trades, 9 re-entries within 2h.
