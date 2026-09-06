@@ -2182,3 +2182,49 @@ until the top-feature ranking is stable across, say, three consecutive moons, or
 cap its magnitude so it can reorder near-ties without vetoing candidates outright.
 Both are strategy changes. Sample: 51 resolved daytrade trades, 7 moons, three
 readings of the model.
+
+## 2026-09-06 04:15 — the first model-era resolution, and it lands in the dead band
+
+daytrade's SOL is the first entry the pattern model actually scored to resolve:
+
+```
+ENTRY 03:20:29  score 0.673, pattern -0.406   (base 1.079 before the penalty)
+EXIT  04:04:21  +1.213%, held 0.73h — trailing stop (peak +2.07%, now +1.21%)
+```
+
+Two things at once.
+
+**The model's first live verdict was wrong in the direction that matters least.**
+It penalised SOL by 0.406 — a candidate that went on to peak at +2.07%, above the
+moon line. It was not a moon on closing P/L, so the model's discouragement was not
+punished by the scoreboard, but the trade it discouraged was the best-performing
+daytrade entry of the hour. One observation, no conclusion: recorded because it is
+the first data point in the only test that matters, whether bonus sign predicts
+outcome. Running tally of model-era entries: 6 scored, 1 resolved.
+
+**And it is the fifth dead-band event** (FINDINGS 14:05, 02:35). Peak +2.07%,
+closed +1.21%, giving back 0.86pp against a 0.7% trail. Five of the ten trailed
+exits in program history have now peaked above their book's moon line and closed
+below it — **50%**. daytrade accounts for four of the five; conservative's BNB is
+the outlier by size.
+
+The count is worth stating plainly because it changes how the moon threshold
+should be read. A "moon" is not a rare event the strategies almost never reach —
+they reach the line routinely and the trailing stop takes the credit away on the
+way down. Twelve trades have touched their moon line; seven were credited. The
+gate that held daytrade's model inactive for two days, and still holds the other
+three books' models inactive, is substantially an artifact of measuring at the
+exit rather than at the peak.
+
+This strengthens the question already with the owner from 02:35 — flag moons on
+peak P/L — and it is worth restating that the change is labelling only: it moves
+no stop, alters no entry, and would have credited five additional trades that
+genuinely delivered their thesis. Sample: 10 trailed exits, 5 in the dead band;
+6 model-era entries, 1 resolved.
+
+**Universe audit (due ~04:30, run 04:12): clean.** 250 fetched → 189 excluded →
+61 tradeable, unchanged from 22:32. Exclusion list loaded from cache (979 ids /
+896 symbols, fetched 01:12:59) — **no fails-open warning**. daytrade's universe is
+17 coins. The three known rank<=25 bypass leaks are all still present (RAIN 12,
+LEO 17, UNI 22 — each has drifted a rank since the last audit) and remain the
+owner's call.
