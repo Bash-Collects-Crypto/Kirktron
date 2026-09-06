@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 3676.0946605194385,
+  "cash": 4662.199488105645,
   "positions": {
     "ADA": {
       "symbol": "ADA",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-06T13:24:46Z",
       "entry_cost": 1.5,
       "peak_pct": 1.0661214857095813,
-      "last_price": 0.218228,
+      "last_price": 0.218263,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 0.77805,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-06T14:39:42Z",
       "entry_cost": 1.5,
       "peak_pct": 0.12870220568952728,
-      "last_price": 2486.66,
+      "last_price": 2490.14,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 0.8513,
@@ -94,8 +94,8 @@
       "entry_price": 1172.01,
       "entry_time": "2026-09-06T16:33:52Z",
       "entry_cost": 1.5,
-      "peak_pct": 1.3344596035870087,
-      "last_price": 1187.65,
+      "peak_pct": 1.9317241320466634,
+      "last_price": 1187.29,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 14.47206,
@@ -114,34 +114,6 @@
       "entry_score": 1.65574116998536,
       "pattern_bonus": 0.43249288448063683
     },
-    "UNI": {
-      "symbol": "UNI",
-      "name": "Uniswap",
-      "side": "long",
-      "quantity": 137.93103448275863,
-      "entry_price": 7.25,
-      "entry_time": "2026-09-06T16:49:18Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.5517241379310349,
-      "last_price": 7.22,
-      "entry_features": {
-        "pc_1h": 0.0,
-        "pc_24h": 9.05213,
-        "pc_7d": 34.4,
-        "pc_14d": 55.0,
-        "pc_30d": 76.1,
-        "vol_mcap": 25.638637499762257,
-        "cap_rank": 91.2,
-        "ret_30m": 2.040797651934545,
-        "ret_2h": 3.816613691442705,
-        "ema_spread": 1.576123498845121,
-        "rsi14": 73.36412836751222,
-        "range_pos": 72.74335986654745,
-        "vol_5m": 0.8600210045595683
-      },
-      "entry_score": 5.462866127375027,
-      "pattern_bonus": 0.19490548482138936
-    },
     "LINK": {
       "symbol": "LINK",
       "name": "Chainlink",
@@ -151,7 +123,7 @@
       "entry_time": "2026-09-06T16:50:28Z",
       "entry_cost": 1.5,
       "peak_pct": 0.08116883116882943,
-      "last_price": 12.3,
+      "last_price": 12.29,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 3.26448,
@@ -171,13 +143,15 @@
       "pattern_bonus": -0.3872638664834662
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -314.9081855968981,
-  "fees_paid": 219.44330695120587,
+  "cooldowns": {
+    "UNI": "2026-09-06T17:59:30Z"
+  },
+  "realized_pnl": -330.30335801069117,
+  "fees_paid": 220.9246862615507,
   "trades_opened": 73,
-  "trades_closed": 67,
+  "trades_closed": 68,
   "moons": 10,
   "wins": 21,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T17:20:32Z"
+  "updated": "2026-09-06T17:30:40Z"
 }
