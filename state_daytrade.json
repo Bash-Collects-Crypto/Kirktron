@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 7731.861919433084,
+  "cash": 6730.361919433084,
   "positions": {
     "BCH": {
       "symbol": "BCH",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-05T21:27:35Z",
       "entry_cost": 1.5,
       "peak_pct": 0.9252420013217725,
-      "last_price": 259.01,
+      "last_price": 258.51,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": 1.69867,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-05T21:34:47Z",
       "entry_cost": 1.5,
       "peak_pct": 1.2427506213753137,
-      "last_price": 12.22,
+      "last_price": 12.19,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 3.43528,
@@ -57,6 +57,34 @@
       },
       "entry_score": 0.6195337668083725,
       "pattern_bonus": 0.0
+    },
+    "HYPE": {
+      "symbol": "HYPE",
+      "name": "Hyperliquid",
+      "side": "long",
+      "quantity": 11.622501162250115,
+      "entry_price": 86.04,
+      "entry_time": "2026-09-06T01:25:43Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.023245002324495605,
+      "last_price": 86.0,
+      "entry_features": {
+        "pc_1h": 0.1,
+        "pc_24h": 2.21782,
+        "pc_7d": 2.5,
+        "pc_14d": 7.6,
+        "pc_30d": 52.3,
+        "vol_mcap": 3.93011591910429,
+        "cap_rank": 96.39999999999999,
+        "ret_30m": 0.720083571508856,
+        "ret_2h": 0.990669020741386,
+        "ema_spread": 0.22743978497868778,
+        "rsi14": 70.70210110072182,
+        "range_pos": 93.89181853966969,
+        "vol_5m": 0.1337621442067568
+      },
+      "entry_score": 0.7218563978259481,
+      "pattern_bonus": -0.6178890729168184
     }
   },
   "cooldowns": {
@@ -65,11 +93,11 @@
     "UNI": "2026-09-06T01:39:08Z"
   },
   "realized_pnl": -265.14092668325185,
-  "fees_paid": 156.43244154146177,
-  "trades_opened": 50,
+  "fees_paid": 157.93244154146177,
+  "trades_opened": 51,
   "trades_closed": 48,
   "moons": 5,
   "wins": 15,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T01:16:29Z"
+  "updated": "2026-09-06T01:28:05Z"
 }
