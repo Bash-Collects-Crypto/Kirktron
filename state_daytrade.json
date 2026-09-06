@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 3752.6431953237225,
+  "cash": 4737.595027074061,
   "positions": {
     "BCH": {
       "symbol": "BCH",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-05T21:27:35Z",
       "entry_cost": 1.5,
       "peak_pct": 1.3878630019826586,
-      "last_price": 260.06,
+      "last_price": 259.58,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": 1.69867,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-06T01:25:43Z",
       "entry_cost": 1.5,
       "peak_pct": 0.20920502092049348,
-      "last_price": 85.41,
+      "last_price": 85.43,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 2.21782,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-06T01:33:32Z",
       "entry_cost": 1.5,
       "peak_pct": 0.40224280838615445,
-      "last_price": 0.221029,
+      "last_price": 0.220725,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 4.83672,
@@ -95,7 +95,7 @@
       "entry_time": "2026-09-06T01:36:48Z",
       "entry_cost": 1.5,
       "peak_pct": 0.1691667834945507,
-      "last_price": 1066.5,
+      "last_price": 1064.09,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 5.04324,
@@ -114,34 +114,6 @@
       "entry_score": 4.130874085894067,
       "pattern_bonus": 0.20098356318239402
     },
-    "UNI": {
-      "symbol": "UNI",
-      "name": "Uniswap",
-      "side": "long",
-      "quantity": 135.68521031207598,
-      "entry_price": 7.37,
-      "entry_time": "2026-09-06T01:39:26Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.6784260515603775,
-      "last_price": 7.35,
-      "entry_features": {
-        "pc_1h": 3.5,
-        "pc_24h": 19.23862,
-        "pc_7d": 40.0,
-        "pc_14d": 60.0,
-        "pc_30d": 81.7,
-        "vol_mcap": 20.473174782880825,
-        "cap_rank": 91.2,
-        "ret_30m": 0.43163125863439067,
-        "ret_2h": 3.796920629484579,
-        "ema_spread": 1.4729549174778211,
-        "rsi14": 67.02204063273355,
-        "range_pos": 90.57068926378268,
-        "vol_5m": 0.5511351095121121
-      },
-      "entry_score": 3.8705682893136935,
-      "pattern_bonus": 0.3424689093863147
-    },
     "ETH": {
       "symbol": "ETH",
       "name": "Ethereum",
@@ -151,7 +123,7 @@
       "entry_time": "2026-09-06T02:05:16Z",
       "entry_cost": 1.5,
       "peak_pct": 0.13930912255212063,
-      "last_price": 2503.24,
+      "last_price": 2502.3,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 2.23191,
@@ -172,14 +144,15 @@
     }
   },
   "cooldowns": {
-    "LINK": "2026-09-06T02:34:05Z"
+    "LINK": "2026-09-06T02:34:05Z",
+    "UNI": "2026-09-06T03:02:05Z"
   },
-  "realized_pnl": -238.35965079261388,
-  "fees_paid": 165.47718056383127,
+  "realized_pnl": -254.9078190422747,
+  "fees_paid": 166.95682778228445,
   "trades_opened": 55,
-  "trades_closed": 49,
+  "trades_closed": 50,
   "moons": 6,
   "wins": 16,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T02:22:42Z"
+  "updated": "2026-09-06T02:32:05Z"
 }
