@@ -1,8 +1,0 @@
-timestamp,action,coin,spot_px,perp_px,basis_pct,notional_usd,ann_funding_pct,positive_share,funding_earned_usd,fees_usd,net_usd,hold_hours,reason,book_value
-2026-09-06T10:00:37Z,OPEN,UNI,7.00600000,7.00300000,-0.0428,1100.00,8.50,0.930,,1.1000,,,"long spot / short perp, funding 8.50%/yr, 93% of settles positive",10000.00
-2026-09-06T10:00:37Z,OPEN,DOGE,0.09035000,0.09032000,-0.0332,1100.00,7.87,0.940,,1.1000,,,"long spot / short perp, funding 7.87%/yr, 94% of settles positive",10000.00
-2026-09-06T10:00:37Z,OPEN,SUI,0.80100000,0.80100000,0.0000,1100.00,7.69,0.880,,1.1000,,,"long spot / short perp, funding 7.69%/yr, 88% of settles positive",10000.00
-2026-09-06T10:00:37Z,OPEN,BTC,79910.00000000,79855.70000000,-0.0680,1100.00,6.72,0.950,,1.1000,,,"long spot / short perp, funding 6.72%/yr, 95% of settles positive",10000.00
-2026-09-06T10:00:37Z,OPEN,ETH,2500.35000000,2499.08000000,-0.0508,1100.00,6.44,0.930,,1.1000,,,"long spot / short perp, funding 6.44%/yr, 93% of settles positive",10000.00
-2026-09-06T10:00:37Z,OPEN,XRP,1.41980000,1.41900000,-0.0563,1100.00,6.24,0.850,,1.1000,,,"long spot / short perp, funding 6.24%/yr, 85% of settles positive",10000.00
-2026-09-06T10:00:37Z,OPEN,SOL,106.54000000,106.48000000,-0.0563,1100.00,3.97,0.730,,1.1000,,,"long spot / short perp, funding 3.97%/yr, 73% of settles positive",10000.00

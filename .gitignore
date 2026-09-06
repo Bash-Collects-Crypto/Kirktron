@@ -24,5 +24,6 @@ range_pos_survey.csv
 gate_census.csv
 gate_census_v1.csv
 intraday_bars.csv
+funding_log.csv
 .headless.lock
 funding.log
