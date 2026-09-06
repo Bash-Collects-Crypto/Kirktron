@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 5741.465836953751,
+  "cash": 6765.930743178582,
   "positions": {
-    "HYPE": {
-      "symbol": "HYPE",
-      "name": "Hyperliquid",
-      "side": "long",
-      "quantity": 11.506155793349443,
-      "entry_price": 86.91,
-      "entry_time": "2026-09-06T08:16:13Z",
-      "entry_cost": 1.5,
-      "peak_pct": 2.1286388217696564,
-      "last_price": 88.74,
-      "entry_features": {
-        "pc_1h": 0.2,
-        "pc_24h": 2.79933,
-        "pc_7d": 3.7,
-        "pc_14d": 10.5,
-        "pc_30d": 55.6,
-        "vol_mcap": 4.693176756177748,
-        "cap_rank": 96.0,
-        "ret_30m": 0.7989056662422112,
-        "ret_2h": 0.6610574810061998,
-        "ema_spread": 0.13275592407279638,
-        "rsi14": 67.08587743914558,
-        "range_pos": 93.37329648430395,
-        "vol_5m": 0.15426645297973307
-      },
-      "entry_score": 0.7452896206584612,
-      "pattern_bonus": -0.4442932728232756
-    },
     "LINK": {
       "symbol": "LINK",
       "name": "Chainlink",
@@ -38,8 +10,8 @@
       "entry_price": 12.3,
       "entry_time": "2026-09-06T09:26:19Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.08130081300812834,
-      "last_price": 12.3,
+      "peak_pct": 0.24390243902438505,
+      "last_price": 12.32,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 3.73212,
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-06T10:20:43Z",
       "entry_cost": 1.5,
       "peak_pct": 0.028116213683225054,
-      "last_price": 106.56,
+      "last_price": 106.53,
       "entry_features": {
         "pc_1h": 1.2,
         "pc_24h": 4.12869,
@@ -94,8 +66,8 @@
       "entry_price": 7.0,
       "entry_time": "2026-09-06T11:17:10Z",
       "entry_cost": 1.5,
-      "peak_pct": 1.000000000000004,
-      "last_price": 7.05,
+      "peak_pct": 1.2857142857142836,
+      "last_price": 7.06,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 12.04153,
@@ -115,13 +87,15 @@
       "pattern_bonus": 0.13512135777750342
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -252.53700916258467,
-  "fees_paid": 198.50996370098204,
+  "cooldowns": {
+    "HYPE": "2026-09-06T12:57:23Z"
+  },
+  "realized_pnl": -229.57210293775432,
+  "fees_paid": 200.04896956912148,
   "trades_opened": 65,
-  "trades_closed": 61,
-  "moons": 9,
-  "wins": 20,
+  "trades_closed": 62,
+  "moons": 10,
+  "wins": 21,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T12:18:04Z"
+  "updated": "2026-09-06T12:27:23Z"
 }
