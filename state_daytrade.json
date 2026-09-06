@@ -11,7 +11,7 @@
       "entry_time": "2026-09-06T08:16:13Z",
       "entry_cost": 1.5,
       "peak_pct": 0.2071108042802978,
-      "last_price": 86.6,
+      "last_price": 86.58,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 2.79933,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-06T08:17:23Z",
       "entry_cost": 1.5,
       "peak_pct": 0.0,
-      "last_price": 1164.58,
+      "last_price": 1169.36,
       "entry_features": {
         "pc_1h": -1.6,
         "pc_24h": 16.53817,
@@ -59,9 +59,7 @@
       "pattern_bonus": 0.2943798812949416
     }
   },
-  "cooldowns": {
-    "ETH": "2026-09-06T08:35:30Z"
-  },
+  "cooldowns": {},
   "realized_pnl": -259.92435073806985,
   "fees_paid": 189.4898525218501,
   "trades_opened": 61,
@@ -69,5 +67,5 @@
   "moons": 8,
   "wins": 19,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T08:32:54Z"
+  "updated": "2026-09-06T08:43:47Z"
 }
