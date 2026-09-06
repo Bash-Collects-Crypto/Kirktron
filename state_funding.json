@@ -9,8 +9,8 @@
       "entry_basis_pct": -0.04282043962318175,
       "notional_usd": 1100.0,
       "entry_fees_usd": 1.1,
-      "funding_earned_usd": 0.0,
-      "last_funding_time": 1788710400000,
+      "funding_earned_usd": 0.07934823555703,
+      "last_funding_time": 1788739200000,
       "opened": "2026-09-06T10:00:37Z",
       "entry_ann_pct": 8.502066351201936
     },
@@ -21,8 +21,8 @@
       "entry_basis_pct": -0.033204205866078855,
       "notional_usd": 1100.0,
       "entry_fees_usd": 1.1,
-      "funding_earned_usd": 0.0,
-      "last_funding_time": 1788710400000,
+      "funding_earned_usd": 0.09059952189156001,
+      "last_funding_time": 1788739200000,
       "opened": "2026-09-06T10:00:37Z",
       "entry_ann_pct": 7.873928140303207
     },
@@ -33,8 +33,8 @@
       "entry_basis_pct": 0.0,
       "notional_usd": 1100.0,
       "entry_fees_usd": 1.1,
-      "funding_earned_usd": 0.0,
-      "last_funding_time": 1788710400000,
+      "funding_earned_usd": 0.11,
+      "last_funding_time": 1788739200000,
       "opened": "2026-09-06T10:00:37Z",
       "entry_ann_pct": 7.692329876697756
     },
@@ -45,8 +45,8 @@
       "entry_basis_pct": -0.0679514453760517,
       "notional_usd": 1100.0,
       "entry_fees_usd": 1.1,
-      "funding_earned_usd": 0.0,
-      "last_funding_time": 1788710400000,
+      "funding_earned_usd": 0.017444714257190002,
+      "last_funding_time": 1788739200000,
       "opened": "2026-09-06T10:00:37Z",
       "entry_ann_pct": 6.722478515525132
     },
@@ -57,8 +57,8 @@
       "entry_basis_pct": -0.0507928889955399,
       "notional_usd": 1100.0,
       "entry_fees_usd": 1.1,
-      "funding_earned_usd": 0.0,
-      "last_funding_time": 1788710400000,
+      "funding_earned_usd": 0.02674560662059,
+      "last_funding_time": 1788739200000,
       "opened": "2026-09-06T10:00:37Z",
       "entry_ann_pct": 6.442826028954107
     },
@@ -69,8 +69,8 @@
       "entry_basis_pct": -0.056345964220306514,
       "notional_usd": 1100.0,
       "entry_fees_usd": 1.1,
-      "funding_earned_usd": 0.0,
-      "last_funding_time": 1788710400000,
+      "funding_earned_usd": 0.02641328969081,
+      "last_funding_time": 1788739200000,
       "opened": "2026-09-06T10:00:37Z",
       "entry_ann_pct": 6.23931267891301
     },
@@ -81,8 +81,8 @@
       "entry_basis_pct": -0.056316876290597215,
       "notional_usd": 1100.0,
       "entry_fees_usd": 1.1,
-      "funding_earned_usd": 0.0,
-      "last_funding_time": 1788710400000,
+      "funding_earned_usd": -0.0195564117265,
+      "last_funding_time": 1788739200000,
       "opened": "2026-09-06T10:00:37Z",
       "entry_ann_pct": 3.9707834447417416
     },
@@ -93,8 +93,8 @@
       "entry_basis_pct": 0.04158004158005547,
       "notional_usd": 1099.1035503676596,
       "entry_fees_usd": 1.0991035503676596,
-      "funding_earned_usd": 0.0,
-      "last_funding_time": 1788710400000,
+      "funding_earned_usd": 0.10991035503676597,
+      "last_funding_time": 1788739200000,
       "opened": "2026-09-06T14:40:45Z",
       "entry_ann_pct": 7.149018047586799
     }
@@ -105,5 +105,5 @@
   "opened": 8,
   "wins": 0,
   "started": "2026-09-06T10:00:17Z",
-  "updated": "2026-09-06T15:50:42Z"
+  "updated": "2026-09-06T16:11:38Z"
 }
