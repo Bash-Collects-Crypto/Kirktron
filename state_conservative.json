@@ -1,28 +1,7 @@
 {
   "name": "conservative",
-  "cash": 3946.490203537296,
+  "cash": 3990.4178521161075,
   "positions": {
-    "LINK": {
-      "symbol": "LINK",
-      "name": "Chainlink",
-      "side": "long",
-      "quantity": 86.13264427217916,
-      "entry_price": 11.61,
-      "entry_time": "2026-09-04T12:48:26Z",
-      "peak_pct": 7.062876830318694,
-      "last_price": 12.14,
-      "entry_features": {
-        "pc_1h": -0.4,
-        "pc_24h": 2.12533,
-        "pc_7d": 2.3,
-        "pc_14d": 5.5,
-        "pc_30d": 47.7,
-        "vol_mcap": 6.283761754621049,
-        "cap_rank": 93.6
-      },
-      "entry_score": 26.605330000000002,
-      "pattern_bonus": 0.0
-    },
     "HYPE": {
       "symbol": "HYPE",
       "name": "Hyperliquid",
@@ -32,7 +11,7 @@
       "entry_time": "2026-09-04T18:25:04Z",
       "entry_cost": 0.0,
       "peak_pct": 1.4082854125102722,
-      "last_price": 86.15,
+      "last_price": 86.14,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 1.34567,
@@ -60,7 +39,7 @@
       "entry_time": "2026-09-04T22:00:50Z",
       "entry_cost": 0.0,
       "peak_pct": 6.644397504543891,
-      "last_price": 1068.43,
+      "last_price": 1074.5,
       "entry_features": {
         "pc_1h": -0.7,
         "pc_24h": 7.07911,
@@ -88,7 +67,7 @@
       "entry_time": "2026-09-05T01:56:32Z",
       "entry_cost": 0.0,
       "peak_pct": 5.461724476687064,
-      "last_price": 553.75,
+      "last_price": 553.79,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 3.2169,
@@ -116,7 +95,7 @@
       "entry_time": "2026-09-05T10:04:07Z",
       "entry_cost": 0.0,
       "peak_pct": 2.085610652886813,
-      "last_price": 0.081455,
+      "last_price": 0.081312,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 1.72836,
@@ -138,7 +117,7 @@
       "entry_time": "2026-09-06T02:26:33Z",
       "entry_cost": 0.0,
       "peak_pct": 0.7679648930334645,
-      "last_price": 54.38,
+      "last_price": 54.27,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 5.79456,
@@ -150,17 +129,46 @@
       },
       "entry_score": 28.89456,
       "pattern_bonus": 0.0
+    },
+    "ETH": {
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "side": "long",
+      "quantity": 0.3996610873978866,
+      "entry_price": 2502.12,
+      "entry_time": "2026-09-06T04:35:23Z",
+      "entry_cost": 0.0,
+      "peak_pct": 0.016785765670714145,
+      "last_price": 2501.89,
+      "entry_features": {
+        "pc_1h": 0.2,
+        "pc_24h": 2.03858,
+        "pc_7d": 2.2,
+        "pc_14d": 3.8,
+        "pc_30d": 32.0,
+        "vol_mcap": 2.5847899077920866,
+        "cap_rank": 99.2,
+        "ret_30m": -0.2944036170868025,
+        "ret_2h": -0.01775774535893726,
+        "ema_spread": 0.1082092360027494,
+        "rsi14": 44.2331534655936,
+        "range_pos": 83.60997276998545,
+        "vol_5m": 0.09224239087927334
+      },
+      "entry_score": 19.41858,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {
-    "BNB": "2026-09-06T06:26:33Z"
+    "BNB": "2026-09-06T06:26:33Z",
+    "LINK": "2026-09-06T08:35:23Z"
   },
-  "realized_pnl": -53.50979646270491,
+  "realized_pnl": -9.582147883893526,
   "fees_paid": 0.0,
-  "trades_opened": 15,
-  "trades_closed": 9,
+  "trades_opened": 16,
+  "trades_closed": 10,
   "moons": 0,
-  "wins": 3,
+  "wins": 4,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-06T04:32:42Z"
+  "updated": "2026-09-06T04:42:11Z"
 }
