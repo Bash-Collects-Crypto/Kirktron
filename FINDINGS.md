@@ -2493,3 +2493,50 @@ It does sharpen the case for the hold logic being the binding constraint rather 
 entry selection. The scorer picked ZEC correctly all five times; the book still
 underperformed holding it. Nothing actioned — `take_profit_pct` and `max_hold_hours`
 are strategy parameters. Sample: 5 round trips in one symbol over 10.9 hours.
+
+## 2026-09-06 16:15 — the funding book earned its first money: +$0.4409, and the zero was a reporting bug
+
+The 16:00 UTC settlement crossed and accrual fired correctly. Per pair, on $1,100
+notionals:
+
+| pair | accrued |
+|---|---|
+| SUI | +$0.1100 |
+| NEAR | +$0.1099 |
+| DOGE | +$0.0906 |
+| UNI | +$0.0793 |
+| ETH | +$0.0267 |
+| XRP | +$0.0264 |
+| BTC | +$0.0174 |
+| **SOL** | **−$0.0196** |
+| **total** | **+$0.4409** |
+
+Predicted "roughly +$0.46 per settlement across eight pairs" at 14:54; actual
++$0.4409, within 4%. **This is the first evidence the strategy earns rather than
+merely being neutral** — a distinction the earlier entries were careful to keep
+separate, since a perfectly neutral book that pays nothing is worthless.
+
+Seven of eight paid. **SOL paid −$0.0196**: funding there has been decaying all
+day and briefly went negative, which is precisely the case the exit rule watches
+for and the reason entry now screens on the recent window as well as the 33-day
+mean (the fix at 10:05 that stopped SOL-like entries; SOL itself predates it).
+
+**The $0.00 was mine, not the market's.** `summarise.py` and
+`funding_book.report()` both printed `state["funding_earned"]`, which is a
+REALISED counter incremented only inside `close_position()`. No pair has closed,
+so it read 0.00 for six hours while every position's `funding_earned_usd` accrued
+correctly and `book_value()` already included it. The book's value was right the
+whole time; only the headline lied. Added `total_funding()` = realised + accrued
+and used it in both places, and widened the per-pair format from `%+6.2f` to
+`%+7.4f` — a settlement pays cents, and two decimals rounded $0.0174 to
+something indistinguishable from nothing.
+
+Same class of defect as the SELL/COVER filter at 23:45 yesterday: a display path
+disagreeing with a counter that was always correct. Worth noting the pattern —
+both were found by asking why a number that should have moved had not, rather
+than by reading the code.
+
+At +$0.4409 per settlement and three settlements a day, that is **+$1.32/day on
+$10,000, or about +4.8%/year** before the $8.80 of entry fees is recovered —
+which takes about seven days. Consistent with the 5.1%/year the 33-day survey
+implied. Sample: one settlement, 8 pairs.

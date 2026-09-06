@@ -47,9 +47,9 @@ def funding_line():
             except okx.OKXError:
                 pass
         v = funding_book.book_value(state, marks)
-        return ("fund $%.0f (%dp/%dc) | funding $%+.2f | fees $%.2f"
+        return ("fund $%.0f (%dp/%dc) | funding $%+.4f | fees $%.2f"
                 % (v, len(state["positions"]), state["closed"],
-                   state["funding_earned"], state["fees_paid"]))
+                   funding_book.total_funding(state), state["fees_paid"]))
     except Exception as exc:                      # noqa: BLE001
         return "fund: unavailable (%s)" % exc
 

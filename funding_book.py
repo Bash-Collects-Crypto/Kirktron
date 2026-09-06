@@ -176,6 +176,18 @@ def accrue_funding(pos, rate_now, funding_time):
     return earned
 
 
+def total_funding(state):
+    """Funding earned so far: realised on closed pairs plus accrued on open ones.
+
+    `state["funding_earned"]` alone is a REALISED counter, incremented only in
+    close_position(). Reporting it as the book's funding earned showed $0.00 for
+    six hours while every open pair was accruing correctly and book_value() was
+    already counting it -- the value was right and the headline was wrong.
+    """
+    return state["funding_earned"] + sum(
+        p.get("funding_earned_usd", 0.0) for p in state["positions"].values())
+
+
 def book_value(state, marks):
     """Cash plus each position's notional, accrued funding and basis drift."""
     total = state["cash"]
@@ -358,15 +370,17 @@ def report():
     print("  value $%.2f  (%+.2f%% vs $%.0f start) | cash $%.2f (%.0f%% of book)"
           % (value, 100 * (value / INITIAL_CAPITAL - 1), INITIAL_CAPITAL,
              state["cash"], 100 * state["cash"] / value if value else 0))
-    print("  funding earned $%.2f | fees paid $%.2f | opened %d | closed %d | wins %d"
-          % (state["funding_earned"], state["fees_paid"], state["opened"],
-             state["closed"], state["wins"]))
+    print("  funding earned $%.4f (realised $%.4f + accrued $%.4f) | fees paid "
+          "$%.2f | opened %d | closed %d | wins %d"
+          % (total_funding(state), state["funding_earned"],
+             total_funding(state) - state["funding_earned"], state["fees_paid"],
+             state["opened"], state["closed"], state["wins"]))
     if not state["positions"]:
         print("  no open pairs")
     for coin, pos in sorted(state["positions"].items()):
         m = marks.get(coin)
         drift = pair_pnl_usd(pos, m["spot"], m["perp"]) if m else 0.0
-        print("    %-5s $%7.0f  funding $%+6.2f  basis drift $%+6.2f  "
+        print("    %-5s $%7.0f  funding $%+7.4f  basis drift $%+6.2f  "
               "held %5.1fh  (entered %.2f%%/yr, basis %+.3f%%)"
               % (coin, pos["notional_usd"], pos.get("funding_earned_usd", 0.0),
                  drift, hours_held(pos), pos["entry_ann_pct"],
