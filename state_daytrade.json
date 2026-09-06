@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 5755.503602866903,
+  "cash": 6792.14435243464,
   "positions": {
     "HYPE": {
       "symbol": "HYPE",
@@ -10,8 +10,8 @@
       "entry_price": 86.04,
       "entry_time": "2026-09-06T01:25:43Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.43003254300324306,
-      "last_price": 86.14,
+      "peak_pct": 0.7205950720594959,
+      "last_price": 86.49,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 2.21782,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-06T01:33:32Z",
       "entry_cost": 1.5,
       "peak_pct": 0.8956787113783636,
-      "last_price": 0.220757,
+      "last_price": 0.22186,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 4.83672,
@@ -58,34 +58,6 @@
       "entry_score": 1.088253683161129,
       "pattern_bonus": -0.4616493709680979
     },
-    "ZEC": {
-      "symbol": "ZEC",
-      "name": "Zcash",
-      "side": "long",
-      "quantity": 0.9346231132295901,
-      "entry_price": 1069.95,
-      "entry_time": "2026-09-06T01:36:48Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.5000233655778222,
-      "last_price": 1074.5,
-      "entry_features": {
-        "pc_1h": 0.6,
-        "pc_24h": 5.04324,
-        "pc_7d": 22.4,
-        "pc_14d": 28.4,
-        "pc_30d": 100.0,
-        "vol_mcap": 3.795081437810054,
-        "cap_rank": 96.0,
-        "ret_30m": 0.3092208729619905,
-        "ret_2h": 4.070344425024164,
-        "ema_spread": 1.8300409174926875,
-        "rsi14": 71.963424906968,
-        "range_pos": 83.31019093225905,
-        "vol_5m": 0.8014590623352662
-      },
-      "entry_score": 4.130874085894067,
-      "pattern_bonus": 0.20098356318239402
-    },
     "ETH": {
       "symbol": "ETH",
       "name": "Ethereum",
@@ -95,7 +67,7 @@
       "entry_time": "2026-09-06T02:05:16Z",
       "entry_cost": 1.5,
       "peak_pct": 0.3277157295566871,
-      "last_price": 2501.89,
+      "last_price": 2504.5,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 2.23191,
@@ -116,14 +88,15 @@
     }
   },
   "cooldowns": {
-    "LTC": "2026-09-06T04:53:23Z"
+    "LTC": "2026-09-06T04:53:23Z",
+    "ZEC": "2026-09-06T05:14:38Z"
   },
-  "realized_pnl": -238.4992432494332,
-  "fees_paid": 174.494997901152,
+  "realized_pnl": -203.35849368169642,
+  "fees_paid": 176.05229497110855,
   "trades_opened": 57,
-  "trades_closed": 53,
-  "moons": 7,
-  "wins": 18,
+  "trades_closed": 54,
+  "moons": 8,
+  "wins": 19,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T04:42:11Z"
+  "updated": "2026-09-06T04:51:23Z"
 }

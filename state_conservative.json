@@ -1,6 +1,6 @@
 {
   "name": "conservative",
-  "cash": 3990.4178521161075,
+  "cash": 4081.7574404640955,
   "positions": {
     "HYPE": {
       "symbol": "HYPE",
@@ -10,8 +10,8 @@
       "entry_price": 85.21,
       "entry_time": "2026-09-04T18:25:04Z",
       "entry_cost": 0.0,
-      "peak_pct": 1.4082854125102722,
-      "last_price": 86.14,
+      "peak_pct": 1.701678206783245,
+      "last_price": 86.49,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 1.34567,
@@ -30,34 +30,6 @@
       "entry_score": 31.345670000000002,
       "pattern_bonus": 0.0
     },
-    "ZEC": {
-      "symbol": "ZEC",
-      "name": "Zcash",
-      "side": "long",
-      "quantity": 0.9824630348283145,
-      "entry_price": 1017.85,
-      "entry_time": "2026-09-04T22:00:50Z",
-      "entry_cost": 0.0,
-      "peak_pct": 6.644397504543891,
-      "last_price": 1074.5,
-      "entry_features": {
-        "pc_1h": -0.7,
-        "pc_24h": 7.07911,
-        "pc_7d": 27.6,
-        "pc_14d": 43.3,
-        "pc_30d": 96.4,
-        "vol_mcap": 7.617262237214352,
-        "cap_rank": 95.6,
-        "ret_30m": -0.6110900673550579,
-        "ret_2h": -2.3586707974716847,
-        "ema_spread": -0.3513998507740319,
-        "rsi14": 30.104906444602037,
-        "range_pos": 76.00904190071218,
-        "vol_5m": 0.30336997681217887
-      },
-      "entry_score": 98.86911,
-      "pattern_bonus": 0.0
-    },
     "XMR": {
       "symbol": "XMR",
       "name": "Monero",
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-05T01:56:32Z",
       "entry_cost": 0.0,
       "peak_pct": 5.461724476687064,
-      "last_price": 553.79,
+      "last_price": 555.86,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 3.2169,
@@ -95,7 +67,7 @@
       "entry_time": "2026-09-05T10:04:07Z",
       "entry_cost": 0.0,
       "peak_pct": 2.085610652886813,
-      "last_price": 0.081312,
+      "last_price": 0.081463,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 1.72836,
@@ -117,7 +89,7 @@
       "entry_time": "2026-09-06T02:26:33Z",
       "entry_cost": 0.0,
       "peak_pct": 0.7679648930334645,
-      "last_price": 54.27,
+      "last_price": 54.34,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 5.79456,
@@ -138,8 +110,8 @@
       "entry_price": 2502.12,
       "entry_time": "2026-09-06T04:35:23Z",
       "entry_cost": 0.0,
-      "peak_pct": 0.016785765670714145,
-      "last_price": 2501.89,
+      "peak_pct": 0.09591866097549642,
+      "last_price": 2504.5,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 2.03858,
@@ -157,18 +129,41 @@
       },
       "entry_score": 19.41858,
       "pattern_bonus": 0.0
+    },
+    "AVAX": {
+      "symbol": "AVAX",
+      "name": "Avalanche",
+      "side": "long",
+      "quantity": 130.718954248366,
+      "entry_price": 7.65,
+      "entry_time": "2026-09-06T04:44:38Z",
+      "entry_cost": 0.0,
+      "peak_pct": 0.13071895424836322,
+      "last_price": 7.66,
+      "entry_features": {
+        "pc_1h": 0.4,
+        "pc_24h": 3.26146,
+        "pc_7d": 5.8,
+        "pc_14d": 3.4,
+        "pc_30d": 20.0,
+        "vol_mcap": 7.200567235492583,
+        "cap_rank": 88.4
+      },
+      "entry_score": 19.30146,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {
     "BNB": "2026-09-06T06:26:33Z",
-    "LINK": "2026-09-06T08:35:23Z"
+    "LINK": "2026-09-06T08:35:23Z",
+    "ZEC": "2026-09-06T08:44:38Z"
   },
-  "realized_pnl": -9.582147883893526,
+  "realized_pnl": 81.75744046409466,
   "fees_paid": 0.0,
-  "trades_opened": 16,
-  "trades_closed": 10,
-  "moons": 0,
-  "wins": 4,
+  "trades_opened": 17,
+  "trades_closed": 11,
+  "moons": 1,
+  "wins": 5,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-06T04:42:11Z"
+  "updated": "2026-09-06T04:51:23Z"
 }
