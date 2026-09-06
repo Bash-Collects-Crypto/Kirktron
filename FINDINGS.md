@@ -2401,3 +2401,54 @@ books; the concentration recorded at 05:55 has deepened rather than diluted.
 None of this changes a model gate yet: conservative is 12 resolved / 1 moon,
 aggressive 5 / 1, longshort 9 / 1, each needing 20 and 4. Only daytrade's model is
 active. Sample: 79 resolved trades, 11 moons, 5 distinct symbols, ZEC 7.
+
+## 2026-09-06 09:40 — the standing question: is there an edge here, and how long until we would know
+
+Asked directly by the owner. Recording the answer with its arithmetic so it is not
+re-derived and so a later reading can check whether it held.
+
+**Per-book returns at 86 resolved trades:**
+
+| book | n | mean/trade | 95% CI | wins |
+|---|---|---|---|---|
+| conservative | 12 | +0.925% | −1.61 .. +3.47 | 50% |
+| longshort | 9 | −0.713% | −4.57 .. +3.14 | 33% |
+| daytrade | 60 | −0.042% | **−0.46 .. +0.37** | 40% |
+| aggressive | 5 | +2.123% | −8.58 .. +12.83 | 40% |
+
+Every interval straddles zero. Three books have single-digit samples where the CI
+spans ±4 to ±13 percentage points and the point estimates carry no information at
+all. daytrade is the only book with a real sample, and its mean sits at −0.042%
+per trade with a tight interval around zero — the signature of **no edge**, not of
+a losing strategy.
+
+**The runway to an answer.** daytrade's per-trade sd is 1.63%. Detecting a true
+edge of +0.10%/trade at 80% power needs n ≈ **2,079 trades — about 104 days** at
+the current ~20/day. Nothing concluded before then is distinguishable from noise,
+and +0.10%/trade is already a modest target against 15bps/side.
+
+**The ZEC dependency, stated as bluntly as the data allows.** ZEC's 18 resolved
+trades average **+3.50%**; the other 68 average **−0.74%**. It supplies 8 of the 12
+moons and produced the first moon in three of the four books. Remove one coin's
+September run and the record is uniformly negative across every book. What the
+strategies found was a coin that went up — which any long-biased momentum rule in
+this universe would also have found.
+
+**Three specific things already tested and found empty**, all recorded above: the
+entry scorer has no predictive power (n=41, Pearson r=+0.042, Spearman ρ=+0.123,
+21:45); the pattern model's leading feature has changed four times in nine hours
+with every separation under 1sd (03:35); target/stop geometry cannot create edge
+and in this configuration only relabels outcomes (08:35).
+
+**Assessment.** As a profit engine the current design is not supported by its own
+record: long-biased momentum over 250 liquid coins is the most crowded idea in the
+space, the costs are real and measured, the edge is not. As an instrument it is
+sound — live data, honest cost accounting on the book that trades often, durable
+records, and a demonstrated ability to catch its own defects. Its most valuable
+output so far has been negative results produced cheaply: two cooldowns that would
+have deleted a third of the moons, a short leg that looked broken and tested null,
+a scorer quartile that was slicing noise, a moon threshold provably unreachable
+through a trailing exit.
+
+Nothing actioned; no parameter changed. Sample: 86 resolved trades across four
+books, 12 moons, ZEC 8.
