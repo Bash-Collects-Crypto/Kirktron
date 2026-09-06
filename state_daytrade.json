@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 5790.64435243464,
+  "cash": 4789.14435243464,
   "positions": {
     "HYPE": {
       "symbol": "HYPE",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-06T01:25:43Z",
       "entry_cost": 1.5,
       "peak_pct": 1.3133426313342578,
-      "last_price": 86.29,
+      "last_price": 86.31,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 2.21782,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-06T01:33:32Z",
       "entry_cost": 1.5,
       "peak_pct": 0.8956787113783636,
-      "last_price": 0.220572,
+      "last_price": 0.219648,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 4.83672,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-06T02:05:16Z",
       "entry_cost": 1.5,
       "peak_pct": 0.6454522956067761,
-      "last_price": 2506.22,
+      "last_price": 2504.04,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 2.23191,
@@ -95,7 +95,7 @@
       "entry_time": "2026-09-06T05:46:00Z",
       "entry_cost": 1.5,
       "peak_pct": 0.02818224518553418,
-      "last_price": 105.52,
+      "last_price": 105.23,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 4.59387,
@@ -113,15 +113,43 @@
       },
       "entry_score": 1.0283538580947624,
       "pattern_bonus": -0.3452108863890141
+    },
+    "ZEC": {
+      "symbol": "ZEC",
+      "name": "Zcash",
+      "side": "long",
+      "quantity": 0.8478743789320173,
+      "entry_price": 1179.42,
+      "entry_time": "2026-09-06T07:04:24Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.05002458835698209,
+      "last_price": 1170.12,
+      "entry_features": {
+        "pc_1h": 1.4,
+        "pc_24h": 15.94224,
+        "pc_7d": 40.0,
+        "pc_14d": 51.4,
+        "pc_30d": 100.0,
+        "vol_mcap": 5.066208893588313,
+        "cap_rank": 96.39999999999999,
+        "ret_30m": 0.8706651554867939,
+        "ret_2h": 3.2968691177121867,
+        "ema_spread": 2.18135533265864,
+        "rsi14": 62.92109374683579,
+        "range_pos": 98.53687392209616,
+        "vol_5m": 0.4858340634295799
+      },
+      "entry_score": 4.986390999420301,
+      "pattern_bonus": 0.3441952535438744
     }
   },
   "cooldowns": {},
   "realized_pnl": -203.35849368169642,
-  "fees_paid": 177.55229497110855,
-  "trades_opened": 58,
+  "fees_paid": 179.05229497110855,
+  "trades_opened": 59,
   "trades_closed": 54,
   "moons": 8,
   "wins": 19,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T06:53:00Z"
+  "updated": "2026-09-06T07:12:30Z"
 }
