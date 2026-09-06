@@ -1,6 +1,6 @@
 {
   "name": "longshort",
-  "cash": 2220.370413675151,
+  "cash": 2403.730368575086,
   "positions": {
     "NEAR": {
       "symbol": "NEAR",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-05T07:30:30Z",
       "entry_cost": 0.0,
       "peak_pct": 5.8035714285714235,
-      "last_price": 2.37,
+      "last_price": 2.36,
       "entry_features": {
         "pc_1h": 2.2,
         "pc_24h": 13.28189,
@@ -33,7 +33,7 @@
       "entry_time": "2026-09-05T19:33:43Z",
       "entry_cost": 0.0,
       "peak_pct": 3.8997214484679703,
-      "last_price": 6.96,
+      "last_price": 6.97,
       "entry_features": {
         "pc_1h": 4.3,
         "pc_24h": 15.58992,
@@ -61,7 +61,7 @@
       "entry_time": "2026-09-05T21:00:46Z",
       "entry_cost": 0.0,
       "peak_pct": 2.361238322037001,
-      "last_price": 543.7,
+      "last_price": 543.69,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 1.9241,
@@ -74,34 +74,6 @@
       "entry_score": 25.82856,
       "pattern_bonus": 0.0
     },
-    "ZEC": {
-      "symbol": "ZEC",
-      "name": "Zcash",
-      "side": "long",
-      "quantity": 1.409377055341539,
-      "entry_price": 1064.3,
-      "entry_time": "2026-09-06T03:41:20Z",
-      "entry_cost": 0.0,
-      "peak_pct": 11.144414168937342,
-      "last_price": 1171.82,
-      "entry_features": {
-        "pc_1h": 0.3,
-        "pc_24h": 3.59676,
-        "pc_7d": 28.1,
-        "pc_14d": 34.4,
-        "pc_30d": 100.0,
-        "vol_mcap": 3.7649249997309155,
-        "cap_rank": 96.0,
-        "ret_30m": 0.06788478140442589,
-        "ret_2h": -0.7088872195626594,
-        "ema_spread": 0.5817857764938085,
-        "rsi14": 49.5557917190113,
-        "range_pos": 77.37570505162698,
-        "vol_5m": 0.24336229770852816
-      },
-      "entry_score": 39.854816,
-      "pattern_bonus": 0.0
-    },
     "ADA": {
       "symbol": "ADA",
       "name": "Cardano",
@@ -111,7 +83,7 @@
       "entry_time": "2026-09-06T04:08:43Z",
       "entry_cost": 0.0,
       "peak_pct": 0.2657897107847461,
-      "last_price": 0.218095,
+      "last_price": 0.218765,
       "entry_features": {
         "pc_1h": 0.7,
         "pc_24h": 5.44607,
@@ -129,15 +101,39 @@
       },
       "entry_score": 17.243712,
       "pattern_bonus": 0.0
+    },
+    "LTC": {
+      "symbol": "LTC",
+      "name": "Litecoin",
+      "side": "long",
+      "quantity": 27.603974972396024,
+      "entry_price": 54.34,
+      "entry_time": "2026-09-06T09:15:36Z",
+      "entry_cost": 0.0,
+      "peak_pct": 0.05520794994478106,
+      "last_price": 54.23,
+      "entry_features": {
+        "pc_1h": 0.4,
+        "pc_24h": 2.64615,
+        "pc_7d": 10.7,
+        "pc_14d": 5.7,
+        "pc_30d": 18.8,
+        "vol_mcap": 8.839177914487932,
+        "cap_rank": 89.60000000000001
+      },
+      "entry_score": 14.15384,
+      "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -279.62958632484873,
+  "cooldowns": {
+    "ZEC": "2026-09-06T11:15:36Z"
+  },
+  "realized_pnl": -96.2696314249144,
   "fees_paid": 0.0,
-  "trades_opened": 13,
-  "trades_closed": 8,
-  "moons": 0,
-  "wins": 2,
+  "trades_opened": 14,
+  "trades_closed": 9,
+  "moons": 1,
+  "wins": 3,
   "started": "2026-09-03T19:32:42Z",
-  "updated": "2026-09-06T09:11:59Z"
+  "updated": "2026-09-06T09:22:19Z"
 }
