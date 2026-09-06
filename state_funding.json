@@ -94,7 +94,7 @@
       "notional_usd": 1099.1035503676596,
       "entry_fees_usd": 1.0991035503676596,
       "funding_earned_usd": 0.0,
-      "last_funding_time": null,
+      "last_funding_time": 1788710400000,
       "opened": "2026-09-06T14:40:45Z",
       "entry_ann_pct": 7.149018047586799
     }
@@ -105,5 +105,5 @@
   "opened": 8,
   "wins": 0,
   "started": "2026-09-06T10:00:17Z",
-  "updated": "2026-09-06T14:40:45Z"
+  "updated": "2026-09-06T14:51:23Z"
 }
