@@ -1,45 +1,16 @@
 {
   "name": "daytrade",
-  "cash": 8745.635915485083,
-  "positions": {
-    "ETH": {
-      "symbol": "ETH",
-      "name": "Ethereum",
-      "side": "long",
-      "quantity": 0.39916654026392895,
-      "entry_price": 2505.22,
-      "entry_time": "2026-09-06T02:05:16Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.6454522956067761,
-      "last_price": 2495.57,
-      "entry_features": {
-        "pc_1h": 0.5,
-        "pc_24h": 2.23191,
-        "pc_7d": 1.9,
-        "pc_14d": 3.0,
-        "pc_30d": 31.7,
-        "vol_mcap": 2.4365200484495375,
-        "cap_rank": 99.2,
-        "ret_30m": 0.35783868132164276,
-        "ret_2h": 1.0227121849088805,
-        "ema_spread": 0.3196855343963449,
-        "rsi14": 73.57523805926104,
-        "range_pos": 98.10792433754445,
-        "vol_5m": 0.09509083706204069
-      },
-      "entry_score": 0.6877103250084114,
-      "pattern_bonus": -0.41170026230695334
-    }
-  },
+  "cash": 9740.078495378266,
+  "positions": {},
   "cooldowns": {
-    "HYPE": "2026-09-06T07:55:57Z"
+    "ETH": "2026-09-06T08:35:30Z"
   },
-  "realized_pnl": -252.86693063125287,
-  "fees_paid": 184.99594779491994,
+  "realized_pnl": -259.92435073806985,
+  "fees_paid": 186.4898525218501,
   "trades_opened": 59,
-  "trades_closed": 58,
+  "trades_closed": 59,
   "moons": 8,
   "wins": 19,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T07:51:57Z"
+  "updated": "2026-09-06T08:12:11Z"
 }
