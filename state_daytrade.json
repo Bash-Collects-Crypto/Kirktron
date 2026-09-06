@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 4689.801718462042,
+  "cash": 5697.755959828806,
   "positions": {
     "ADA": {
       "symbol": "ADA",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-06T13:24:46Z",
       "entry_cost": 1.5,
       "peak_pct": 1.0661214857095813,
-      "last_price": 0.219192,
+      "last_price": 0.219547,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 0.77805,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-06T14:39:42Z",
       "entry_cost": 1.5,
       "peak_pct": 0.12870220568952728,
-      "last_price": 2494.43,
+      "last_price": 2497.47,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 0.8513,
@@ -94,8 +94,8 @@
       "entry_price": 12.32,
       "entry_time": "2026-09-06T16:50:28Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.32467532467531773,
-      "last_price": 12.36,
+      "peak_pct": 0.7305194805194793,
+      "last_price": 12.39,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 3.26448,
@@ -113,43 +113,17 @@
       },
       "entry_score": 0.8701435947387473,
       "pattern_bonus": -0.3872638664834662
-    },
-    "ZEC": {
-      "symbol": "ZEC",
-      "name": "Zcash",
-      "side": "long",
-      "quantity": 0.8269383434771104,
-      "entry_price": 1209.28,
-      "entry_time": "2026-09-06T18:06:17Z",
-      "entry_cost": 1.5,
-      "peak_pct": 1.7837060068801216,
-      "last_price": 1222.58,
-      "entry_features": {
-        "pc_1h": 2.4,
-        "pc_24h": 17.57855,
-        "pc_7d": 36.1,
-        "pc_14d": 40.5,
-        "pc_30d": 100.0,
-        "vol_mcap": 8.004522923495088,
-        "cap_rank": 96.39999999999999,
-        "ret_30m": 0.3950969317684905,
-        "ret_2h": 3.4775805844054153,
-        "ema_spread": 1.2501517639740063,
-        "rsi14": 67.25451206407274,
-        "range_pos": 93.03061808967115,
-        "vol_5m": 0.5407528913035131
-      },
-      "entry_score": 3.433358290757781,
-      "pattern_bonus": 0.32092603767858796
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -302.70112765429485,
-  "fees_paid": 223.97065856554127,
+  "cooldowns": {
+    "ZEC": "2026-09-06T19:07:33Z"
+  },
+  "realized_pnl": -296.24688628753114,
+  "fees_paid": 225.4848612315905,
   "trades_opened": 74,
-  "trades_closed": 69,
+  "trades_closed": 70,
   "moons": 11,
-  "wins": 22,
+  "wins": 23,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T18:29:58Z"
+  "updated": "2026-09-06T18:40:54Z"
 }
