@@ -2145,3 +2145,40 @@ flagged on **peak** P/L rather than closing P/L? That would credit all four trad
 above, would activate no model that a real +7% move did not earn, and changes no
 trading behaviour whatsoever — it is purely how outcomes are labelled. Sample:
 9 trailed exits across all books, 4 in the dead band.
+
+## 2026-09-06 03:35 — the model's explanation is unstable: two moons changed its top feature
+
+Three readings of daytrade's own `pattern model:` line, taken as moons landed:
+
+| time | moons | 1st feature | 2nd | 3rd |
+|---|---|---|---|---|
+| 01:06 | 5 | **pc_14d +1.49sd** | pc_30d +1.32 | pc_7d +1.18 |
+| 02:32 | 6 | **pc_30d +1.09sd** | pc_14d +1.06 | pc_7d +0.83 |
+| 03:33 | 7 | **ret_30m +0.84sd** | pc_30d +0.81 | pc_14d +0.75 |
+
+Two additional moons — LINK +2.98% and BCH +2.57%, both pre-model entries — cut the
+leading separation by **44%** (1.49sd → 0.84sd) and replaced the leading feature
+entirely. The story went from "moons are names that ran for a fortnight" to "moons
+are names that moved in the last half hour," and pc_7d dropped out of the top three
+altogether. Every remaining separation is now under 1sd.
+
+This is what fitting a centroid to seven points across eleven features looks like.
+The ranking is not converging as evidence accumulates; it is being rewritten by
+each new observation, which is the signature of a fit dominated by sampling noise
+rather than by structure. The direction of travel matters more than any single
+reading: **more data has made the model's account of itself weaker, not stronger.**
+
+Note this cuts against my own 01:20 entry, which found the pc_14d separation
+survived dropping ZEC and treated that as mild support. It survived that test and
+then decayed anyway under two ordinary new moons. The ZEC check was necessary but
+not sufficient — the sample was simply too small for any feature ranking to mean
+something, including the one that passed.
+
+Practical consequence: the bonus is live and moving entries (four so far, range
+−0.62 to +0.20) on a feature ranking that changed twice in two and a half hours.
+No moon has yet been picked by the model — all seven are pre-model or unbonused
+entries. Surfaced for the owner, not actioned: hold the bonus at zero influence
+until the top-feature ranking is stable across, say, three consecutive moons, or
+cap its magnitude so it can reorder near-ties without vetoing candidates outright.
+Both are strategy changes. Sample: 51 resolved daytrade trades, 7 moons, three
+readings of the model.
