@@ -33,3 +33,25 @@ try:
     print("staleness max %.1fm | coins %d" % (stale[-1], len(stale)))
 except (OSError, ValueError, KeyError, IndexError) as exc:
     print("staleness unavailable: %s" % exc)
+
+
+def funding_line():
+    """One line for the funding book, or a reason it is silent."""
+    try:
+        import funding_book, okx
+        state = funding_book.load_state()
+        marks = {}
+        for coin in state["positions"]:
+            try:
+                marks[coin] = okx.basis(coin)
+            except okx.OKXError:
+                pass
+        v = funding_book.book_value(state, marks)
+        return ("fund $%.0f (%dp/%dc) | funding $%+.2f | fees $%.2f"
+                % (v, len(state["positions"]), state["closed"],
+                   state["funding_earned"], state["fees_paid"]))
+    except Exception as exc:                      # noqa: BLE001
+        return "fund: unavailable (%s)" % exc
+
+
+print(funding_line())

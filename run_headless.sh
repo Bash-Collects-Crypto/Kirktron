@@ -34,6 +34,13 @@ python3 paper_trader.py --duration "$DURATION" --interval 60 >/dev/null 2>&1
 rc=$?
 [ "$rc" -ne 0 ] && echo "TRADER EXITED $rc -- check trader.log"
 
+# The funding book runs on OKX data, not CoinGecko, and on an 8-hour funding
+# clock rather than the trader's 60-second one, so one pass per cycle is ample.
+# A venue outage must not take the cycle down with it: the book halts itself
+# rather than trading on stale rates, and that is reported, not fatal.
+fb_before=$(wc -l < funding_log.csv 2>/dev/null || echo 0)
+python3 funding_book.py >>funding.log 2>&1 || echo "FUNDING BOOK FAILED -- see funding.log"
+
 ./snapshot.sh >/dev/null 2>&1 || echo "SNAPSHOT FAILED"
 python3 dashboard_export.py >/dev/null 2>&1 || echo "EXPORT FAILED"
 
@@ -43,6 +50,12 @@ if [ "$after" -gt "$before" ]; then
     tail -n "$((after - before))" trade_log.csv | cut -d, -f1,2,3,4,5,7,9,10 | sed 's/^/  /'
 else
     echo "trades: none"
+fi
+
+fb_after=$(wc -l < funding_log.csv 2>/dev/null || echo 0)
+if [ "$fb_after" -gt "$fb_before" ]; then
+    echo "FUNDING ($((fb_after - fb_before))):"
+    tail -n "$((fb_after - fb_before))" funding_log.csv | cut -d, -f1,2,3,8,9,11,13,14 | sed 's/^/  /'
 fi
 
 python3 summarise.py

@@ -21,7 +21,8 @@ DATA_BRANCH="kirktron-trading-data"
 # day of runtime is lost when the container goes away.
 python3 archive_bars.py
 
-FILES=(trade_log.csv state_conservative.json state_aggressive.json
+FILES=(trade_log.csv funding_log.csv state_funding.json
+       state_conservative.json state_aggressive.json
        state_longshort.json state_daytrade.json equity_history.csv
        market_context.csv market_context_reconstructed.csv range_pos_survey.csv gate_census.csv gate_census_v1.csv intraday_bars.csv exclusions_cache.json)
 
