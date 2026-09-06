@@ -1,0 +1,97 @@
+{
+  "name": "funding",
+  "cash": 2292.2999999999984,
+  "positions": {
+    "UNI": {
+      "coin": "UNI",
+      "spot_px": 7.006,
+      "perp_px": 7.003,
+      "entry_basis_pct": -0.04282043962318175,
+      "notional_usd": 1100.0,
+      "entry_fees_usd": 1.1,
+      "funding_earned_usd": 0.0,
+      "last_funding_time": 1788710400000,
+      "opened": "2026-09-06T10:00:37Z",
+      "entry_ann_pct": 8.502066351201936
+    },
+    "DOGE": {
+      "coin": "DOGE",
+      "spot_px": 0.09035,
+      "perp_px": 0.09032,
+      "entry_basis_pct": -0.033204205866078855,
+      "notional_usd": 1100.0,
+      "entry_fees_usd": 1.1,
+      "funding_earned_usd": 0.0,
+      "last_funding_time": 1788710400000,
+      "opened": "2026-09-06T10:00:37Z",
+      "entry_ann_pct": 7.873928140303207
+    },
+    "SUI": {
+      "coin": "SUI",
+      "spot_px": 0.801,
+      "perp_px": 0.801,
+      "entry_basis_pct": 0.0,
+      "notional_usd": 1100.0,
+      "entry_fees_usd": 1.1,
+      "funding_earned_usd": 0.0,
+      "last_funding_time": 1788710400000,
+      "opened": "2026-09-06T10:00:37Z",
+      "entry_ann_pct": 7.692329876697756
+    },
+    "BTC": {
+      "coin": "BTC",
+      "spot_px": 79910.0,
+      "perp_px": 79855.7,
+      "entry_basis_pct": -0.0679514453760517,
+      "notional_usd": 1100.0,
+      "entry_fees_usd": 1.1,
+      "funding_earned_usd": 0.0,
+      "last_funding_time": 1788710400000,
+      "opened": "2026-09-06T10:00:37Z",
+      "entry_ann_pct": 6.722478515525132
+    },
+    "ETH": {
+      "coin": "ETH",
+      "spot_px": 2500.35,
+      "perp_px": 2499.08,
+      "entry_basis_pct": -0.0507928889955399,
+      "notional_usd": 1100.0,
+      "entry_fees_usd": 1.1,
+      "funding_earned_usd": 0.0,
+      "last_funding_time": 1788710400000,
+      "opened": "2026-09-06T10:00:37Z",
+      "entry_ann_pct": 6.442826028954107
+    },
+    "XRP": {
+      "coin": "XRP",
+      "spot_px": 1.4198,
+      "perp_px": 1.419,
+      "entry_basis_pct": -0.056345964220306514,
+      "notional_usd": 1100.0,
+      "entry_fees_usd": 1.1,
+      "funding_earned_usd": 0.0,
+      "last_funding_time": 1788710400000,
+      "opened": "2026-09-06T10:00:37Z",
+      "entry_ann_pct": 6.23931267891301
+    },
+    "SOL": {
+      "coin": "SOL",
+      "spot_px": 106.54,
+      "perp_px": 106.48,
+      "entry_basis_pct": -0.056316876290597215,
+      "notional_usd": 1100.0,
+      "entry_fees_usd": 1.1,
+      "funding_earned_usd": 0.0,
+      "last_funding_time": 1788710400000,
+      "opened": "2026-09-06T10:00:37Z",
+      "entry_ann_pct": 3.9707834447417416
+    }
+  },
+  "funding_earned": 0.0,
+  "fees_paid": 7.699999999999999,
+  "closed": 0,
+  "opened": 7,
+  "wins": 0,
+  "started": "2026-09-06T10:00:17Z",
+  "updated": "2026-09-06T10:13:25Z"
+}
