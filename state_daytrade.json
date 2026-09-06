@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 6679.676474457942,
+  "cash": 5678.176474457942,
   "positions": {
     "XRP": {
       "symbol": "XRP",
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-06T14:39:42Z",
       "entry_cost": 1.5,
       "peak_pct": 0.12870220568952728,
-      "last_price": 2491.17,
+      "last_price": 2495.28,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 0.8513,
@@ -66,8 +66,8 @@
       "entry_price": 12.32,
       "entry_time": "2026-09-06T16:50:28Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.7305194805194793,
-      "last_price": 12.35,
+      "peak_pct": 0.8116883116883088,
+      "last_price": 12.42,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 3.26448,
@@ -85,15 +85,43 @@
       },
       "entry_score": 0.8701435947387473,
       "pattern_bonus": -0.3872638664834662
+    },
+    "ZEC": {
+      "symbol": "ZEC",
+      "name": "Zcash",
+      "side": "long",
+      "quantity": 0.8191752543539165,
+      "entry_price": 1220.74,
+      "entry_time": "2026-09-06T20:25:34Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 1215.51,
+      "entry_features": {
+        "pc_1h": -0.8,
+        "pc_24h": 20.77596,
+        "pc_7d": 39.4,
+        "pc_14d": 39.3,
+        "pc_30d": 100.0,
+        "vol_mcap": 8.353519371571586,
+        "cap_rank": 96.39999999999999,
+        "ret_30m": 0.35634162746998044,
+        "ret_2h": -0.7274781184314794,
+        "ema_spread": 0.48098234200065776,
+        "rsi14": 51.759980651626016,
+        "range_pos": 95.80159266923329,
+        "vol_5m": 0.3023821650192575
+      },
+      "entry_score": 0.9423358142609162,
+      "pattern_bonus": 0.2634327178411642
     }
   },
   "cooldowns": {},
   "realized_pnl": -315.82637165839503,
-  "fees_paid": 229.96446140379248,
-  "trades_opened": 75,
+  "fees_paid": 231.46446140379248,
+  "trades_opened": 76,
   "trades_closed": 72,
   "moons": 11,
   "wins": 23,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T20:20:46Z"
+  "updated": "2026-09-06T20:30:00Z"
 }
