@@ -2377,3 +2377,27 @@ between two concrete repairs: flag moons on **peak** P/L (labelling only, no
 trading change), or set `moon_pct <= take_profit_pct − trail_giveback_pct` in each
 book so a trailed winner can qualify. Sample: all four book configs; 16 moon-line
 touches, 10 credited, 10 via take-profit.
+
+## 2026-09-06 09:25 — the registered prediction resolved on the moon branch; all four books now have one
+
+The 08:35 prediction was that longshort's ZEC had exactly two reachable exits and
+nothing between them: run to **+12.0%** (take-profit, a moon) or fall to peak − 3.5
+≈ **+6.5%** (trailing stop, an ordinary win).
+
+**It took the moon branch.** Sold 09:15:36 at $1,194.40 on **take-profit +12.22%**,
+entry $1,064.30, held 10.7 hours. longshort books its first moon and its worst book
+standing improves to −0.91%; the position returned $183 on $1,500.
+
+The prediction held exactly, and it held for the reason stated rather than by luck:
+the close is +12.22%, i.e. the take-profit limit plus the usual mark-to-mark
+overshoot, not some intermediate value. No trade in this program has yet closed
+inside a book's dead band from above — the arithmetic at 08:35 says none can.
+
+**MILESTONE: all four books now have at least one moon** — daytrade 8, conservative
+1, aggressive 1, longshort 1. Eleven moons across 79 resolved trades. ZEC now
+accounts for **7 of the 11** and has produced the first moon in three of the four
+books; the concentration recorded at 05:55 has deepened rather than diluted.
+
+None of this changes a model gate yet: conservative is 12 resolved / 1 moon,
+aggressive 5 / 1, longshort 9 / 1, each needing 20 and 4. Only daytrade's model is
+active. Sample: 79 resolved trades, 11 moons, 5 distinct symbols, ZEC 7.
