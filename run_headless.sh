@@ -15,7 +15,11 @@
 # tool timeout so the snapshot and export still fit in the same call.)
 
 cd "$(dirname "$0")" || exit 1
-DURATION="${1:-540}"
+# 540 was right for four books. The funding book adds 60-90s of OKX calls to
+# every cycle, which pushed the whole thing past the 600s a supervisor is
+# willing to wait, so it got orphaned into the background holding the lock.
+# 420 leaves headroom for the funding pass, the snapshot and the export.
+DURATION="${1:-420}"
 
 # Several supervisors can call this: the self-scheduled loop, the watchdog
 # Routine, and the hourly check-in. Two traders on the same books interleave
