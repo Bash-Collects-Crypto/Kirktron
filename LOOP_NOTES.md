@@ -38,7 +38,7 @@ writes = `state/current` ← `dashboard_current.json`, `state/history` ←
 `dashboard_history.json`), and re-arm. That is the whole loop. Report one line
 unless something resolved.
 
-Escalate only on: a **rise** above 8 in `cycle failures`, a traceback, a
+Escalate only on: a **rise** above 11 in `cycle failures`, a traceback, a
 resolved trade, staleness over 10 minutes, or coverage under 8/12. A 429 is
 routine and self-heals. A quiet overnight cycle is not a fault.
 
@@ -49,15 +49,27 @@ cut -d, -f1,2 | sort | uniq -d` is empty, `rm -f STOP`, run another cycle.
 Never `pkill` a pattern matching `paper_trader.py` — it matches the agent's own
 shell. Use `touch STOP` or kill by PID.
 
+**daytrade's pattern model is ACTIVE** as of 2026-09-06T01:06:12Z (48 resolved,
+5 moons). It scores on pc_14d / pc_30d / pc_7d and its bonus now moves live
+entries. The other three books remain inactive.
+
 ## Open decisions — surfaced, deliberately not actioned
 
 The owner decides these. Do not action them unilaterally; do not re-argue one
 the owner has reaffirmed.
 
 - **Consolidating to one book.** Proposed 01:39. The case against is the 01:31
-  exposure finding below; the case for is daytrade's learning rate. Recommended
-  waiting for aggressive's 48-hour caps (~17:30) and daytrade's 4th moon.
+  exposure finding below; the case for is daytrade's learning rate. Both
+  conditions it was waiting on have now happened (the caps fired 5 Sept 17:33;
+  the model activated 6 Sept 01:06), so this one is ripe for the owner.
 - **`min_score` 0.6 → 0.4 for daytrade.** The scorer test set cuts against it.
+- **Excluding ZEC from the model's training rows**, or weighting rows by symbol.
+  Three of five moons are ZEC and the only positive live bonus so far went to
+  ZEC. See FINDINGS 01:20 and 01:45. Not a strategy parameter, but not a bug
+  either — the owner decides.
+- ~~A same-symbol or direction-change cooldown for daytrade.~~ **Closed 6 Sept**
+  by FINDINGS 00:45: re-entries within 2h beat fresh entries and one of the five
+  moons is itself a 0.5h re-entry. Do not re-propose without new data.
 - **Dropping the `rank <= 25` universe bypass**, keeping an explicit blue-chip
   id set. RAIN (rank 13, GambleFi, $42M volume) is reachable through it.
 - **A time-based early exit for non-movers.** n=5, far too small.

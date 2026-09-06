@@ -2070,3 +2070,38 @@ whether picks tilt toward high-pc_14d names, and whether those picks moon more
 often than the 5-in-48 (10%) base rate. That is the test of the model, and it has
 not been run yet. No parameters changed. Sample: 48 resolved daytrade trades,
 5 moons, 3 distinct symbols.
+
+## 2026-09-06 01:45 — the model's first three live opinions, and they are about ZEC
+
+The bonus went live at 01:06 and has now scored three daytrade entries:
+
+| entry | base score | pattern bonus | pc_7d | pc_14d | pc_30d |
+|---|---|---|---|---|---|
+| HYPE 01:25 | 0.722 | **−0.618** | 2.5 | 7.6 | 52.3 |
+| ADA 01:33 | 1.088 | **−0.462** | 8.8 | −2.8 | 9.3 |
+| ZEC 01:36 | 4.131 | **+0.201** | 22.4 | 28.4 | 100.0 |
+
+The only positive opinion the model has expressed went to ZEC — the coin that
+supplies three of the five moons it was fitted on. This is the contamination
+flagged at 01:20 showing up in live behaviour within half an hour, and it is the
+concrete reason the ex-ZEC check mattered: the centroid sits where ZEC sits, so
+"looks like a moon setup" and "is ZEC" are, at n = 3 names, close to the same
+statement.
+
+Two things worth stating precisely. First, **the bonus can veto, not just boost**:
+HYPE's −0.618 would have pushed a base score of 0.6–1.2 below the 0.6 threshold,
+and HYPE only survived because its base score cleared the line on its own. So the
+model is already capable of removing candidates, on evidence that spans three
+symbols. Second, **none of this says the model is wrong** — multi-week momentum
+persistence is a real and well-documented effect, and ZEC may simply be the name
+that had it. What it says is that the live bonus cannot yet be distinguished from
+a ZEC detector.
+
+Surfaced, not actioned: excluding ZEC from the model's training rows, or weighting
+rows by symbol rather than by trade, would test this directly. That is the owner's
+call — it changes what the model learns, which is not a correctness bug.
+
+The measurable test needs no change at all: track whether entries carrying a
+**positive** bonus moon more often than the 5-in-48 (10%) base rate, and whether
+they are disproportionately ZEC. Sample so far: 3 model-era entries, 1 positive
+bonus, 0 resolved.
