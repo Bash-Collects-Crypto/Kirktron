@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 5726.367997633468,
+  "cash": 4709.691168365175,
   "positions": {
-    "LINK": {
-      "symbol": "LINK",
-      "name": "Chainlink",
-      "side": "long",
-      "quantity": 81.30081300813008,
-      "entry_price": 12.3,
-      "entry_time": "2026-09-06T09:26:19Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.7317073170731696,
-      "last_price": 12.22,
-      "entry_features": {
-        "pc_1h": -0.2,
-        "pc_24h": 3.73212,
-        "pc_7d": 7.1,
-        "pc_14d": 8.0,
-        "pc_30d": 49.1,
-        "vol_mcap": 4.869414459918138,
-        "cap_rank": 94.0,
-        "ret_30m": 0.8517939228569471,
-        "ret_2h": 0.761898539997441,
-        "ema_spread": 0.0914261654140178,
-        "rsi14": 64.64165020692441,
-        "range_pos": 84.24232490994365,
-        "vol_5m": 0.1111931292167789
-      },
-      "entry_score": 0.7010699884767883,
-      "pattern_bonus": -0.5270998218760846
-    },
     "SOL": {
       "symbol": "SOL",
       "name": "Solana",
@@ -39,7 +11,7 @@
       "entry_time": "2026-09-06T10:20:43Z",
       "entry_cost": 1.5,
       "peak_pct": 0.4873477038425455,
-      "last_price": 106.04,
+      "last_price": 105.86,
       "entry_features": {
         "pc_1h": 1.2,
         "pc_24h": 4.12869,
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-06T13:12:57Z",
       "entry_cost": 1.5,
       "peak_pct": 0.20163548784586852,
-      "last_price": 88.83,
+      "last_price": 88.66,
       "entry_features": {
         "pc_1h": 0.8,
         "pc_24h": 4.95018,
@@ -94,8 +66,8 @@
       "entry_price": 0.218643,
       "entry_time": "2026-09-06T13:24:46Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.7057166248176326,
-      "last_price": 0.217309,
+      "peak_pct": 1.0661214857095813,
+      "last_price": 0.217089,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 0.77805,
@@ -113,18 +85,75 @@
       },
       "entry_score": 1.0310905081411499,
       "pattern_bonus": -0.40497595798442776
+    },
+    "XRP": {
+      "symbol": "XRP",
+      "name": "XRP",
+      "side": "short",
+      "quantity": 709.2198581560284,
+      "entry_price": 1.41,
+      "entry_time": "2026-09-06T14:38:32Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 1.41,
+      "entry_features": {
+        "pc_1h": -0.2,
+        "pc_24h": -0.74865,
+        "pc_7d": 1.0,
+        "pc_14d": -5.2,
+        "pc_30d": 36.5,
+        "vol_mcap": 1.7934049173980788,
+        "cap_rank": 98.0,
+        "ret_30m": -0.48618815350675026,
+        "ret_2h": -1.218642677550208,
+        "ema_spread": -0.2873114688588768,
+        "rsi14": 29.153140299064688,
+        "range_pos": 6.8361833703482295,
+        "vol_5m": 0.1171001104043959
+      },
+      "entry_score": 0.9046149560845012,
+      "pattern_bonus": -0.3528718971954741
+    },
+    "ETH": {
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "side": "short",
+      "quantity": 0.40345519024929494,
+      "entry_price": 2478.59,
+      "entry_time": "2026-09-06T14:39:42Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 2478.59,
+      "entry_features": {
+        "pc_1h": -0.2,
+        "pc_24h": 0.8513,
+        "pc_7d": 1.0,
+        "pc_14d": 2.8,
+        "pc_30d": 29.2,
+        "vol_mcap": 3.0584559189892873,
+        "cap_rank": 99.2,
+        "ret_30m": -0.4634852244830512,
+        "ret_2h": -0.966703876314523,
+        "ema_spread": -0.2730642613952082,
+        "rsi14": 29.849811330228974,
+        "range_pos": 34.451505438886784,
+        "vol_5m": 0.09850739132818555
+      },
+      "entry_score": 0.7359981062614149,
+      "pattern_bonus": -0.39351058860596916
     }
   },
   "cooldowns": {
     "UNI": "2026-09-06T14:53:43Z",
-    "ZEC": "2026-09-06T14:53:43Z"
+    "ZEC": "2026-09-06T14:53:43Z",
+    "LINK": "2026-09-06T15:06:16Z"
   },
-  "realized_pnl": -267.63484848286856,
-  "fees_paid": 207.500803201252,
-  "trades_opened": 68,
-  "trades_closed": 64,
+  "realized_pnl": -282.8116777511613,
+  "fees_paid": 211.98251051832517,
+  "trades_opened": 70,
+  "trades_closed": 65,
   "moons": 10,
   "wins": 21,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T14:30:27Z"
+  "updated": "2026-09-06T14:39:42Z"
 }

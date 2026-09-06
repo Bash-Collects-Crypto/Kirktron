@@ -1,6 +1,6 @@
 {
   "name": "funding",
-  "cash": 2292.2999999999984,
+  "cash": 1192.097346081971,
   "positions": {
     "UNI": {
       "coin": "UNI",
@@ -85,13 +85,25 @@
       "last_funding_time": 1788710400000,
       "opened": "2026-09-06T10:00:37Z",
       "entry_ann_pct": 3.9707834447417416
+    },
+    "NEAR": {
+      "coin": "NEAR",
+      "spot_px": 2.405,
+      "perp_px": 2.406,
+      "entry_basis_pct": 0.04158004158005547,
+      "notional_usd": 1099.1035503676596,
+      "entry_fees_usd": 1.0991035503676596,
+      "funding_earned_usd": 0.0,
+      "last_funding_time": null,
+      "opened": "2026-09-06T14:40:45Z",
+      "entry_ann_pct": 7.149018047586799
     }
   },
   "funding_earned": 0.0,
-  "fees_paid": 7.699999999999999,
+  "fees_paid": 8.79910355036766,
   "closed": 0,
-  "opened": 7,
+  "opened": 8,
   "wins": 0,
   "started": "2026-09-06T10:00:17Z",
-  "updated": "2026-09-06T14:30:56Z"
+  "updated": "2026-09-06T14:40:45Z"
 }
