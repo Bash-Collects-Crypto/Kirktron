@@ -38,7 +38,7 @@ writes = `state/current` ← `dashboard_current.json`, `state/history` ←
 `dashboard_history.json`), and re-arm. That is the whole loop. Report one line
 unless something resolved.
 
-Escalate only on: a **rise** above 12 in `cycle failures`, a traceback, a
+Escalate only on: a **rise** above 13 in `cycle failures`, a traceback, a
 resolved trade, staleness over 10 minutes, or coverage under 8/12. A 429 is
 routine and self-heals. A quiet overnight cycle is not a fault.
 
