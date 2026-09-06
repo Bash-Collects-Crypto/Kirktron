@@ -2024,3 +2024,49 @@ cost entries the log says are no worse than average and would directly reduce th
 moon count that gates the model. Not a parameter change either way — nothing was
 touched. Revisit only if the fast-re-entry mean turns negative relative to fresh
 entries at n ≈ 25. Sample: 45 resolved daytrade trades, 9 re-entries within 2h.
+
+## 2026-09-06 01:20 — MILESTONE: daytrade's pattern model activated (48 resolved, 5 moons)
+
+Three closes inside four minutes took daytrade from 45 resolved / 3 moons to
+**48 / 5**, past the 20-and-4 gate:
+
+```
+01:05:02  LONG LTC  -1.235%  stop-loss
+01:06:12  LONG ZEC  +2.796%  take-profit   <- 4th moon, the gate
+01:09:08  LONG UNI  +2.654%  take-profit   <- 5th moon
+```
+
+Book state: $9,751.21, realized −$265.14 (up from −$298.22), 15 wins in 48 (31%),
+$156.43 of costs paid, 79% cash. The model reports moon setups separating on
+**pc_14d +1.49sd, pc_30d +1.32sd, pc_7d +1.18sd** — the multi-week price-change
+trio, not any of the intraday features the entry gates actually use.
+
+**The ZEC-contamination check (from FINDINGS 13:35), now run.** Three of the five
+moons are ZEC. Recomputing the separation with ZEC removed entirely:
+
+| feature | all: moon vs non-moon | gap 95% CI | ex-ZEC: moon vs non-moon | gap 95% CI |
+|---|---|---|---|---|
+| pc_7d | +20.94 vs +7.98 (+1.30sd) | −0.05 .. +25.97 | +20.05 vs +4.75 (+2.11sd) | −24.68 .. +55.27 |
+| pc_14d | +42.96 vs +13.13 (+1.67sd) | +11.23 .. +48.42 | +37.90 vs +7.88 (+2.25sd) | −14.41 .. +74.46 |
+| pc_30d | +81.32 vs +43.55 (+1.39sd) | +20.06 .. +55.49 | +65.05 vs +33.35 (+2.06sd) | +9.39 .. +54.02 |
+
+**The signal is not purely a ZEC artifact.** The two non-ZEC moons (HYPE +2.566%,
+UNI +2.654%) also entered on far higher multi-week momentum than non-moons, and
+the effect size grows rather than collapses when ZEC is dropped. But at 2 moons
+the confidence intervals blow out: only pc_30d still excludes zero, and it does so
+on n = 2. The honest position is that the direction survives the check and the
+magnitude does not yet mean anything.
+
+**Weight the sample by names, not trades.** Five moons across three symbols
+(ZEC ×3, HYPE, UNI) is nearer three independent observations than five. The model
+is fitting "the coin ran hard over the last fortnight" — plausibly real momentum
+persistence, equally plausibly the same September ZEC run counted three times.
+
+**The bonus is live but has changed nothing yet.** Verified directly: no row in
+trade_log.csv carries a non-zero `pattern_bonus` — every entry to date was scored
+without it. From here `bonus()` adds to the base score at paper_trader.py:1166,
+so the next daytrade entries are the first the model influences. What to watch:
+whether picks tilt toward high-pc_14d names, and whether those picks moon more
+often than the 5-in-48 (10%) base rate. That is the test of the model, and it has
+not been run yet. No parameters changed. Sample: 48 resolved daytrade trades,
+5 moons, 3 distinct symbols.
