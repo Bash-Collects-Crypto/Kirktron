@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 5697.755959828806,
+  "cash": 4696.255959828806,
   "positions": {
     "ADA": {
       "symbol": "ADA",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-06T13:24:46Z",
       "entry_cost": 1.5,
       "peak_pct": 1.0661214857095813,
-      "last_price": 0.219047,
+      "last_price": 0.219717,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 0.77805,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-06T14:39:42Z",
       "entry_cost": 1.5,
       "peak_pct": 0.12870220568952728,
-      "last_price": 2495.1,
+      "last_price": 2491.55,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 0.8513,
@@ -95,7 +95,7 @@
       "entry_time": "2026-09-06T16:50:28Z",
       "entry_cost": 1.5,
       "peak_pct": 0.7305194805194793,
-      "last_price": 12.41,
+      "last_price": 12.35,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 3.26448,
@@ -113,17 +113,43 @@
       },
       "entry_score": 0.8701435947387473,
       "pattern_bonus": -0.3872638664834662
+    },
+    "ZEC": {
+      "symbol": "ZEC",
+      "name": "Zcash",
+      "side": "long",
+      "quantity": 0.815713912816497,
+      "entry_price": 1225.92,
+      "entry_time": "2026-09-06T19:07:41Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 1224.79,
+      "entry_features": {
+        "pc_1h": 1.3,
+        "pc_24h": 19.69083,
+        "pc_7d": 39.9,
+        "pc_14d": 43.1,
+        "pc_30d": 100.0,
+        "vol_mcap": 8.316471568815953,
+        "cap_rank": 96.39999999999999,
+        "ret_30m": 0.36179891464946934,
+        "ret_2h": 3.5419824296531788,
+        "ema_spread": 1.3683202516329949,
+        "rsi14": 72.58741814756496,
+        "range_pos": 97.84650817734557,
+        "vol_5m": 0.5803451707585774
+      },
+      "entry_score": 3.5838154573848398,
+      "pattern_bonus": 0.34033839039716396
     }
   },
-  "cooldowns": {
-    "ZEC": "2026-09-06T19:07:33Z"
-  },
+  "cooldowns": {},
   "realized_pnl": -296.24688628753114,
-  "fees_paid": 225.4848612315905,
-  "trades_opened": 74,
+  "fees_paid": 226.9848612315905,
+  "trades_opened": 75,
   "trades_closed": 70,
   "moons": 11,
   "wins": 23,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T18:50:58Z"
+  "updated": "2026-09-06T19:11:11Z"
 }

@@ -1,35 +1,7 @@
 {
   "name": "conservative",
-  "cash": 4111.059186100006,
+  "cash": 4137.112466231446,
   "positions": {
-    "HYPE": {
-      "symbol": "HYPE",
-      "name": "Hyperliquid",
-      "side": "long",
-      "quantity": 11.735711770918908,
-      "entry_price": 85.21,
-      "entry_time": "2026-09-04T18:25:04Z",
-      "entry_cost": 0.0,
-      "peak_pct": 5.116770332120643,
-      "last_price": 87.89,
-      "entry_features": {
-        "pc_1h": -0.2,
-        "pc_24h": 1.34567,
-        "pc_7d": 4.2,
-        "pc_14d": 11.3,
-        "pc_30d": 47.8,
-        "vol_mcap": 8.020979800317557,
-        "cap_rank": 96.0,
-        "ret_30m": 0.2612162743907298,
-        "ret_2h": 0.5565768684933969,
-        "ema_spread": 0.06006847876925846,
-        "rsi14": 47.88487814705225,
-        "range_pos": 37.47106344988754,
-        "vol_5m": 0.19238445268652085
-      },
-      "entry_score": 31.345670000000002,
-      "pattern_bonus": 0.0
-    },
     "HBAR": {
       "symbol": "HBAR",
       "name": "Hedera",
@@ -39,7 +11,7 @@
       "entry_time": "2026-09-05T10:04:07Z",
       "entry_cost": 0.0,
       "peak_pct": 2.085610652886813,
-      "last_price": 0.08047,
+      "last_price": 0.080334,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 1.72836,
@@ -61,7 +33,7 @@
       "entry_time": "2026-09-06T02:26:33Z",
       "entry_cost": 0.0,
       "peak_pct": 0.7679648930334645,
-      "last_price": 54.29,
+      "last_price": 54.17,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 5.79456,
@@ -83,7 +55,7 @@
       "entry_time": "2026-09-06T04:35:23Z",
       "entry_cost": 0.0,
       "peak_pct": 0.7701469154157268,
-      "last_price": 2495.1,
+      "last_price": 2491.55,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 2.03858,
@@ -111,7 +83,7 @@
       "entry_time": "2026-09-06T04:44:38Z",
       "entry_cost": 0.0,
       "peak_pct": 0.7843137254901908,
-      "last_price": 7.63,
+      "last_price": 7.62,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 3.26146,
@@ -133,7 +105,7 @@
       "entry_time": "2026-09-06T07:17:07Z",
       "entry_cost": 0.0,
       "peak_pct": 0.21133271694624522,
-      "last_price": 749.27,
+      "last_price": 749.74,
       "entry_features": {
         "pc_1h": -0.1,
         "pc_24h": 3.48077,
@@ -151,15 +123,45 @@
       },
       "entry_score": 31.51077,
       "pattern_bonus": 0.0
+    },
+    "UNI": {
+      "symbol": "UNI",
+      "name": "Uniswap",
+      "side": "long",
+      "quantity": 140.0560224089636,
+      "entry_price": 7.14,
+      "entry_time": "2026-09-06T19:08:42Z",
+      "entry_cost": 0.0,
+      "peak_pct": 0.14005602240897305,
+      "last_price": 7.14,
+      "entry_features": {
+        "pc_1h": 0.1,
+        "pc_24h": 1.86638,
+        "pc_7d": 31.9,
+        "pc_14d": 57.8,
+        "pc_30d": 78.0,
+        "vol_mcap": 23.579434495714672,
+        "cap_rank": 91.2,
+        "ret_30m": -0.7987817326558622,
+        "ret_2h": -1.1466665138992638,
+        "ema_spread": 0.2062485827674866,
+        "rsi14": 44.427951525951556,
+        "range_pos": 46.10013274243189,
+        "vol_5m": 0.2722229431261282
+      },
+      "entry_score": 99.69637999999999,
+      "pattern_bonus": 0.0
     }
   },
-  "cooldowns": {},
-  "realized_pnl": 111.05918610000492,
+  "cooldowns": {
+    "HYPE": "2026-09-06T23:08:42Z"
+  },
+  "realized_pnl": 137.11246623144518,
   "fees_paid": 0.0,
-  "trades_opened": 18,
-  "trades_closed": 12,
+  "trades_opened": 19,
+  "trades_closed": 13,
   "moons": 1,
-  "wins": 6,
+  "wins": 7,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-06T18:50:58Z"
+  "updated": "2026-09-06T19:11:11Z"
 }
