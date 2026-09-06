@@ -1,34 +1,7 @@
 {
   "name": "aggressive",
-  "cash": 751.0242226947448,
+  "cash": 886.8231237201869,
   "positions": {
-    "ZEC": {
-      "symbol": "ZEC",
-      "name": "Zcash",
-      "side": "long",
-      "quantity": 0.7559494619468343,
-      "entry_price": 949.62,
-      "entry_time": "2026-09-04T06:39:15Z",
-      "peak_pct": 21.93824898380405,
-      "last_price": 1154.81,
-      "entry_features": {
-        "pc_1h": 1.0,
-        "pc_24h": 14.28151,
-        "pc_7d": 21.5,
-        "pc_14d": 60.0,
-        "pc_30d": 86.6,
-        "vol_mcap": 6.288034962817829,
-        "cap_rank": 95.6,
-        "ret_30m": -0.364750803577818,
-        "ret_2h": -0.2670134054910456,
-        "ema_spread": 0.20184558506829028,
-        "rsi14": 39.96918268814671,
-        "range_pos": 82.67670412244333,
-        "vol_5m": 0.23454794340047502
-      },
-      "entry_score": 67.92302,
-      "pattern_bonus": 0.0
-    },
     "NEAR": {
       "symbol": "NEAR",
       "name": "NEAR Protocol",
@@ -60,7 +33,7 @@
       "entry_time": "2026-09-05T17:33:38Z",
       "entry_cost": 0.0,
       "peak_pct": 0.21859609870255908,
-      "last_price": 761.7,
+      "last_price": 764.04,
       "entry_features": {
         "pc_1h": 0.8,
         "pc_24h": 8.35904,
@@ -88,7 +61,7 @@
       "entry_time": "2026-09-05T17:33:38Z",
       "entry_cost": 0.0,
       "peak_pct": 1.1344922232388006,
-      "last_price": 54.55,
+      "last_price": 54.69,
       "entry_features": {
         "pc_1h": 1.4,
         "pc_24h": 8.39093,
@@ -110,7 +83,7 @@
       "entry_time": "2026-09-05T17:34:45Z",
       "entry_cost": 0.0,
       "peak_pct": 1.601456893962151,
-      "last_price": 0.797933,
+      "last_price": 0.802508,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 6.34914,
@@ -132,7 +105,7 @@
       "entry_time": "2026-09-05T17:34:45Z",
       "entry_cost": 0.0,
       "peak_pct": 4.5977011494252915,
-      "last_price": 2.65,
+      "last_price": 2.66,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 5.77257,
@@ -154,7 +127,7 @@
       "entry_time": "2026-09-05T17:34:45Z",
       "entry_cost": 0.0,
       "peak_pct": 2.473206924979381,
-      "last_price": 12.18,
+      "last_price": 12.29,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": 4.48441,
@@ -182,7 +155,7 @@
       "entry_time": "2026-09-05T17:35:51Z",
       "entry_cost": 0.0,
       "peak_pct": 1.9652849290934156,
-      "last_price": 0.08148,
+      "last_price": 0.08189,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 4.00032,
@@ -204,7 +177,7 @@
       "entry_time": "2026-09-05T17:35:51Z",
       "entry_cost": 0.0,
       "peak_pct": 5.166783488461804,
-      "last_price": 0.382638,
+      "last_price": 0.38362,
       "entry_features": {
         "pc_1h": 0.7,
         "pc_24h": 4.29675,
@@ -226,7 +199,7 @@
       "entry_time": "2026-09-05T17:35:51Z",
       "entry_cost": 0.0,
       "peak_pct": 1.5503875968992262,
-      "last_price": 7.78,
+      "last_price": 7.81,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 5.00403,
@@ -248,7 +221,7 @@
       "entry_time": "2026-09-05T17:36:59Z",
       "entry_cost": 0.0,
       "peak_pct": 2.3211947514444473,
-      "last_price": 0.221347,
+      "last_price": 0.22257,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 2.97041,
@@ -276,7 +249,7 @@
       "entry_time": "2026-09-05T17:36:59Z",
       "entry_cost": 0.0,
       "peak_pct": 2.110817941952509,
-      "last_price": 7.67,
+      "last_price": 7.7,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": 3.07058,
@@ -288,18 +261,41 @@
       },
       "entry_score": 11.17116,
       "pattern_bonus": 0.0
+    },
+    "XMR": {
+      "symbol": "XMR",
+      "name": "Monero",
+      "side": "long",
+      "quantity": 1.3461607495423054,
+      "entry_price": 557.14,
+      "entry_time": "2026-09-06T05:36:51Z",
+      "entry_cost": 0.0,
+      "peak_pct": 0.0,
+      "last_price": 556.53,
+      "entry_features": {
+        "pc_1h": 0.2,
+        "pc_24h": 4.8932,
+        "pc_7d": 17.9,
+        "pc_14d": 29.0,
+        "pc_30d": 51.4,
+        "vol_mcap": 1.0698681833630919,
+        "cap_rank": 94.8
+      },
+      "entry_score": 35.3464,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {
     "ENA": "2026-09-05T19:33:38Z",
-    "STX": "2026-09-05T19:33:38Z"
+    "STX": "2026-09-05T19:33:38Z",
+    "ZEC": "2026-09-06T07:36:51Z"
   },
-  "realized_pnl": -281.1110492513021,
+  "realized_pnl": -113.17687627981286,
   "fees_paid": 0.0,
-  "trades_opened": 16,
-  "trades_closed": 4,
-  "moons": 0,
-  "wins": 1,
+  "trades_opened": 17,
+  "trades_closed": 5,
+  "moons": 1,
+  "wins": 2,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-06T05:32:17Z"
+  "updated": "2026-09-06T05:41:31Z"
 }
