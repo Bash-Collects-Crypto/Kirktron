@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 4769.328525720415,
+  "cash": 5755.503602866903,
   "positions": {
     "HYPE": {
       "symbol": "HYPE",
@@ -10,8 +10,8 @@
       "entry_price": 86.04,
       "entry_time": "2026-09-06T01:25:43Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.20920502092049348,
-      "last_price": 85.94,
+      "peak_pct": 0.43003254300324306,
+      "last_price": 86.07,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 2.21782,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-06T01:33:32Z",
       "entry_cost": 1.5,
       "peak_pct": 0.8956787113783636,
-      "last_price": 0.221541,
+      "last_price": 0.220554,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 4.83672,
@@ -66,8 +66,8 @@
       "entry_price": 1069.95,
       "entry_time": "2026-09-06T01:36:48Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.4074956773680919,
-      "last_price": 1073.73,
+      "peak_pct": 0.5000233655778222,
+      "last_price": 1067.3,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 5.04324,
@@ -95,7 +95,7 @@
       "entry_time": "2026-09-06T02:05:16Z",
       "entry_cost": 1.5,
       "peak_pct": 0.3277157295566871,
-      "last_price": 2507.13,
+      "last_price": 2503.88,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 2.23191,
@@ -113,45 +113,18 @@
       },
       "entry_score": 0.6877103250084114,
       "pattern_bonus": -0.41170026230695334
-    },
-    "LTC": {
-      "symbol": "LTC",
-      "name": "Litecoin",
-      "side": "long",
-      "quantity": 18.152114721365038,
-      "entry_price": 55.09,
-      "entry_time": "2026-09-06T03:41:20Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.03630422944272285,
-      "last_price": 54.52,
-      "entry_features": {
-        "pc_1h": -0.2,
-        "pc_24h": 4.55732,
-        "pc_7d": 12.1,
-        "pc_14d": 5.1,
-        "pc_30d": 20.0,
-        "vol_mcap": 10.592243096079692,
-        "cap_rank": 90.0,
-        "ret_30m": 0.8567891630631763,
-        "ret_2h": 0.7455802709643633,
-        "ema_spread": 0.1541428932072973,
-        "rsi14": 63.85260520645931,
-        "range_pos": 95.96399468511078,
-        "vol_5m": 0.15395306289015587
-      },
-      "entry_score": 1.3088372006349864,
-      "pattern_bonus": 0.006123470885526232
     }
   },
   "cooldowns": {
-    "SOL": "2026-09-06T04:34:21Z"
+    "SOL": "2026-09-06T04:34:21Z",
+    "LTC": "2026-09-06T04:53:23Z"
   },
-  "realized_pnl": -223.1743203959207,
-  "fees_paid": 173.0135130581678,
+  "realized_pnl": -238.4992432494332,
+  "fees_paid": 174.494997901152,
   "trades_opened": 57,
-  "trades_closed": 52,
+  "trades_closed": 53,
   "moons": 7,
   "wins": 18,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T04:12:14Z"
+  "updated": "2026-09-06T04:23:23Z"
 }
