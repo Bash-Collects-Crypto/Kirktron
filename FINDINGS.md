@@ -2452,3 +2452,44 @@ through a trailing exit.
 
 Nothing actioned; no parameter changed. Sample: 86 resolved trades across four
 books, 12 moons, ZEC 8.
+
+## 2026-09-06 11:35 — daytrade traded ZEC five times through a 13% rally and kept a third of it
+
+ZEC ran from $1,033.00 to $1,171.19 between 00:34 and 11:29 today. daytrade was in
+it five separate times:
+
+```
+00:34 BUY  1033.00 (score 1.99) -> 01:06 +2.796%  take-profit
+01:36 BUY  1069.95 (score 4.13) -> 04:44 +3.820%  take-profit
+07:04 BUY  1179.42 (score 4.99) -> 07:14 -1.315%  stop-loss
+08:17 BUY  1174.17 (score 2.58) -> 09:26 +2.746%  take-profit
+11:06 BUY  1187.88 (score 1.81) -> 11:29 -1.405%  stop-loss
+```
+
+Three moons, two stop-outs, **+6.642% gross**. Five round trips at 30bps each cost
+1.5%, so **+5.14% net**. Simply holding the position across the same window would
+have returned +13.38%, or **+13.08% after one round trip** — so active trading kept
+**39% of what doing nothing would have earned**, on the book's single best name of
+the day.
+
+This is the cleanest comparison the log has produced: same instrument, same window,
+same book, the only difference being how often it was traded. It isolates the drag
+without any of the usual confounds.
+
+Two mechanisms, both visible in the rows. **Costs** took 1.5pp directly. **Whipsaw**
+took the rest: the 2.5% take-profit ejected the book three times mid-trend, and the
+two re-entries after those exits were at $1,179.42 and $1,187.88 — above where it
+had just sold — which is what produced the only two losses of the five. The exits
+were not wrong individually; each hit its configured target. They were wrong
+collectively, against a move that kept going.
+
+Note what this does *not* say. It is one name on one day, selected precisely because
+it trended, so it is a demonstration of the mechanism rather than an estimate of its
+size. A chopping market would invert it — the take-profits would bank gains the hold
+would give back. The general claim already recorded (no detectable edge at 86
+resolved) is unaffected.
+
+It does sharpen the case for the hold logic being the binding constraint rather than
+entry selection. The scorer picked ZEC correctly all five times; the book still
+underperformed holding it. Nothing actioned — `take_profit_pct` and `max_hold_hours`
+are strategy parameters. Sample: 5 round trips in one symbol over 10.9 hours.
