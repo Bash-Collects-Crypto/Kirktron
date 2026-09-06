@@ -1,6 +1,6 @@
 {
   "name": "conservative",
-  "cash": 4081.7574404640955,
+  "cash": 4111.059186100006,
   "positions": {
     "HYPE": {
       "symbol": "HYPE",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-04T18:25:04Z",
       "entry_cost": 0.0,
       "peak_pct": 2.300199507100115,
-      "last_price": 86.31,
+      "last_price": 86.12,
       "entry_features": {
         "pc_1h": -0.2,
         "pc_24h": 1.34567,
@@ -30,34 +30,6 @@
       "entry_score": 31.345670000000002,
       "pattern_bonus": 0.0
     },
-    "XMR": {
-      "symbol": "XMR",
-      "name": "Monero",
-      "side": "long",
-      "quantity": 1.8892163530567518,
-      "entry_price": 529.32,
-      "entry_time": "2026-09-05T01:56:32Z",
-      "entry_cost": 0.0,
-      "peak_pct": 5.567520592458231,
-      "last_price": 548.04,
-      "entry_features": {
-        "pc_1h": 1.1,
-        "pc_24h": 3.2169,
-        "pc_7d": 11.6,
-        "pc_14d": 27.7,
-        "pc_30d": 43.9,
-        "vol_mcap": 2.202703416734788,
-        "cap_rank": 94.39999999999999,
-        "ret_30m": 0.5849148680360905,
-        "ret_2h": 1.6214287532509086,
-        "ema_spread": 0.4909971978349851,
-        "rsi14": 61.169714393601424,
-        "range_pos": 44.48960345805181,
-        "vol_5m": 0.23745880934597555
-      },
-      "entry_score": 49.546899999999994,
-      "pattern_bonus": 0.0
-    },
     "HBAR": {
       "symbol": "HBAR",
       "name": "Hedera",
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-05T10:04:07Z",
       "entry_cost": 0.0,
       "peak_pct": 2.085610652886813,
-      "last_price": 0.080927,
+      "last_price": 0.080878,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 1.72836,
@@ -89,7 +61,7 @@
       "entry_time": "2026-09-06T02:26:33Z",
       "entry_cost": 0.0,
       "peak_pct": 0.7679648930334645,
-      "last_price": 54.12,
+      "last_price": 53.9,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 5.79456,
@@ -111,7 +83,7 @@
       "entry_time": "2026-09-06T04:35:23Z",
       "entry_cost": 0.0,
       "peak_pct": 0.7701469154157268,
-      "last_price": 2504.04,
+      "last_price": 2497.39,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 2.03858,
@@ -139,7 +111,7 @@
       "entry_time": "2026-09-06T04:44:38Z",
       "entry_cost": 0.0,
       "peak_pct": 0.6535947712418277,
-      "last_price": 7.66,
+      "last_price": 7.64,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 3.26146,
@@ -151,18 +123,47 @@
       },
       "entry_score": 19.30146,
       "pattern_bonus": 0.0
+    },
+    "BNB": {
+      "symbol": "BNB",
+      "name": "BNB",
+      "side": "long",
+      "quantity": 1.320829480914014,
+      "entry_price": 757.1,
+      "entry_time": "2026-09-06T07:17:07Z",
+      "entry_cost": 0.0,
+      "peak_pct": 0.19416193369436366,
+      "last_price": 757.27,
+      "entry_features": {
+        "pc_1h": -0.1,
+        "pc_24h": 3.48077,
+        "pc_7d": 9.5,
+        "pc_14d": 11.3,
+        "pc_30d": 29.5,
+        "vol_mcap": 2.275709446068588,
+        "cap_rank": 98.4,
+        "ret_30m": -0.426695565693358,
+        "ret_2h": -0.5136835843413068,
+        "ema_spread": -0.16816466074019454,
+        "rsi14": 30.91782875710463,
+        "range_pos": 55.70761381030439,
+        "vol_5m": 0.11131062779481805
+      },
+      "entry_score": 31.51077,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {
     "LINK": "2026-09-06T08:35:23Z",
-    "ZEC": "2026-09-06T08:44:38Z"
+    "ZEC": "2026-09-06T08:44:38Z",
+    "XMR": "2026-09-06T11:17:07Z"
   },
-  "realized_pnl": 81.75744046409466,
+  "realized_pnl": 111.05918610000492,
   "fees_paid": 0.0,
-  "trades_opened": 17,
-  "trades_closed": 11,
+  "trades_opened": 18,
+  "trades_closed": 12,
   "moons": 1,
-  "wins": 5,
+  "wins": 6,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-06T07:12:30Z"
+  "updated": "2026-09-06T07:22:39Z"
 }

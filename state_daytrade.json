@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 4789.14435243464,
+  "cash": 7745.047003351192,
   "positions": {
     "HYPE": {
       "symbol": "HYPE",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-06T01:25:43Z",
       "entry_cost": 1.5,
       "peak_pct": 1.3133426313342578,
-      "last_price": 86.31,
+      "last_price": 86.12,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 2.21782,
@@ -30,34 +30,6 @@
       "entry_score": 0.7218563978259481,
       "pattern_bonus": -0.6178890729168184
     },
-    "ADA": {
-      "symbol": "ADA",
-      "name": "Cardano",
-      "side": "long",
-      "quantity": 4514.509633963558,
-      "entry_price": 0.221508,
-      "entry_time": "2026-09-06T01:33:32Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.8956787113783636,
-      "last_price": 0.219648,
-      "entry_features": {
-        "pc_1h": 0.6,
-        "pc_24h": 4.83672,
-        "pc_7d": 8.8,
-        "pc_14d": -2.8,
-        "pc_30d": 9.3,
-        "vol_mcap": 5.2078689834129195,
-        "cap_rank": 92.80000000000001,
-        "ret_30m": 0.7982768147981378,
-        "ret_2h": 0.931952115748369,
-        "ema_spread": 0.35453583234929975,
-        "rsi14": 72.99801056881392,
-        "range_pos": 93.61400320551671,
-        "vol_5m": 0.19733806278625363
-      },
-      "entry_score": 1.088253683161129,
-      "pattern_bonus": -0.4616493709680979
-    },
     "ETH": {
       "symbol": "ETH",
       "name": "Ethereum",
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-06T02:05:16Z",
       "entry_cost": 1.5,
       "peak_pct": 0.6454522956067761,
-      "last_price": 2504.04,
+      "last_price": 2497.39,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 2.23191,
@@ -85,71 +57,19 @@
       },
       "entry_score": 0.6877103250084114,
       "pattern_bonus": -0.41170026230695334
-    },
-    "SOL": {
-      "symbol": "SOL",
-      "name": "Solana",
-      "side": "long",
-      "quantity": 9.394081728511038,
-      "entry_price": 106.45,
-      "entry_time": "2026-09-06T05:46:00Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.02818224518553418,
-      "last_price": 105.23,
-      "entry_features": {
-        "pc_1h": -0.2,
-        "pc_24h": 4.59387,
-        "pc_7d": 0.6,
-        "pc_14d": 12.8,
-        "pc_30d": 45.7,
-        "vol_mcap": 4.976427750632338,
-        "cap_rank": 97.2,
-        "ret_30m": 0.8102069760141939,
-        "ret_2h": -0.013695745352193534,
-        "ema_spread": 0.47345939945237514,
-        "rsi14": 63.34422844666011,
-        "range_pos": 92.87486189501067,
-        "vol_5m": 0.20395396746986322
-      },
-      "entry_score": 1.0283538580947624,
-      "pattern_bonus": -0.3452108863890141
-    },
-    "ZEC": {
-      "symbol": "ZEC",
-      "name": "Zcash",
-      "side": "long",
-      "quantity": 0.8478743789320173,
-      "entry_price": 1179.42,
-      "entry_time": "2026-09-06T07:04:24Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.05002458835698209,
-      "last_price": 1170.12,
-      "entry_features": {
-        "pc_1h": 1.4,
-        "pc_24h": 15.94224,
-        "pc_7d": 40.0,
-        "pc_14d": 51.4,
-        "pc_30d": 100.0,
-        "vol_mcap": 5.066208893588313,
-        "cap_rank": 96.39999999999999,
-        "ret_30m": 0.8706651554867939,
-        "ret_2h": 3.2968691177121867,
-        "ema_spread": 2.18135533265864,
-        "rsi14": 62.92109374683579,
-        "range_pos": 98.53687392209616,
-        "vol_5m": 0.4858340634295799
-      },
-      "entry_score": 4.986390999420301,
-      "pattern_bonus": 0.3441952535438744
     }
   },
-  "cooldowns": {},
-  "realized_pnl": -203.35849368169642,
-  "fees_paid": 179.05229497110855,
+  "cooldowns": {
+    "SOL": "2026-09-06T07:44:39Z",
+    "ZEC": "2026-09-06T07:44:39Z",
+    "ADA": "2026-09-06T07:45:48Z"
+  },
+  "realized_pnl": -251.95584276514396,
+  "fees_paid": 183.49280971960613,
   "trades_opened": 59,
-  "trades_closed": 54,
+  "trades_closed": 57,
   "moons": 8,
   "wins": 19,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T07:12:30Z"
+  "updated": "2026-09-06T07:22:39Z"
 }
