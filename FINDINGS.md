@@ -2261,3 +2261,47 @@ rather than closing P/L. It moves no stop, changes no entry, and would take the
 program from 9 moons to 15 — which would put conservative at 3 of its 4 and give
 the other two books their first. Sample: 15 trades that touched a moon line, 9
 credited, 6 lost to the trail.
+
+## 2026-09-06 05:55 — MILESTONE: aggressive's first moon, and ZEC is 60% of the program's moons
+
+At 05:36:51 aggressive sold ZEC on **take-profit +23.39%**, past its +17% moon line
+— the largest single trade the program has produced (entry $949.62, exit $1,171.77,
+held ~44h). It is aggressive's first moon and takes the book to 5 resolved / 1 moon
+and −0.65%, nearly recovering the drawdown the 5 Sept cap event opened. Combined
+value reached **$39,885.54**. Three of four books now have a moon; only longshort
+has none, and its own ZEC sits about a point under its +9.5% line.
+
+Like the nine before it, this moon exited on **take-profit, not the trail** — the
+pattern is now unbroken at 16 moon-line touches.
+
+**The concentration is the finding.** Across 78 resolved trades the program has
+recorded 10 moons:
+
+| symbol | moons |
+|---|---|
+| **ZEC** | **6** |
+| HYPE, UNI, LINK, BCH | 1 each |
+
+**Six of ten moons — 60% — are one coin**, spread across three different books
+with different universes, horizons and thresholds (daytrade 4, conservative 1,
+aggressive 1). That is not a strategy finding; it is a market finding. ZEC had an
+exceptional September and every book that could hold it long enough got paid.
+
+Two consequences worth stating plainly.
+
+First, **the moon count is not four independent strategy validations.** Weighted by
+name rather than by trade, the program has produced five distinct moon-generating
+symbols in three days, and one of them dominates. Any statement of the form "the
+strategies find big winners" currently rests on ZEC's run.
+
+Second, this sharpens the model-instability finding (03:35) rather than
+contradicting it. daytrade's model is fitted on 8 moons of which 4 are ZEC. Its
+feature ranking has now changed leader four times — pc_14d, pc_30d, ret_30m,
+vol_5m — and every separation sits under 1sd. A centroid fitted to a set that is
+half one symbol will describe that symbol, and when the symbol stops running the
+description will stop working.
+
+Nothing actioned. This restates the case for the ZEC-weighting question already
+with the owner (LOOP_NOTES, from FINDINGS 01:45): weight the model's training rows
+by symbol rather than by trade. Sample: 78 resolved trades, 10 moons, 5 distinct
+symbols, ZEC 6.
