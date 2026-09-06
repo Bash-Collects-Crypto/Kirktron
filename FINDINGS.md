@@ -2540,3 +2540,52 @@ At +$0.4409 per settlement and three settlements a day, that is **+$1.32/day on
 $10,000, or about +4.8%/year** before the $8.80 of entry fees is recovered —
 which takes about seven days. Consistent with the 5.1%/year the 33-day survey
 implied. Sample: one settlement, 8 pairs.
+
+## 2026-09-06 17:45 — daytrade's logged pnl_pct is GROSS of costs; on net returns its edge is detectably negative
+
+Chasing a four-trade disagreement between the report's win count and my own recount
+turned up something that invalidates a headline number I have been quoting all day.
+
+`paper_trader.py:1061` sets `pnl_pct = self.change_pct(pos, price)` — the raw price
+move — while the dollar `pnl` two lines above is net of both fees. A previous fix
+made the dollars honest (the comment at 1055 records it) and left the percentage
+alone. For conservative, longshort and aggressive the two agree, because those books
+are not charged. For daytrade they differ by a full round trip:
+
+| measure | n | mean | 95% CI | wins |
+|---|---|---|---|---|
+| `pnl_pct` (gross) | 69 | −0.095% | −0.485 .. +0.295 | 26 (38%) |
+| `pnl / usd_amount` (**net**) | 69 | **−0.423%** | **−0.810 .. −0.036** | 22 (32%) |
+
+Difference in means 0.328pp against a 0.30pp round trip. The four-trade win gap is
+exactly the trades that were gross-positive and died inside the spread: SOL +0.127%,
+XLM +0.010%, BNB +0.213%, HYPE +0.209%.
+
+**The net interval excludes zero.** It is the first per-trade confidence interval
+this program has produced that does not straddle it. Read correctly, daytrade does
+not have "no detectable edge" — at n = 69 it has a **detectable negative** one, and
+the size of it is approximately the cost of trading. That is a different and much
+more actionable statement than the one recorded at 09:40, which reported
+"daytrade n=60 mean −0.042%" and was computed on gross returns.
+
+Everything derived from `pnl_pct` inherits the error: the 09:40 edge assessment, the
+scorer test (21:45), the long/short split (23:45), the ZEC round-trip comparison
+(11:35, though that one netted costs manually and stands), and the model's training
+labels. The three uncharged books are unaffected.
+
+**Two consequences the owner should see.** First, `moon = pnl_pct >= moon_pct` at
+line 1062 is also evaluated gross, so daytrade's +2.0% moons are +1.7% net — the
+moon count is measured on a book that pays no fees. Second, the pattern model learns
+from gross outcomes, so it is being taught that trades which lost money were wins.
+
+**What I did and did not change.** Added a `pnl_pct_net` column recorded alongside
+`pnl_pct`, so the two can never be conflated again, and a comment at the site saying
+which is which. I did **not** change `pnl_pct` itself: the moon threshold and the
+model are both defined on it, and rewriting it would silently reclassify three days
+of history. Whether moons and the model should switch to the net figure is a
+strategy decision and is yours.
+
+Also correcting myself: at 17:32 I reported daytrade's win rate as 37% and called
+the trade log authoritative over the report's 31%. That was backwards — 37% was the
+gross figure and the report's net count was right. The correct current figure is
+**22 wins in 69, 32%**. Sample: 69 resolved daytrade trades.

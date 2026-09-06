@@ -375,7 +375,7 @@ PATTERN_MAX_BONUS = 2.5
 
 CSV_HEADER = [
     "timestamp", "strategy", "action", "side", "symbol", "name", "price", "quantity",
-    "usd_amount", "reason", "pnl", "pnl_pct", "resolved", "moon",
+    "usd_amount", "reason", "pnl", "pnl_pct", "pnl_pct_net", "resolved", "moon",
     "portfolio_value", "cash", "hold_hours", "score", "pattern_bonus",
 ] + ["f_" + f for f in FEATURE_NAMES]
 
@@ -1026,6 +1026,7 @@ class Portfolio:
             "pnl": "", "pnl_pct": "", "resolved": "False", "moon": "False",
             "portfolio_value": "%.2f" % portfolio_value, "cash": "%.2f" % self.cash,
             "hold_hours": "", "score": "%.3f" % score, "pattern_bonus": "%.3f" % bonus,
+            "pnl_pct_net": "",
             # Only the intraday book has 5-minute bars, so a coin the other
             # books buy usually has no ret_30m/rsi14/etc. Indexing here raised
             # KeyError and killed the WHOLE cycle -- every book stopped trading
@@ -1059,6 +1060,16 @@ class Portfolio:
         # than the book actually did, by the entry fee on every single trade.
         pnl -= exit_cost + pos.get("entry_cost", 0.0)
         pnl_pct = self.change_pct(pos, price)
+        # pnl_pct is the raw price move, GROSS of costs, while `pnl` above is
+        # net of both fees. For the three uncharged books they are the same
+        # number; for daytrade they differ by a full round trip (0.30pp), and
+        # every analysis run off pnl_pct was therefore measuring a book that
+        # does not exist. pnl_pct is left alone because the moon threshold and
+        # the pattern model are both defined on it and changing it would
+        # silently reclassify history; the net figure is recorded alongside so
+        # the two can never be confused again.
+        cost_pct = 2 * self.cfg.get("cost_bps", 0.0) / 100.0
+        pnl_pct_net = pnl_pct - cost_pct
         moon = pnl_pct >= self.cfg.get("moon_pct", MOON_THRESHOLD_PCT)
         hold_hours = (now_utc() - parse_iso(pos["entry_time"])).total_seconds() / 3600.0
 
@@ -1079,6 +1090,7 @@ class Portfolio:
             "symbol": symbol, "name": pos["name"], "price": "%.8f" % price,
             "quantity": "%.8f" % pos["quantity"], "usd_amount": "%.2f" % proceeds,
             "reason": reason, "pnl": "%.2f" % pnl, "pnl_pct": "%.3f" % pnl_pct,
+            "pnl_pct_net": "%.3f" % pnl_pct_net,
             "resolved": "True", "moon": str(moon),
             "portfolio_value": "%.2f" % portfolio_value, "cash": "%.2f" % self.cash,
             "hold_hours": "%.2f" % hold_hours,
