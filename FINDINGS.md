@@ -2332,3 +2332,48 @@ book's concurrent positions actually co-move needs per-cycle marks from
 `equity_history.csv` or the intraday bars, not exit timestamps. Not attempted here;
 noting the right instrument for whenever the question is worth answering. Sample:
 58 resolved daytrade trades, 27 stop-outs.
+
+## 2026-09-06 08:35 — the dead band is structural in ALL FOUR books, provably, not just observed
+
+Earlier entries recorded that all 10 credited moons exited on take-profit and none
+ever came through a trailing exit (14:05, 02:35, 04:15, 04:55). That was stated as
+an empirical pattern over 16 moon-line touches. It is stronger than that: **a
+trailing exit cannot produce a moon in any of the four books, by construction.**
+
+A trailed exit closes at `peak − giveback`. For that to land on or above the moon
+line, `peak >= moon + giveback`. But take-profit fires first at `take_profit`. So a
+trailed moon requires `moon + giveback <= take_profit`, i.e. **`giveback <=
+take_profit − moon`**. Read from the config:
+
+| book | moon | take-profit | giveback | trailed moon needs peak ≥ | TP fires at | reachable? |
+|---|---|---|---|---|---|---|
+| conservative | 7.0 | 9.0 | 2.5 | **9.5** | 9.0 | no |
+| longshort | 9.5 | 12.0 | 3.5 | **13.0** | 12.0 | no |
+| daytrade | 2.0 | 2.5 | 0.7 | **2.7** | 2.5 | no |
+| aggressive | 17.0 | 22.0 | 7.0 | **24.0** | 22.0 | no |
+
+In every book the giveback exceeds the take-profit-to-moon gap — 2.5 vs 2.0, 3.5 vs
+2.5, 0.7 vs 0.5, 7.0 vs 5.0. Not one is a near miss and the same inequality fails
+in the same direction four times, which reads as a parameter set chosen without
+this interaction in mind rather than a deliberate design.
+
+The consequence is exact: **"moon" and "exited on take-profit" are the same event.**
+Every trade that hits its target is a moon; no trade that misses its target can
+ever be one, however far it ran. The 10-for-10 record is not evidence about the
+strategies, it is arithmetic. This also means the gate on every pattern model
+("20 resolved including 4 moons") is really "…including 4 take-profit exits",
+and a book whose winners tend to trail out cannot reach it no matter how well it
+trades.
+
+**A live, falsifiable case is open right now.** longshort holds ZEC from $1,064.30,
+peak +9.98% (06:33), currently +9.42%, trail armed. It has exactly two exits
+available: run to **+12.0%** and book the book's first moon, or fall to peak − 3.5
+≈ **+6.5%** and book an ordinary win. There is no third outcome and nothing in
+between. I will record which one happens.
+
+Not actioned — moon thresholds and trail parameters are strategy parameters. This
+sharpens the question with the owner from a labelling preference to a choice
+between two concrete repairs: flag moons on **peak** P/L (labelling only, no
+trading change), or set `moon_pct <= take_profit_pct − trail_giveback_pct` in each
+book so a trailed winner can qualify. Sample: all four book configs; 16 moon-line
+touches, 10 credited, 10 via take-profit.
