@@ -2228,3 +2228,36 @@ genuinely delivered their thesis. Sample: 10 trailed exits, 5 in the dead band;
 17 coins. The three known rank<=25 bypass leaks are all still present (RAIN 12,
 LEO 17, UNI 22 — each has drifted a rank since the last audit) and remain the
 owner's call.
+
+## 2026-09-06 04:55 — MILESTONE: conservative's first moon, and every moon so far is a take-profit
+
+At 04:44:38 conservative sold ZEC on **take-profit +9.13%**, clearing its +7.0%
+moon line. That is conservative's first moon and the first moon the program has
+produced outside daytrade. The book is 11 resolved / 1 moon; its model needs 20
+and 4. daytrade took the same ZEC tick for **+3.82%**, its 8th moon at 54 resolved.
+Combined value reached **$39,680.07**, the session high.
+
+Nine minutes earlier the same book sold LINK on the trailing stop at **peak +7.06%,
+closed +4.39%** — over the moon line, credited as an ordinary win. Same book, same
+hour, same threshold, opposite label. The difference was purely the exit path.
+
+Counting every resolved trade whose peak reached its book's moon line:
+
+- **15 trades have touched a moon line**
+- **9 were credited** — and **all 9 exited on take-profit**
+- **6 were lost to the trailing stop**
+
+Not one moon in the program's history has been recorded through a trailing exit.
+The moon statistic, as implemented, does not measure "reached the thesis"; it
+measures "reached the take-profit limit," which is a strictly higher bar sitting
+0.5pp above the line in daytrade and 2.0pp above it in conservative. The trailing
+stop, which exists to protect gains, systematically removes the label from trades
+whose gains it protected.
+
+This is the third and strongest statement of the same issue (FINDINGS 14:05,
+02:35, 04:15) and I will stop re-deriving it. The question with the owner is
+unchanged and now has a 15-trade sample behind it: flag a moon on **peak** P/L
+rather than closing P/L. It moves no stop, changes no entry, and would take the
+program from 9 moons to 15 — which would put conservative at 3 of its 4 and give
+the other two books their first. Sample: 15 trades that touched a moon line, 9
+credited, 6 lost to the trail.
