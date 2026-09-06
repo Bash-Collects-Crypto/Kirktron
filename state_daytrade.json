@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 6792.14435243464,
+  "cash": 5790.64435243464,
   "positions": {
     "HYPE": {
       "symbol": "HYPE",
@@ -10,8 +10,8 @@
       "entry_price": 86.04,
       "entry_time": "2026-09-06T01:25:43Z",
       "entry_cost": 1.5,
-      "peak_pct": 1.3017201301720016,
-      "last_price": 87.16,
+      "peak_pct": 1.3133426313342578,
+      "last_price": 86.89,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 2.21782,
@@ -39,7 +39,7 @@
       "entry_time": "2026-09-06T01:33:32Z",
       "entry_cost": 1.5,
       "peak_pct": 0.8956787113783636,
-      "last_price": 0.22257,
+      "last_price": 0.221585,
       "entry_features": {
         "pc_1h": 0.6,
         "pc_24h": 4.83672,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-06T02:05:16Z",
       "entry_cost": 1.5,
       "peak_pct": 0.6454522956067761,
-      "last_price": 2521.39,
+      "last_price": 2513.36,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 2.23191,
@@ -85,15 +85,43 @@
       },
       "entry_score": 0.6877103250084114,
       "pattern_bonus": -0.41170026230695334
+    },
+    "SOL": {
+      "symbol": "SOL",
+      "name": "Solana",
+      "side": "long",
+      "quantity": 9.394081728511038,
+      "entry_price": 106.45,
+      "entry_time": "2026-09-06T05:46:00Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.02818224518553418,
+      "last_price": 106.35,
+      "entry_features": {
+        "pc_1h": -0.2,
+        "pc_24h": 4.59387,
+        "pc_7d": 0.6,
+        "pc_14d": 12.8,
+        "pc_30d": 45.7,
+        "vol_mcap": 4.976427750632338,
+        "cap_rank": 97.2,
+        "ret_30m": 0.8102069760141939,
+        "ret_2h": -0.013695745352193534,
+        "ema_spread": 0.47345939945237514,
+        "rsi14": 63.34422844666011,
+        "range_pos": 92.87486189501067,
+        "vol_5m": 0.20395396746986322
+      },
+      "entry_score": 1.0283538580947624,
+      "pattern_bonus": -0.3452108863890141
     }
   },
   "cooldowns": {},
   "realized_pnl": -203.35849368169642,
-  "fees_paid": 176.05229497110855,
-  "trades_opened": 57,
+  "fees_paid": 177.55229497110855,
+  "trades_opened": 58,
   "trades_closed": 54,
   "moons": 8,
   "wins": 19,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T05:41:31Z"
+  "updated": "2026-09-06T05:51:33Z"
 }
