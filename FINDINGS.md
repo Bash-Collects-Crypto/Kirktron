@@ -2105,3 +2105,43 @@ The measurable test needs no change at all: track whether entries carrying a
 **positive** bonus moon more often than the 5-in-48 (10%) base rate, and whether
 they are disproportionately ZEC. Sample so far: 3 model-era entries, 1 positive
 bonus, 0 resolved.
+
+## 2026-09-06 02:35 — the moon dead band is now confirmed in conservative too (4 events, 2 books)
+
+conservative's BNB closed at 02:26:33 on a trailing stop: **peak +8.26%, closed
++5.754%**, held 57 hours. It cleared the book's +7.0% moon line by 1.26pp and
+closed 1.25pp below it. Realized P/L improved to −$53.51 and the book stands at
++1.10%, but it recorded **no moon** — conservative is still 0 for 9.
+
+That is the fourth time a trade has peaked above its book's moon line and closed
+below it, and the first outside daytrade:
+
+| date | book | symbol | peak | closed | moon line | given back |
+|---|---|---|---|---|---|---|
+| 09-04 07:41 | daytrade | ZEC | +2.11% | +1.32% | +2.0% | 0.79pp |
+| 09-05 13:55 | daytrade | BNB | +2.26% | +1.36% | +2.0% | 0.90pp |
+| 09-05 17:29 | daytrade | LINK | +2.09% | +1.34% | +2.0% | 0.75pp |
+| 09-06 02:26 | **conservative** | BNB | **+8.26%** | **+5.75%** | +7.0% | **2.51pp** |
+
+Four of the nine trailed exits in the program's history are of this kind — 44%.
+
+**Why conservative's case is different from daytrade's.** In daytrade the band is
+narrow and structural: the trail gives back 0.7% and take-profit sits at +2.5%, so
+only peaks in [+2.0%, +2.5%] can land in it. conservative gives back **2.5%** and
+its take-profit is at +9.0%, so its dead band spans peaks from +7.0% all the way to
+**+9.5%** — a 2.5pp-wide window, five times wider than daytrade's 0.5pp. BNB peaked
+at +8.26%, squarely inside it. conservative is structurally the book *most* likely
+to produce a near-moon that scores as an ordinary win, and it has now done so.
+
+Stated plainly: a moon is measured on closing P/L, and a 2.5% trail giveback is
+larger than the 2.0pp gap between conservative's moon line and its take-profit.
+The book can reach its thesis and still not be credited with it. Since a moon is
+also what gates the pattern model, conservative's model is being held inactive by
+exit geometry rather than by the strategy failing to find winners.
+
+Not actioned — the trail giveback and the moon threshold are both strategy
+parameters. Surfaced for the owner as one concrete question: should a moon be
+flagged on **peak** P/L rather than closing P/L? That would credit all four trades
+above, would activate no model that a real +7% move did not earn, and changes no
+trading behaviour whatsoever — it is purely how outcomes are labelled. Sample:
+9 trailed exits across all books, 4 in the dead band.
