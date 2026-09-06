@@ -2305,3 +2305,30 @@ Nothing actioned. This restates the case for the ZEC-weighting question already
 with the owner (LOOP_NOTES, from FINDINGS 01:45): weight the model's training rows
 by symbol rather than by trade. Sample: 78 resolved trades, 10 moons, 5 distinct
 symbols, ZEC 6.
+
+## 2026-09-06 07:35 — daytrade emptied to one position; the clustering test is confounded
+
+Between 07:14:39 and 07:25:57 daytrade closed five trades — SOL −1.26%, ZEC −1.32%,
+ADA −1.39% (three stop-outs inside 89 seconds), then HYPE at max hold +0.21%. The
+book went from five positions to **one, on 90% cash**, with realized P/L back to
+−$252.87 and win rate 35% → 33%. Nothing dead-band about any of them.
+
+The ZEC stop is the one worth remembering: daytrade bought at $1,179.42 on a score
+of **4.99** at 07:04, ten minutes after aggressive booked +23.39% on the same coin,
+and was stopped at $1,163.91. The name behind 6 of the program's 10 moons turned,
+and the book bought the top of it.
+
+**The obvious test of "correlated drawdown" does not work here, and this is why.**
+I checked whether stop-outs cluster in time — 9 of 27 daytrade stop-outs (33%) fall
+in five-minute clusters. But the baseline is identical: **20 of all 58 exits (34%)**
+do too. The trader marks every open position inside one cycle, so any two positions
+that resolve in the same cycle are logged seconds apart *by construction*. Temporal
+clustering therefore measures the cycle structure, not market correlation, and
+cannot distinguish "four longs fell together" from "four longs were checked
+together."
+
+Recorded so the test is not re-run and mistaken for evidence. Measuring whether the
+book's concurrent positions actually co-move needs per-cycle marks from
+`equity_history.csv` or the intraday bars, not exit timestamps. Not attempted here;
+noting the right instrument for whenever the question is worth answering. Sample:
+58 resolved daytrade trades, 27 stop-outs.
