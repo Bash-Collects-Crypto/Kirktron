@@ -1,35 +1,7 @@
 {
   "name": "daytrade",
-  "cash": 6682.683169295804,
+  "cash": 7706.829271027612,
   "positions": {
-    "ADA": {
-      "symbol": "ADA",
-      "name": "Cardano",
-      "side": "long",
-      "quantity": 4534.71551462219,
-      "entry_price": 0.220521,
-      "entry_time": "2026-09-06T20:44:51Z",
-      "entry_cost": 1.5,
-      "peak_pct": 2.289577863332743,
-      "last_price": 0.224636,
-      "entry_features": {
-        "pc_1h": -0.4,
-        "pc_24h": 0.28098,
-        "pc_7d": 6.7,
-        "pc_14d": -2.7,
-        "pc_30d": 9.2,
-        "vol_mcap": 4.698506162257175,
-        "cap_rank": 92.80000000000001,
-        "ret_30m": 0.5887104770334384,
-        "ret_2h": 0.4992130919902582,
-        "ema_spread": 0.29986708942246143,
-        "rsi14": 73.07686720084635,
-        "range_pos": 58.11668715841696,
-        "vol_5m": 0.16043896603992128
-      },
-      "entry_score": 0.6341455466525115,
-      "pattern_bonus": -0.4891300198844709
-    },
     "LTC": {
       "symbol": "LTC",
       "name": "Litecoin",
@@ -38,8 +10,8 @@
       "entry_price": 55.03,
       "entry_time": "2026-09-06T23:46:04Z",
       "entry_cost": 1.5,
-      "peak_pct": 1.6172996547337826,
-      "last_price": 55.92,
+      "peak_pct": 2.071597310557878,
+      "last_price": 55.97,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 0.75885,
@@ -67,7 +39,7 @@
       "entry_time": "2026-09-07T00:13:15Z",
       "entry_cost": 1.5,
       "peak_pct": 0.27586206896551135,
-      "last_price": 7.25,
+      "last_price": 7.19,
       "entry_features": {
         "pc_1h": 1.1,
         "pc_24h": 2.18693,
@@ -88,14 +60,15 @@
     }
   },
   "cooldowns": {
-    "LINK": "2026-09-07T00:55:43Z"
+    "LINK": "2026-09-07T00:55:43Z",
+    "ADA": "2026-09-07T01:16:15Z"
   },
-  "realized_pnl": -312.81967682053346,
-  "fees_paid": 251.00052554225698,
+  "realized_pnl": -290.17357508872567,
+  "fees_paid": 252.53905248526922,
   "trades_opened": 82,
-  "trades_closed": 79,
-  "moons": 13,
-  "wins": 26,
+  "trades_closed": 80,
+  "moons": 14,
+  "wins": 27,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-07T00:40:43Z"
+  "updated": "2026-09-07T00:49:26Z"
 }
