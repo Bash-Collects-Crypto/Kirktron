@@ -1,18 +1,46 @@
 {
   "name": "daytrade",
-  "cash": 9696.0445911978,
-  "positions": {},
+  "cash": 8694.5445911978,
+  "positions": {
+    "XRP": {
+      "symbol": "XRP",
+      "name": "XRP",
+      "side": "short",
+      "quantity": 709.2198581560284,
+      "entry_price": 1.41,
+      "entry_time": "2026-09-07T01:15:45Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 1.41,
+      "entry_features": {
+        "pc_1h": -0.5,
+        "pc_24h": -0.47987,
+        "pc_7d": 4.3,
+        "pc_14d": -6.9,
+        "pc_30d": 38.8,
+        "vol_mcap": 1.6561260173305465,
+        "cap_rank": 98.0,
+        "ret_30m": -0.7793141999198672,
+        "ret_2h": -0.7999108953334888,
+        "ema_spread": -0.13501907369903443,
+        "rsi14": 30.15726835527134,
+        "range_pos": 23.375348800607238,
+        "vol_5m": 0.16028067823920403
+      },
+      "entry_score": 0.9215157498846697,
+      "pattern_bonus": -0.29979015184075986
+    }
+  },
   "cooldowns": {
-    "ADA": "2026-09-07T01:16:15Z",
     "LTC": "2026-09-07T01:34:17Z",
     "UNI": "2026-09-07T01:34:17Z"
   },
   "realized_pnl": -303.95825491853634,
-  "fees_paid": 255.52735792368213,
-  "trades_opened": 82,
+  "fees_paid": 257.02735792368213,
+  "trades_opened": 83,
   "trades_closed": 82,
   "moons": 14,
   "wins": 28,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-07T01:11:05Z"
+  "updated": "2026-09-07T01:19:41Z"
 }
