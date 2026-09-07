@@ -2589,3 +2589,48 @@ Also correcting myself: at 17:32 I reported daytrade's win rate as 37% and calle
 the trade log authoritative over the report's 31%. That was backwards — 37% was the
 gross figure and the report's net count was right. The correct current figure is
 **22 wins in 69, 32%**. Sample: 69 resolved daytrade trades.
+
+## 2026-09-07 00:20 — the first take-profit moon outside daytrade, and what it does not show
+
+aggressive closed LONG TIA at **+22.07%** (entry $0.368082 on 5 September
+17:35, exit $0.449318, held 30.6h, +$165.53 on a $750 notional). Its take-profit
+is +22% and its moon line +17%, so this is a genuine take-profit moon — the
+first the program has produced in a book other than daytrade, and aggressive's
+second moon overall.
+
+It flips aggressive's realized P/L from **−$113.18 to +$52.35**. Combined
+realized across the four momentum books moves from −$284.56 to −$119.16.
+
+**What it does not show.** aggressive has **6 resolved trades**. A single
++22% outcome on n=6 moves the book mean by +3.7pp on its own; the 95% CI on
+that mean spans well past ±10pp. This is one draw from a fat right tail, which
+is exactly the distribution a 22%-target book is built to harvest — it is the
+strategy working as designed on one instance, not evidence the strategy has
+positive expectancy. The honest read is that aggressive is +$52 realized on six
+trades and that number is indistinguishable from zero.
+
+**It also does not bear on the 7 September 17:33 cap cluster.** TIA exited on
+take-profit at 30.6h, before its 48h limit, so it was never in that cluster.
+Eleven positions still cap simultaneously tomorrow afternoon, all currently at
+~30h, and the cluster's risk is unchanged.
+
+## 2026-09-07 00:20 — funding accrual confirmed correct across two settlements
+
+The 00:00 UTC settlement stepped the funding total from **$0.4409 to $0.9728**
+(+$0.5319 across eight pairs). Combined with the 16:00 step from $0.0000 to
+$0.4409, `accrue_funding()` is now verified over two consecutive periods.
+
+The predicted step was ~$0.44 (a repeat of the first). The actual was $0.53.
+The excess is NEAR, which entered between the two settlements and only now has
+a full period behind it, plus rates drifting up since entry — SOL, the one pair
+that paid negative last period, flipped to +$0.0087.
+
+This closes the earlier "$0.00 for six hours" scare: it was a display bug (both
+report paths printed `state["funding_earned"]`, a realised-only counter that
+`close_position()` increments), never an accrual failure. `total_funding()`
+fixed it.
+
+Basis drift after 14 hours is inside **±$0.55 on $1,100 notionals** — the hedge
+is holding, four orders of magnitude inside the ±$5 alarm. At $0.97 per 14h the
+book is tracking ~$1.67/day, against $8.80 of entry fees: **breakeven around
+5.3 days**, consistent with the ~$1.40/day the 33-day backtest implied.

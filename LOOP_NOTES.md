@@ -71,6 +71,15 @@ momentum books whose per-trade intervals all straddle zero.
   first week's drawdown as failure.
 - `funding.log` is gitignored; `funding_log.csv` and `state_funding.json` go to
   the data branch via `snapshot.sh`.
+- **Accrual is confirmed correct across two consecutive settlements**
+  (2026-09-06 16:00 and 2026-09-07 00:00): the total stepped $0.0000 ->
+  $0.4409 -> $0.9728 on eight pairs. The earlier "$0.00 for six hours" was a
+  DISPLAY bug -- both report paths printed `state["funding_earned"]`, a
+  realised-only counter -- fixed with `total_funding()`. If the total ever
+  looks stuck again, check per-position `funding_earned_usd` in
+  `state_funding.json` BEFORE touching `accrue_funding()`.
+- Basis drift is running inside +/-$0.55 on $1,100 notionals after 14 hours,
+  i.e. the hedge is holding. Alarm threshold is +/-$5.
 
 **THE 3%/DAY TARGET IS NOT REACHABLE.** It compounds to 48,500x a year, roughly
 20x the best sustained record in financial history. Report actual numbers and say
@@ -80,6 +89,15 @@ range. Recorded here because it will be asked again.
 **daytrade's pattern model is ACTIVE** as of 2026-09-06T01:06:12Z (48 resolved,
 5 moons). It scores on pc_14d / pc_30d / pc_7d and its bonus now moves live
 entries. The other three books remain inactive.
+
+**aggressive turned realized-positive at 2026-09-07T00:11:57Z** on its first
+profitable moon: LONG TIA, entry $0.368082 on 5 September, exit $0.449318 on
+take-profit at +22.07%, +$165.53 on a $750 notional, held 30.6h. That one trade
+moved the book's realized P/L from -$113.18 to +$52.35. It is the program's
+first take-profit moon outside daytrade. Note what it does NOT prove: aggressive
+has 6 resolved trades, so the book's mean is one trade wide, and TIA exited
+BEFORE the 48h cap, so it was never part of the 7 September 17:33 cap cluster --
+the other eleven positions still are.
 
 ## Open decisions — surfaced, deliberately not actioned
 
