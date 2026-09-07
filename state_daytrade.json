@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 6660.278003528649,
+  "cash": 5658.778003528649,
   "positions": {
     "ADA": {
       "symbol": "ADA",
@@ -10,8 +10,8 @@
       "entry_price": 0.220521,
       "entry_time": "2026-09-06T20:44:51Z",
       "entry_cost": 1.5,
-      "peak_pct": 1.3499848087030295,
-      "last_price": 0.223215,
+      "peak_pct": 2.0905038522408312,
+      "last_price": 0.224608,
       "entry_features": {
         "pc_1h": -0.4,
         "pc_24h": 0.28098,
@@ -38,8 +38,8 @@
       "entry_price": 12.97,
       "entry_time": "2026-09-06T22:45:07Z",
       "entry_cost": 1.5,
-      "peak_pct": 1.9275250578257515,
-      "last_price": 13.21,
+      "peak_pct": 2.467232074016951,
+      "last_price": 13.27,
       "entry_features": {
         "pc_1h": -1.5,
         "pc_24h": 8.17741,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-06T23:46:04Z",
       "entry_cost": 1.5,
       "peak_pct": 0.018171906232960222,
-      "last_price": 55.03,
+      "last_price": 54.98,
       "entry_features": {
         "pc_1h": 0.1,
         "pc_24h": 0.75885,
@@ -85,18 +85,43 @@
       },
       "entry_score": 0.6861681362209651,
       "pattern_bonus": -0.36007514599737883
+    },
+    "UNI": {
+      "symbol": "UNI",
+      "name": "Uniswap",
+      "side": "long",
+      "quantity": 137.93103448275863,
+      "entry_price": 7.25,
+      "entry_time": "2026-09-07T00:13:15Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 7.24,
+      "entry_features": {
+        "pc_1h": 1.1,
+        "pc_24h": 2.18693,
+        "pc_7d": 38.0,
+        "pc_14d": 59.0,
+        "pc_30d": 82.6,
+        "vol_mcap": 20.03174747050531,
+        "cap_rank": 91.2,
+        "ret_30m": 0.6063698618500313,
+        "ret_2h": 1.572440460733593,
+        "ema_spread": 0.5181954497026409,
+        "rsi14": 64.26455379886582,
+        "range_pos": 64.39471483413554,
+        "vol_5m": 0.2880999416751379
+      },
+      "entry_score": 1.9880203127613831,
+      "pattern_bonus": 0.2094617500114252
     }
   },
-  "cooldowns": {
-    "UNI": "2026-09-07T00:00:13Z",
-    "ZEC": "2026-09-07T00:13:42Z"
-  },
+  "cooldowns": {},
   "realized_pnl": -335.2248425876884,
-  "fees_paid": 247.96236054611202,
-  "trades_opened": 81,
+  "fees_paid": 249.46236054611202,
+  "trades_opened": 82,
   "trades_closed": 78,
   "moons": 12,
   "wins": 25,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-06T23:50:28Z"
+  "updated": "2026-09-07T00:18:49Z"
 }

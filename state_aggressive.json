@@ -1,6 +1,6 @@
 {
   "name": "aggressive",
-  "cash": 886.8231237201869,
+  "cash": 1052.3487402947544,
   "positions": {
     "NEAR": {
       "symbol": "NEAR",
@@ -11,7 +11,7 @@
       "entry_time": "2026-09-05T17:33:38Z",
       "entry_cost": 0.0,
       "peak_pct": 11.711711711711702,
-      "last_price": 2.44,
+      "last_price": 2.43,
       "entry_features": {
         "pc_1h": 1.4,
         "pc_24h": 10.72663,
@@ -33,7 +33,7 @@
       "entry_time": "2026-09-05T17:33:38Z",
       "entry_cost": 0.0,
       "peak_pct": 0.21859609870255908,
-      "last_price": 753.77,
+      "last_price": 754.2,
       "entry_features": {
         "pc_1h": 0.8,
         "pc_24h": 8.35904,
@@ -61,7 +61,7 @@
       "entry_time": "2026-09-05T17:33:38Z",
       "entry_cost": 0.0,
       "peak_pct": 1.1344922232388006,
-      "last_price": 55.03,
+      "last_price": 54.98,
       "entry_features": {
         "pc_1h": 1.4,
         "pc_24h": 8.39093,
@@ -83,7 +83,7 @@
       "entry_time": "2026-09-05T17:34:45Z",
       "entry_cost": 0.0,
       "peak_pct": 2.3031190547712024,
-      "last_price": 0.81084,
+      "last_price": 0.816833,
       "entry_features": {
         "pc_1h": 0.5,
         "pc_24h": 6.34914,
@@ -105,7 +105,7 @@
       "entry_time": "2026-09-05T17:34:45Z",
       "entry_cost": 0.0,
       "peak_pct": 7.279693486590038,
-      "last_price": 2.73,
+      "last_price": 2.74,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 5.77257,
@@ -127,7 +127,7 @@
       "entry_time": "2026-09-05T17:34:45Z",
       "entry_cost": 0.0,
       "peak_pct": 9.892827699917554,
-      "last_price": 13.21,
+      "last_price": 13.27,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": 4.48441,
@@ -155,7 +155,7 @@
       "entry_time": "2026-09-05T17:35:51Z",
       "entry_cost": 0.0,
       "peak_pct": 1.9652849290934156,
-      "last_price": 0.081529,
+      "last_price": 0.081612,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 4.00032,
@@ -168,28 +168,6 @@
       "entry_score": 16.670640000000002,
       "pattern_bonus": 0.0
     },
-    "TIA": {
-      "symbol": "TIA",
-      "name": "Celestia",
-      "side": "long",
-      "quantity": 2037.5894501768626,
-      "entry_price": 0.368082,
-      "entry_time": "2026-09-05T17:35:51Z",
-      "entry_cost": 0.0,
-      "peak_pct": 20.73396688781304,
-      "last_price": 0.4444,
-      "entry_features": {
-        "pc_1h": 0.7,
-        "pc_24h": 4.29675,
-        "pc_7d": 7.8,
-        "pc_14d": -2.4,
-        "pc_30d": 11.1,
-        "vol_mcap": 8.422912454912463,
-        "cap_rank": 50.8
-      },
-      "entry_score": 16.5135,
-      "pattern_bonus": 0.0
-    },
     "ETC": {
       "symbol": "ETC",
       "name": "Ethereum Classic",
@@ -198,8 +176,8 @@
       "entry_price": 7.74,
       "entry_time": "2026-09-05T17:35:51Z",
       "entry_cost": 0.0,
-      "peak_pct": 1.5503875968992262,
-      "last_price": 7.85,
+      "peak_pct": 2.0671834625323013,
+      "last_price": 7.87,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 5.00403,
@@ -220,8 +198,8 @@
       "entry_price": 0.218422,
       "entry_time": "2026-09-05T17:36:59Z",
       "entry_cost": 0.0,
-      "peak_pct": 2.3239417274816625,
-      "last_price": 0.223215,
+      "peak_pct": 3.0715770389429604,
+      "last_price": 0.224608,
       "entry_features": {
         "pc_1h": 0.4,
         "pc_24h": 2.97041,
@@ -248,8 +226,8 @@
       "entry_price": 7.58,
       "entry_time": "2026-09-05T17:36:59Z",
       "entry_cost": 0.0,
-      "peak_pct": 4.221635883905018,
-      "last_price": 7.9,
+      "peak_pct": 4.749340369393145,
+      "last_price": 7.92,
       "entry_features": {
         "pc_1h": 0.3,
         "pc_24h": 3.07058,
@@ -271,7 +249,7 @@
       "entry_time": "2026-09-06T05:36:51Z",
       "entry_cost": 0.0,
       "peak_pct": 0.0,
-      "last_price": 540.27,
+      "last_price": 539.19,
       "entry_features": {
         "pc_1h": 0.2,
         "pc_24h": 4.8932,
@@ -283,18 +261,41 @@
       },
       "entry_score": 35.3464,
       "pattern_bonus": 0.0
+    },
+    "UNI": {
+      "symbol": "UNI",
+      "name": "Uniswap",
+      "side": "long",
+      "quantity": 103.44827586206897,
+      "entry_price": 7.25,
+      "entry_time": "2026-09-07T00:11:57Z",
+      "entry_cost": 0.0,
+      "peak_pct": 0.0,
+      "last_price": 7.24,
+      "entry_features": {
+        "pc_1h": 1.1,
+        "pc_24h": 2.16709,
+        "pc_7d": 38.0,
+        "pc_14d": 59.0,
+        "pc_30d": 82.6,
+        "vol_mcap": 20.366049208427597,
+        "cap_rank": 91.2
+      },
+      "entry_score": 56.444179999999996,
+      "pattern_bonus": 0.0
     }
   },
   "cooldowns": {
     "ENA": "2026-09-05T19:33:38Z",
-    "STX": "2026-09-05T19:33:38Z"
+    "STX": "2026-09-05T19:33:38Z",
+    "TIA": "2026-09-07T02:11:57Z"
   },
-  "realized_pnl": -113.17687627981286,
+  "realized_pnl": 52.348740294754634,
   "fees_paid": 0.0,
-  "trades_opened": 17,
-  "trades_closed": 5,
-  "moons": 1,
-  "wins": 2,
+  "trades_opened": 18,
+  "trades_closed": 6,
+  "moons": 2,
+  "wins": 3,
   "started": "2026-09-03T17:32:30Z",
-  "updated": "2026-09-06T23:50:28Z"
+  "updated": "2026-09-07T00:18:49Z"
 }
