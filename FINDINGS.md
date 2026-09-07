@@ -1,0 +1,2792 @@
+# Kirktron — what the data has actually shown
+
+Running notes on what has been learned from live paper trading. Conclusions
+only, with the evidence that supports them and an honest note on sample size.
+Update this as evidence accumulates; do not delete superseded entries, mark
+them.
+
+---
+
+## Closed question: entry position within the daily range does NOT predict outcome
+
+**Status: hypothesis rejected. 11 resolutions.**
+
+This started as the project's most promising signal and did not survive its own
+data. Through five resolutions the ordering was perfectly monotonic and the only
+winner was the lowest entry. Eleven resolutions later:
+
+| entry `range_pos` | outcome |
+|---|---|
+| 85.3% | **+1.32%** (trailing stop) |
+| 88.9% | **+2.57%** (take-profit, moon) |
+| 89.5% | −1.24% (stop) |
+| 93.9% | −0.45% (max hold) |
+| 94.2% | −1.52% (stop) |
+| 95.3% | **+3.87%** (take-profit, moon) |
+| 96.0% | −1.24% (stop) |
+| 97.6% | −1.26% (stop) |
+| 98.9% | −1.35% (stop) |
+| 99.6% | −0.25% (max hold) |
+| 99.7% | −0.84% (max hold) |
+
+The three winners sit at 85.3%, 88.9% **and 95.3%**, and the largest winner came
+from the middle of what had looked like a losing band. There is no ordering
+left. A monotonic run of five has about a 1-in-120 chance under pure noise, and
+noise is what it turned out to be — the honest lesson is that a five-point
+streak in a feature was never evidence, however clean it looked.
+
+Two mechanical caveats worth carrying forward, both learned here:
+
+- **A feature the fills do not vary over cannot be tested.** The first eleven
+  fills all sat between 85.3% and 99.6%. `range_pos_survey.csv` was added to ask
+  whether that narrowness belonged to the market or the scorer; the 08:52 fills
+  at 76.0% and 77.0% finally widened it. Before that, no amount of waiting would
+  have let the pattern model separate anything.
+- **The 12-coin and 8-coin eras are not comparable.** Before the intraday
+  universe was cut to 8, every one of 38 surveyed cycles offered a coin under
+  55% `range_pos`; after the cut, none of the first 28 did, because those coins
+  lived in the 9th-12th volume slots. Any conclusion drawn across that boundary
+  is measuring the cut, not the market.
+
+What survives is the *mechanical* observation, not the predictive one: the long
+gate needs `range_pos > 55` and, combined with the momentum filters, it selects
+near-ceiling entries, so the book systematically buys local highs. That is a
+true description of what gets bought. It simply does not predict what wins. The
+same asymmetry is why the short side has never fired — it demands
+`range_pos < 45`, which after any up-day nothing meets.
+
+---
+
+## Established: exit geometry alone cannot create edge
+
+**Status: proven arithmetic, not a hypothesis.**
+
+For a price with no predictable drift, the probability of hitting target `T`
+before stop `S` is `S/(T+S)`. The win rate a setting *achieves* therefore moves
+in lockstep with the win rate it *requires* to break even:
+
+| setting | achieves | needs | gap |
+|---|---|---|---|
+| daytrade 2.5/1.2 (+0.30% costs) | 32.4% | 40.5% | −8.11 pp |
+| daytrade 3.2/1.0 (+0.30% costs) | 23.8% | 31.0% | −7.14 pp |
+| longshort 12.0/5.0 | 29.4% | 29.4% | 0.00 pp |
+| longshort 9.0/3.5 | 28.0% | 28.0% | 0.00 pp |
+| conservative 9.0/3.0 | 25.0% | 25.0% | 0.00 pp |
+| aggressive 22.0/8.0 | 26.7% | 26.7% | 0.00 pp |
+
+Cost-free books sit exactly on zero whatever their target and stop. Tuning
+target/stop slides along the line; it does not lift off it. **Any real
+improvement has to come from entry selection, hold logic, or lower costs — not
+from re-shaping the payoff.**
+
+A proposed `daytrade` change to 3.2/1.0 was analysed and rejected on this basis;
+it was initially, and wrongly, presented as cutting breakeven from 40.5% to
+30.6% without noting that the achieved win rate falls just as far.
+
+---
+
+## Established: costs dominate the day-trading book's result
+
+`daytrade` has paid **$25.17** in fees and slippage against **−$30.69** realized
+over five trades. Fees are ~82% of the entire loss; gross P/L is roughly −$5.50,
+i.e. close to flat before friction. It is the only book charged costs (15bps a
+side), so its headline number is **not comparable** to the other three.
+
+---
+
+## Established: measurement timelines differ by two orders of magnitude
+
+Guaranteed throughput floor is `max_positions / max_hold_hours`, since every
+slot must free itself within `max_hold` whatever the price does.
+
+| book | slots | max hold | floor | 20 trades | 200 trades |
+|---|---|---|---|---|---|
+| daytrade | 4 | 6h | 16.0/day | ~1 day | ~12 days |
+| longshort | 5 | 48h | 2.5/day | ~8 days | ~80 days |
+| conservative | 6 | 168h | 0.9/day | ~8 days | ~83 days |
+| aggressive | 4 | 96h | 1.0/day | ~20 days | ~200 days |
+
+A win rate measured at n=20 carries a 95% interval of ±21 points and means
+nothing; n=200 gives ±6.6 points. **`aggressive` cannot be evaluated on any
+practical timeline as configured** — four slots and 96-hour holds cap it near
+one trade a day.
+
+Shortening max holds would raise throughput but truncate winners before their
+thesis resolves, which for `aggressive` contradicts its whole premise. That
+trade — measurement speed for strategy integrity — was considered and rejected.
+
+---
+
+## Established: the short side has never fired, and it is the gates, not the market
+
+Across 10+ hours spanning both an up move and a down move, zero shorts opened in
+either two-way book. Traced to the specific blocking gate:
+
+- **longshort** requires `pc_24h < −1.5`; coins were down on 7d but still up on
+  24h. Correctly unmet — no confirmed multi-day downtrend existed.
+- **daytrade** requires `range_pos < 45`; falling coins showed textbook short
+  setups on the other three conditions (RSI in the 20s, EMA rolled over,
+  negative 30-min return) and were rejected *only* for sitting high in the daily
+  range. After an up-day everything sits high in its range, so the gate blocks
+  every early-stage reversal — which is when shorting works.
+
+---
+
+## Infrastructure lessons (bugs found in live running)
+
+- **Fail-open on an inclusion list is invisible.** A rate-limited `layer-1`
+  fetch silently widened the universe from 59 back to 162 with no error. An
+  exclusion list failing blocks nothing; an inclusion list failing admits
+  everything. It now retries, caches, and warns loudly when unenforceable.
+- **Category matching must be by id, never symbol.** Wrapped and bridged tokens
+  reuse the underlying's ticker (`wrapped-solana` is symbol `SOL`), so symbol
+  matching excluded BTC, ETH and SOL from the tradeable universe.
+- **An in-memory cache is worthless under short process lifetimes.** The
+  intraday cache rebuilt from zero every restart and never got past 4 of 12
+  coins while burning the rate limit refetching the same ones.
+- **Adding a strategy changes the equity file's shape.** Rows kept appending
+  positionally into the old header, shifting every value one column left. Row
+  width identified the schema and all points were recovered.
+- **Moons were unreachable by construction.** Exits test take-profit before the
+  trailing stop, so every winner closed at its target — all far below the flat
+  50% moon threshold. No pattern model could ever have activated.
+
+---
+
+## Data note: market context before 04:03 is reconstructed, not measured
+
+`market_context.csv` only begins at 2026-09-04T04:03Z, when the logging was
+added. The preceding ~10.5 hours of trading has no measured market context.
+
+`market_context_reconstructed.csv` fills that gap from the intraday bar cache
+(276 rows, 2026-09-03T05:25Z onward), and it is **a different metric** — 12
+coins rather than 59, 1-hour change rather than 24-hour, and timestamps inferred
+from bar spacing rather than recorded. Do not merge the two series or compare
+their numbers directly. It exists because the bar cache holds only a rolling
+24-hour window: had this not been reconstructed the same day, the period would
+have been unrecoverable.
+
+The lesson generalises: **instrumentation added after the fact can rarely be
+backfilled.** Log the context when the run starts, not when the question comes up.
+
+---
+
+## Owner decision: aggressive resized for data rate (2026-09-04 06:38 UTC)
+
+The book had resolved **0 trades in 13 hours**. Four slots on a 96-hour hold
+guarantee only `4 / 96 = 0.042` resolutions an hour — one a day — so 20
+resolutions was roughly three weeks away and the pattern model could not be
+tested this month. The owner asked for a timelier data rate.
+
+| | before | after |
+|---|---|---|
+| positions | 4 | 12 |
+| size each | 22% of start | 7.5% of start |
+| deployed | 88% | 90% |
+| max hold | 96h | 48h |
+| guaranteed floor | 1.0 / day | **6.0 / day** |
+
+Untouched: entry gates, `min_score`, 8% stop, 22% target, 17% moon line,
+rank <= 150, weights. So each trade is still drawn from the same distribution;
+there are simply more of them.
+
+**The two halves are not equally clean.** More slots is pure sample rate — no
+distortion at all. Halving the hold is *not* free: a 22% target on a rank-150
+alt can take days, so trades that would have run to a moon can now exit flat at
+max hold. Since 4 moons is the binding half of the pattern gate, that works
+partly against the goal it serves. Position count alone would have been the
+undistorted change, but with 88% of the book locked in four multi-day positions
+it would not have taken effect for days.
+
+Watch for: a rising share of `max hold` exit reasons in `aggressive` rows of
+`trade_log.csv`. If most resolutions arrive as flat max-hold exits rather than
+stops and targets, the shorter hold is truncating the thesis rather than
+measuring it, and the hold is the thing to put back.
+
+---
+
+## Established: 60-second polling fattens BOTH tails of every exit
+
+**Status: measured. 16 barrier exits (14 stop-loss, 2 take-profit).**
+
+Exits are evaluated once a minute, so price can travel past a trigger before
+the trader sees it. The fill is booked at the observed price, not the trigger,
+and the gap is not small:
+
+| book | exit | n | mean realised − trigger |
+|---|---|---|---|
+| daytrade | stop-loss | 10 | **−0.45 pp** |
+| daytrade | take-profit | 2 | **+0.72 pp** |
+| conservative | stop-loss | 3 | −0.13 pp |
+| longshort | stop-loss | 1 | −0.01 pp |
+
+For `daytrade` that means a 1.2% stop really costs about 1.65%, while a 2.5%
+target sometimes pays 3.9% — one exit filled at −2.52% against the 1.2% stop,
+and the second moon only cleared the 2.0% line because price gapped through
+the target to +3.87%.
+
+Two things follow, and the first is easy to get wrong:
+
+- **It is not a one-sided penalty.** The loss tail and the win tail are both
+  stretched. A first look at four consecutive stop-outs suggested the book's
+  downside was quietly doubled; adding the take-profit side showed the effect
+  is symmetric in direction, though larger in the stop column so far.
+- **It scales with the book's own geometry.** Slippage is roughly a fixed
+  price-move quantity, so it is a large fraction of `daytrade`'s 1.2% stop and
+  a small fraction of `conservative`'s 3%. The intraday book is the one whose
+  measured P/L should be trusted least.
+
+This is a property of the simulation's polling rate, not of any strategy. It
+argues for reading `daytrade`'s numbers with a wider error bar, not for moving
+its stop — and per the exit-geometry finding above, moving the stop could not
+create edge anyway.
+
+---
+
+## Owner decision: widen the day-trading book for data rate (2026-09-04 16:00)
+
+The owner asked for whatever changes best produce information useful for
+profit later. Three were made, all aimed at the one book that actually
+generates data: `daytrade` has produced **16 of the project's 23 resolutions**,
+and it spent **49% of its holding time pinned at its 4-slot cap**, unable to
+take another trade.
+
+| | before | after |
+|---|---|---|
+| candidate pool | 8 coins | 12 coins |
+| slots | 4 | 6 |
+| size each | 12% | 10% |
+| deployed when full | 48% | 60% |
+| guaranteed floor | 0.67 res/h | **1.00 res/h** |
+
+Untouched: gates, `min_score`, the 1.2% stop, 2.5% target, 2.0% moon line,
+6-hour hold, 15bps costs, cooldown. More samples of the same distribution.
+
+**The enabling fix was a data-integrity bug, not a parameter.** `IntradayCache.features()`
+returned indicators from whatever bars were cached, *however old they were*.
+When rate limiting pushed staleness to 12.6 minutes against a 5-minute TTL,
+the book kept scoring entries on bars from two and a half TTLs ago and had no
+way to know. Cutting the pool 12 → 8 at 07:00 fixed the symptom by letting
+refresh keep up; it never addressed the behaviour.
+
+`features()` now returns `None` past `STALE_LIMIT` (600s), so the book scores
+only genuinely fresh coins and **degrades gracefully** instead of silently
+trading on old data. That is what makes a 12-coin pool safe again: if refresh
+falls behind, the candidate list shrinks rather than rotting. Verified at
+12/12 scoreable with 3.3-minute staleness immediately after the change.
+
+## The drought has one cause, and it is the same one in all four books (2026-09-04 16:15)
+
+Added `gate_census.csv`: every cycle, every book walks the coins it is eligible
+to trade and attributes each one to the **first gate that rejects it**, long
+side and short side separately. Log-only — it reads the same config the live
+gates read and changes nothing. A book reporting "no candidates" is no longer
+self-explaining only as "quiet market".
+
+First census, 16:14:53Z:
+
+| book | eligible | pass long | pass short | top long blocker | top short blocker |
+|---|---|---|---|---|---|
+| conservative | 15 | 1 | n/a | `pc_24h` low, 13 | — |
+| longshort | 21 | 1 | 0 | `pc_24h` low, 18 | `pc_1h` high, **21 of 21** |
+| daytrade | 12 | 0 | 0 | `ret_30m` low, 8 | `ret_30m` high, 11 |
+| aggressive | 36 | 1 | n/a | `pc_24h` low, 29 | — |
+
+**One feature is doing all the rejecting, on both sides at once.** Every book
+is a momentum book: the long gates demand momentum up, the short gates demand
+momentum down, and both read the same feature with the sign flipped. The tape
+right now is a bounce off the day's low — 24h returns still negative (long
+gates blocked) while 1h and 30m returns have turned positive (short gates
+blocked). Neither side can fire, and that is the gates working as written, not
+a fault.
+
+Confirmed on the daytrade universe directly: all 12 coins showed 14-bar RSI
+between 70.5 and 82.0 while sitting at 16.8–68.1% of their 24-hour range. That
+is not a contradiction — RSI-14 on 5-minute bars is a 70-minute measure and
+`range_pos` is a 24-hour one — but it is the whole story in one line: **sharply
+up over the last hour, still far below where the day started.**
+
+The structural consequence, unapplied and stated as an observation: daytrade's
+long gate combines a 70-minute momentum floor with a *24-hour* range-position
+floor of 55. On a V-shaped bounce day those two cannot be satisfied at the same
+time until the bounce carries price back through the middle of the day's range,
+which is hours of holding time the 6-hour cap may not have. This is a candidate
+explanation for daytrade's flat spell since 13:14 — the book was 100% cash for
+three hours with 12 fresh coins and 6 free slots, so neither the slot cap nor
+the candidate pool was binding. **No gate, threshold or weight was changed.**
+The census now records the answer every cycle, so the next regime settles it
+with data instead of argument.
+
+## The four books are not four independent experiments (2026-09-04 16:40)
+
+Measured over every position ever opened: **8 of the 18 distinct symbols traded
+(44%) were opened by more than one book.** ZEC has been held by all four; HYPE
+by three; ADA, BNB, BTC, XMR, XRP and LINK by two each. Right now ZEC is open
+in conservative, longshort and aggressive at once — $3,380 across three books,
+about 8.6% of combined equity — and it is the best position in every one of
+them.
+
+The books were built with different universes, horizons and exit geometry, so
+the overlap was not designed in; it follows from all four scoring momentum over
+a top-25-to-150 universe on the same day. When the tape is narrow, the momentum
+leaders are the same handful of coins whatever the lookback.
+
+Two consequences for reading the record:
+
+1. **Combined equity is less diversified than "four $10,000 books" suggests.**
+   A single coin's move shows up three or four times in the total. Today ZEC is
+   carrying the combined number almost alone; a reversal in it would show up as
+   a simultaneous drawdown in three books and read like a strategy failure
+   rather than one position.
+2. **Per-book win rates are correlated, so they cannot simply be pooled.** Two
+   books resolving the same coin on the same thesis are not two samples. Any
+   future pooled statistic has to count distinct (symbol, entry window) pairs,
+   not trades.
+
+No change made. This is a property of the design worth stating before any
+cross-book comparison is drawn from the record, not a fault to fix.
+
+## daytrade's third moon (2026-09-04 16:35)
+
+ZEC LONG opened 16:17 at $991.62, closed 16:35:48 at $1,017.75 on the
+take-profit — **+$23.31, +2.635% net of both 15bps legs, an 18-minute hold**.
+Moon (threshold +2.0%). daytrade now stands at **17/20 resolved and 3/4 moons**:
+three more resolutions and one more moon and its pattern model activates.
+
+Take-profit slippage now n=3: overshoots of +0.72pp, +0.72pp and +0.135pp above
+the 2.5% target, mean **+0.52pp**. The stop-loss side stays n=10 at -0.445pp.
+The 60-second poll still fattens both tails; the take-profit sample is too small
+to say the asymmetry is real.
+
+## Universe audit 17:01 — clean by the exclusion rules, one coin fails the positive rule
+
+Counts unchanged from the 11:25 audit: **250 fetched → 190 excluded → 60
+tradeable**, exclusion cache 977 ids / 894 symbols fetched 13:04. Every banned
+class is being caught — 22 stablecoins, 22 tokenized RWAs, 12 memes, 5 pegged,
+1 wrapped, 24 mixed. No meme coin, stablecoin or wrapper reached any book.
+
+But the rule in CLAUDE.md is stated positively — *layer-1 chains and blue chips
+only* — and one coin fails it: **RAIN, rank 13.**
+
+CoinGecko's own categories for `rain`: *Gambling (GambleFi), Decentralized
+Finance (DeFi), Options, Prediction Markets, Arbitrum Ecosystem.* It is a
+decentralized options and prediction-market protocol on Arbitrum. It is not a
+layer-1 (confirmed absent from the 250-id allowlist) and not a blue chip in any
+sense except market-cap rank.
+
+**How it gets in:** the universe admits `layer-1 allowlist OR rank <= 25`. That
+second clause is an unconditional rank bypass — anything reaching the top 25
+enters unless one of the exclusion lists catches it, and none of them lists
+GambleFi or DeFi protocol tokens. Checking every coin admitted by the bypass
+alone, the exclusion lists catch all of them (USDT, USDC, DOGE, DAI, USDS, USDE,
+USD1, WBT, FIGR_HELOC) except three: LINK, which is a genuine blue chip; LEO,
+whose ~$0M daily volume puts it below every book's volume floor; and RAIN.
+
+**Live exposure:** RAIN trades $42M a day against an $11.8B market cap — a 0.36%
+turnover ratio, thin for a rank-13 asset. That clears longshort's $25M floor and
+aggressive's $10M floor, so **both books can buy it right now**. It is blocked
+in conservative ($50M floor) and daytrade ($100M floor). It has never been
+traded — 0 rows in trade_log.csv — so nothing in the record is contaminated.
+
+**Not fixed, surfaced.** The obvious repair is to drop the unconditional rank
+bypass and require allowlist membership, with a small explicit blue-chip id set
+for names the layer-1 category misses (LINK is the only one that currently
+matters). That narrows what all four books may trade, which is the owner's call,
+not a correctness fix I should make alone — RAIN has never traded and no book
+holds it. Recording it so the decision is made on evidence rather than
+discovered later inside a position.
+
+## The short side works, and the two books find it at different speeds (2026-09-04 17:35)
+
+Four shorts are now open, all since the 15:29 fix that made the short branch
+reachable. **daytrade is 100% short for the first time** — its whole book is
+ADA, XMR and XRP on the sell side, opened within 15 minutes of each other:
+
+| book | symbol | entry | size | costs | moon line |
+|---|---|---|---|---|---|
+| longshort | SUI | $0.747839 | $1,500 | none | +9.5% |
+| daytrade | XRP | $1.400000 | $1,000 | 15bps/side | +2.0% |
+| daytrade | ADA | $0.212847 | $1,000 | 15bps/side | +2.0% |
+| daytrade | XMR | $522.000000 | $1,000 | 15bps/side | +2.0% |
+
+Zero have resolved, so **every short-side statistic is still n=0.** Nothing is
+known about whether shorting works here; it is only, finally, being tested.
+
+The census explains why one book found three shorts in 15 minutes while the
+other found one in two hours, and it is about **lookback, not strictness.**
+longshort's short gate reads `pc_1h <= -0.3` — a one-hour window — and `pc_1h`
+has rejected 21 of 21 eligible coins in every census taken since 16:14. daytrade
+reads `ret_30m <= -0.15` on 5-minute bars, a thirty-minute window. In a tape
+that is drifting down over half-hour stretches while each hour still nets out
+positive from the bounce, the 30-minute window sees the downtrend and the
+1-hour window does not. Same market, same direction, different clock.
+
+That is an observation about gate *shape*, not a case for loosening a threshold,
+and no gate was touched. It does predict something checkable: if the tape rolls
+over for a full hour, longshort's short side should unlock without any change to
+the code. Watching for that is a cleaner test than arguing about the number.
+
+## The trailing stop can cancel a moon, and for daytrade the window is exact (2026-09-04 17:57)
+
+Three trailing-stop exits now exist, all profitable, and **all three on ZEC** —
+so this says as much about ZEC's path today as about the rule. With that caveat:
+
+| book | peak | exit | giveback | moon line | counted a moon? |
+|---|---|---|---|---|---|
+| daytrade 07:41 | +2.11% | +1.32% | 0.79pp | +2.0% | **no** |
+| conservative 17:28 | +6.77% | +4.27% | 2.50pp | +7.0% | no |
+| longshort 17:48 | +8.03% | +4.17% | 3.86pp | +9.5% | no |
+
+The daytrade row is the one that matters. **Its peak crossed the moon line and
+the recorded outcome did not.** A moon is scored on the closed P/L, correctly —
+the trade did not deliver its thesis — but the consequence is structural, and for
+daytrade the window can be written down exactly.
+
+daytrade arms its trail at +1.5% and gives back 0.7%, takes profit at +2.5%, and
+its moon line is +2.0%. So a trade peaking at P exits at P − 0.7% unless it
+reaches +2.5% first. For the exit to reach the moon line it needs P ≥ +2.7% —
+but at +2.5% the take-profit already fired and banked a moon. **Therefore every
+daytrade trade that peaks between +2.0% and +2.5% is guaranteed to be recorded
+as a non-moon**, no matter how the tape moves. The moon line sits inside the
+trail's giveback band.
+
+That band is 0.5pp wide out of a 2.5pp target, and it costs moons specifically —
+the scarcer half of the pattern-model gate. daytrade is at 3 of 4 moons and 17 of
+20 resolutions; the 07:41 ZEC trade is one observation of a trade that fell into
+this band, and had it counted, the book would be at 4 moons now.
+
+**Nothing changed.** This is a real interaction between three parameters the
+owner set, not a bug: the numbers do exactly what they say. It is worth stating
+because "why is the pattern model taking so long" now has a precise partial
+answer, and because any future change to the trail, the target or the moon line
+should be made knowing these three interact. The same arithmetic applies to the
+other books but their gaps are wider (conservative arms at 3.0/gives back 2.5
+against a 9% target and a 7% moon), so the band there is not a near-miss zone in
+the same way.
+
+## The lookback prediction resolved, correctly (2026-09-04 18:01)
+
+Stated at 17:35 and testable without touching code: longshort and daytrade were
+finding shorts at wildly different rates *because their short gates read
+different lookback windows*, not because one was stricter. longshort's short gate
+reads `pc_1h`; daytrade reads a 30-minute return on 5-minute bars. The prediction
+was that if the decline persisted through a full hour, **longshort's short side
+would unlock by itself with no code change.**
+
+It did. At **18:01:34 longshort opened XLM SHORT @ $0.178064** ($1,500, score
+9.71) — its second short ever and the first one the gate let through on its own
+terms rather than on a squeeze-shaped setup.
+
+The census makes the flip unambiguous. Since 16:14, `pc_1h` had rejected **21 of
+21** eligible coins in every single census. At 18:02:35:
+
+| book | pass long | pass short | top long blocker | top short blocker |
+|---|---|---|---|---|
+| longshort | **0** of 21 | **4** of 21 | `pc_1h` low, 20 | `pc_7d` high, 8 |
+| conservative | 1 of 15 | n/a | `pc_24h` low, 12 | — |
+| daytrade | 0 of 12 | 0 of 12 | `ret_30m` low, 12 | `rsi14` low, 5 |
+| aggressive | 0 of 36 | n/a | `pc_1h` low, 33 | — |
+
+`pc_1h` went from blocking every short to blocking **zero** of them, and it is
+now the top *long* blocker instead — in longshort (20 of 21) and in aggressive
+(33 of 36). The same feature flipped sides across all three books at once, which
+is what a genuine regime change looks like rather than a threshold quirk. The
+binding short-side constraint has moved on to `pc_7d`, a seven-day window that
+the last hour cannot move.
+
+**No gate, threshold, weight or size was changed to produce this.** The value of
+the result is not the XLM trade; it is that the gate census turned a vague
+complaint — "the shorts don't fire" — into a falsifiable statement that the
+market then settled in 26 minutes. Where a gate's lookback disagrees with the
+horizon a book trades on, the census now says so directly and the fix, if one is
+ever wanted, is a matched window rather than a looser number.
+
+## min_score filters nothing; the gates are the whole constraint (19:36)
+
+The gate census recorded `n_pass_long` (coins clearing the gates) beside
+`n_candidates` (coins that reached the entry loop). Across 560 census rows
+from 16:14 to 19:32 the two counts diverged constantly — for conservative in
+139 of 140 cycles — which reads as `min_score` silently discarding everything
+the gates admit.
+
+It was an artefact of the instrument. The entry loop skips a coin that the
+book already holds or has on cooldown *before* it tests any gate; the census
+tested the gates first and counted those coins as passing. A book holding 5 of
+the ~15 names it can reach therefore showed a permanent, meaningless gap.
+
+The census now skips held and cooldown coins (recording them as `n_busy`) and
+writes `n_score_cut` explicitly. The answer since the fix is unambiguous:
+
+    n_score_cut = 0, every book, every cycle
+
+Every coin that cleared the gates in that sample became a candidate. But the
+sample contained no daytrade passes at all, and the claim did not survive
+contact with the first one — see the correction below.
+
+The corrected counts also sharpen how narrow the reachable universe is. At
+19:35 conservative could act on **9** coins, not 15: six of its fifteen
+eligible names were already held or cooling. `pc_24h` blocked all nine. A book
+with five open positions out of six slots is choosing from a pool a third
+smaller than the eligibility count suggests.
+
+The old-schema rows are preserved as `gate_census_v1.csv`; the file was
+rotated rather than extended, because appending columns to a live CSV writes
+rows that no longer line up with their header.
+
+## The report's percent column is return on capital, not a price move (19:47)
+
+`--report` prints each open position through `change_pct`, which is already
+direction-corrected: for a short it returns `(entry - price) / entry`. A line
+reading
+
+    SHORT SUI  -1.44%  $1478.45  held 4.0h  (entry $0.747839)
+
+therefore means **the short is down 1.44%** — $1478.45 against $1500 posted —
+not that SUI fell 1.44%. The position-value column confirms it independently
+and is the check to use when the sign is in doubt.
+
+Read the other way, a losing short book looks like a winning one. That
+misreading was made and published twice before the position values were
+reconciled against it. At 19:46 the true state of the six live shorts was:
+
+| book | short | return on capital |
+|---|---|---|
+| longshort | SUI | −1.37% |
+| longshort | XLM | −0.59% |
+| daytrade | XMR | −1.13% |
+| daytrade | LINK | −0.69% |
+| daytrade | ADA | −0.36% |
+| daytrade | XRP | −0.00% |
+
+All six losing or flat. daytrade's XMR at −1.13% sits just inside its 1.2%
+stop. The short side's record remains n=0 resolved and there is, as yet, no
+evidence in either direction about whether it works.
+
+## The first short in the program's history resolved, and it lost (19:51)
+
+daytrade covered XMR at $529.08 against a $522.00 entry — a stop-loss after
+2.29 hours. **−$16.54, −1.356% on price, −1.654% after the 15bps-per-side
+costs. Not a moon.** The short-side record opens at 0 for 1.
+
+Two things are worth keeping from a single trade, and one thing is not.
+
+Worth keeping: the stop fired at −1.356% against a 1.2% stop, so it gave up
+**0.156pp** past its trigger. That is markedly tighter than the long-side
+stop-loss series (n=10, mean −0.445pp) and is the first short-side entry in
+the slippage measurement. One observation is not a comparison, but the
+number goes on the board.
+
+Also worth keeping: the position was the one flagged as nearest its stop at
+19:46, at −1.13% with 0.07pp of room. It resolved five minutes later. The
+open-position marks track the exit logic closely enough to anticipate a
+resolution one cycle ahead.
+
+Not worth anything yet: whether the short side works. n=1. The 95% interval
+on a one-trade win rate spans essentially the whole unit interval. The three
+remaining daytrade shorts hit their 6-hour cap between 23:20 and 23:40 and
+will carry the count to 4; longshort's two run to a 48-hour cap. Nothing
+about the short thesis should be claimed before those land, and even then
+n=6 is worth ±40pp.
+
+daytrade now stands at **18 of 20 resolved, 3 of 4 moons** — two resolutions
+from the first half of the pattern-model gate.
+
+## Correction: min_score does bind, but only in daytrade (20:26)
+
+The entry above claimed `n_score_cut` was zero in every book every cycle. That
+held for the sample it was written from and stopped holding fifty minutes
+later. Over the 34 census cycles since the instrument was fixed:
+
+| book | cycles with a gate pass | of those, cut by min_score |
+|---|---|---|
+| conservative | 0 | — |
+| longshort | 34 | 0 |
+| aggressive | 34 | 0 |
+| daytrade | 3 | **3** |
+
+For the three multi-day books the original claim stands unqualified: 68 cycles
+in which coins cleared the gates, not one discarded by score. For daytrade it
+is exactly inverted — every coin that has cleared its gates since the fix has
+then been cut by `min_score`, three for three.
+
+The asymmetry is in the thresholds, not the market. daytrade scores off
+intraday features and sets `min_score` at 0.6 while conservative sits at 1.0,
+longshort 2.0 and aggressive 3.0 — but daytrade's gates are so much tighter
+that almost nothing reaches the score at all, and what does arrives weak.
+
+This matters more than the raw count suggests: daytrade has two free slots and
+$5,820 in cash, and is the only book with room to open. Its droughts are
+therefore *not* purely gate droughts, and a blocker attribution from the
+census does not fully explain why it is not trading — the score is the last
+filter and it is currently rejecting everything the gates admit. n=3.
+Surfaced, not actioned; `min_score` is a strategy parameter and the owner's
+call.
+
+## pc_1h flipped a fourth time, and conservative did not follow (21:22)
+
+At 21:07 `pc_1h` displaced `pc_24h` as the top long blocker in longshort (13
+of 16 eligible coins) and aggressive (26 of 33), and held there with identical
+counts through five consecutive censuses to 21:21. On the short side its
+longshort block eased from 16 of 16 to 11, with `pc_24h` and `pc_7d` appearing
+behind it for the first time.
+
+That is the fourth `pc_1h` regime change today and reinforces what the
+18:01 lookback prediction established: `pc_1h` is the feature that decides
+which side a book can trade, and it turns over on roughly an hourly cadence.
+
+The new part is what conservative did, which is nothing. Its top blocker
+stayed `pc_24h` at 9 of 9 through every cycle of the flip. On the three
+previous flips all three multi-day books moved together. The divergence is
+explained by universe, not by disagreement: conservative reaches rank ≤ 30
+while aggressive reaches rank ≤ 150, so conservative's nine reachable coins
+are all large caps whose 24-hour move is still negative even as the 1-hour
+move turned. A blocker census is therefore a statement about a book's
+*reachable set*, not about the market — two books can report different
+binding constraints at the same instant and both be right.
+
+No parameter changed. n = 5 consecutive censuses for the flip itself; the
+conservative divergence is a single episode.
+
+## XRP is marked at cent precision, and that is coarser than daytrade's stop (22:38)
+
+daytrade's XRP short has read exactly +0.00% for over five hours. The price
+has not been still: the 5-minute bar series shows XRP ranging 1.3964 to 1.4020
+in the last 70 minutes alone. The mark cannot express the move.
+
+The CoinGecko `/coins/markets` feed returns XRP at three significant figures
+while its peers come back at six:
+
+| symbol | current_price | high_24h | low_24h |
+|---|---|---|---|
+| XRP | **1.4** | 1.46 | 1.38 |
+| LINK | 11.64 | 12.15 | 11.48 |
+| ADA | 0.210806 | 0.226776 | 0.209675 |
+| XLM | 0.179253 | 0.186742 | 0.177583 |
+
+Every one of the seven XRP fills in `trade_log.csv`, spanning 26 hours, is an
+exact cent: 1.47, 1.48, 1.46, 1.45, 1.42, 1.39, 1.40.
+
+Positions are marked and exited on this feed (`build_universe` → the entry
+loop's `coin["price"]`), while daytrade's *signals* come from the
+full-precision 5-minute bars. So for XRP the signal is fine and the exit is
+quantised, in steps of one cent = **0.714%** at $1.40. Against daytrade's
+parameters that means:
+
+- the 1.2% stop cannot fire until a two-cent move, i.e. **1.43%** — a
+  guaranteed 0.23pp of excess slippage on top of whatever the market gives;
+- the +2.0% moon line needs three cents, i.e. **2.14%**;
+- the position reads 0.00%, ±0.71%, ±1.43% and nothing between.
+
+Consequences for the record already collected: XRP outcomes carry a
+quantisation error the other coins do not, so XRP rows should be excluded from
+the slippage series rather than averaged into it. LINK's step is 0.086% and
+every other coin in daytrade's pool is finer still, so this is an XRP-specific
+defect, not a systematic one — of the 13 coins daytrade can reach, only XRP is
+affected.
+
+No parameter changed and no code changed. The obvious remedy — mark daytrade
+positions from the intraday series, which already carries full precision for
+exactly these twelve coins — would change when trades close, so it is the
+owner's call, not a correctness fix to make unasked.
+
+## Universe audit 22:58 — counts unchanged, and the rank bypass has a second passenger
+
+Counts are identical to the 17:01 audit: **250 fetched → 190 excluded → 60
+tradeable**, with the exclusion list at 977 ids / 894 symbols. No meme coin,
+stablecoin, pegged token, wrapped or staked derivative or tokenized RWA
+reached any book's universe, and the allowlist loaded cleanly — no
+fails-open warning. By the exclusion rules the universe is clean.
+
+The positive rule is where it leaks, and RAIN is not alone. Walking the
+admitted names by id rather than ticker turns up a second one:
+
+| ticker | id | rank | what it is | 24h volume |
+|---|---|---|---|---|
+| RAIN | — | 13 | GambleFi / prediction market on Arbitrum | $42M |
+| **LEO** | `leo-token` | 18 | **Bitfinex exchange token** | **$0.19M** |
+
+Both are admitted by the same unconditional `rank <= 25` bypass, and neither
+is a layer-1 or a blue chip. The others checked are legitimate: `GRAM` is
+`the-open-network` (TON, a real layer-1), `CC` is `canton-network`, and
+`STABLE` — despite the ticker — is `stable-2` trading at $0.0289, so it is
+not a pegged asset and the stablecoin filter is right to leave it alone.
+
+LEO is harmless in practice: at $186,590 of daily volume it fails every
+book's volume floor by two orders of magnitude, so no book can ever open it.
+RAIN, at $42M, clears longshort's $25M and aggressive's $10M. So the exposure
+is unchanged — one reachable coin that should not be reachable — but the
+bypass now has two demonstrated passengers rather than one, which is a
+stronger argument for the fix already proposed and still awaiting the owner:
+drop the unconditional rank bypass and keep a small explicit blue-chip id set.
+Only LINK currently needs it. Nothing actioned.
+
+## daytrade's max-hold exits are its least-bad category, and partly by definition (23:40)
+
+With 21 resolved trades, daytrade's exits split cleanly:
+
+| exit type | n | share | mean return | mean |return| | total P/L |
+|---|---|---|---|---|---|
+| max hold (6h) | 5 | 24% | −0.113% | 0.503% | **−$25.49** |
+| stop / target / trail | 16 | 76% | −0.540% | 1.839% | **−$159.49** |
+
+The five max-hold exits, worst to best: BNB −0.835%, ETH −0.452%, LINK −0.252%,
+XRP 0.000%, ADA +0.976%. Three of the five are long-side and from this morning;
+the two shorts landed tonight when the 17:18–17:38 cohort hit its cap.
+
+**Half of this is a tautology and it would be dishonest not to say so.** A trade
+reaches six hours precisely because it never moved far enough to trigger a stop
+or a target, so "trades that expired are flat" is close to definitional. The
+comparison of *means* carries no information on its own.
+
+What is not definitional is the shape of the population. daytrade's outcomes
+are bimodal: roughly a quarter of its trades go essentially nowhere for six
+hours (mean absolute move 0.50%), and the other three quarters move about
+1.84% — and that moving group is where all the losses live. The stop is
+catching real adverse moves, not noise; the book's problem is direction, not
+exit placement.
+
+The one number that is actionable rather than definitional: those five
+non-movers paid **30bps of round-trip cost each** and returned −$25.49 in
+aggregate, of which the XRP trade is pure friction — it closed at exactly
+0.000% and lost $3.00, entirely in fees, on a position whose mark never once
+expressed a move (see the cent-precision finding above).
+
+That points at a possible time-based early exit for positions showing no
+movement well before the cap — but it is a hold-logic change, so it is the
+owner's call and nothing has been changed. n=5 max-hold exits, which is far
+too few to size such a rule from.
+
+## daytrade deploys under half its capital, and that halves whatever edge exists (00:35)
+
+Reconstructing slot occupancy from every open and close in `trade_log.csv`
+across 28.0 hours of live trading:
+
+| open positions | share of time | hours |
+|---|---|---|
+| 0 | 15.2% | 4.3 |
+| 1 | 9.9% | 2.8 |
+| 2 | 8.6% | 2.4 |
+| 3 | 15.7% | 4.4 |
+| 4 | **37.9%** | 10.6 |
+| 5 | 12.0% | 3.4 |
+| 6 | 0.7% | 0.2 |
+
+Time-weighted average: **2.90 positions of a possible 6 — 48% of capital
+deployed.** The book has been completely flat 15% of the time and has touched
+its six-position cap for twelve minutes in twenty-eight hours.
+
+This matters for two separate reasons and they should not be confused.
+
+**For returns:** if the strategy has a positive expectancy per unit of capital
+per unit of time, running at 48% deployment collects roughly half of it. That
+is a straightforward scaling loss, not a subtlety — though it cuts both ways,
+and with the book currently at −1.90% the idle half has been protective, not
+costly.
+
+**For measurement, which matters more right now:** half-idle capital is also
+half the resolutions per day. The 21-per-day rate that puts a meaningful win
+rate ten days out is itself a consequence of this, so utilisation and
+statistical convergence are the same problem wearing two hats.
+
+The cause is not slot capacity or cash — the book holds $7,792 idle with four
+free slots as this is written. It is the gates: the census shows `ret_30m`
+rejecting 9 of 10 eligible coins on both sides for the last hour. Raising
+utilisation therefore means loosening entry admission, which is exactly the
+change the live scorer evidence currently argues against (the highest-scoring
+recent entry resolved worst). Those two pull in opposite directions, and n is
+far too small to resolve the tension.
+
+Surfaced, not actioned. No parameter changed. 28 hours, one book, one regime.
+
+## The cross-coin lead-lag study: run, and it found nothing (00:52)
+
+The owner asked for this study and it is now done. **No cross-coin lead-lag
+relationship survives at 5-minute resolution over the last 24 hours.**
+
+### The first run was wrong, and how it was wrong is the more useful finding
+
+The initial run aligned each coin's return series **by list index from the
+end** and produced spectacular results: `ethereum` "leads" `bitcoin` by 5
+minutes at **r = 0.935**, with everything appearing to lead BTC and BCH at
+r ≈ 0.8–0.9, twenty-eight pairs clearing a Bonferroni threshold.
+
+None of it was real. The cache stored bare prices with **no timestamps**;
+coins are fetched minutes apart (up to 4.6 minutes of spread was observed) and
+come back with different bar counts (288 vs 289). Aligning by index therefore
+compares different instants, and shifting a contemporaneous correlation by one
+bar reproduces it almost exactly. The giveaway was that the "lagged"
+correlations exceeded the contemporaneous ones — impossible for a genuine
+predictive relationship, and a money machine if true.
+
+This is precisely the failure mode worth guarding against: a plausible
+pipeline, a clean-looking output, an effect size that should have been
+unbelievable, and a result that would have lost money live.
+
+**Fix applied to `intraday.py`:** `_fetch` now keeps the exchange timestamp
+alongside each close, stored in a parallel `times` map. `series` keeps its
+exact previous shape so `indicators()` and every existing consumer are
+untouched; the change is purely additive and alters no trading behaviour.
+Confirmed live: all 12 coins now carry timestamps aligned 1:1 with their bars.
+
+### The corrected result
+
+Aligning on 5-minute wall-clock buckets and keeping only buckets every coin
+shares (288 of 289; one bar discarded as unalignable):
+
+- 12 coins, 287 returns, 24.0 hours, null SE **0.0590**
+- 528 directed pair × lag tests at 5, 10, 15 and 30 minutes
+- family-wise threshold |r| > **0.236** (z = 4.0; 0.03 false positives expected)
+- **pairs passing: 0 of 528**
+
+Strongest observed: `ripple` → `bitcoin` at 15 minutes, r = 0.212 (z = 3.58).
+At 528 tests roughly one result of that size is expected by chance.
+
+**Bitcoin does not lead the pool.** Across 44 BTC-leads tests the largest is
+z = 2.50, against a threshold of 4.0. The 5-minute column is uniformly
+*negative* (−0.001 to −0.148), the 15-minute column uniformly slightly
+positive — a sign flip with no magnitude behind it.
+
+Meanwhile contemporaneous correlation is **mean 0.639, max 0.949**. The coins
+move together *now* and predict nothing about each other later. That is one
+coherent picture, not a null: it is a market where cross-sectional information
+is already in the price within one bar.
+
+### What this rules out
+
+Mean 5-minute return sigma across the pool is **0.244%**, against daytrade's
+**0.30% round-trip cost**. A predictor with correlation r delivers about
+r × sigma of expected move per bar, so:
+
+| r | edge per bar | bars to clear costs |
+|---|---|---|
+| 0.10 | 0.024% | 12.3 |
+| 0.20 | 0.049% | 6.2 |
+| **0.236** (detection limit) | 0.058% | **5.2** |
+
+Anything strong enough to be worth trading after costs would have had to be
+close to the detection threshold, and nothing came near it. The study does not
+prove no lead-lag exists — it bounds it: **no relationship stronger than
+|r| ≈ 0.24 was present in this window**, and weaker ones need five or more
+bars of holding to pay for the spread, by which point the effect must persist
+far longer than anything measured here does (see the 30-minute-signal cohort
+above, which did not survive six hours).
+
+**Not implemented as a trading signal, and it should not be.** A negative
+result is the correct place to stop. n = 287 returns, 12 coins, **one
+regime** — a 24-hour window that was a single sustained selloff. Worth
+re-running across a different regime before treating the bound as general.
+
+## 01:22 — What survives the container, and the one thing that did not
+
+The container is ephemeral, so it is worth stating precisely what is durable.
+
+Durable, pushed to GitHub:
+
+- **`trade_log.csv`** — every fill with its full entry feature vector and its
+  outcome. This is the pattern models' entire training set. The models are not
+  a saved artifact; they are derived from this file at runtime, so as long as
+  it is on the data branch nothing about them is lost.
+- `state_<book>.json`, `equity_history.csv`, `market_context.csv`,
+  `gate_census.csv`, `exclusions_cache.json` — on `kirktron-trading-data`.
+- All code and this file — on the feature branch.
+
+Not durable, and one of them mattered: **`intraday_cache.json`**. It holds
+5-minute bars for the day-trading universe, and CoinGecko's `days=1` endpoint
+only serves the last 24 hours, so a bar that ages out of that window cannot be
+refetched at any price. The cache was gitignored and never snapshotted, so
+every bar the program had paid an API call for was discarded when the container
+went away — and the multi-regime bar history the strategy work needs can only
+be accumulated, never backfilled.
+
+Fixed with `archive_bars.py`: bars are immutable once observed, so it merges
+`(coin, ts_ms, price)` into an append-only `intraday_bars.csv`, deduplicated
+and idempotent, and `snapshot.sh` runs it before each commit. Archiving the
+cache file itself would have rewritten 120KB of JSON per snapshot; the archive
+grows by only the genuinely new bars — 34 rows on the second run of the same
+iteration. First run captured 3,462 bars across 12 coins.
+
+This depends on the timestamp fix from 00:52 (`f2f850e`). Bars cached before
+that have no wall-clock anchor and are skipped — they cannot be placed on a
+timeline. It reads nothing the trader writes and writes nothing the trader
+reads, so trading behaviour is untouched.
+
+The remaining loss on a session ending is real but bounded: the trader stops,
+so positions stop being marked and stops do not fire until it is restarted,
+and that gap is a hole in `equity_history.csv` rather than an error.
+
+## 01:31 — Across all four books, return is 93% explained by exposure alone
+
+The four books differ in nearly everything a strategy can differ in: universe
+(rank ≤ 25 / 30 / 50 / 150), direction (long-only vs both), hold (6h to 168h),
+stop and target geometry, and costs. If any of that were producing selection
+skill over the last 30.2 hours, the books should not line up on a single line.
+
+They do. Time-weighted capital deployment reconstructed from `trade_log.csv`
+(each position's `usd_amount` integrated over its life, divided by $10,000 ×
+30.2h), against return with daytrade's $81.41 of costs added back so the
+comparison is like-for-like:
+
+| book | deployed | return | ex-cost return | residual |
+|---|---|---|---|---|
+| daytrade | 29.7% | −1.86% | −1.05% | −0.07pp |
+| conservative | 55.4% | −1.49% | −1.49% | +0.29pp |
+| longshort | 69.1% | −2.47% | −2.47% | −0.26pp |
+| aggressive | 92.1% | −2.87% | −2.87% | +0.05pp |
+
+`ex-cost return = −0.0312 × deployed% − 0.048`, **r = −0.963, r² = 0.927**.
+Every book sits within 0.29pp of that line. The slope says a fully deployed
+long book gives up about 3.1% over this window — which is simply what the
+market did.
+
+**No book has yet demonstrated selection skill.** The entire performance spread
+between four quite different strategies is accounted for by how much money each
+had at risk, not by which coins it chose or when it exited. That is not a
+verdict on the strategies; it is a statement about what 30 hours of a single
+directional selloff can resolve. Skill, if present, is currently smaller than
+the ±0.29pp of residual.
+
+Worth noting separately: **longshort's residual is the worst of the four
+(−0.26pp) despite being the only book that can go short.** Its ability to
+hedge has produced nothing so far — consistent with its two live shorts, which
+have never once been in profit.
+
+Sample caveats, which are severe. n = 4 books gives the regression 2 degrees of
+freedom; r = −0.963 there is t = −5.03, p ≈ 0.04, marginal on its own. And the
+four books are not independent observations — they trade overlapping universes
+(HYPE is held by three of them, ZEC by two) over the same 30 hours of one
+regime. This is closer to one observation than to four.
+
+What it is good for is a **measurement standard**: from here, judge a book by
+its residual from this line rather than by raw return, so that a book which
+merely held more cash during a selloff is not mistaken for a book that picked
+better. Recording deployment per cycle is unnecessary — `trade_log.csv`
+reconstructs it exactly, as above.
+
+## 02:35 — `score` is not comparable across books, and the shared column is a trap
+
+`trade_log.csv` has a single `score` column written by all four books, but each
+book scores on its own scale. Across all 53 entries so far:
+
+| book | n | min | median | max |
+|---|---|---|---|---|
+| daytrade | 27 | 0.62 | 0.77 | 2.62 |
+| longshort | 8 | 9.71 | 18.28 | 65.38 |
+| conservative | 13 | 16.37 | 31.62 | 104.80 |
+| aggressive | 5 | 45.66 | 55.86 | 67.92 |
+
+The medians differ by **41×** between daytrade and conservative, and the ranges
+do not overlap at all: daytrade's best entry ever (2.62) scores below
+conservative's worst (16.37). This is by design — daytrade scores intraday
+features while the others score multi-day momentum percentages — but the log
+does not say so anywhere.
+
+The trap is that `trade_log.csv` is the training set, and it is one file. Any
+model fitted on the pooled log with `score` as a feature would learn **book
+identity**, not signal: "score below 3" perfectly separates daytrade from
+everything else, and daytrade has 23 of the 33 resolutions, so the feature
+would look strongly predictive while carrying no information about the trade.
+
+Nothing is broken today — the pattern models are per-book and never see another
+book's rows. But this is a live tripwire for exactly the analysis the project
+is accumulating data for, so:
+
+**Rule: never pool `score` across books.** Compare a score only within its own
+book, or rank-normalise per book first. `min_score` thresholds (conservative
+1.0, longshort 2.0, daytrade 0.6, aggressive 3.0) are likewise per-book and
+carry no cross-book meaning.
+
+No code change. Adding a normalised column would require rotating the log's
+schema, and the rule costs nothing to follow.
+
+## 03:01 — BCH resolved exactly on the predicted line; the model did NOT activate
+
+The trailing-stop/moon interaction predicted at 17:57 was tested live and held
+to four decimal places.
+
+daytrade SHORT BCH @ $249.82 (23:09, score 1.671) covered at $247.05 on a
+**trailing stop, peak +1.813%, exit +1.109%, +$8.07**, held 3.9h against a 6h
+cap. The trail arms at +1.5% and gives back 0.7%, so from that peak the exit
+line sat at **+1.113%** — the fill came in at +1.109%, 0.004pp away.
+
+**It never entered the dead band.** The +2.0%–+2.5% band is where a peak is
+high enough to look like a moon but too low for the take-profit to fire; BCH
+peaked at +1.813%, below the moon line entirely, so it was a non-moon by a
+clearer margin than the mechanism being tested. The prediction that it could
+only moon by hitting +2.5% outright was never put to the test.
+
+**daytrade stays at 3/4 moons with 25 resolved. The pattern model did not
+activate.** It remains one moon short.
+
+### The scorer test set, now fully resolved
+
+| coin | score | outcome | exit |
+|---|---|---|---|
+| XMR | 2.615 | **−1.229%** | stop-loss |
+| BCH | 1.671 | **+1.109%** | trailing stop |
+| HYPE | 0.630 | **+0.837%** | max hold 6h |
+
+**Correction to the 20:33 and 02:44 readings:** while only XMR and HYPE had
+resolved, the outcome ordering was the exact reverse of the score ordering, and
+that is how it was reported. With BCH resolved it is no longer a clean reverse
+— the middle-scored trade did best. What survives is narrower and weaker: the
+**highest-scored** setup was the only loser, and Spearman's rho over the three
+is −0.5. At n=3 that is worth nothing on its own; it is one weak strike against
+the scorer, not the clean inversion previously described.
+
+It still does not support loosening `min_score` 0.6 → 0.4, but it no longer
+argues against it as strongly as reported an hour ago.
+
+### What the exit itself shows
+
+The trailing stop did its job precisely: it converted a position that had given
+back 39% of its peak into a locked +1.11% instead of riding to expiry. Against
+daytrade's 0.30% round-trip cost that is a real, if small, win — the sixth of
+25 resolutions. But it also means **a trade can run 3.9 hours, peak within
+0.19pp of the moon line, and still resolve as an ordinary winner.** The gap
+between "nearly a full thesis" and "counts as a moon" is unforgiving, which is
+why the moon half of the pattern-model gate is the binding one.
+
+## 03:33 — The four books stack rather than diversify: 27.7% of exposure is shared, all same-side
+
+The books are described as independent, and they choose independently, but they
+draw from overlapping universes (rank ≤ 25 / 30 / 50 / 150) and so keep landing
+on the same names. Measured across all 19 open positions, $26,018 gross:
+
+| name | gross | net | books |
+|---|---|---|---|
+| ZEC | $2,718 | **+$2,718** | conservative, daytrade, aggressive |
+| HYPE | $2,500 | **+$2,500** | conservative, longshort |
+| BNB | $2,000 | **+$2,000** | conservative, daytrade |
+
+**$7,218 — 27.7% of gross exposure — sits in names held by more than one book,
+and every overlap is on the same side.** Net equals gross in all three: not one
+dollar of the shared exposure offsets. The books are not hedging each other,
+they are concentrating.
+
+By name count the spread looks healthy — Herfindahl 0.0739, an effective 13.5
+independent names of 15. That number is misleading on its own, because it
+counts names, not co-movement: the 00:52 study measured mean pairwise 5-minute
+correlation at 0.308 across the intraday universe, which puts the effective
+independent count nearer 3 than 13.
+
+**ZEC is the sharpest case.** It is the single largest exposure at 10.4% of
+gross, held long by three of the four books at once (conservative +1.13%,
+aggressive +8.40%, daytrade +0.03%), and it produced four of the program's
+first five resolved wins. Aggressive's ZEC is currently its only position in
+profit — the one thing holding that book off its lows. If ZEC reverses, three
+books take the loss in the same hour, and the equity curves that look like four
+independent experiments will move as one.
+
+This sharpens the 01:31 exposure finding rather than repeating it. That one said
+returns are explained by *how much* capital is deployed; this one says the four
+books' deployments are not independent draws, so the combined P/L has fewer
+effective bets behind it than four books × five positions suggests.
+
+**Proposed, not actioned — a cross-book exposure cap.** A shared ledger that
+refuses an entry when a symbol already carries more than some fraction of total
+gross across all books would prevent a three-book stack in one name. It changes
+which candidates get filled, so it is a strategy change and the owner's call.
+The counter-argument is real: each book is meant to be an independent test of
+its own parameters, and a shared veto couples them by construction. n = 19
+positions, one regime.
+
+## 04:35 — daytrade's gross edge is ~zero; the entire realized loss is transaction costs
+
+Over 25 resolved trades, daytrade's mean outcome is **−0.346%** net. It pays a
+0.30% round trip (15bps per side), so its mean **before costs is −0.046%** —
+statistically indistinguishable from zero.
+
+**Every dollar of daytrade's realized loss is friction, not selection.** The
+book has paid $88.94 in costs against a −$191.53 realized P/L; the entry logic
+itself has neither made nor lost money over this sample.
+
+By exit reason:
+
+| exit | n | mean |
+|---|---|---|
+| stop-loss | 13 | **−1.559%** |
+| max hold 6h | 7 | +0.015% |
+| take-profit | 3 | +3.023% |
+| trailing stop | 2 | +1.216% |
+
+The five triggered winners average **+2.30%** against thirteen stops averaging
+**−1.56%**, which puts breakeven at a 40.4% win rate on triggered exits. The
+achieved rate is 5 of 18, **27.8%** — below breakeven, but the shortfall is
+almost exactly the cost drag.
+
+The seven max-hold exits average **+0.015%**: dead flat, and each one still paid
+0.30% to get there. Four of 25 trades resolved inside ±0.5% and seven inside
+±1.0% — 28% of the book's activity is churn that pays full freight for a
+non-event. This is the same bimodality recorded at 23:40, now with a price tag
+attached.
+
+**What this rules out.** It is not a stop/target geometry problem — that was
+settled earlier, and gross return being zero confirms it: no rearrangement of
+exits improves a signal that has no gross edge. It is also not a "bad market"
+problem in the way it looked; a book with genuinely negative selection would
+show a negative *gross* mean, and this one does not.
+
+**What it points at, in order.** First, **fewer trades** — if the gross edge is
+zero, every avoided trade saves 0.30% and every added one costs it, so the churn
+is pure loss. That argues directly *against* the pending `min_score` 0.6 → 0.4
+loosening, which would add marginal trades to a book whose marginal trade is
+worth −0.30%. Second, **cost per trade**: 15bps/side is a plausible retail
+figure, but it is the single largest term in this book's P/L and worth stating
+as an assumption rather than a fact.
+
+Sample: n = 25 resolved, one regime, 12 distinct symbols. The gross mean of
+−0.046% has a standard error around ±0.31pp, so "zero" here means "cannot be
+distinguished from zero", not "proven to be zero". A real edge of ±0.3% per
+trade would be invisible at this sample size.
+
+## 05:35 — Every daytrade winner landed inside two hours, but most of that is tautology
+
+Splitting daytrade's 26 resolved trades by hold time:
+
+| hold | n | mean | wins | reached +2.0% |
+|---|---|---|---|---|
+| 0–1h | 3 | **+1.505%** | 2 | — |
+| 1–2h | 4 | −0.383% | 1 | — |
+| 2–4h | 11 | −0.954% | 2 | — |
+| 4–6h | 8 | −0.302% | 2 | — |
+
+Collapsed: **under 2h, n=7, mean +0.426%, and 3 of them reached the +2.0% moon
+line. Past 2h, n=19, mean −0.680%, and none did — the best was +1.323%.** All
+three of daytrade's moons landed inside two hours. Fisher's exact on 3/7 vs
+0/19 gives p ≈ 0.013, and the hold/outcome correlation is r = −0.145.
+
+**Most of this is mechanical and I want that stated before the number gets
+quoted.** The take-profit fires at +2.5% and closes the position on the spot, so
+a trade that moves hard is *forced* to have a short hold. "Winners are short"
+is close to a definition, not a discovery — the same trap as the max-hold split
+at 23:40. The p-value is inflated by exactly that truncation.
+
+**The half that is not tautological** is the reverse reading: does a position
+that has survived two hours without triggering anything still have upside left?
+The sample says its mean is −0.680% and its best outcome in 19 tries was
++1.323%, which never covers the 0.30% round trip by much. That is suggestive of
+a real decay, but it cannot be separated from the truncation using
+`trade_log.csv` alone, because the log records only the outcome, not the path.
+
+**It is testable now.** `intraday_bars.csv` has been archiving 5-minute bars
+since 01:22, so once enough trades have been opened under the archive, the
+actual price path of each position can be reconstructed and the question asked
+properly: conditional on being flat at two hours, what is the distribution of
+the *subsequent* move? Nothing before 01:22 can be used — those bars were never
+kept. This is the first concrete payoff the archive enables.
+
+**Bearing on the pending time-based early exit** (proposed 23:40 at n=5, not
+actioned): the sample has grown to n=26 and still points the same way, but the
+confound has not gone away, so it remains a proposal. Acting on it now would be
+acting on a truncation artifact. n = 26 resolved, one regime, 12 symbols.
+
+## 06:35 — daytrade's direction mix does track the market, with roughly a half-day lag
+
+Across all four books, 36 resolved trades split by side:
+
+| side | n | mean | median | wins |
+|---|---|---|---|---|
+| long | 29 | **−1.062%** | −1.268% | 6 |
+| short | 7 | **+0.024%** | +0.000% | 3 |
+
+Shorts beat longs by 1.09pp per trade. That is not evidence of skill — the
+market fell throughout, so being short paid. It is the 01:31 exposure finding
+restated at the level of individual trades.
+
+The non-obvious part is *when* the book chose each side. daytrade opened 30
+positions over 33.6 hours, 20 long to 10 short, and the mix rotated:
+
+| hours since first entry | n | long | short | market breadth |
+|---|---|---|---|---|
+| 0–12 | 11 | **11** | 0 | 84.7% of the universe up |
+| 12–24 | 11 | 7 | 4 | — |
+| 24–36 | 8 | 2 | **6** | 58.3% up |
+
+**The entry logic is not direction-blind — it flipped from all-long to
+predominantly short as breadth deteriorated.** I had assumed a static long bias
+and the data says otherwise.
+
+But the rotation *lags*. The book was 11-for-11 long while breadth was near its
+peak, and only reached a short majority after the fall was well underway. That
+is what momentum does by construction — it buys strength and sells weakness, so
+it is structurally late at both turns — and it explains the side split above:
+the longs were opened near the top and lost 1.06% each, the shorts were opened
+after the decline and roughly broke even.
+
+**This is a cost of the strategy family, not a bug in it.** A momentum entry
+cannot lead a turn; that is what "momentum" means. The question it raises, which
+the data cannot yet answer, is whether the half-day lag is a tunable property of
+the lookback windows (`ret_30m`, `ret_2h`, `ema_spread`) or an irreducible
+feature. Testing that needs several regime turns, not one.
+
+n = 30 opens, 36 resolutions, a single down-then-flat regime. The breadth
+figures are the first and last rows of `market_context.csv`, not a fitted trend.
+
+## 07:35 — the first "never once in profit" position resolved, at the stop
+
+longshort's SUI short was opened at $0.747839 on 4 September at 15:29 and
+covered at $0.787883 today at 07:30: **stop-loss −5.355%, −$80.32, held 17.1
+hours.** Its `peak_pct` was **exactly 0.00% for its entire life** — from entry
+to stop, not one favourable tick was ever recorded.
+
+That is the largest single dollar loss of the program so far, and the first
+resolution of a position from the never-positive cohort flagged repeatedly
+overnight.
+
+**The observation worth keeping.** `peak_pct` is a free running signal that the
+books already maintain but never act on: a position that has not printed a
+single favourable tick after many hours is qualitatively different from one
+oscillating around entry. SUI ran 17.1 hours in that state and went to the stop
+without ever threatening to recover.
+
+**It is n = 1.** One resolution cannot distinguish "never-positive predicts the
+stop" from "a position that goes straight down is obviously losing", which is
+close to circular. The honest version of the claim needs the *conditional*
+distribution — of positions never positive at hour six, what fraction recover —
+and that needs many more resolutions than exist.
+
+**A live test is already running.** longshort's XLM short (entered 4 September
+18:01 at $0.178064) is at −2.84% after 13.5 hours with `peak_pct` still exactly
+0.00%. Its 48-hour cap falls around 18:01 today, and its 5% stop is 2.2pp away.
+Whether it stops out, drifts to the cap, or recovers is the second data point,
+and it will arrive today either way.
+
+**Proposed, not actioned, and weaker than it looks:** an early exit on
+"never positive after N hours". Recorded so the idea is not re-invented from
+scratch, not because n = 1 supports it.
+
+Separately: conservative's **LTC is +5.56% after 38 hours**, the closest any
+position outside daytrade has come to a moon — that book's threshold is +7.0%.
+Its stop is 3% and its cap is 168 hours, so it has room to run.
+
+## 08:35 — the gates are conjunctive, and that ceiling is why daytrade sits at 90% cash
+
+daytrade holds one position and 90% cash. The census says why, and it is not
+`min_score`: across the 08:24–08:32 cycles the book showed **11 eligible coins,
+0 passing long, 0 passing short, and `n_score_cut` of 0** — nothing reached the
+scorer at all. Lowering `min_score` from 0.6 to 0.4 would have changed nothing
+in this regime, because the score is never consulted.
+
+Measuring each gate separately against the live 12-coin universe:
+
+| gate | long threshold | passes | short threshold | passes |
+|---|---|---|---|---|
+| `ret_30m` | ≥ +0.15% | **2/12** | ≤ −0.15% | 5/12 |
+| `ema_spread` | ≥ +0.05 | 9/12 | ≤ −0.05 | **2/12** |
+| `rsi14` | ≥ 50 | 6/12 | ≤ 50 | 6/12 |
+| `range_pos` | ≥ 55 | **2/12** | ≤ 45 | 8/12 |
+| **all four** | | **1/12** | | **1/12** |
+
+Every gate is individually permissive — the loosest admits three quarters of the
+universe — but they are joined by AND, so the intersection is one coin per side.
+Subtract the coins already held or on cooldown and most cycles produce zero
+candidates. **This, not cash and not slots, is the utilisation ceiling recorded
+at 00:35.**
+
+**The gates are not independent, and that is the encouraging part.** If they
+were, the expected joint pass count would be 0.12 long and 0.28 short; the
+actual is 1 and 1, roughly eight and four times higher. Coins that clear one
+gate tend to clear the others, which is what you want — the four features are
+reading the same underlying "this coin is trending" state rather than
+independently sampling noise. A four-way AND on genuinely independent features
+would admit almost nothing, ever.
+
+**The binding gate differs by side**, which is worth knowing before anyone
+tunes one: on the long side `ret_30m` and `range_pos` are the tight pair (2/12
+each); on the short side it is `ema_spread` alone (2/12) while `range_pos`
+admits 8/12. Loosening the wrong one would do nothing.
+
+**Nothing actioned.** Widening any gate is a strategy change and the owner's
+call, and the 04:35 finding argues against it from the other direction: with
+daytrade's gross edge indistinguishable from zero, every additional admitted
+trade is worth −0.30% in costs. Higher utilisation is only worth having if the
+marginal trade is better than free, and there is no evidence yet that it is.
+
+Snapshot of one moment, n = 12 coins, one regime.
+
+## 09:35 — daytrade reverses its own position on the same name, six times so far
+
+daytrade has opened 32 positions, and **22 of them were re-entries into a symbol
+it had recently closed.** That number is not itself meaningful: the intraday
+universe is 12 coins, so after the first dozen opens almost every entry must be
+a repeat. It is forced by the universe size, not a behaviour.
+
+**The six side reversals are the part that costs money.** In each of these the
+book exited a position and then took the opposite side in the same name:
+
+| symbol | gap | prev → new | the exit it reversed |
+|---|---|---|---|
+| XRP | 4.7h | long → short | −2.069% |
+| ADA | 11.9h | long → short | −1.244% |
+| LINK | 14.7h | long → short | −0.252% |
+| HYPE | 8.0h | long → short | −1.268% |
+| BCH | 23.0h | long → short | −1.257% |
+| **LINK** | **1.6h** | **short → long** | **−1.204%** |
+
+Five of the six reversed *into* the direction that had just stopped them out,
+which is momentum doing its job — the trend changed, the book followed. The
+last one is different: **LINK stopped out short at −1.204% at 07:48 and was
+re-opened long at 09:23, 1.6 hours later.** The cooldown is 30 minutes, so
+nothing prevented it.
+
+That single name paid two full round trips — **0.60% of position value in costs
+inside 100 minutes** — to end up on the opposite side of itself. Against the
+04:35 result that daytrade's gross edge is indistinguishable from zero, a
+reversal like that is close to a guaranteed 0.60% loss unless the new direction
+is genuinely better informed than the old one.
+
+**Whether it is, this sample cannot say.** Six reversals is far too few, and the
+honest test is not "did the flip win" but "did flips do better than the book's
+other entries", which needs many more of them. Recorded because the mechanism is
+concrete and the cost is exactly known, not because six trades demonstrate
+anything.
+
+**Proposed, not actioned — a direction-change cooldown.** A longer bar on
+re-entering a name on the *opposite* side than on the same side would price the
+whipsaw without touching normal re-entry. It is a strategy change and the
+owner's call, and it may well be wrong: a momentum book that cannot flip cannot
+follow a turn, which is the one thing the 06:35 finding showed it does do.
+LINK is now live long at $11.84 — it is the test of this exact reversal.
+
+## 10:35 — the gate ceiling is a regime, not a constant; it swings 0% to 38% by hour
+
+The 08:35 entry measured the gates at one moment, found they admitted one coin
+of twelve per side, and called that the utilisation ceiling. That framing was
+too static. Across all 550 daytrade census cycles on record, the fraction of
+cycles producing **at least one gate pass**, by hour:
+
+| hour (UTC) | cycles | with ≥1 pass |
+|---|---|---|
+| 19 | 18 | **0%** |
+| 20 | 37 | 27% |
+| 21 | 39 | 10% |
+| 22 | 37 | **38%** |
+| 23 | 38 | 3% |
+| 00 | 36 | 22% |
+| 01 | 35 | 34% |
+| 02 | 32 | 3% |
+| 03 | 16 | 31% |
+| 04 | 16 | **0%** |
+| 05 | 47 | 32% |
+| 06 | 43 | 2% |
+| 07 | 44 | **0%** |
+| 08 | 43 | **0%** |
+| 09 | 43 | 5% |
+| 10 | 26 | 8% |
+
+Overall 75 of 550 cycles, 13.6%. **Four separate hours produced zero passes in
+144 consecutive cycles, and one hour produced 38%.** The gates are not a fixed
+filter admitting a steady trickle; they are closed for long stretches and then
+open in bursts.
+
+**The distribution is bimodal.** Ten of the sixteen hours sit at or below 10%,
+five sit at or above 27%, and almost nothing lands in between. Opportunity
+arrives clustered, which is consistent with the gates keying on `ret_30m` and
+`ema_spread` — both of which move together across the universe when the whole
+market starts trending and sit dead when it does not. It is the same
+correlation that made the four-way AND admit eight times more than independence
+would predict.
+
+**Consequence for the utilisation question.** daytrade went from one position
+and 90% cash at 08:35 to five positions and 49% cash by 10:33 without any change
+to the code. The idle cash at any given moment is mostly the market being quiet,
+not the gates being miscalibrated — so "raise utilisation" is not a well-posed
+target: you cannot hold six positions through an hour that offers none. What
+can be asked is whether the burst hours are being fully exploited, and with
+`max_entries_per_cycle` at 2 the answer is probably yes.
+
+**Correction to 08:35:** that entry's numbers stand as a snapshot but its
+conclusion — that the conjunctive gates are the binding utilisation ceiling —
+holds only during quiet hours. During burst hours the binding constraint is
+`max_positions` and cash. Both entries describe the same system in different
+regimes.
+
+n = 550 census cycles over 16 hours of one day. Hour-of-day is confounded with
+market regime here — this is one day, so "hour 07 is dead" may be a property of
+this particular Saturday morning, not of 07:00 UTC in general.
+
+## 11:35 — stop slippage is roughly constant in absolute terms, so it punishes tight stops six times harder
+
+Every stop-loss fill so far, measured as overshoot past the configured stop
+(XRP excluded for its cent-precision marking), n = 23:
+
+| side | n | mean | median | worst |
+|---|---|---|---|---|
+| long | 17 | −0.248pp | −0.079pp | −1.320pp (ETH) |
+| short | 6 | −0.203pp | −0.109pp | −0.611pp (XMR) |
+
+**There is no directional asymmetry** — long and short overshoot the same
+amount, which is worth recording as a negative result since a short squeeze
+overshooting worse than a long flush is a plausible prior and this sample does
+not show it.
+
+**The asymmetry is by book, and it is large:**
+
+| book | stop | n | mean overshoot | as % of the stop |
+|---|---|---|---|---|
+| conservative | 3.0% | 6 | −0.115pp | **3.8%** |
+| daytrade | 1.2% | 15 | −0.292pp | **24.3%** |
+
+Overshoot is roughly a fixed number of basis points — whatever the price does
+between two marks — so it is nearly independent of where the stop sits. A wide
+stop absorbs it; a tight one does not. **daytrade's 1.2% stop is effectively a
+1.49% stop**, and all four of the worst fills in the whole record (ETH −1.320pp,
+SOL −0.795pp, ZEC −0.789pp, XMR −0.611pp) belong to it.
+
+The mechanism is the marking interval: positions are priced once per ~70-second
+cycle from `/coins/markets`, so a fast move crosses a tight stop and keeps going
+before the next mark. It is not a bug — a real exchange stop would also slip —
+but the simulation's slippage is set by the polling rate, which is an artifact
+of this program rather than of the market.
+
+**This explains the 04:35 numbers rather than changing them.** That entry
+measured daytrade's 13 stops averaging −1.559% against a 1.2% setting; the gap
+is exactly this slippage. The breakeven arithmetic there already used realised
+fills, so it stands.
+
+**What it bears on.** It sharpens why daytrade's economics are hard: a losing
+trade costs 1.49% of price plus 0.30% in fees against a 2.5% take-profit, so
+the real reward-to-risk is 2.5 : 1.79, not 2.5 : 1.2. Anyone proposing to
+*tighten* the stop to cut losses should know the overshoot does not shrink with
+it — a 0.8% stop would still slip ~0.29pp and would be a 36% overshoot.
+
+**Proposed, not actioned:** mark daytrade positions from the intraday 5-minute
+series rather than the per-cycle `/coins/markets` snapshot. It was already
+proposed at 22:38 for a different reason and is more feasible now that bars
+carry timestamps, but it changes exit timing, so it stays the owner's call.
+
+n = 23 stop fills, one regime, XRP excluded.
+
+## 12:40 — aggressive is not a strategy under test; it is one cycle's snapshot, held 43 hours
+
+Chasing why aggressive has produced zero resolutions in 43 hours turned up two
+things, one a documentation error and one structural.
+
+**Documentation error, fixed.** `CLAUDE.md` listed aggressive's maximum hold as
+96 hours. The code says **48** (`paper_trader.py:362`). Every estimate of when
+its positions expire has been made from the code, so nothing downstream was
+wrong, but the table was. Corrected in this commit.
+
+**The structural part.** Its whole book went on at one instant:
+
+| symbol | opened | size |
+|---|---|---|
+| ENA | 2026-09-03 17:32:30 | $2,200 |
+| XPL | 2026-09-03 17:32:30 | $2,200 |
+| NIGHT | 2026-09-03 17:32:30 | $2,200 |
+| STX | 2026-09-03 17:32:30 | $2,200 |
+| ZEC | 2026-09-04 06:39:15 | $718 |
+
+**$8,800 of $10,000 — 88% of the book — was committed in a single cycle, all
+long, and has not moved since.** The $2,200 sizing is legacy: `position_pct` is
+now 0.075, and the later ZEC entry at $717.86 confirms the current config sizes
+correctly. Nothing is broken; the four large positions simply predate a
+parameter change.
+
+The consequence is that **aggressive's P/L is not a measurement of its
+strategy.** It is the outcome of four coins picked at 17:32 on 3 September,
+marked continuously for two days. There is no sampling across entries, no
+sequence of independent decisions — one draw, held. Comparing its −2.3% to the
+other books' performance is comparing a strategy to a snapshot.
+
+It is also why the book is frozen: $482 of cash against a $750 target means it
+cannot open anything, and `max_positions` of 12 is unreachable — cash binds at
+five. The 12 is dead configuration.
+
+**Its four caps fall at 2026-09-05 17:32:30**, 48 hours after entry. That will
+produce aggressive's first four resolutions, almost certainly all "max hold"
+unless STX (−6.65%) or ENA (−5.64%) reaches the 8% stop first. Those four are
+worth watching not because four trades mean anything, but because they are the
+only evidence this book will have produced in two days.
+
+n = 5 positions, 1 book, 43 hours.
+
+## 13:35 — a preview of what the pattern model will learn, and why it is not ready
+
+daytrade sits at 3 of the 4 moons its pattern model needs. Running the
+separation the model will run — entry features of moons against non-moons,
+27 versus 3, as Cohen's d against the non-moon spread:
+
+| feature | moon mean | rest mean | d |
+|---|---|---|---|
+| `pc_14d` | 42.03 | 15.39 | **+1.51** |
+| `pc_30d` | 76.90 | 42.38 | **+1.40** |
+| `pc_1h` | 0.80 | −0.26 | **+1.02** |
+| `vol_5m` | 0.315 | 0.201 | +0.98 |
+| `pc_7d` | 14.27 | 6.20 | +0.93 |
+| `ret_2h` | 1.017 | 0.211 | +0.80 |
+| `ema_spread` | 0.316 | 0.063 | +0.80 |
+| `ret_30m` | 0.508 | 0.132 | +0.70 |
+| `rsi14` | 60.7 | 52.9 | +0.54 |
+| `range_pos` | 83.1 | 64.7 | +0.54 |
+| `cap_rank` | 95.7 | 95.3 | +0.18 |
+
+**The three features that separate best are multi-day momentum — and the
+daytrade scorer weights none of them.** Its weights are `ret_30m` 1.0,
+`ema_spread` 1.2, `ret_2h` 0.35; those three sit at d = +0.70 to +0.80, below
+the `pc_14d` and `pc_30d` the book ignores entirely. If this held up it would
+say the day-trading book's best predictor of a full-thesis win is the coin's
+two-week trend, not anything about the last two hours.
+
+**It almost certainly does not hold up, and the reason matters.** The three
+moons are:
+
+| when | coin | side | result |
+|---|---|---|---|
+| 22:44 | HYPE | long | +2.566% |
+| 08:12 | ZEC | long | +3.869% |
+| 16:17 | ZEC | long | +2.635% |
+
+All three are longs. **Two of the three are the same coin.** ZEC was in a
+strong multi-week uptrend throughout, so "high `pc_14d` and `pc_30d`" is very
+nearly a restatement of "this row is ZEC". The apparent feature separation is
+confounded with symbol identity on a sample of two distinct symbols — this is
+the 16:40 non-independence problem showing up inside the model's own training
+set.
+
+**This is the concrete form of the risk flagged at 23:48.** When the fourth moon
+lands the model activates and starts applying a bonus derived from exactly this
+table. On today's data it would learn "prefer coins already up a lot over two
+weeks", which is a real strategy — but it would have learned it from two coins
+in one regime, and it would be applying it to a book whose gross edge is
+indistinguishable from zero.
+
+**Not a recommendation to change the gate.** The 20-resolution and 4-moon
+thresholds were set deliberately and are the owner's to move. What this argues
+for is *reading the model's output sceptically when it activates*: the first
+thing to check is whether its bonus is a coin-identity effect wearing a feature
+name. The check is cheap — recompute the same table excluding ZEC and see what
+survives.
+
+n = 30 resolved daytrade trades, 3 moons across 2 distinct symbols, one regime.
+Cohen's d at n = 3 has an enormous confidence interval; these numbers rank the
+features, they do not measure them.
+
+## 14:05 — the moon dead band fired for the first time
+
+The interaction predicted at 17:57 yesterday has now happened. daytrade's BNB
+long, opened at $750.20 on 5 September at 10:26, closed at $760.39 at 13:55:
+
+**trailing stop, peak +2.26%, exit +1.358%, +$10.56, held 6.6 hours, NOT a
+moon.**
+
+Its peak cleared the **+2.0% moon line** by 0.26pp. It never reached the +2.5%
+take-profit, so the trailing stop — armed at +1.5%, giving back 0.7% — closed
+it at +1.36%. A trade that got into moon territory was denied the label by the
+exit mechanism.
+
+**This is the dead band, confirmed rather than merely derived.** Any daytrade
+peak in [+2.0%, +2.5%] is a guaranteed non-moon: too high to be an ordinary
+winner, too low for the take-profit that would have recorded it. BCH was
+tracked for six hours as the candidate and never entered the band (peak
++1.813%); BNB entered it without being watched.
+
+**The consequence is specific and it is now real, not hypothetical.** daytrade
+stands at 31 resolved, 9 wins, **still 3 of 4 moons**. The pattern model remains
+inactive not because the book failed to produce a full-thesis trade, but
+because the exit geometry declined to record one. The moon counter measures
+what the exits let through, not what the entries achieved.
+
+**Frequency.** One occurrence in 31 resolutions, and the band is 0.5pp wide
+against a distribution whose winners run to +3.9%. So this is not a common
+event — but it is not negligible either, and it will recur, because nothing
+about the geometry has changed.
+
+**Not actioned, and the fix is not obvious.** Setting `moon_pct` above
+`take_profit_pct` would close the band by definition but would make a moon
+unreachable except by gapping through the target. Widening the trail giveback
+would let more trades run into the band and out the far side, at the cost of
+returning more open profit on every trade that does not. Both are strategy
+changes; both trade a real cost for a cleaner counter. Recorded so the choice
+is made with the frequency known.
+
+n = 1 occurrence in 31 daytrade resolutions.
+
+## 14:45 — `max_entries_per_cycle` is doing nothing, and that is the right answer
+
+Grouping every entry by cycle (entries within 10 seconds of each other are one
+cycle pass), across the whole record:
+
+| book | cap | entries | cycles | cycle sizes | cycles at the cap |
+|---|---|---|---|---|---|
+| daytrade | 2 | 37 | 36 | 35×1, 1×2 | **1** |
+| conservative | 2 | 14 | 11 | 10×1, 1×4 | 1 |
+| longshort | 2 | 9 | 6 | 4×1, 1×2, 1×3 | 2 |
+| aggressive | 3 | 5 | 2 | 1×1, 1×4 | 1 |
+
+The over-cap groups look alarming until they are dated: **conservative's 4 and
+aggressive's 4 both landed at 2026-09-03 17:32:30, and longshort's 3 at
+19:32:43 — all on the first day, before the guard existed.** The guard was
+written in response to exactly that event; its own comment records "all 8
+original positions opened in the same second". Every group since has respected
+the cap. Nothing is broken.
+
+**The finding is that the guard has bound once in 36 daytrade cycles.** Even
+through the burst hours measured at 10:35 — when the book went from one position
+to six — entries arrived one per cycle, never two. The cap is not what limits
+entry rate; the gates are, and their opening is spread across cycles rather than
+clustered inside one.
+
+**This closes a lever.** "Raise `max_entries_per_cycle` to exploit burst hours"
+would change nothing, because the book has wanted a second entry in a single
+cycle exactly once. Anyone reaching for that knob should reach elsewhere.
+
+It also means the guard is now free insurance: it costs no opportunity and still
+prevents a repeat of the startup concentration that made aggressive a
+single-instant snapshot (FINDINGS 12:40).
+
+n = 55 entry cycles across four books.
+
+## 15:45 — amendment to 04:35: max-hold exits are no longer flat, and the reason is the regime
+
+The 04:35 entry recorded daytrade's seven max-hold exits averaging **+0.015%** —
+"dead flat, and each one still paid 0.30% to get there". With three more they
+now read differently:
+
+| | 04:35 | now |
+|---|---|---|
+| max-hold exits | n=7, **+0.015%** | n=10, **+0.248%** |
+| all resolutions | n=26, −0.346% net | n=33, −0.317% net |
+| gross of the 0.30% round trip | −0.046% | **−0.017%** |
+
+The three additions were BNB +1.748%, SOL +0.130% and LINK +0.510% — all
+positive, all opened and closed inside today's rally, and all long. **That is
+the regime, not a change in the exit rule.** A max-hold exit returns whatever
+the market did over six hours, and the market went up; the same rule returned
+zero yesterday when it did not. Nothing about hold logic improved.
+
+**The headline number is unchanged and that is the point.** Gross of costs the
+book is at −0.017% over 33 trades, against a standard error of 0.267pp. It was
+−0.046% at n=26. Eight more resolutions moved it by three hundredths of a
+percentage point and it remains indistinguishable from zero — which is what a
+zero-edge series looks like as it accumulates, and is more informative than the
+individual trades that made it up.
+
+**Also resolved: the 09:35 side-reversal test.** daytrade stopped out of LINK
+short at −1.204%, re-opened it long 1.6 hours later, and that long exited at
+max hold **+0.510%**. The reversal cost 0.60% in two round trips to end up
+opposite itself and recovered +0.51%, so it netted about **−0.09%** against not
+trading at all. One observation, landing within a rounding error of break-even
+— exactly what a zero-edge book paying friction should produce. It neither
+supports nor refutes the proposed direction-change cooldown; it is one data
+point on a question that needs many.
+
+n = 33 daytrade resolutions, 10 max-hold, 1 completed reversal.
+
+## 16:45 — a registered prediction for aggressive's four caps, 47 minutes out
+
+aggressive's four original positions hit their 48-hour cap at **17:32:30**, and
+none has reached its 8% stop. Recording the prediction *before* the event, so
+the check afterwards is honest rather than reconstructed:
+
+| symbol | current | predicted exit | predicted P/L on $2,200 |
+|---|---|---|---|
+| ENA | −6.50% | max hold 48h | ≈ −$143 |
+| STX | −6.11% | max hold 48h | ≈ −$134 |
+| XPL | −2.32% | max hold 48h | ≈ −$51 |
+| NIGHT | +1.46% | max hold 48h | ≈ +$32 |
+
+**Predicted: 4 of 4 exit on max hold, none on stop or target, aggregate about
+−$296, no moons** (a moon needs +17%). ENA and STX would each need to fall a
+further 1.5–1.9pp inside the next 47 minutes to stop out instead, which is
+possible but not likely on today's tape.
+
+**What the outcome will and will not show.** It will be aggressive's first four
+resolutions in 48 hours, and it will convert a paper drawdown into a realised
+one — the book's realised P/L moves from exactly $0.00 to roughly −$296 without
+anything about the market changing. That is worth stating plainly because the
+realised number will look like a sudden collapse and will not be one.
+
+It will *not* say anything about the aggressive strategy. Per 12:40 these four
+are 88% of the book committed in a single cycle on 3 September, so the outcome
+measures four coins picked at one instant, held to a fixed clock. Four
+simultaneous max-hold exits are one observation of one moment, not four
+independent trades.
+
+**The one thing to watch** is whether the max-hold exits cluster near the
+current marks or diverge from them. A large gap between the 16:45 mark and the
+17:32 fill would mean the last 47 minutes moved these names materially, which
+is itself the slippage question from 11:35 applied to a 48-hour hold.
+
+## 17:45 — the cap event: prediction scored, and the book immediately rebuilt itself
+
+The prediction registered at 16:45 resolved at **17:33:38**. Scoring it against
+the actual fills:
+
+| symbol | predicted | actual | diff | predicted $ | actual $ |
+|---|---|---|---|---|---|
+| ENA | −6.50% | **−5.55%** | +0.95pp | −$143 | −$122.04 |
+| STX | −6.11% | **−5.65%** | +0.46pp | −$134 | −$124.39 |
+| XPL | −2.32% | **−2.77%** | −0.45pp | −$51 | −$60.98 |
+| NIGHT | +1.46% | **+1.20%** | −0.26pp | +$32 | +$26.30 |
+| **aggregate** | | | | **−$296** | **−$281.11** |
+
+**The structural call was right: 4 of 4 exited on max hold, no stops, no
+moons.** The aggregate came in $14.89 light, 5% better than predicted, because
+the market rose between the 16:45 mark and the 17:33 fill. Individual errors
+ran ±0.95pp with no consistent sign — two better, two worse — which is what
+47 minutes of drift looks like, not slippage. This is the opposite of the tight
+stop case at 11:35: a 48-hour hold exiting on a clock has no trigger price to
+overshoot, so the "slippage" is just market movement over the gap between
+observations.
+
+**aggressive's realised P/L went from $0.00 to −$281.11 in one second**, with
+nothing about the market changing at that instant. As flagged in advance, that
+is a clock converting paper losses into realised ones. The book's *value* barely
+moved.
+
+**Then it did something none of the other books have done: it rebuilt from
+scratch.** Freed cash immediately funded **eleven new entries** across four
+cycles — NEAR, BNB, LTC, SUI, ICP, LINK, HBAR, TIA, ETC, ADA, AVAX, all long,
+all at **$750** (the current `position_pct` of 0.075, versus the legacy $2,200).
+It went from 5 positions to **12, its configured maximum**, and from $482 of
+cash to $751.
+
+**This retires the 12:40 finding's main caveat.** aggressive is no longer a
+single-instant snapshot: the four coins picked at 17:32 on 3 September are gone,
+replaced by twelve positions sized correctly and opened across four cycles. From
+here its P/L will actually measure the strategy rather than one moment. The book
+that has been the least informative for two days just became the most
+diversified of the four.
+
+**Worth watching from here.** Twelve positions at 7.5% each is 90% deployed with
+a 5% reserve — the most concentrated-in-aggregate but least concentrated
+per-name book in the program. Its next resolutions fall 48 hours out, around
+17:33 on 7 September, unless the 8% stop or 22% target fires first.
+
+n = 4 scored predictions, 11 new entries.
+
+## 18:45 — the rebuild fixed one problem and created another: shared exposure jumped to 74.5%
+
+Re-running the 03:33 concentration measurement after aggressive rebuilt into
+twelve positions. Across 29 open positions, $28,468 gross:
+
+| | 03:33 | now |
+|---|---|---|
+| positions / names | 19 / 15 | 29 / 17 |
+| in more than one book | **27.7%** | **74.5%** |
+| largest single name | ZEC, 10.4% | HYPE, 12.3% |
+| Herfindahl → effective names | 13.5 of 15 | 13.5 of 17 |
+
+**Three names are now held by three books each** — HYPE (conservative,
+longshort, daytrade), BNB and ZEC (conservative, daytrade, aggressive) — and
+nine of seventeen names are in at least two.
+
+**The cause is structural, not a coincidence.** aggressive's universe is rank
+≤ 150, a superset of every other book's. When it rebuilt by taking its eleven
+highest-scoring momentum names, it was drawing from a pool that contains
+everything conservative (≤30), longshort (≤50) and daytrade (≤25) can see. A
+book with the widest universe, filling all its slots at once on a momentum
+ranking, will land on the same names the narrower books already hold. The
+17:33 rebuild that removed aggressive's single-instant problem replaced it with
+this one.
+
+**What did and did not get worse.** The Herfindahl is unchanged at 0.0738 —
+per-name spread is the same, so this is not a portfolio-risk story. What
+degraded is **cross-book independence**: the four books are supposed to be four
+separate tests of four parameter sets, and three quarters of the money is now
+in names that more than one of them holds. Their equity curves will move
+together more than their strategies differ, which makes the 01:31 exposure
+finding harder to escape rather than easier.
+
+**One genuinely new thing: the first offsetting overlap.** XLM shows gross
+$2,500 but **net −$500** — longshort is short it while daytrade is long. Every
+previous cross-book overlap in this program has been same-side, with net equal
+to gross. This is the first dollar of internal hedge the four books have ever
+produced, and it happened by accident rather than design.
+
+**Bearing on the cross-book exposure cap proposed at 03:33.** That proposal
+looked marginal when sharing was 27.7%. At 74.5% it is a materially bigger
+lever — but the counter-argument also got stronger, because a cap would now
+bind constantly and would effectively be dictating which book gets to hold the
+best-scoring names. Still the owner's call, still not actioned; recorded because
+the number moved enough that the decision is different now.
+
+n = 29 open positions, 17 names, one snapshot.
+
+## 20:45 — XRP's price granularity is 59% of daytrade's entire stop distance
+
+The 22:38 entry noted XRP is marked at cent precision and should be excluded
+from the slippage series. Today's resolution sharpens what that actually costs.
+Every XRP price the program has ever seen:
+
+```
+1.470  1.480  1.460  1.450  1.420  1.390  1.400  1.400  1.420  1.410
+```
+
+**Ten observations, every one an exact cent.** The feed gives XRP two decimal
+places, so the smallest move it can express near $1.40 is one cent:
+
+| price | one tick | vs daytrade's 1.2% stop | vs the 0.30% round trip |
+|---|---|---|---|
+| $1.40 | 0.714% | **60%** | 2.4× |
+| $1.42 | 0.704% | **59%** | 2.3× |
+
+**A single tick is more than half the stop.** daytrade's XRP long today entered
+at $1.42 and exited at $1.41 on max hold: **−0.704%, exactly one tick**, which
+after costs cost $10.04. It could not have resolved any closer to flat — zero
+or ±0.70% were the only outcomes available to it.
+
+The consequences are specific:
+
+- **The stop can only fire in ~2-tick jumps.** A 1.2% stop on a 0.71% grid
+  means the first tick below entry (−0.71%) does not trigger and the second
+  (−1.41%) overshoots by 0.21pp. XRP's two stop-outs on record are −1.351% and
+  −2.069% — both consistent with landing on grid points rather than at the stop.
+- **The +0.000% cover on 4 September was not a flat market**, it was the price
+  returning to the same cent it left. Real movement inside the tick is invisible.
+- **Every XRP feature is quantised too** — `ret_30m` and `ret_2h` computed from
+  cent-grid bars have the same floor, so the gates are reading a coarser signal
+  for this name than for any other in the universe.
+
+**This is a data-quality boundary, not a strategy problem.** It affects one
+symbol, and only in the book whose stop is tight enough for a tick to matter:
+conservative's 3% stop and longshort's 5% absorb a 0.71% grid without
+distortion; daytrade's 1.2% does not.
+
+**Proposed, not actioned, and narrower than the earlier version:** exclude XRP
+from `daytrade`'s intraday universe specifically, rather than marking all
+daytrade positions from the bar series. It is a one-name fix for a one-name
+problem, and it is still a universe change, so it stays the owner's call.
+
+n = 10 XRP observations, 4 resolved.
+
+## 21:45 — the daytrade scorer does not predict outcomes, at n = 41
+
+The earlier "scorer test set" was three trades and settled nothing. There are now
+41 resolved daytrade trades with both an entry score and an outcome, which is
+enough to ask the question properly.
+
+**Entry score against realised P/L: Pearson r = +0.042 (t = 0.26, df = 39),
+Spearman rho = +0.123.** Both are indistinguishable from zero. Scores ranged
+0.62 to 2.62 with a mean of 1.07.
+
+The book's entry ranking has **no measurable relationship to how the trade turns
+out.** That is the headline and it is what the sample supports.
+
+### The tempting pattern, and why I am not acting on it
+
+Split into score quartiles, the picture looks less flat:
+
+| quartile | n | score range | mean P/L | wins |
+|---|---|---|---|---|
+| Q1 (lowest) | 10 | 0.62–0.68 | −1.002% | 2 |
+| Q2 | 10 | 0.68–0.82 | −0.169% | 3 |
+| **Q3** | 10 | 0.85–1.21 | **+0.676%** | **8** |
+| Q4 (highest) | 11 | 1.24–2.62 | −0.489% | 3 |
+
+Q3 shows 8 wins in 10 against a 32% base rate, and a mean 1.7pp above the book.
+It is easy to read that as "the sweet spot is scores between 0.85 and 1.21".
+
+**It is almost certainly noise, and the shape is the tell.** An inverted U —
+worst at both ends, best in the middle — is what you get from slicing a
+zero-signal series into buckets and reporting the extreme one. Four buckets were
+tested, so a 1-in-20 result in one of them is expected roughly a fifth of the
+time. The overall correlation, which does not depend on where the cuts fall, is
++0.042.
+
+If the middle-band effect were real it would also have to survive the fact that
+**Q4 — the highest-scoring trades the book ever took — did worse than Q3.** A
+scorer that works does not peak in its third quartile.
+
+**This is the same failure mode as the lead-lag study on 4 September**: a
+plausible pipeline, a clean-looking output, and an effect that vanishes when you
+ask whether the analysis was chosen before or after seeing the data. It was
+chosen after. Recorded so the temptation is documented rather than acted on.
+
+### What it means for the project
+
+The scorer is daytrade's entry-selection mechanism, applied after the gates
+admit a candidate. At 41 trades it adds nothing measurable. Combined with the
+04:35 result — gross edge indistinguishable from zero — the two findings agree:
+**the book's trades are, so far, not distinguishable from randomly chosen
+admissible trades.** That is not a reason to abandon the scorer at this sample
+size; a real effect of ±0.3%/trade would be invisible here. It is a reason not
+to tune it on this data.
+
+n = 41 daytrade resolutions, one regime, 19 distinct symbols.
+
+## 22:35 — the rank bypass admitted a third non-layer-1, and both books traded it
+
+The 22:30 audit reads **250 fetched → 189 excluded → 61 tradeable**. Every
+previous audit today read 190/60. One coin moved from the exclusion list into
+the tradeable universe, and it is **UNI**.
+
+UNI is Uniswap's governance token — a DEX token, not a layer-1 chain and not a
+blue chip by the project's own definition. It appears in the exclusion list's
+own "not a layer-1 or blue chip" category at every earlier audit; today it sits
+at **rank 23**, and the `rank <= 25` bypass overrides the category rule.
+
+**Both books that could reach it, did:**
+
+| when | book | action | score |
+|---|---|---|---|
+| 19:33 | longshort | BUY @ $7.18 | **73.52** — the highest entry score ever recorded |
+| 21:38 | daytrade | BUY @ $7.16 | 2.41 |
+| 22:29 | daytrade | SELL @ $7.07 | **stop-loss −1.26%** |
+
+So the scorer's all-time top-ranked entry is a coin the universe rule was
+written to exclude, and the first resolution from it is a stop-out.
+
+**This is the same leak as RAIN and LEO, now with three instances and a
+resolved trade.** Current state of the bypass:
+
+| symbol | rank | what it is | volume | reachable |
+|---|---|---|---|---|
+| RAIN | 13 | GambleFi | $34M | yes |
+| LEO | 18 | exchange token | $0.2M | no (volume floor) |
+| **UNI** | **23** | **DEX governance** | **$816M** | **yes, and traded** |
+
+RAIN has never been opened. UNI has, twice, within three hours of becoming
+eligible — because unlike RAIN it clears every volume and momentum filter
+easily.
+
+**It is not a correctness bug by the letter of the rule.** `rank <= 25 blue
+chips` is a deliberate bypass and UNI is rank 23; the code is doing what it was
+told. It is a bug in the *intent*, which `CLAUDE.md` states as "layer-1 chains
+and blue chips only". Whether a top-25 DEX token counts as a blue chip is
+exactly the judgement the bypass was meant to encode and clearly does not.
+
+**Not actioned — this is the owner's call, and it is now more urgent than when
+it was RAIN alone.** The proposal from 22:58 yesterday stands: drop the rank
+bypass and replace it with an explicit blue-chip id set. That would exclude UNI,
+RAIN and LEO while keeping BTC, ETH, BNB, SOL and the rest. The counter-argument
+is that an explicit list needs maintaining as ranks shift, which is precisely
+what the bypass was avoiding.
+
+n = 3 leaked symbols, 2 opened, 1 resolved.
+
+## 2026-09-05 23:45 — the report hid every short close, and daytrade shorts are not actually broken
+
+**A reporting bug, fixed.** `report()` built its "last N resolved trades" list with
+`r.get("action") == "SELL"`. Short exits are written as `COVER` (paper_trader.py:1078),
+so every short close was invisible in that list while the counters printed directly
+above it — closed, wins, moons — counted them normally. Thirteen resolved trades
+(12 daytrade, 1 longshort) had been silently missing from every hourly report,
+including all seven daytrade side reversals. The pattern-model reader at line 837
+already filtered on `("SELL", "COVER")`; only the display path was wrong. Filter
+widened to match. This is a schema mismatch in a reporting path, not a strategy
+change: no trading behaviour was touched.
+
+**What the restored rows show.** With shorts visible, daytrade's 45 resolved trades
+split 33 long / 12 short:
+
+| side | n | wins | mean | median | best | take-profit | stop-loss |
+|---|---|---|---|---|---|---|---|
+| long | 33 | 13 (39%) | −0.197% | −0.452% | +3.87% | 3 | 14 |
+| short | 12 | 3 (25%) | −0.569% | −1.216% | **+1.11%** | **0** | 7 |
+
+The eye-catching part is real as description: no short has ever reached the +2.0%
+moon line or the +2.5% take-profit, the best one topped out at +1.11%, and 58% of
+them stopped out against 42% of longs. All three of the book's moons are longs.
+
+**It does not survive testing.** Long-minus-short mean difference +0.372pp with a
+95% CI of −0.439 to +1.184 — straddling zero. Welch t = 0.92 (df 28.3), Cohen's
+d = 0.26. Fisher exact on take-profit rate (3/33 vs 0/12) p = 0.553; on stop-out
+rate (14/33 vs 7/12) p = 0.501. At n = 12 shorts, a book that shorted exactly as
+well as it goes long would produce this table often.
+
+So: **no side effect is detectable, and the short leg is not to be disabled or
+re-parameterised on this evidence.** Recorded so the same table is not rediscovered
+and mistaken for a signal. Revisit at ~30 resolved shorts, where a real 0.4pp gap
+would begin to separate from noise. Sample: 45 resolved daytrade trades, 12 short.
+
+## 2026-09-06 00:45 — no support for a re-entry or direction-change cooldown
+
+Prompted by daytrade doing both things in one cycle at 00:33–00:34: it re-bought
+UNI 2.1 hours after stopping out of UNI at −1.26%, and went long ZEC at $1,033.00
+64 minutes after covering a ZEC short at $1,024.19 on a stop. Both look like the
+book fighting itself, and a "direction-change cooldown" and a "same-symbol
+cooldown" have been sitting on the open-decisions list on exactly that intuition.
+
+Matched all 45 resolved daytrade trades back to their entries and split them by
+how long it had been since that symbol last resolved in this book:
+
+| entry | n | wins | mean | median |
+|---|---|---|---|---|
+| re-entered within 2h of a close | 9 | 4 (44%) | **−0.086%** | −0.319% |
+| fresh, or >2h since last close | 36 | 12 (33%) | −0.349% | −0.769% |
+
+The fast re-entries did **better**, not worse — fast-minus-slow +0.263pp, 95% CI
+−1.067 to +1.592. Nothing is established at n = 9; what matters is the sign. The
+proposed cooldowns rest on the claim that these entries are worse, and the data
+leans the other way.
+
+Two details sharpen it. Of the nine fast re-entries only two flipped direction
+(mean −0.417%) and seven kept the same side (mean +0.008%), so there is no
+direction-flip penalty visible either. And **one of daytrade's three moons is
+itself a 0.5-hour re-entry** — long ZEC, +3.869%, opened half an hour after a ZEC
+long closed. A same-symbol cooldown of even one hour would have deleted a third of
+the book's moons, and the pattern model needs four to activate.
+
+Recommendation: **drop both cooldowns from the open-decisions list.** They would
+cost entries the log says are no worse than average and would directly reduce the
+moon count that gates the model. Not a parameter change either way — nothing was
+touched. Revisit only if the fast-re-entry mean turns negative relative to fresh
+entries at n ≈ 25. Sample: 45 resolved daytrade trades, 9 re-entries within 2h.
+
+## 2026-09-06 01:20 — MILESTONE: daytrade's pattern model activated (48 resolved, 5 moons)
+
+Three closes inside four minutes took daytrade from 45 resolved / 3 moons to
+**48 / 5**, past the 20-and-4 gate:
+
+```
+01:05:02  LONG LTC  -1.235%  stop-loss
+01:06:12  LONG ZEC  +2.796%  take-profit   <- 4th moon, the gate
+01:09:08  LONG UNI  +2.654%  take-profit   <- 5th moon
+```
+
+Book state: $9,751.21, realized −$265.14 (up from −$298.22), 15 wins in 48 (31%),
+$156.43 of costs paid, 79% cash. The model reports moon setups separating on
+**pc_14d +1.49sd, pc_30d +1.32sd, pc_7d +1.18sd** — the multi-week price-change
+trio, not any of the intraday features the entry gates actually use.
+
+**The ZEC-contamination check (from FINDINGS 13:35), now run.** Three of the five
+moons are ZEC. Recomputing the separation with ZEC removed entirely:
+
+| feature | all: moon vs non-moon | gap 95% CI | ex-ZEC: moon vs non-moon | gap 95% CI |
+|---|---|---|---|---|
+| pc_7d | +20.94 vs +7.98 (+1.30sd) | −0.05 .. +25.97 | +20.05 vs +4.75 (+2.11sd) | −24.68 .. +55.27 |
+| pc_14d | +42.96 vs +13.13 (+1.67sd) | +11.23 .. +48.42 | +37.90 vs +7.88 (+2.25sd) | −14.41 .. +74.46 |
+| pc_30d | +81.32 vs +43.55 (+1.39sd) | +20.06 .. +55.49 | +65.05 vs +33.35 (+2.06sd) | +9.39 .. +54.02 |
+
+**The signal is not purely a ZEC artifact.** The two non-ZEC moons (HYPE +2.566%,
+UNI +2.654%) also entered on far higher multi-week momentum than non-moons, and
+the effect size grows rather than collapses when ZEC is dropped. But at 2 moons
+the confidence intervals blow out: only pc_30d still excludes zero, and it does so
+on n = 2. The honest position is that the direction survives the check and the
+magnitude does not yet mean anything.
+
+**Weight the sample by names, not trades.** Five moons across three symbols
+(ZEC ×3, HYPE, UNI) is nearer three independent observations than five. The model
+is fitting "the coin ran hard over the last fortnight" — plausibly real momentum
+persistence, equally plausibly the same September ZEC run counted three times.
+
+**The bonus is live but has changed nothing yet.** Verified directly: no row in
+trade_log.csv carries a non-zero `pattern_bonus` — every entry to date was scored
+without it. From here `bonus()` adds to the base score at paper_trader.py:1166,
+so the next daytrade entries are the first the model influences. What to watch:
+whether picks tilt toward high-pc_14d names, and whether those picks moon more
+often than the 5-in-48 (10%) base rate. That is the test of the model, and it has
+not been run yet. No parameters changed. Sample: 48 resolved daytrade trades,
+5 moons, 3 distinct symbols.
+
+## 2026-09-06 01:45 — the model's first three live opinions, and they are about ZEC
+
+The bonus went live at 01:06 and has now scored three daytrade entries:
+
+| entry | base score | pattern bonus | pc_7d | pc_14d | pc_30d |
+|---|---|---|---|---|---|
+| HYPE 01:25 | 0.722 | **−0.618** | 2.5 | 7.6 | 52.3 |
+| ADA 01:33 | 1.088 | **−0.462** | 8.8 | −2.8 | 9.3 |
+| ZEC 01:36 | 4.131 | **+0.201** | 22.4 | 28.4 | 100.0 |
+
+The only positive opinion the model has expressed went to ZEC — the coin that
+supplies three of the five moons it was fitted on. This is the contamination
+flagged at 01:20 showing up in live behaviour within half an hour, and it is the
+concrete reason the ex-ZEC check mattered: the centroid sits where ZEC sits, so
+"looks like a moon setup" and "is ZEC" are, at n = 3 names, close to the same
+statement.
+
+Two things worth stating precisely. First, **the bonus can veto, not just boost**:
+HYPE's −0.618 would have pushed a base score of 0.6–1.2 below the 0.6 threshold,
+and HYPE only survived because its base score cleared the line on its own. So the
+model is already capable of removing candidates, on evidence that spans three
+symbols. Second, **none of this says the model is wrong** — multi-week momentum
+persistence is a real and well-documented effect, and ZEC may simply be the name
+that had it. What it says is that the live bonus cannot yet be distinguished from
+a ZEC detector.
+
+Surfaced, not actioned: excluding ZEC from the model's training rows, or weighting
+rows by symbol rather than by trade, would test this directly. That is the owner's
+call — it changes what the model learns, which is not a correctness bug.
+
+The measurable test needs no change at all: track whether entries carrying a
+**positive** bonus moon more often than the 5-in-48 (10%) base rate, and whether
+they are disproportionately ZEC. Sample so far: 3 model-era entries, 1 positive
+bonus, 0 resolved.
+
+## 2026-09-06 02:35 — the moon dead band is now confirmed in conservative too (4 events, 2 books)
+
+conservative's BNB closed at 02:26:33 on a trailing stop: **peak +8.26%, closed
++5.754%**, held 57 hours. It cleared the book's +7.0% moon line by 1.26pp and
+closed 1.25pp below it. Realized P/L improved to −$53.51 and the book stands at
++1.10%, but it recorded **no moon** — conservative is still 0 for 9.
+
+That is the fourth time a trade has peaked above its book's moon line and closed
+below it, and the first outside daytrade:
+
+| date | book | symbol | peak | closed | moon line | given back |
+|---|---|---|---|---|---|---|
+| 09-04 07:41 | daytrade | ZEC | +2.11% | +1.32% | +2.0% | 0.79pp |
+| 09-05 13:55 | daytrade | BNB | +2.26% | +1.36% | +2.0% | 0.90pp |
+| 09-05 17:29 | daytrade | LINK | +2.09% | +1.34% | +2.0% | 0.75pp |
+| 09-06 02:26 | **conservative** | BNB | **+8.26%** | **+5.75%** | +7.0% | **2.51pp** |
+
+Four of the nine trailed exits in the program's history are of this kind — 44%.
+
+**Why conservative's case is different from daytrade's.** In daytrade the band is
+narrow and structural: the trail gives back 0.7% and take-profit sits at +2.5%, so
+only peaks in [+2.0%, +2.5%] can land in it. conservative gives back **2.5%** and
+its take-profit is at +9.0%, so its dead band spans peaks from +7.0% all the way to
+**+9.5%** — a 2.5pp-wide window, five times wider than daytrade's 0.5pp. BNB peaked
+at +8.26%, squarely inside it. conservative is structurally the book *most* likely
+to produce a near-moon that scores as an ordinary win, and it has now done so.
+
+Stated plainly: a moon is measured on closing P/L, and a 2.5% trail giveback is
+larger than the 2.0pp gap between conservative's moon line and its take-profit.
+The book can reach its thesis and still not be credited with it. Since a moon is
+also what gates the pattern model, conservative's model is being held inactive by
+exit geometry rather than by the strategy failing to find winners.
+
+Not actioned — the trail giveback and the moon threshold are both strategy
+parameters. Surfaced for the owner as one concrete question: should a moon be
+flagged on **peak** P/L rather than closing P/L? That would credit all four trades
+above, would activate no model that a real +7% move did not earn, and changes no
+trading behaviour whatsoever — it is purely how outcomes are labelled. Sample:
+9 trailed exits across all books, 4 in the dead band.
+
+## 2026-09-06 03:35 — the model's explanation is unstable: two moons changed its top feature
+
+Three readings of daytrade's own `pattern model:` line, taken as moons landed:
+
+| time | moons | 1st feature | 2nd | 3rd |
+|---|---|---|---|---|
+| 01:06 | 5 | **pc_14d +1.49sd** | pc_30d +1.32 | pc_7d +1.18 |
+| 02:32 | 6 | **pc_30d +1.09sd** | pc_14d +1.06 | pc_7d +0.83 |
+| 03:33 | 7 | **ret_30m +0.84sd** | pc_30d +0.81 | pc_14d +0.75 |
+
+Two additional moons — LINK +2.98% and BCH +2.57%, both pre-model entries — cut the
+leading separation by **44%** (1.49sd → 0.84sd) and replaced the leading feature
+entirely. The story went from "moons are names that ran for a fortnight" to "moons
+are names that moved in the last half hour," and pc_7d dropped out of the top three
+altogether. Every remaining separation is now under 1sd.
+
+This is what fitting a centroid to seven points across eleven features looks like.
+The ranking is not converging as evidence accumulates; it is being rewritten by
+each new observation, which is the signature of a fit dominated by sampling noise
+rather than by structure. The direction of travel matters more than any single
+reading: **more data has made the model's account of itself weaker, not stronger.**
+
+Note this cuts against my own 01:20 entry, which found the pc_14d separation
+survived dropping ZEC and treated that as mild support. It survived that test and
+then decayed anyway under two ordinary new moons. The ZEC check was necessary but
+not sufficient — the sample was simply too small for any feature ranking to mean
+something, including the one that passed.
+
+Practical consequence: the bonus is live and moving entries (four so far, range
+−0.62 to +0.20) on a feature ranking that changed twice in two and a half hours.
+No moon has yet been picked by the model — all seven are pre-model or unbonused
+entries. Surfaced for the owner, not actioned: hold the bonus at zero influence
+until the top-feature ranking is stable across, say, three consecutive moons, or
+cap its magnitude so it can reorder near-ties without vetoing candidates outright.
+Both are strategy changes. Sample: 51 resolved daytrade trades, 7 moons, three
+readings of the model.
+
+## 2026-09-06 04:15 — the first model-era resolution, and it lands in the dead band
+
+daytrade's SOL is the first entry the pattern model actually scored to resolve:
+
+```
+ENTRY 03:20:29  score 0.673, pattern -0.406   (base 1.079 before the penalty)
+EXIT  04:04:21  +1.213%, held 0.73h — trailing stop (peak +2.07%, now +1.21%)
+```
+
+Two things at once.
+
+**The model's first live verdict was wrong in the direction that matters least.**
+It penalised SOL by 0.406 — a candidate that went on to peak at +2.07%, above the
+moon line. It was not a moon on closing P/L, so the model's discouragement was not
+punished by the scoreboard, but the trade it discouraged was the best-performing
+daytrade entry of the hour. One observation, no conclusion: recorded because it is
+the first data point in the only test that matters, whether bonus sign predicts
+outcome. Running tally of model-era entries: 6 scored, 1 resolved.
+
+**And it is the fifth dead-band event** (FINDINGS 14:05, 02:35). Peak +2.07%,
+closed +1.21%, giving back 0.86pp against a 0.7% trail. Five of the ten trailed
+exits in program history have now peaked above their book's moon line and closed
+below it — **50%**. daytrade accounts for four of the five; conservative's BNB is
+the outlier by size.
+
+The count is worth stating plainly because it changes how the moon threshold
+should be read. A "moon" is not a rare event the strategies almost never reach —
+they reach the line routinely and the trailing stop takes the credit away on the
+way down. Twelve trades have touched their moon line; seven were credited. The
+gate that held daytrade's model inactive for two days, and still holds the other
+three books' models inactive, is substantially an artifact of measuring at the
+exit rather than at the peak.
+
+This strengthens the question already with the owner from 02:35 — flag moons on
+peak P/L — and it is worth restating that the change is labelling only: it moves
+no stop, alters no entry, and would have credited five additional trades that
+genuinely delivered their thesis. Sample: 10 trailed exits, 5 in the dead band;
+6 model-era entries, 1 resolved.
+
+**Universe audit (due ~04:30, run 04:12): clean.** 250 fetched → 189 excluded →
+61 tradeable, unchanged from 22:32. Exclusion list loaded from cache (979 ids /
+896 symbols, fetched 01:12:59) — **no fails-open warning**. daytrade's universe is
+17 coins. The three known rank<=25 bypass leaks are all still present (RAIN 12,
+LEO 17, UNI 22 — each has drifted a rank since the last audit) and remain the
+owner's call.
+
+## 2026-09-06 04:55 — MILESTONE: conservative's first moon, and every moon so far is a take-profit
+
+At 04:44:38 conservative sold ZEC on **take-profit +9.13%**, clearing its +7.0%
+moon line. That is conservative's first moon and the first moon the program has
+produced outside daytrade. The book is 11 resolved / 1 moon; its model needs 20
+and 4. daytrade took the same ZEC tick for **+3.82%**, its 8th moon at 54 resolved.
+Combined value reached **$39,680.07**, the session high.
+
+Nine minutes earlier the same book sold LINK on the trailing stop at **peak +7.06%,
+closed +4.39%** — over the moon line, credited as an ordinary win. Same book, same
+hour, same threshold, opposite label. The difference was purely the exit path.
+
+Counting every resolved trade whose peak reached its book's moon line:
+
+- **15 trades have touched a moon line**
+- **9 were credited** — and **all 9 exited on take-profit**
+- **6 were lost to the trailing stop**
+
+Not one moon in the program's history has been recorded through a trailing exit.
+The moon statistic, as implemented, does not measure "reached the thesis"; it
+measures "reached the take-profit limit," which is a strictly higher bar sitting
+0.5pp above the line in daytrade and 2.0pp above it in conservative. The trailing
+stop, which exists to protect gains, systematically removes the label from trades
+whose gains it protected.
+
+This is the third and strongest statement of the same issue (FINDINGS 14:05,
+02:35, 04:15) and I will stop re-deriving it. The question with the owner is
+unchanged and now has a 15-trade sample behind it: flag a moon on **peak** P/L
+rather than closing P/L. It moves no stop, changes no entry, and would take the
+program from 9 moons to 15 — which would put conservative at 3 of its 4 and give
+the other two books their first. Sample: 15 trades that touched a moon line, 9
+credited, 6 lost to the trail.
+
+## 2026-09-06 05:55 — MILESTONE: aggressive's first moon, and ZEC is 60% of the program's moons
+
+At 05:36:51 aggressive sold ZEC on **take-profit +23.39%**, past its +17% moon line
+— the largest single trade the program has produced (entry $949.62, exit $1,171.77,
+held ~44h). It is aggressive's first moon and takes the book to 5 resolved / 1 moon
+and −0.65%, nearly recovering the drawdown the 5 Sept cap event opened. Combined
+value reached **$39,885.54**. Three of four books now have a moon; only longshort
+has none, and its own ZEC sits about a point under its +9.5% line.
+
+Like the nine before it, this moon exited on **take-profit, not the trail** — the
+pattern is now unbroken at 16 moon-line touches.
+
+**The concentration is the finding.** Across 78 resolved trades the program has
+recorded 10 moons:
+
+| symbol | moons |
+|---|---|
+| **ZEC** | **6** |
+| HYPE, UNI, LINK, BCH | 1 each |
+
+**Six of ten moons — 60% — are one coin**, spread across three different books
+with different universes, horizons and thresholds (daytrade 4, conservative 1,
+aggressive 1). That is not a strategy finding; it is a market finding. ZEC had an
+exceptional September and every book that could hold it long enough got paid.
+
+Two consequences worth stating plainly.
+
+First, **the moon count is not four independent strategy validations.** Weighted by
+name rather than by trade, the program has produced five distinct moon-generating
+symbols in three days, and one of them dominates. Any statement of the form "the
+strategies find big winners" currently rests on ZEC's run.
+
+Second, this sharpens the model-instability finding (03:35) rather than
+contradicting it. daytrade's model is fitted on 8 moons of which 4 are ZEC. Its
+feature ranking has now changed leader four times — pc_14d, pc_30d, ret_30m,
+vol_5m — and every separation sits under 1sd. A centroid fitted to a set that is
+half one symbol will describe that symbol, and when the symbol stops running the
+description will stop working.
+
+Nothing actioned. This restates the case for the ZEC-weighting question already
+with the owner (LOOP_NOTES, from FINDINGS 01:45): weight the model's training rows
+by symbol rather than by trade. Sample: 78 resolved trades, 10 moons, 5 distinct
+symbols, ZEC 6.
+
+## 2026-09-06 07:35 — daytrade emptied to one position; the clustering test is confounded
+
+Between 07:14:39 and 07:25:57 daytrade closed five trades — SOL −1.26%, ZEC −1.32%,
+ADA −1.39% (three stop-outs inside 89 seconds), then HYPE at max hold +0.21%. The
+book went from five positions to **one, on 90% cash**, with realized P/L back to
+−$252.87 and win rate 35% → 33%. Nothing dead-band about any of them.
+
+The ZEC stop is the one worth remembering: daytrade bought at $1,179.42 on a score
+of **4.99** at 07:04, ten minutes after aggressive booked +23.39% on the same coin,
+and was stopped at $1,163.91. The name behind 6 of the program's 10 moons turned,
+and the book bought the top of it.
+
+**The obvious test of "correlated drawdown" does not work here, and this is why.**
+I checked whether stop-outs cluster in time — 9 of 27 daytrade stop-outs (33%) fall
+in five-minute clusters. But the baseline is identical: **20 of all 58 exits (34%)**
+do too. The trader marks every open position inside one cycle, so any two positions
+that resolve in the same cycle are logged seconds apart *by construction*. Temporal
+clustering therefore measures the cycle structure, not market correlation, and
+cannot distinguish "four longs fell together" from "four longs were checked
+together."
+
+Recorded so the test is not re-run and mistaken for evidence. Measuring whether the
+book's concurrent positions actually co-move needs per-cycle marks from
+`equity_history.csv` or the intraday bars, not exit timestamps. Not attempted here;
+noting the right instrument for whenever the question is worth answering. Sample:
+58 resolved daytrade trades, 27 stop-outs.
+
+## 2026-09-06 08:35 — the dead band is structural in ALL FOUR books, provably, not just observed
+
+Earlier entries recorded that all 10 credited moons exited on take-profit and none
+ever came through a trailing exit (14:05, 02:35, 04:15, 04:55). That was stated as
+an empirical pattern over 16 moon-line touches. It is stronger than that: **a
+trailing exit cannot produce a moon in any of the four books, by construction.**
+
+A trailed exit closes at `peak − giveback`. For that to land on or above the moon
+line, `peak >= moon + giveback`. But take-profit fires first at `take_profit`. So a
+trailed moon requires `moon + giveback <= take_profit`, i.e. **`giveback <=
+take_profit − moon`**. Read from the config:
+
+| book | moon | take-profit | giveback | trailed moon needs peak ≥ | TP fires at | reachable? |
+|---|---|---|---|---|---|---|
+| conservative | 7.0 | 9.0 | 2.5 | **9.5** | 9.0 | no |
+| longshort | 9.5 | 12.0 | 3.5 | **13.0** | 12.0 | no |
+| daytrade | 2.0 | 2.5 | 0.7 | **2.7** | 2.5 | no |
+| aggressive | 17.0 | 22.0 | 7.0 | **24.0** | 22.0 | no |
+
+In every book the giveback exceeds the take-profit-to-moon gap — 2.5 vs 2.0, 3.5 vs
+2.5, 0.7 vs 0.5, 7.0 vs 5.0. Not one is a near miss and the same inequality fails
+in the same direction four times, which reads as a parameter set chosen without
+this interaction in mind rather than a deliberate design.
+
+The consequence is exact: **"moon" and "exited on take-profit" are the same event.**
+Every trade that hits its target is a moon; no trade that misses its target can
+ever be one, however far it ran. The 10-for-10 record is not evidence about the
+strategies, it is arithmetic. This also means the gate on every pattern model
+("20 resolved including 4 moons") is really "…including 4 take-profit exits",
+and a book whose winners tend to trail out cannot reach it no matter how well it
+trades.
+
+**A live, falsifiable case is open right now.** longshort holds ZEC from $1,064.30,
+peak +9.98% (06:33), currently +9.42%, trail armed. It has exactly two exits
+available: run to **+12.0%** and book the book's first moon, or fall to peak − 3.5
+≈ **+6.5%** and book an ordinary win. There is no third outcome and nothing in
+between. I will record which one happens.
+
+Not actioned — moon thresholds and trail parameters are strategy parameters. This
+sharpens the question with the owner from a labelling preference to a choice
+between two concrete repairs: flag moons on **peak** P/L (labelling only, no
+trading change), or set `moon_pct <= take_profit_pct − trail_giveback_pct` in each
+book so a trailed winner can qualify. Sample: all four book configs; 16 moon-line
+touches, 10 credited, 10 via take-profit.
+
+## 2026-09-06 09:25 — the registered prediction resolved on the moon branch; all four books now have one
+
+The 08:35 prediction was that longshort's ZEC had exactly two reachable exits and
+nothing between them: run to **+12.0%** (take-profit, a moon) or fall to peak − 3.5
+≈ **+6.5%** (trailing stop, an ordinary win).
+
+**It took the moon branch.** Sold 09:15:36 at $1,194.40 on **take-profit +12.22%**,
+entry $1,064.30, held 10.7 hours. longshort books its first moon and its worst book
+standing improves to −0.91%; the position returned $183 on $1,500.
+
+The prediction held exactly, and it held for the reason stated rather than by luck:
+the close is +12.22%, i.e. the take-profit limit plus the usual mark-to-mark
+overshoot, not some intermediate value. No trade in this program has yet closed
+inside a book's dead band from above — the arithmetic at 08:35 says none can.
+
+**MILESTONE: all four books now have at least one moon** — daytrade 8, conservative
+1, aggressive 1, longshort 1. Eleven moons across 79 resolved trades. ZEC now
+accounts for **7 of the 11** and has produced the first moon in three of the four
+books; the concentration recorded at 05:55 has deepened rather than diluted.
+
+None of this changes a model gate yet: conservative is 12 resolved / 1 moon,
+aggressive 5 / 1, longshort 9 / 1, each needing 20 and 4. Only daytrade's model is
+active. Sample: 79 resolved trades, 11 moons, 5 distinct symbols, ZEC 7.
+
+## 2026-09-06 09:40 — the standing question: is there an edge here, and how long until we would know
+
+Asked directly by the owner. Recording the answer with its arithmetic so it is not
+re-derived and so a later reading can check whether it held.
+
+**Per-book returns at 86 resolved trades:**
+
+| book | n | mean/trade | 95% CI | wins |
+|---|---|---|---|---|
+| conservative | 12 | +0.925% | −1.61 .. +3.47 | 50% |
+| longshort | 9 | −0.713% | −4.57 .. +3.14 | 33% |
+| daytrade | 60 | −0.042% | **−0.46 .. +0.37** | 40% |
+| aggressive | 5 | +2.123% | −8.58 .. +12.83 | 40% |
+
+Every interval straddles zero. Three books have single-digit samples where the CI
+spans ±4 to ±13 percentage points and the point estimates carry no information at
+all. daytrade is the only book with a real sample, and its mean sits at −0.042%
+per trade with a tight interval around zero — the signature of **no edge**, not of
+a losing strategy.
+
+**The runway to an answer.** daytrade's per-trade sd is 1.63%. Detecting a true
+edge of +0.10%/trade at 80% power needs n ≈ **2,079 trades — about 104 days** at
+the current ~20/day. Nothing concluded before then is distinguishable from noise,
+and +0.10%/trade is already a modest target against 15bps/side.
+
+**The ZEC dependency, stated as bluntly as the data allows.** ZEC's 18 resolved
+trades average **+3.50%**; the other 68 average **−0.74%**. It supplies 8 of the 12
+moons and produced the first moon in three of the four books. Remove one coin's
+September run and the record is uniformly negative across every book. What the
+strategies found was a coin that went up — which any long-biased momentum rule in
+this universe would also have found.
+
+**Three specific things already tested and found empty**, all recorded above: the
+entry scorer has no predictive power (n=41, Pearson r=+0.042, Spearman ρ=+0.123,
+21:45); the pattern model's leading feature has changed four times in nine hours
+with every separation under 1sd (03:35); target/stop geometry cannot create edge
+and in this configuration only relabels outcomes (08:35).
+
+**Assessment.** As a profit engine the current design is not supported by its own
+record: long-biased momentum over 250 liquid coins is the most crowded idea in the
+space, the costs are real and measured, the edge is not. As an instrument it is
+sound — live data, honest cost accounting on the book that trades often, durable
+records, and a demonstrated ability to catch its own defects. Its most valuable
+output so far has been negative results produced cheaply: two cooldowns that would
+have deleted a third of the moons, a short leg that looked broken and tested null,
+a scorer quartile that was slicing noise, a moon threshold provably unreachable
+through a trailing exit.
+
+Nothing actioned; no parameter changed. Sample: 86 resolved trades across four
+books, 12 moons, ZEC 8.
+
+## 2026-09-06 11:35 — daytrade traded ZEC five times through a 13% rally and kept a third of it
+
+ZEC ran from $1,033.00 to $1,171.19 between 00:34 and 11:29 today. daytrade was in
+it five separate times:
+
+```
+00:34 BUY  1033.00 (score 1.99) -> 01:06 +2.796%  take-profit
+01:36 BUY  1069.95 (score 4.13) -> 04:44 +3.820%  take-profit
+07:04 BUY  1179.42 (score 4.99) -> 07:14 -1.315%  stop-loss
+08:17 BUY  1174.17 (score 2.58) -> 09:26 +2.746%  take-profit
+11:06 BUY  1187.88 (score 1.81) -> 11:29 -1.405%  stop-loss
+```
+
+Three moons, two stop-outs, **+6.642% gross**. Five round trips at 30bps each cost
+1.5%, so **+5.14% net**. Simply holding the position across the same window would
+have returned +13.38%, or **+13.08% after one round trip** — so active trading kept
+**39% of what doing nothing would have earned**, on the book's single best name of
+the day.
+
+This is the cleanest comparison the log has produced: same instrument, same window,
+same book, the only difference being how often it was traded. It isolates the drag
+without any of the usual confounds.
+
+Two mechanisms, both visible in the rows. **Costs** took 1.5pp directly. **Whipsaw**
+took the rest: the 2.5% take-profit ejected the book three times mid-trend, and the
+two re-entries after those exits were at $1,179.42 and $1,187.88 — above where it
+had just sold — which is what produced the only two losses of the five. The exits
+were not wrong individually; each hit its configured target. They were wrong
+collectively, against a move that kept going.
+
+Note what this does *not* say. It is one name on one day, selected precisely because
+it trended, so it is a demonstration of the mechanism rather than an estimate of its
+size. A chopping market would invert it — the take-profits would bank gains the hold
+would give back. The general claim already recorded (no detectable edge at 86
+resolved) is unaffected.
+
+It does sharpen the case for the hold logic being the binding constraint rather than
+entry selection. The scorer picked ZEC correctly all five times; the book still
+underperformed holding it. Nothing actioned — `take_profit_pct` and `max_hold_hours`
+are strategy parameters. Sample: 5 round trips in one symbol over 10.9 hours.
+
+## 2026-09-06 16:15 — the funding book earned its first money: +$0.4409, and the zero was a reporting bug
+
+The 16:00 UTC settlement crossed and accrual fired correctly. Per pair, on $1,100
+notionals:
+
+| pair | accrued |
+|---|---|
+| SUI | +$0.1100 |
+| NEAR | +$0.1099 |
+| DOGE | +$0.0906 |
+| UNI | +$0.0793 |
+| ETH | +$0.0267 |
+| XRP | +$0.0264 |
+| BTC | +$0.0174 |
+| **SOL** | **−$0.0196** |
+| **total** | **+$0.4409** |
+
+Predicted "roughly +$0.46 per settlement across eight pairs" at 14:54; actual
++$0.4409, within 4%. **This is the first evidence the strategy earns rather than
+merely being neutral** — a distinction the earlier entries were careful to keep
+separate, since a perfectly neutral book that pays nothing is worthless.
+
+Seven of eight paid. **SOL paid −$0.0196**: funding there has been decaying all
+day and briefly went negative, which is precisely the case the exit rule watches
+for and the reason entry now screens on the recent window as well as the 33-day
+mean (the fix at 10:05 that stopped SOL-like entries; SOL itself predates it).
+
+**The $0.00 was mine, not the market's.** `summarise.py` and
+`funding_book.report()` both printed `state["funding_earned"]`, which is a
+REALISED counter incremented only inside `close_position()`. No pair has closed,
+so it read 0.00 for six hours while every position's `funding_earned_usd` accrued
+correctly and `book_value()` already included it. The book's value was right the
+whole time; only the headline lied. Added `total_funding()` = realised + accrued
+and used it in both places, and widened the per-pair format from `%+6.2f` to
+`%+7.4f` — a settlement pays cents, and two decimals rounded $0.0174 to
+something indistinguishable from nothing.
+
+Same class of defect as the SELL/COVER filter at 23:45 yesterday: a display path
+disagreeing with a counter that was always correct. Worth noting the pattern —
+both were found by asking why a number that should have moved had not, rather
+than by reading the code.
+
+At +$0.4409 per settlement and three settlements a day, that is **+$1.32/day on
+$10,000, or about +4.8%/year** before the $8.80 of entry fees is recovered —
+which takes about seven days. Consistent with the 5.1%/year the 33-day survey
+implied. Sample: one settlement, 8 pairs.
+
+## 2026-09-06 17:45 — daytrade's logged pnl_pct is GROSS of costs; on net returns its edge is detectably negative
+
+Chasing a four-trade disagreement between the report's win count and my own recount
+turned up something that invalidates a headline number I have been quoting all day.
+
+`paper_trader.py:1061` sets `pnl_pct = self.change_pct(pos, price)` — the raw price
+move — while the dollar `pnl` two lines above is net of both fees. A previous fix
+made the dollars honest (the comment at 1055 records it) and left the percentage
+alone. For conservative, longshort and aggressive the two agree, because those books
+are not charged. For daytrade they differ by a full round trip:
+
+| measure | n | mean | 95% CI | wins |
+|---|---|---|---|---|
+| `pnl_pct` (gross) | 69 | −0.095% | −0.485 .. +0.295 | 26 (38%) |
+| `pnl / usd_amount` (**net**) | 69 | **−0.423%** | **−0.810 .. −0.036** | 22 (32%) |
+
+Difference in means 0.328pp against a 0.30pp round trip. The four-trade win gap is
+exactly the trades that were gross-positive and died inside the spread: SOL +0.127%,
+XLM +0.010%, BNB +0.213%, HYPE +0.209%.
+
+**The net interval excludes zero.** It is the first per-trade confidence interval
+this program has produced that does not straddle it. Read correctly, daytrade does
+not have "no detectable edge" — at n = 69 it has a **detectable negative** one, and
+the size of it is approximately the cost of trading. That is a different and much
+more actionable statement than the one recorded at 09:40, which reported
+"daytrade n=60 mean −0.042%" and was computed on gross returns.
+
+Everything derived from `pnl_pct` inherits the error: the 09:40 edge assessment, the
+scorer test (21:45), the long/short split (23:45), the ZEC round-trip comparison
+(11:35, though that one netted costs manually and stands), and the model's training
+labels. The three uncharged books are unaffected.
+
+**Two consequences the owner should see.** First, `moon = pnl_pct >= moon_pct` at
+line 1062 is also evaluated gross, so daytrade's +2.0% moons are +1.7% net — the
+moon count is measured on a book that pays no fees. Second, the pattern model learns
+from gross outcomes, so it is being taught that trades which lost money were wins.
+
+**What I did and did not change.** Added a `pnl_pct_net` column recorded alongside
+`pnl_pct`, so the two can never be conflated again, and a comment at the site saying
+which is which. I did **not** change `pnl_pct` itself: the moon threshold and the
+model are both defined on it, and rewriting it would silently reclassify three days
+of history. Whether moons and the model should switch to the net figure is a
+strategy decision and is yours.
+
+Also correcting myself: at 17:32 I reported daytrade's win rate as 37% and called
+the trade log authoritative over the report's 31%. That was backwards — 37% was the
+gross figure and the report's net count was right. The correct current figure is
+**22 wins in 69, 32%**. Sample: 69 resolved daytrade trades.
+
+## 2026-09-07 00:20 — the first take-profit moon outside daytrade, and what it does not show
+
+aggressive closed LONG TIA at **+22.07%** (entry $0.368082 on 5 September
+17:35, exit $0.449318, held 30.6h, +$165.53 on a $750 notional). Its take-profit
+is +22% and its moon line +17%, so this is a genuine take-profit moon — the
+first the program has produced in a book other than daytrade, and aggressive's
+second moon overall.
+
+It flips aggressive's realized P/L from **−$113.18 to +$52.35**. Combined
+realized across the four momentum books moves from −$284.56 to −$119.16.
+
+**What it does not show.** aggressive has **6 resolved trades**. A single
++22% outcome on n=6 moves the book mean by +3.7pp on its own; the 95% CI on
+that mean spans well past ±10pp. This is one draw from a fat right tail, which
+is exactly the distribution a 22%-target book is built to harvest — it is the
+strategy working as designed on one instance, not evidence the strategy has
+positive expectancy. The honest read is that aggressive is +$52 realized on six
+trades and that number is indistinguishable from zero.
+
+**It also does not bear on the 7 September 17:33 cap cluster.** TIA exited on
+take-profit at 30.6h, before its 48h limit, so it was never in that cluster.
+Eleven positions still cap simultaneously tomorrow afternoon, all currently at
+~30h, and the cluster's risk is unchanged.
+
+## 2026-09-07 00:20 — funding accrual confirmed correct across two settlements
+
+The 00:00 UTC settlement stepped the funding total from **$0.4409 to $0.9728**
+(+$0.5319 across eight pairs). Combined with the 16:00 step from $0.0000 to
+$0.4409, `accrue_funding()` is now verified over two consecutive periods.
+
+The predicted step was ~$0.44 (a repeat of the first). The actual was $0.53.
+The excess is NEAR, which entered between the two settlements and only now has
+a full period behind it, plus rates drifting up since entry — SOL, the one pair
+that paid negative last period, flipped to +$0.0087.
+
+This closes the earlier "$0.00 for six hours" scare: it was a display bug (both
+report paths printed `state["funding_earned"]`, a realised-only counter that
+`close_position()` increments), never an accrual failure. `total_funding()`
+fixed it.
+
+Basis drift after 14 hours is inside **±$0.55 on $1,100 notionals** — the hedge
+is holding, four orders of magnitude inside the ±$5 alarm. At $0.97 per 14h the
+book is tracking ~$1.67/day, against $8.80 of entry fees: **breakeven around
+5.3 days**, consistent with the ~$1.40/day the 33-day backtest implied.
+
+## 2026-09-07 00:33 — SCHEMA BUG: 23 trade_log rows were being misread by every downstream reader
+
+**Fixed.** `CSV_HEADER` gained `pnl_pct_net` earlier today (added deliberately,
+so `pnl_pct` could stay gross while a net figure existed beside it). But
+`ensure_trade_log()` only wrote the header **when the file did not exist**, so
+the on-disk header stayed at 32 columns while every row written after the change
+carried 33. Rows are written positionally against `CSV_HEADER`, so `csv.DictReader`
+kept reading the stale names and silently shifted every field after `pnl_pct`:
+
+| name read | value actually returned |
+|---|---|
+| `resolved` | `pnl_pct_net` |
+| `moon` | `resolved` |
+| `portfolio_value` | `moon` |
+| `cash` | `portfolio_value` |
+| `hold_hours` | `cash` |
+| `score`, `pattern_bonus`, every `f_*` | each one column early |
+
+23 of 242 rows were affected — everything from `2026-09-06T18:06:17Z` onward,
+which is the whole window since daytrade's pattern model started writing a
+`pattern +x.xx` term into the reason string.
+
+**How it surfaced.** A hold-time breakdown showed a daytrade trailing exit with
+`hold_hours = 5697.76` — 237 days on a book with a 6-hour cap. That number is
+daytrade's *cash balance*. Nine other rows read 4000–8000 "hours"; each one
+matches its book's cash to the cent.
+
+**What it did and did not corrupt.** The file itself was never wrong — the data
+is all there, one column further right than the header claimed. `pnl` and
+`pnl_pct` sit *before* the inserted column and were always read correctly, so
+every P/L figure, win rate and dollar total reported today stands unchanged. What
+was wrong was anything read at or after `resolved`: hold-time analysis, and the
+feature vectors. **The pattern model reads `f_*` features**, so for those 23 rows
+it was training on shifted inputs. It has been active since 01:06 yesterday on 69
+resolved trades; 23 rows is a third of that window.
+
+**The fix** makes `ensure_trade_log()` compare the stored header against
+`CSV_HEADER` on every open and rewrite the file when they differ — old rows
+matched by column name with new columns left empty, rows already written in the
+new layout kept as-is. Migration ran clean: 242 rows, all 33 columns, zero
+impossible `hold_hours`. A backup of the pre-migration file is kept outside the
+repo. The class of bug is now self-healing: adding a column can no longer desync
+the file.
+
+## 2026-09-07 00:33 — daytrade's loss is one exit reason, not a spread
+
+With hold times now readable, daytrade's 79 resolved trades break down as:
+
+| exit | n | mean net % | total $ | median hold |
+|---|---|---|---|---|
+| stop-loss | 37 (47%) | **−1.717** | **−673.27** | 2.29h |
+| max hold 6h | 21 (27%) | −0.257 | −58.82 | 6.01h |
+| take-profit | 13 (16%) | +2.580 | +346.50 | 1.15h |
+| trailing | 8 (10%) | +0.886 | +72.76 | 1.93h |
+| **all** | **79** | **−0.358** | **−312.83** | |
+
+The book's entire loss is the stop-loss bucket. Nothing else is materially
+negative — the 6-hour timeout bucket is 21 trades averaging −0.26% net, i.e.
+roughly the cost of the round trip and nothing more, and the two winning buckets
+between them return +$419.
+
+Net reward:risk is **1.50:1** (+2.58% against −1.72%). With the timeout and
+trailing buckets close to zero, break-even needs the take-profit share to reach
+about **40%** of resolved trades. It is **16%**. That is the gap, stated in one
+number.
+
+**The stops are not slippage or noise-in, noise-out.** Median time to a stop is
+2.29 hours, q1 0.88h — only 4 of 37 fire inside 30 minutes. The book is not
+being knocked out instantly by spread; it enters, the position works against it
+for a couple of hours, and then it stops out. That is an entry-direction
+problem, not an execution or stop-placement problem, and per the settled
+finding on target/stop geometry, widening the stop cannot fix it.
+
+No parameter has been changed on this. It is the clearest read yet on *where*
+daytrade loses, and it points the next work at entry selection.
+
+## 2026-09-07 01:35 — the entry score does not predict stopping out; it labels volatile symbols (n=82)
+
+Pre-registered last hour: the scorer test at n=41 asked whether the entry score
+predicts *return* and found nothing (Pearson r=+0.042). It never asked whether
+high-score entries **stop out less often** — a different question, on a binary
+outcome, now with n=82 resolved daytrade trades.
+
+**Raw result, and it points the wrong way.** Higher-scoring entries stop out
+*more*:
+
+| group | n | mean score | sd | median |
+|---|---|---|---|---|
+| stopped out | 38 | 1.661 | 1.187 | 1.298 |
+| every other exit | 44 | 1.162 | 0.764 | 0.887 |
+
+Welch t = +2.226, df 61.5, **p = 0.026**, Cohen's d = +0.51. Mann-Whitney (robust
+to the visible right skew) z = +1.93, **p = 0.054**. Fisher exact on the top and
+bottom score halves: 56% vs 37% stop rate, p = 0.121.
+
+**It is a symbol-composition artifact.** Stop rate and mean score by symbol:
+
+| sym | n | stops | rate | mean score |
+|---|---|---|---|---|
+| UNI | 7 | 6 | 86% | 2.332 |
+| ZEC | 20 | 10 | 50% | 2.193 |
+| XMR | 3 | 3 | 100% | 1.484 |
+| LTC | 3 | 2 | 67% | 1.332 |
+| LINK | 9 | 2 | 22% | 1.102 |
+| BCH | 4 | 2 | 50% | 1.059 |
+| ADA | 8 | 4 | 50% | 0.957 |
+| XRP | 5 | 2 | 40% | 0.924 |
+| BNB | 4 | 0 | 0% | 0.911 |
+| HYPE | 8 | 3 | 38% | 0.884 |
+| SOL | 5 | 3 | 60% | 0.823 |
+| XLM | 2 | 0 | 0% | 0.819 |
+| ETH | 4 | 1 | 25% | 0.679 |
+
+The two highest-scoring symbols (UNI 2.33, ZEC 2.19) have the two highest stop
+rates among symbols with n>=4; the two lowest-scoring (ETH 0.68, BNB 0.91) have
+the two lowest. **Demean the score within symbol** and the effect collapses:
+across the 74 trades in symbols with n>=4, stopped-out trades sit +0.110 above
+their symbol's mean score and surviving trades −0.089, a difference of +0.199
+with Welch t = +0.993, **p = 0.321**.
+
+**Conclusion.** The entry score carries no information about whether a *given*
+symbol's trade will stop out. What it measures is which symbols are moving —
+and a symbol moving hard enough to score 2.3 is also moving hard enough to hit
+a 1.2% stop. The score is a volatility proxy wearing a selection label. This is
+the same shape as the ZEC dependency already recorded: an apparent edge that is
+really a statement about which tickers were in the sample.
+
+Nothing changed on this. Recorded so the raw p = 0.026 is not rediscovered and
+acted on later.
+
+## 2026-09-07 01:35 — the schema corruption WAS moving daytrade's live entries
+
+The pattern model's top-3 separating features, before and after the trade_log
+migration (FINDINGS 00:33), on the same live book:
+
+| | 1st | 2nd | 3rd |
+|---|---|---|---|
+| before (69 resolved) | pc_30d +0.94sd | pc_14d +0.66sd | pc_7d +0.65sd |
+| after (82 resolved) | ret_30m +0.63sd | pc_30d +0.56sd | rsi14 +0.54sd |
+
+Two of the three features changed, and the top separation fell from 0.94sd to
+0.63sd. Removing genuine noise should *raise* separation; it fell, which is what
+happens when the corrupt columns were manufacturing separation that was not
+there. The old ranking was three trailing multi-day returns in a row — a
+suspiciously tidy result. The new one mixes a 30-minute return, a monthly
+return and an oscillator.
+
+**Caveat, stated plainly: this is not a clean experiment.** The training set also
+grew by 13 rows between the two readings, so the change is confounded and I
+cannot attribute all of it to the fix. What can be said is that the model's
+feature ranking is **not stable**, that it was demonstrably reading shifted
+inputs for 23 of the 69 rows in its previous window, and that its bonus has been
+moving live daytrade entries the whole time. The standing recommendation to hold
+or cap that bonus until the ranking stabilises is now better supported, not
+weaker. Still the owner's call; nothing changed.
