@@ -1,74 +1,18 @@
 {
   "name": "daytrade",
-  "cash": 7706.829271027612,
-  "positions": {
-    "LTC": {
-      "symbol": "LTC",
-      "name": "Litecoin",
-      "side": "long",
-      "quantity": 18.17190623296384,
-      "entry_price": 55.03,
-      "entry_time": "2026-09-06T23:46:04Z",
-      "entry_cost": 1.5,
-      "peak_pct": 2.071597310557878,
-      "last_price": 55.97,
-      "entry_features": {
-        "pc_1h": 0.1,
-        "pc_24h": 0.75885,
-        "pc_7d": 11.3,
-        "pc_14d": 4.1,
-        "pc_30d": 20.2,
-        "vol_mcap": 6.895534606456391,
-        "cap_rank": 90.0,
-        "ret_30m": 0.570393358977106,
-        "ret_2h": 0.437855054516878,
-        "ema_spread": 0.2688338784669422,
-        "rsi14": 66.1501376419358,
-        "range_pos": 94.58651938184144,
-        "vol_5m": 0.12489526212012442
-      },
-      "entry_score": 0.6861681362209651,
-      "pattern_bonus": -0.36007514599737883
-    },
-    "UNI": {
-      "symbol": "UNI",
-      "name": "Uniswap",
-      "side": "long",
-      "quantity": 137.93103448275863,
-      "entry_price": 7.25,
-      "entry_time": "2026-09-07T00:13:15Z",
-      "entry_cost": 1.5,
-      "peak_pct": 0.27586206896551135,
-      "last_price": 7.19,
-      "entry_features": {
-        "pc_1h": 1.1,
-        "pc_24h": 2.18693,
-        "pc_7d": 38.0,
-        "pc_14d": 59.0,
-        "pc_30d": 82.6,
-        "vol_mcap": 20.03174747050531,
-        "cap_rank": 91.2,
-        "ret_30m": 0.6063698618500313,
-        "ret_2h": 1.572440460733593,
-        "ema_spread": 0.5181954497026409,
-        "rsi14": 64.26455379886582,
-        "range_pos": 64.39471483413554,
-        "vol_5m": 0.2880999416751379
-      },
-      "entry_score": 1.9880203127613831,
-      "pattern_bonus": 0.2094617500114252
-    }
-  },
+  "cash": 9696.0445911978,
+  "positions": {},
   "cooldowns": {
-    "LINK": "2026-09-07T00:55:43Z",
-    "ADA": "2026-09-07T01:16:15Z"
+    "ADA": "2026-09-07T01:16:15Z",
+    "LTC": "2026-09-07T01:34:17Z",
+    "UNI": "2026-09-07T01:34:17Z"
   },
-  "realized_pnl": -290.17357508872567,
-  "fees_paid": 252.53905248526922,
+  "realized_pnl": -303.95825491853634,
+  "fees_paid": 255.52735792368213,
   "trades_opened": 82,
-  "trades_closed": 80,
+  "trades_closed": 82,
   "moons": 14,
-  "wins": 27,
+  "wins": 28,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-07T00:49:26Z"
+  "updated": "2026-09-07T01:11:05Z"
 }
