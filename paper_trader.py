@@ -812,9 +812,48 @@ class PatternModel:
 # --------------------------------------------------------------------------
 
 def ensure_trade_log():
+    """Create the trade log, or migrate it when CSV_HEADER has gained columns.
+
+    Rows are written positionally against CSV_HEADER, so adding a column to
+    CSV_HEADER without touching the file on disk silently shifts every later
+    field: readers get the *next* column's value under the old name. Compare
+    the stored header on every open and rewrite the file when it differs,
+    matching old columns by name and leaving new ones empty on historic rows.
+    """
     if not os.path.exists(TRADE_LOG):
         with open(TRADE_LOG, "w", newline="") as fh:
             csv.writer(fh).writerow(CSV_HEADER)
+        return
+
+    with open(TRADE_LOG, newline="") as fh:
+        rows = list(csv.reader(fh))
+    if not rows:
+        with open(TRADE_LOG, "w", newline="") as fh:
+            csv.writer(fh).writerow(CSV_HEADER)
+        return
+    stored = rows[0]
+    if stored == CSV_HEADER:
+        return
+
+    log("trade log schema changed (%d cols on disk, %d in code) -- migrating"
+        % (len(stored), len(CSV_HEADER)))
+    index = {name: i for i, name in enumerate(stored)}
+    migrated = [CSV_HEADER]
+    for row in rows[1:]:
+        if len(row) == len(CSV_HEADER):
+            # Already written against the current header, back when the stale
+            # header on disk was making readers misalign it. Keep as-is.
+            migrated.append(row)
+            continue
+        out = []
+        for col in CSV_HEADER:
+            i = index.get(col)
+            out.append(row[i] if i is not None and i < len(row) else "")
+        migrated.append(out)
+    tmp = TRADE_LOG + ".migrating"
+    with open(tmp, "w", newline="") as fh:
+        csv.writer(fh).writerows(migrated)
+    os.replace(tmp, TRADE_LOG)
 
 
 def append_trade(row):

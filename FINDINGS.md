@@ -2634,3 +2634,79 @@ Basis drift after 14 hours is inside **±$0.55 on $1,100 notionals** — the hed
 is holding, four orders of magnitude inside the ±$5 alarm. At $0.97 per 14h the
 book is tracking ~$1.67/day, against $8.80 of entry fees: **breakeven around
 5.3 days**, consistent with the ~$1.40/day the 33-day backtest implied.
+
+## 2026-09-07 00:33 — SCHEMA BUG: 23 trade_log rows were being misread by every downstream reader
+
+**Fixed.** `CSV_HEADER` gained `pnl_pct_net` earlier today (added deliberately,
+so `pnl_pct` could stay gross while a net figure existed beside it). But
+`ensure_trade_log()` only wrote the header **when the file did not exist**, so
+the on-disk header stayed at 32 columns while every row written after the change
+carried 33. Rows are written positionally against `CSV_HEADER`, so `csv.DictReader`
+kept reading the stale names and silently shifted every field after `pnl_pct`:
+
+| name read | value actually returned |
+|---|---|
+| `resolved` | `pnl_pct_net` |
+| `moon` | `resolved` |
+| `portfolio_value` | `moon` |
+| `cash` | `portfolio_value` |
+| `hold_hours` | `cash` |
+| `score`, `pattern_bonus`, every `f_*` | each one column early |
+
+23 of 242 rows were affected — everything from `2026-09-06T18:06:17Z` onward,
+which is the whole window since daytrade's pattern model started writing a
+`pattern +x.xx` term into the reason string.
+
+**How it surfaced.** A hold-time breakdown showed a daytrade trailing exit with
+`hold_hours = 5697.76` — 237 days on a book with a 6-hour cap. That number is
+daytrade's *cash balance*. Nine other rows read 4000–8000 "hours"; each one
+matches its book's cash to the cent.
+
+**What it did and did not corrupt.** The file itself was never wrong — the data
+is all there, one column further right than the header claimed. `pnl` and
+`pnl_pct` sit *before* the inserted column and were always read correctly, so
+every P/L figure, win rate and dollar total reported today stands unchanged. What
+was wrong was anything read at or after `resolved`: hold-time analysis, and the
+feature vectors. **The pattern model reads `f_*` features**, so for those 23 rows
+it was training on shifted inputs. It has been active since 01:06 yesterday on 69
+resolved trades; 23 rows is a third of that window.
+
+**The fix** makes `ensure_trade_log()` compare the stored header against
+`CSV_HEADER` on every open and rewrite the file when they differ — old rows
+matched by column name with new columns left empty, rows already written in the
+new layout kept as-is. Migration ran clean: 242 rows, all 33 columns, zero
+impossible `hold_hours`. A backup of the pre-migration file is kept outside the
+repo. The class of bug is now self-healing: adding a column can no longer desync
+the file.
+
+## 2026-09-07 00:33 — daytrade's loss is one exit reason, not a spread
+
+With hold times now readable, daytrade's 79 resolved trades break down as:
+
+| exit | n | mean net % | total $ | median hold |
+|---|---|---|---|---|
+| stop-loss | 37 (47%) | **−1.717** | **−673.27** | 2.29h |
+| max hold 6h | 21 (27%) | −0.257 | −58.82 | 6.01h |
+| take-profit | 13 (16%) | +2.580 | +346.50 | 1.15h |
+| trailing | 8 (10%) | +0.886 | +72.76 | 1.93h |
+| **all** | **79** | **−0.358** | **−312.83** | |
+
+The book's entire loss is the stop-loss bucket. Nothing else is materially
+negative — the 6-hour timeout bucket is 21 trades averaging −0.26% net, i.e.
+roughly the cost of the round trip and nothing more, and the two winning buckets
+between them return +$419.
+
+Net reward:risk is **1.50:1** (+2.58% against −1.72%). With the timeout and
+trailing buckets close to zero, break-even needs the take-profit share to reach
+about **40%** of resolved trades. It is **16%**. That is the gap, stated in one
+number.
+
+**The stops are not slippage or noise-in, noise-out.** Median time to a stop is
+2.29 hours, q1 0.88h — only 4 of 37 fire inside 30 minutes. The book is not
+being knocked out instantly by spread; it enters, the position works against it
+for a couple of hours, and then it stops out. That is an entry-direction
+problem, not an execution or stop-placement problem, and per the settled
+finding on target/stop geometry, widening the stop cannot fix it.
+
+No parameter has been changed on this. It is the clearest read yet on *where*
+daytrade loses, and it points the next work at entry selection.
