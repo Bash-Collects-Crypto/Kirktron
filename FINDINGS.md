@@ -2710,3 +2710,83 @@ finding on target/stop geometry, widening the stop cannot fix it.
 
 No parameter has been changed on this. It is the clearest read yet on *where*
 daytrade loses, and it points the next work at entry selection.
+
+## 2026-09-07 01:35 — the entry score does not predict stopping out; it labels volatile symbols (n=82)
+
+Pre-registered last hour: the scorer test at n=41 asked whether the entry score
+predicts *return* and found nothing (Pearson r=+0.042). It never asked whether
+high-score entries **stop out less often** — a different question, on a binary
+outcome, now with n=82 resolved daytrade trades.
+
+**Raw result, and it points the wrong way.** Higher-scoring entries stop out
+*more*:
+
+| group | n | mean score | sd | median |
+|---|---|---|---|---|
+| stopped out | 38 | 1.661 | 1.187 | 1.298 |
+| every other exit | 44 | 1.162 | 0.764 | 0.887 |
+
+Welch t = +2.226, df 61.5, **p = 0.026**, Cohen's d = +0.51. Mann-Whitney (robust
+to the visible right skew) z = +1.93, **p = 0.054**. Fisher exact on the top and
+bottom score halves: 56% vs 37% stop rate, p = 0.121.
+
+**It is a symbol-composition artifact.** Stop rate and mean score by symbol:
+
+| sym | n | stops | rate | mean score |
+|---|---|---|---|---|
+| UNI | 7 | 6 | 86% | 2.332 |
+| ZEC | 20 | 10 | 50% | 2.193 |
+| XMR | 3 | 3 | 100% | 1.484 |
+| LTC | 3 | 2 | 67% | 1.332 |
+| LINK | 9 | 2 | 22% | 1.102 |
+| BCH | 4 | 2 | 50% | 1.059 |
+| ADA | 8 | 4 | 50% | 0.957 |
+| XRP | 5 | 2 | 40% | 0.924 |
+| BNB | 4 | 0 | 0% | 0.911 |
+| HYPE | 8 | 3 | 38% | 0.884 |
+| SOL | 5 | 3 | 60% | 0.823 |
+| XLM | 2 | 0 | 0% | 0.819 |
+| ETH | 4 | 1 | 25% | 0.679 |
+
+The two highest-scoring symbols (UNI 2.33, ZEC 2.19) have the two highest stop
+rates among symbols with n>=4; the two lowest-scoring (ETH 0.68, BNB 0.91) have
+the two lowest. **Demean the score within symbol** and the effect collapses:
+across the 74 trades in symbols with n>=4, stopped-out trades sit +0.110 above
+their symbol's mean score and surviving trades −0.089, a difference of +0.199
+with Welch t = +0.993, **p = 0.321**.
+
+**Conclusion.** The entry score carries no information about whether a *given*
+symbol's trade will stop out. What it measures is which symbols are moving —
+and a symbol moving hard enough to score 2.3 is also moving hard enough to hit
+a 1.2% stop. The score is a volatility proxy wearing a selection label. This is
+the same shape as the ZEC dependency already recorded: an apparent edge that is
+really a statement about which tickers were in the sample.
+
+Nothing changed on this. Recorded so the raw p = 0.026 is not rediscovered and
+acted on later.
+
+## 2026-09-07 01:35 — the schema corruption WAS moving daytrade's live entries
+
+The pattern model's top-3 separating features, before and after the trade_log
+migration (FINDINGS 00:33), on the same live book:
+
+| | 1st | 2nd | 3rd |
+|---|---|---|---|
+| before (69 resolved) | pc_30d +0.94sd | pc_14d +0.66sd | pc_7d +0.65sd |
+| after (82 resolved) | ret_30m +0.63sd | pc_30d +0.56sd | rsi14 +0.54sd |
+
+Two of the three features changed, and the top separation fell from 0.94sd to
+0.63sd. Removing genuine noise should *raise* separation; it fell, which is what
+happens when the corrupt columns were manufacturing separation that was not
+there. The old ranking was three trailing multi-day returns in a row — a
+suspiciously tidy result. The new one mixes a 30-minute return, a monthly
+return and an oscillator.
+
+**Caveat, stated plainly: this is not a clean experiment.** The training set also
+grew by 13 rows between the two readings, so the change is confounded and I
+cannot attribute all of it to the fix. What can be said is that the model's
+feature ranking is **not stable**, that it was demonstrably reading shifted
+inputs for 23 of the 69 rows in its previous window, and that its bonus has been
+moving live daytrade entries the whole time. The standing recommendation to hold
+or cap that bonus until the ranking stabilises is now better supported, not
+weaker. Still the owner's call; nothing changed.
