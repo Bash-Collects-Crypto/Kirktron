@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 8694.5445911978,
+  "cash": 6691.5445911978,
   "positions": {
     "XRP": {
       "symbol": "XRP",
@@ -29,18 +29,71 @@
       },
       "entry_score": 0.9215157498846697,
       "pattern_bonus": -0.29979015184075986
+    },
+    "BCH": {
+      "symbol": "BCH",
+      "name": "Bitcoin Cash",
+      "side": "short",
+      "quantity": 3.8780733731482195,
+      "entry_price": 257.86,
+      "entry_time": "2026-09-07T01:33:53Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.12022027456759571,
+      "last_price": 257.55,
+      "entry_features": {
+        "pc_1h": -0.4,
+        "pc_24h": -0.03479,
+        "pc_7d": 6.7,
+        "pc_14d": -5.2,
+        "pc_30d": 21.0,
+        "vol_mcap": 2.8614729650564064,
+        "cap_rank": 92.0,
+        "ret_30m": -1.003168313695002,
+        "ret_2h": -1.161535964745386,
+        "ema_spread": -0.1630155149801403,
+        "rsi14": 27.754799486912844,
+        "range_pos": 33.20739349635029,
+        "vol_5m": 0.19280611842379197
+      },
+      "entry_score": 1.3155274338614769,
+      "pattern_bonus": -0.2897970854705785
+    },
+    "BNB": {
+      "symbol": "BNB",
+      "name": "BNB",
+      "side": "short",
+      "quantity": 1.3390286686037949,
+      "entry_price": 746.81,
+      "entry_time": "2026-09-07T01:35:03Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.0,
+      "last_price": 746.91,
+      "entry_features": {
+        "pc_1h": -0.3,
+        "pc_24h": -2.43953,
+        "pc_7d": 9.6,
+        "pc_14d": 6.9,
+        "pc_30d": 26.7,
+        "vol_mcap": 1.1919086420399885,
+        "cap_rank": 98.4,
+        "ret_30m": -0.4521295256808333,
+        "ret_2h": -0.6786185385057264,
+        "ema_spread": -0.21969141054589136,
+        "rsi14": 26.926500380785484,
+        "range_pos": 22.165965487686314,
+        "vol_5m": 0.13249357121635877
+      },
+      "entry_score": 0.6520754696263772,
+      "pattern_bonus": -0.30120023718653
     }
   },
-  "cooldowns": {
-    "LTC": "2026-09-07T01:34:17Z",
-    "UNI": "2026-09-07T01:34:17Z"
-  },
+  "cooldowns": {},
   "realized_pnl": -303.95825491853634,
-  "fees_paid": 257.02735792368213,
-  "trades_opened": 83,
+  "fees_paid": 260.02735792368213,
+  "trades_opened": 85,
   "trades_closed": 82,
   "moons": 14,
   "wins": 28,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-07T01:30:03Z"
+  "updated": "2026-09-07T01:40:39Z"
 }
