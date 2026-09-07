@@ -1,6 +1,6 @@
 {
   "name": "daytrade",
-  "cash": 5690.0445911978,
+  "cash": 3687.0445911978004,
   "positions": {
     "XRP": {
       "symbol": "XRP",
@@ -38,8 +38,8 @@
       "entry_price": 257.86,
       "entry_time": "2026-09-07T01:33:53Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.5506864189870534,
-      "last_price": 256.44,
+      "peak_pct": 0.6747847669277938,
+      "last_price": 256.17,
       "entry_features": {
         "pc_1h": -0.4,
         "pc_24h": -0.03479,
@@ -67,7 +67,7 @@
       "entry_time": "2026-09-07T01:35:03Z",
       "entry_cost": 1.5,
       "peak_pct": 0.11649549416851554,
-      "last_price": 746.59,
+      "last_price": 747.65,
       "entry_features": {
         "pc_1h": -0.3,
         "pc_24h": -2.43953,
@@ -94,8 +94,8 @@
       "entry_price": 105.35,
       "entry_time": "2026-09-07T01:43:38Z",
       "entry_cost": 1.5,
-      "peak_pct": 0.23730422401518747,
-      "last_price": 105.14,
+      "peak_pct": 0.3512102515424683,
+      "last_price": 105.02,
       "entry_features": {
         "pc_1h": -0.5,
         "pc_24h": 1.44437,
@@ -113,15 +113,71 @@
       },
       "entry_score": 0.6656956764782511,
       "pattern_bonus": -0.3456363152220226
+    },
+    "ADA": {
+      "symbol": "ADA",
+      "name": "Cardano",
+      "side": "short",
+      "quantity": 4526.99674508934,
+      "entry_price": 0.220897,
+      "entry_time": "2026-09-07T02:07:39Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.25396451739951464,
+      "last_price": 0.220472,
+      "entry_features": {
+        "pc_1h": -1.0,
+        "pc_24h": -0.16008,
+        "pc_7d": 14.1,
+        "pc_14d": -1.3,
+        "pc_30d": 10.5,
+        "vol_mcap": 4.804949915109381,
+        "cap_rank": 92.80000000000001,
+        "ret_30m": -0.4358181497851832,
+        "ret_2h": -1.583772386123694,
+        "ema_spread": -0.25771635983109753,
+        "rsi14": 30.05268186236121,
+        "range_pos": 44.93319873736804,
+        "vol_5m": 0.3274780170324158
+      },
+      "entry_score": 1.0090081217993758,
+      "pattern_bonus": -0.2903899949264172
+    },
+    "XLM": {
+      "symbol": "XLM",
+      "name": "Stellar",
+      "side": "short",
+      "quantity": 5376.633152320018,
+      "entry_price": 0.18599,
+      "entry_time": "2026-09-07T02:09:51Z",
+      "entry_cost": 1.5,
+      "peak_pct": 0.11183396956824883,
+      "last_price": 0.185782,
+      "entry_features": {
+        "pc_1h": -0.8,
+        "pc_24h": 0.05294,
+        "pc_7d": 6.2,
+        "pc_14d": -5.5,
+        "pc_30d": 15.3,
+        "vol_mcap": 2.2565907452411924,
+        "cap_rank": 92.4,
+        "ret_30m": -0.5099474440160234,
+        "ret_2h": -1.2353094972422762,
+        "ema_spread": -0.12672766072504965,
+        "rsi14": 27.04238107369123,
+        "range_pos": 38.681201471353006,
+        "vol_5m": 0.3055887987386502
+      },
+      "entry_score": 0.8058758523874423,
+      "pattern_bonus": -0.28850310853343725
     }
   },
   "cooldowns": {},
   "realized_pnl": -303.95825491853634,
-  "fees_paid": 261.52735792368213,
-  "trades_opened": 86,
+  "fees_paid": 264.52735792368213,
+  "trades_opened": 88,
   "trades_closed": 82,
   "moons": 14,
   "wins": 28,
   "started": "2026-09-03T20:32:45Z",
-  "updated": "2026-09-07T01:50:29Z"
+  "updated": "2026-09-07T02:11:00Z"
 }
