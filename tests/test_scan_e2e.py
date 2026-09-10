@@ -261,3 +261,105 @@ async def test_dry_run_records_nothing_and_posts_nothing(rig):
     assert report.alerts_sent == 0
     assert posted == []
     assert clients.store.alerts_between("2000-01-01", "2100-01-01") == []
+
+
+# --- watchlisting -----------------------------------------------------------
+
+class FakeWatchlist:
+    """Stands in for the eBay watchlist call."""
+
+    def __init__(self, results=None):
+        self.calls = []
+        self.results = results or []
+
+    async def add(self, item_id, detail=None):
+        from pokehunt.ebay.watchlist import WatchResult
+
+        self.calls.append((item_id, detail))
+        if self.results:
+            ok, message = self.results[min(len(self.calls) - 1, len(self.results) - 1)]
+            return WatchResult(item_id, ok, message)
+        return WatchResult(item_id, True, "Success")
+
+
+@pytest.mark.asyncio
+async def test_qualifying_listings_get_watchlisted_and_recorded(rig):
+    clients, searches, posted, vision = rig
+    clients.watchlist = FakeWatchlist()
+
+    report = await run_scan(clients, now=NOW)
+
+    assert report.watchlisted == 1
+    assert report.watchlist_failures == 0
+    assert clients.watchlist.calls[0][0] == "keep"
+
+    row = clients.store.alerts_between("2000-01-01", "2100-01-01")[0]
+    assert row["watchlisted"] == 1
+    assert row["watchlist_message"] == "Success"
+
+
+@pytest.mark.asyncio
+async def test_a_watchlist_failure_is_recorded_but_the_alert_still_stands(rig):
+    clients, searches, posted, vision = rig
+    clients.watchlist = FakeWatchlist([(False, "Item cannot be watched.")])
+
+    report = await run_scan(clients, now=NOW)
+
+    assert report.watchlisted == 0
+    assert report.watchlist_failures == 1
+    assert report.alerts_sent == 1  # the Discord alert is the point; watching is a bonus
+    row = clients.store.alerts_between("2000-01-01", "2100-01-01")[0]
+    assert row["watchlisted"] == 0
+    assert "cannot be watched" in row["watchlist_message"]
+
+
+@pytest.mark.asyncio
+async def test_a_broken_credential_stops_after_the_circuit_breaker(rig, monkeypatch):
+    """A bad token fails identically every time; do not make the call 40 times."""
+    from dataclasses import replace
+
+    clients, searches, posted, vision = rig
+    # Let more listings through so there is something to break on.
+    clients.config = replace(
+        clients.config,
+        filters=replace(clients.config.filters, max_seller_feedback=100000,
+                        max_watchers=100000),
+        watchlist=replace(clients.config.watchlist, failure_circuit_breaker=2),
+    )
+    clients.watchlist = FakeWatchlist([(False, "no usable user token: no grant stored")])
+
+    report = await run_scan(clients, now=NOW)
+
+    assert report.watchlist_failures == 2
+    assert len(clients.watchlist.calls) == 2
+    assert "consecutive failures" in report.watchlist_disabled_reason
+    assert report.alerts_sent >= 2
+
+
+@pytest.mark.asyncio
+async def test_the_watchlist_gate_skips_shaky_reads(rig):
+    from dataclasses import replace
+
+    clients, searches, posted, vision = rig
+    clients.config = replace(
+        clients.config,
+        watchlist=replace(clients.config.watchlist, min_estimated_value=10_000.0),
+    )
+    clients.watchlist = FakeWatchlist()
+
+    report = await run_scan(clients, now=NOW)
+
+    assert clients.watchlist.calls == []
+    assert report.watchlisted == 0
+    row = clients.store.alerts_between("2000-01-01", "2100-01-01")[0]
+    assert row["watchlist_message"] == "skipped: below watchlist gate"
+
+
+@pytest.mark.asyncio
+async def test_dry_run_never_touches_the_account(rig):
+    clients, searches, posted, vision = rig
+    clients.watchlist = FakeWatchlist()
+
+    await run_scan(clients, dry_run=True, now=NOW)
+
+    assert clients.watchlist.calls == []

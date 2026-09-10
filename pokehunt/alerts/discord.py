@@ -63,7 +63,9 @@ def build_payload(
     now: datetime | None = None,
 ) -> dict:
     flagged = valuation.low_confidence_cards(confidence_threshold)
-    has_flag = bool(flagged) or identification.error is not None
+    has_flag = (
+        bool(flagged) or identification.error is not None or valuation.is_incomplete
+    )
 
     if identification.error:
         color = COLOR_ERROR
@@ -149,6 +151,21 @@ def build_payload(
             {
                 "name": f"No catalogue match ({len(valuation.unmatched_cards)})",
                 "value": (names or "—")[:1024],
+                "inline": False,
+            }
+        )
+
+    if valuation.is_incomplete:
+        names = ", ".join(c.identity.name for c in valuation.failed_lookups[:10])
+        fields.append(
+            {
+                "name": f"🚩 PRICE LOOKUP FAILED ({len(valuation.failed_lookups)})",
+                "value": (
+                    f"The catalogue did not answer for: {names}\n"
+                    "**The summed value below is an UNDERSTATEMENT** — these cards "
+                    "are counted as $0 because their price is unknown, not because "
+                    "they are worthless."
+                )[:1024],
                 "inline": False,
             }
         )

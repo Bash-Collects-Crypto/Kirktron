@@ -161,6 +161,7 @@ class ScoreReport:
     sold: int
     unresolved: int
     zero_value_alerts: int
+    excluded_incomplete: int
     overall: BucketScore | None
     buckets: list[BucketScore] = field(default_factory=list)
     flagged: BucketScore | None = None
@@ -286,6 +287,7 @@ def build_report(
     settled = 0
     sold = 0
     zero_value = 0
+    excluded_incomplete = 0
 
     for row in rows:
         if row["estimated_value"] is not None and row["estimated_value"] <= 0:
@@ -298,6 +300,12 @@ def build_report(
         sold += 1
         final_price = row["final_price"]
         if final_price is None or final_price <= 0:
+            continue
+        # An alert whose price lookups failed has a knowingly understated
+        # estimate. Scoring it would measure a pokemontcg.io outage rather
+        # than the recognition layer, so it is dropped and counted.
+        if (row["failed_lookup_count"] or 0) > 0:
+            excluded_incomplete += 1
             continue
         scored.append(
             ScoredAlert(
@@ -323,6 +331,7 @@ def build_report(
         sold=sold,
         unresolved=len(rows) - settled,
         zero_value_alerts=zero_value,
+        excluded_incomplete=excluded_incomplete,
         overall=None,
         bid_fraction=bid_fraction,
         resale_rate=resale_rate,
@@ -463,6 +472,14 @@ def _grade(report: ScoreReport) -> None:
             )
         )
 
+    if report.excluded_incomplete:
+        reasons.append(
+            f"INFO {report.excluded_incomplete} settled alerts were dropped because a "
+            "price lookup had failed, making their estimate an understatement; if "
+            "that number is large the catalogue was flaky and the sample is thinner "
+            "than the alert count suggests"
+        )
+
     if report.unresolved:
         reasons.append(
             f"INFO {report.unresolved} of {report.alerts} alerts never got a realised "
@@ -504,6 +521,7 @@ def render(report: ScoreReport) -> str:
         f"sold with a price:      {report.sold}",
         f"never resolved:         {report.unresolved}",
         f"alerts valued at $0:    {report.zero_value_alerts}",
+        f"excluded, lookup failed:{report.excluded_incomplete}",
     ]
 
     if report.run_stats:

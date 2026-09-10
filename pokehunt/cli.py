@@ -18,6 +18,7 @@ from pathlib import Path
 from .config import Config, ConfigError
 from .context import build_clients
 from .ebay.taxonomy import discover_categories
+from .ebay.user_auth import EbayUserAuth, UserAuthError, consent_url
 from .pipeline.scan import run_scan
 from .pipeline.score import build_report, render, to_json
 from .pipeline.settle import import_manual_outcomes, run_settle
@@ -47,6 +48,47 @@ async def cmd_categories(args: argparse.Namespace) -> int:
     print("lots:")
     for category in categories.lots:
         print(f"  {category.category_id:<10} {' > '.join(category.path + [category.name])}")
+    return 0
+
+
+async def cmd_authorize(args: argparse.Namespace) -> int:
+    """One-time consent so pokehunt can add items to your watchlist."""
+    import httpx
+
+    config = Config.from_env()
+    watch = config.watchlist
+
+    if not watch.redirect_uri:
+        print(
+            "EBAY_RUNAME is not set. That is the RuName from your eBay application\n"
+            "keyset (it looks like 'Your-Company-App-abcdef-xyz'), NOT an https URL.",
+            file=sys.stderr,
+        )
+        return 2
+
+    url = consent_url(config.ebay, watch.redirect_uri, watch.scopes)
+    print("1. Open this URL and approve access:\n")
+    print(f"   {url}\n")
+    print("2. eBay redirects you to your RuName's URL with a ?code=... parameter.")
+    print("   Copy that code value (it is URL-encoded; paste it exactly).\n")
+
+    code = args.code or input("Paste the code here: ").strip()
+    if not code:
+        print("no code given", file=sys.stderr)
+        return 2
+
+    async with httpx.AsyncClient(timeout=30.0) as http:
+        auth = EbayUserAuth(
+            config.ebay, http, watch.grant_path, watch.redirect_uri, watch.scopes
+        )
+        try:
+            await auth.exchange_code(code)
+        except UserAuthError as exc:
+            print(f"authorization failed: {exc}", file=sys.stderr)
+            return 1
+
+    print(f"\nStored a refresh token at {watch.grant_path} (mode 0600).")
+    print("Set POKEHUNT_WATCHLIST=1 and scans will watchlist what they alert on.")
     return 0
 
 
@@ -108,6 +150,13 @@ def main(argv: list[str] | None = None) -> int:
     p_scan.add_argument("--dry-run", action="store_true", help="do everything except post to Discord")
     p_scan.add_argument("--refresh", action="store_true", help="refresh category discovery first")
 
+    p_auth = sub.add_parser(
+        "authorize", help="one-time eBay consent, needed only for watchlisting"
+    )
+    p_auth.add_argument(
+        "--code", help="paste the consent code non-interactively", default=None
+    )
+
     sub.add_parser("settle", help="poll ended alerts for their realised price")
 
     p_import = sub.add_parser("import-outcomes", help="backfill realised prices from CSV")
@@ -139,6 +188,7 @@ def main(argv: list[str] | None = None) -> int:
 
         handlers = {
             "categories": cmd_categories,
+            "authorize": cmd_authorize,
             "scan": cmd_scan,
             "settle": cmd_settle,
             "import-outcomes": cmd_import_outcomes,

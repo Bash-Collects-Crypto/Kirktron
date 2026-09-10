@@ -176,3 +176,86 @@ def test_market_value_falls_back_to_cardmarket_then_gives_up():
     empty = TcgCard.from_payload({"id": "y", "name": "Y", "number": "2", "set": {}})
     value, source = market_value(empty, TcgConfig(), None)
     assert value is None and source == "no price data"
+
+
+# --- catalogue outages must not masquerade as worthless cards ---------------
+
+@pytest.mark.asyncio
+async def test_transient_5xx_is_retried_then_succeeds():
+    """Observed live: pokemontcg.io 500s and then serves the same query fine."""
+    import httpx
+    from pokehunt.tcg.pokemontcg import PokemonTcgClient
+
+    attempts = []
+
+    def handler(request):
+        attempts.append(request)
+        if len(attempts) < 3:
+            return httpx.Response(502, text="Bad Gateway")
+        return httpx.Response(200, json={"data": [
+            card_payload("base1-4", "Charizard", "Base Set", "4", 300.0)
+        ]})
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
+        client = PokemonTcgClient(TcgConfig(), http, None)
+        cards = await client.search('name:"Charizard"')
+
+    assert len(attempts) == 3
+    assert cards[0].name == "Charizard"
+
+
+@pytest.mark.asyncio
+async def test_persistent_5xx_raises_rather_than_reporting_no_match():
+    """A $0 from an outage is a lie that would poison the scoring set."""
+    import httpx
+    from pokehunt.tcg.pokemontcg import PokemonTcgClient, TcgLookupError
+
+    async with httpx.AsyncClient(
+        transport=httpx.MockTransport(lambda r: httpx.Response(500, text="boom"))
+    ) as http:
+        client = PokemonTcgClient(TcgConfig(), http, None)
+        with pytest.raises(TcgLookupError):
+            await client.search('name:"Charizard"')
+
+
+@pytest.mark.asyncio
+async def test_a_bad_query_is_an_empty_result_not_an_outage():
+    import httpx
+    from pokehunt.tcg.pokemontcg import PokemonTcgClient
+
+    calls = []
+
+    def handler(request):
+        calls.append(request)
+        return httpx.Response(400, text="bad query")
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http:
+        client = PokemonTcgClient(TcgConfig(), http, None)
+        assert await client.search('name:"???"') == []
+    # No point retrying a query the server will always reject.
+    assert len(calls) == 1
+
+
+@pytest.mark.asyncio
+async def test_failed_lookup_marks_the_card_not_prices_it_at_zero():
+    import httpx
+    from pokehunt.tcg.pokemontcg import PokemonTcgClient
+
+    async with httpx.AsyncClient(
+        transport=httpx.MockTransport(lambda r: httpx.Response(503, text="down"))
+    ) as http:
+        client = PokemonTcgClient(TcgConfig(), http, None)
+        identity = CardIdentity(name="Charizard", quantity=1, confidence=0.95, image_index=0)
+        valued = await value_identity(identity, client, TcgConfig())
+
+    assert valued.lookup_failed is True
+    assert valued.matched is False
+    assert "lookup failed" in valued.price_source
+
+    lot = await value_lot([identity], client, TcgConfig()) if False else None
+    from pokehunt.tcg.matcher import LotValuation
+    lot = LotValuation(cards=[valued])
+    assert lot.is_incomplete is True
+    assert lot.failed_lookups == [valued]
+    # It is not counted as "we looked and there is nothing there".
+    assert lot.unmatched_cards == []

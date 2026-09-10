@@ -33,13 +33,16 @@ CREATE TABLE IF NOT EXISTS alerts (
     estimated_value          REAL NOT NULL,
     matched_card_count       INTEGER NOT NULL,
     unmatched_card_count     INTEGER NOT NULL,
+    failed_lookup_count      INTEGER NOT NULL DEFAULT 0,
     min_confidence           REAL NOT NULL,
     value_weighted_confidence REAL NOT NULL,
     flagged_low_confidence   INTEGER NOT NULL,
     vision_model             TEXT,
     vision_error             TEXT,
     identified_json          TEXT NOT NULL,
-    images_json              TEXT NOT NULL
+    images_json              TEXT NOT NULL,
+    watchlisted              INTEGER NOT NULL DEFAULT 0,
+    watchlist_message        TEXT
 );
 
 CREATE TABLE IF NOT EXISTS outcomes (
@@ -60,6 +63,7 @@ CREATE TABLE IF NOT EXISTS scan_runs (
     passed_filters   INTEGER DEFAULT 0,
     vision_calls     INTEGER DEFAULT 0,
     alerts_sent      INTEGER DEFAULT 0,
+    watchlisted      INTEGER DEFAULT 0,
     errors           TEXT
 );
 
@@ -94,7 +98,22 @@ class Store:
         self._conn = sqlite3.connect(str(self.path))
         self._conn.row_factory = sqlite3.Row
         self._conn.executescript(SCHEMA)
+        self._migrate()
         self._conn.commit()
+
+    def _migrate(self) -> None:
+        """Add columns that postdate a database created by an earlier version."""
+        existing = {
+            row["name"] for row in self._conn.execute("PRAGMA table_info(alerts)")
+        }
+        additions = {
+            "failed_lookup_count": "INTEGER NOT NULL DEFAULT 0",
+            "watchlisted": "INTEGER NOT NULL DEFAULT 0",
+            "watchlist_message": "TEXT",
+        }
+        for column, spec in additions.items():
+            if column not in existing:
+                self._conn.execute(f"ALTER TABLE alerts ADD COLUMN {column} {spec}")
 
     def close(self) -> None:
         self._conn.close()
@@ -201,6 +220,7 @@ class Store:
         passed_filters: int,
         vision_calls: int,
         alerts_sent: int,
+        watchlisted: int = 0,
         errors: list[str] | None = None,
     ) -> None:
         with self.tx() as conn:
@@ -208,7 +228,7 @@ class Store:
                 """
                 UPDATE scan_runs
                 SET finished_at = ?, candidates_seen = ?, passed_filters = ?,
-                    vision_calls = ?, alerts_sent = ?, errors = ?
+                    vision_calls = ?, alerts_sent = ?, watchlisted = ?, errors = ?
                 WHERE id = ?
                 """,
                 (
@@ -217,6 +237,7 @@ class Store:
                     passed_filters,
                     vision_calls,
                     alerts_sent,
+                    watchlisted,
                     json.dumps(errors or []),
                     run_id,
                 ),
@@ -229,7 +250,8 @@ class Store:
                    COALESCE(SUM(candidates_seen), 0) AS candidates_seen,
                    COALESCE(SUM(passed_filters), 0) AS passed_filters,
                    COALESCE(SUM(vision_calls), 0) AS vision_calls,
-                   COALESCE(SUM(alerts_sent), 0) AS alerts_sent
+                   COALESCE(SUM(alerts_sent), 0) AS alerts_sent,
+                   COALESCE(SUM(watchlisted), 0) AS watchlisted
             FROM scan_runs
             WHERE started_at >= ? AND started_at < ?
             """,

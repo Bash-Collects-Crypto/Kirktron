@@ -20,7 +20,7 @@ from pokehunt.store.db import Store
 NOW = datetime(2026, 10, 10, 12, 0, tzinfo=timezone.utc)
 
 
-def seed_alert(store, item_id, estimated, final, confidence, flagged=False, days_ago=5, sold=True):
+def seed_alert(store, item_id, estimated, final, confidence, flagged=False, days_ago=5, sold=True, failed_lookups=0):
     scanned = (NOW - timedelta(days=days_ago)).isoformat()
     store.record_alert(
         item_id=item_id,
@@ -40,6 +40,7 @@ def seed_alert(store, item_id, estimated, final, confidence, flagged=False, days
         estimated_value=estimated,
         matched_card_count=3,
         unmatched_card_count=0,
+        failed_lookup_count=failed_lookups,
         min_confidence=confidence,
         value_weighted_confidence=confidence,
         flagged_low_confidence=int(flagged),
@@ -280,3 +281,17 @@ def test_calibration_factor_is_reported_for_bidding(store):
     report = build_report(store, days=30, end=NOW)
     assert report.overall.calibration_factor == pytest.approx(0.35, abs=0.01)
     assert any("median of 0.35x" in reason for reason in report.verdict_reasons)
+
+
+def test_alerts_with_failed_price_lookups_are_excluded_from_scoring(store):
+    """An outage-corrupted estimate must not be scored as a recognition result."""
+    for i in range(35):
+        seed_alert(store, f"ok{i}", 100.0 + i, 50.0 + i, 0.9)
+    for i in range(5):
+        seed_alert(store, f"broken{i}", 3.0, 200.0, 0.9, failed_lookups=4)
+
+    report = build_report(store, days=30, end=NOW)
+    assert report.excluded_incomplete == 5
+    assert report.overall.n == 35
+    assert any("price lookup had failed" in r for r in report.verdict_reasons)
+    assert "excluded, lookup failed:5" in render(report)

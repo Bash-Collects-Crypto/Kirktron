@@ -30,6 +30,9 @@ class ScanReport:
     passed_filters: int = 0
     vision_calls: int = 0
     alerts_sent: int = 0
+    watchlisted: int = 0
+    watchlist_failures: int = 0
+    watchlist_disabled_reason: str | None = None
     skipped_already_alerted: int = 0
     rejections: dict | None = None
     errors: list[str] | None = None
@@ -43,6 +46,12 @@ class ScanReport:
             f"vision calls:         {self.vision_calls}",
             f"alerts sent:          {self.alerts_sent}",
         ]
+        if self.watchlisted or self.watchlist_failures or self.watchlist_disabled_reason:
+            lines.append(f"watchlisted:          {self.watchlisted}")
+            if self.watchlist_failures:
+                lines.append(f"watchlist failures:   {self.watchlist_failures}")
+            if self.watchlist_disabled_reason:
+                lines.append(f"watchlist STOPPED:    {self.watchlist_disabled_reason}")
         if self.rejections:
             lines.append("rejections:")
             for reason, count in sorted(
@@ -86,6 +95,7 @@ def _serialise_identities(
                     "condition_multiplier": valued.condition_multiplier,
                     "extended_value": valued.extended_value,
                     "price_source": valued.price_source,
+                    "lookup_failed": valued.lookup_failed,
                 }
                 for valued in valuation.cards
             ],
@@ -148,6 +158,9 @@ async def run_scan(
     report.passed_filters = len(final.kept)
     report.rejections = dict(prefiltered.rejections + final.rejections)
 
+    watchlist_stopped = False
+    consecutive_watch_failures = 0
+
     for listing in final.kept[: config.filters.max_vision_calls_per_scan]:
         try:
             identification = await clients.vision.identify(
@@ -176,11 +189,12 @@ async def run_scan(
                 # would mark these listings as already-alerted so the next real
                 # scan skipped them.
                 log.info(
-                    "[dry-run] would alert %s (%s) — $%.2f estimated, %s",
+                    "[dry-run] would alert %s (%s) — $%.2f estimated, %s%s",
                     listing.item_id,
                     listing.title,
                     valuation.total_value,
                     "FLAGGED" if flagged else "clean",
+                    ", would watchlist" if clients.watchlist is not None else "",
                 )
                 continue
 
@@ -188,6 +202,43 @@ async def run_scan(
             if not sent:
                 report.errors.append(f"discord send failed for {listing.item_id}")
                 continue
+
+            watchlisted = False
+            watch_message = None
+            if clients.watchlist is not None and not watchlist_stopped:
+                gate = config.watchlist
+                below_confidence = (
+                    valuation.value_weighted_confidence() < gate.min_confidence
+                )
+                below_value = valuation.total_value < gate.min_estimated_value
+                if below_confidence or below_value:
+                    watch_message = "skipped: below watchlist gate"
+                else:
+                    result = await clients.watchlist.add(
+                        listing.item_id, listing.raw.get("detail")
+                    )
+                    watchlisted = result.ok
+                    watch_message = result.message
+                    if result.ok:
+                        report.watchlisted += 1
+                        consecutive_watch_failures = 0
+                    else:
+                        report.watchlist_failures += 1
+                        consecutive_watch_failures += 1
+                        report.errors.append(
+                            f"watchlist {listing.item_id}: {result.message}"
+                        )
+                        # A broken credential fails identically every time.
+                        # Stop rather than making the same call forty more times.
+                        if consecutive_watch_failures >= gate.failure_circuit_breaker:
+                            watchlist_stopped = True
+                            report.watchlist_disabled_reason = (
+                                f"{consecutive_watch_failures} consecutive failures; "
+                                f"last: {result.message}"
+                            )
+                            log.error(
+                                "watchlisting disabled for this scan: %s", result.message
+                            )
 
             clients.store.record_alert(
                 item_id=listing.item_id,
@@ -206,13 +257,20 @@ async def run_scan(
                 estimated_value=valuation.total_value,
                 matched_card_count=len(valuation.matched_cards),
                 unmatched_card_count=len(valuation.unmatched_cards),
+                failed_lookup_count=len(valuation.failed_lookups),
                 min_confidence=valuation.min_confidence,
                 value_weighted_confidence=valuation.value_weighted_confidence(),
-                flagged_low_confidence=int(bool(flagged) or identification.error is not None),
+                flagged_low_confidence=int(
+                    bool(flagged)
+                    or identification.error is not None
+                    or valuation.is_incomplete
+                ),
                 vision_model=identification.model,
                 vision_error=identification.error,
                 identified_json=_serialise_identities(identification, valuation),
                 images_json=json.dumps(listing.image_urls),
+                watchlisted=int(watchlisted),
+                watchlist_message=watch_message,
             )
             report.alerts_sent += 1
 
@@ -226,6 +284,7 @@ async def run_scan(
         passed_filters=report.passed_filters,
         vision_calls=report.vision_calls,
         alerts_sent=report.alerts_sent,
+        watchlisted=report.watchlisted,
         errors=report.errors,
     )
     return report

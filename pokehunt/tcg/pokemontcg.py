@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import json
 import logging
@@ -15,6 +16,20 @@ from ..config import TcgConfig
 log = logging.getLogger(__name__)
 
 CACHE_TTL_SECONDS = 24 * 3600
+
+# pokemontcg.io returns intermittent 5xx under load. Observed live: the same
+# query 500ing and then succeeding seconds later. Retry those.
+RETRY_STATUS = {429, 500, 502, 503, 504}
+MAX_ATTEMPTS = 4
+
+
+class TcgLookupError(RuntimeError):
+    """A lookup failed for reasons that are not 'this card does not exist'.
+
+    Kept distinct from an empty result on purpose. Treating an outage as "no
+    match" would value the card at $0, and that fake zero would then enter the
+    scoring set as though it were a measurement of the recognition layer.
+    """
 
 
 def _escape(value: str) -> str:
@@ -91,17 +106,46 @@ class PokemonTcgClient:
         if self._config.api_key:
             headers["X-Api-Key"] = self._config.api_key
 
-        try:
-            response = await self._client.get(
-                f"{self._config.base_url}/cards",
-                params={"q": query, "pageSize": str(page_size)},
-                headers=headers,
+        payload = None
+        last_error: Exception | None = None
+
+        for attempt in range(MAX_ATTEMPTS):
+            try:
+                response = await self._client.get(
+                    f"{self._config.base_url}/cards",
+                    params={"q": query, "pageSize": str(page_size)},
+                    headers=headers,
+                )
+                if response.status_code in RETRY_STATUS:
+                    last_error = httpx.HTTPStatusError(
+                        f"{response.status_code} from pokemontcg.io",
+                        request=response.request,
+                        response=response,
+                    )
+                    if attempt < MAX_ATTEMPTS - 1:
+                        await asyncio.sleep(0.5 * (2**attempt))
+                        continue
+                    break
+                response.raise_for_status()
+                payload = response.json()
+                break
+            except (httpx.TransportError, json.JSONDecodeError) as exc:
+                last_error = exc
+                if attempt < MAX_ATTEMPTS - 1:
+                    await asyncio.sleep(0.5 * (2**attempt))
+                    continue
+            except httpx.HTTPStatusError as exc:
+                # A 4xx that is not rate limiting is a bad query, not an outage.
+                log.warning("pokemontcg.io rejected query %r: %s", query, exc)
+                self._memory[query] = []
+                return []
+
+        if payload is None:
+            log.warning(
+                "pokemontcg.io query %r failed after %d attempts: %s",
+                query, MAX_ATTEMPTS, last_error,
             )
-            response.raise_for_status()
-            payload = response.json()
-        except httpx.HTTPError as exc:
-            log.warning("pokemontcg.io query %r failed: %s", query, exc)
-            return []
+            raise TcgLookupError(f"{query}: {last_error}")
 
         data = payload.get("data") or []
         if cache_file:

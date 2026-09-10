@@ -117,6 +117,28 @@ class TcgConfig:
 
 
 @dataclass(frozen=True)
+class WatchlistConfig:
+    """Adding alerted lots to the eBay watchlist. Costs nothing, bids nothing."""
+
+    enabled: bool = False
+    # eBay's RuName from your application keyset -- NOT an https URL.
+    redirect_uri: str | None = None
+    # Scopes requested at consent time. The base scope is the safe default;
+    # if eBay rejects the consent screen or the watchlist call with a scope
+    # error, set this to whatever your keyset actually lists.
+    scopes: str = "https://api.ebay.com/oauth/api_scope"
+    # Where the refresh token lives once you have authorized once.
+    grant_path: Path = Path(".pokehunt-cache/ebay-user-grant.json")
+    # Optional gates, so a shaky read does not clutter the watchlist. Zero
+    # means "watch everything that was worth alerting on".
+    min_confidence: float = 0.0
+    min_estimated_value: float = 0.0
+    # Give up for the rest of the scan after this many consecutive failures,
+    # rather than hammering a broken credential forty times.
+    failure_circuit_breaker: int = 3
+
+
+@dataclass(frozen=True)
 class DiscordConfig:
     webhook_url: str
     username: str = "pokehunt"
@@ -130,6 +152,7 @@ class Config:
     vision: VisionConfig
     tcg: TcgConfig
     discord: DiscordConfig
+    watchlist: WatchlistConfig = field(default_factory=WatchlistConfig)
     filters: FilterConfig = field(default_factory=FilterConfig)
     db_path: Path = Path("pokehunt.db")
     cache_dir: Path = Path(".pokehunt-cache")
@@ -153,6 +176,22 @@ class Config:
             ),
             tcg=TcgConfig(api_key=_env("POKEMONTCG_API_KEY")),
             discord=DiscordConfig(webhook_url=_req("DISCORD_WEBHOOK_URL")),
+            watchlist=WatchlistConfig(
+                enabled=_bool("POKEHUNT_WATCHLIST", False),
+                redirect_uri=_env("EBAY_RUNAME"),
+                scopes=_env(
+                    "EBAY_USER_SCOPES", "https://api.ebay.com/oauth/api_scope"
+                ),
+                grant_path=Path(
+                    _env(
+                        "POKEHUNT_GRANT_PATH",
+                        str(Path(_env("POKEHUNT_CACHE_DIR", ".pokehunt-cache"))
+                            / "ebay-user-grant.json"),
+                    )
+                ),
+                min_confidence=_float("POKEHUNT_WATCHLIST_MIN_CONFIDENCE", 0.0),
+                min_estimated_value=_float("POKEHUNT_WATCHLIST_MIN_VALUE", 0.0),
+            ),
             filters=FilterConfig(
                 ending_within_hours=_float("POKEHUNT_ENDING_WITHIN_HOURS", 24.0),
                 max_watchers=_int("POKEHUNT_MAX_WATCHERS", 3),

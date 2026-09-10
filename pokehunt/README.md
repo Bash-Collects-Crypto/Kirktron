@@ -40,6 +40,7 @@ You need:
 python -m pokehunt categories          # what category ids discovery found
 python -m pokehunt scan --dry-run      # full pass, posts nothing, writes nothing
 python -m pokehunt scan                # the real thing
+python -m pokehunt authorize           # one-time consent, only for watchlisting
 python -m pokehunt settle              # capture realised prices for ended lots
 python -m pokehunt score --days 30     # the verdict
 ```
@@ -114,6 +115,54 @@ choices bias estimates down. That is deliberate: the month is meant to find out
 whether the estimates are honest, and an optimistic thumb on the scale would
 answer the wrong question.
 
+## Watchlisting
+
+Set `POKEHUNT_WATCHLIST=1` and every lot that earns an alert also gets added to
+your eBay watchlist. It places no bid and creates no obligation — it just puts
+the listing somewhere you can find it before it ends.
+
+This is the only part of pokehunt that writes anything to eBay, and it needs a
+different credential path from the rest. Reading listings authenticates the
+*application*; touching a watchlist touches a *person's account*, so it needs a
+user token from the authorization-code grant:
+
+```bash
+export EBAY_RUNAME='Your-Company-App-abcdef-xyz'   # from your keyset
+python -m pokehunt authorize                        # prints a consent URL
+```
+
+Approve, copy the `code=` parameter out of the redirect, paste it back. The
+refresh token lands in `.pokehunt-cache/ebay-user-grant.json` at mode 0600 and
+gets exchanged for access tokens automatically after that. Refresh tokens are
+long-lived but not eternal; when one expires, `authorize` again.
+
+Three things that will bite on the first run:
+
+- **`EBAY_RUNAME` is not a URL.** eBay wants the RuName from your application
+  keyset, which looks like `Your-Company-App-abcdef-xyz`. Passing the actual
+  https redirect URL fails with an unhelpful error.
+- **Scopes are set on your keyset, not by this code.** If consent or the
+  watchlist call errors on scope, set `EBAY_USER_SCOPES` to what your keyset
+  actually lists.
+- **This path is unverified against live eBay.** It targets the Trading API's
+  `AddToWatchList` with the OAuth token passed as an IAF token, which is the
+  watchlist endpoint I am confident exists — but there were no credentials
+  available here to prove it end to end. Failures carry eBay's own error text
+  rather than being swallowed, and after 3 consecutive failures a scan stops
+  trying rather than making the same broken call forty more times. Treat your
+  first `scan` as the real integration test and read the `watchlist STOPPED:`
+  line if it appears.
+
+`POKEHUNT_WATCHLIST_MIN_CONFIDENCE` and `POKEHUNT_WATCHLIST_MIN_VALUE` gate what
+gets watched, if you would rather not clutter the list with shaky reads. Both
+default to 0, meaning everything alerted gets watched.
+
+One second-order effect worth knowing: watching a listing increments its watch
+count. Your own watch will not confuse pokehunt, which never re-processes an
+item it has already alerted on — but if other people run similar
+low-watcher filters, you have just made the lot marginally less invisible to
+them.
+
 ## Running it for a month
 
 Two cron entries. Scan often enough to catch short windows, settle often enough
@@ -127,6 +176,25 @@ to read final bids before eBay drops the ended item:
 Budget before you start: at `POKEHUNT_MAX_VISION_CALLS=40`, a 20-minute cadence
 is up to 2,880 vision calls a day. Start lower — 10 or so — and raise it once
 you have seen what the filters actually let through.
+
+## When the catalogue is down
+
+pokemontcg.io returns intermittent 500s and 502s under load — observed live, the
+same query failing and then succeeding seconds later. Lookups retry four times
+with backoff, and a lookup that still fails is recorded as **failed**, not as
+"no match".
+
+That distinction matters more than it sounds. Treating an outage as "no match"
+would value the card at $0, the alert would understate the lot, and that fake
+zero would then enter the month's scoring data as though it were a real
+measurement of the recognition layer. So instead:
+
+- the Discord alert gets a red flag saying the total is an understatement and
+  which cards could not be priced;
+- the count is stored per alert;
+- `score` **excludes** those alerts from the scored set and tells you how many
+  it dropped. If that number is large, the catalogue was flaky and your sample
+  is thinner than the alert count suggests.
 
 ## How outcomes get captured
 

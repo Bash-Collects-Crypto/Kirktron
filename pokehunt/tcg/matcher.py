@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 
 from ..config import TcgConfig
 from ..vision.schema import CardIdentity
-from .pokemontcg import PokemonTcgClient, TcgCard, _escape, market_value
+from .pokemontcg import PokemonTcgClient, TcgCard, TcgLookupError, _escape, market_value
 
 # Market prices quote near-mint. Anything rougher is worth less, and an unknown
 # condition gets a haircut because listing photos flatter cards.
@@ -44,6 +44,10 @@ class ValuedCard:
     price_source: str
     match_score: float
     condition_multiplier: float
+    # True when the catalogue was unreachable rather than silent. A $0 here
+    # means "we do not know", not "this card is worthless", and the two must
+    # never be confused in the scoring data.
+    lookup_failed: bool = False
 
     @property
     def matched(self) -> bool:
@@ -75,7 +79,16 @@ class LotValuation:
 
     @property
     def unmatched_cards(self) -> list[ValuedCard]:
-        return [c for c in self.cards if not c.matched]
+        return [c for c in self.cards if not c.matched and not c.lookup_failed]
+
+    @property
+    def failed_lookups(self) -> list[ValuedCard]:
+        return [c for c in self.cards if c.lookup_failed]
+
+    @property
+    def is_incomplete(self) -> bool:
+        """The total understates the lot because a lookup did not come back."""
+        return bool(self.failed_lookups)
 
     @property
     def min_confidence(self) -> float:
@@ -166,10 +179,21 @@ async def value_identity(
     multiplier = CONDITION_MULTIPLIERS.get(identity.condition_estimate, 0.85)
 
     candidates: list[TcgCard] = []
-    for query in build_queries(identity):
-        candidates = await client.search(query)
-        if candidates:
-            break
+    try:
+        for query in build_queries(identity):
+            candidates = await client.search(query)
+            if candidates:
+                break
+    except TcgLookupError as exc:
+        return ValuedCard(
+            identity=identity,
+            card=None,
+            unit_value=None,
+            price_source=f"lookup failed: {exc}",
+            match_score=0.0,
+            condition_multiplier=multiplier,
+            lookup_failed=True,
+        )
 
     if not candidates:
         return ValuedCard(
