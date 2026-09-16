@@ -31,11 +31,28 @@ uses AND logic and needs both `graded-slabs` and `display`.
 
 ## Known gaps
 
-- Shopify policy **fields** are empty — content lives in `policies/` awaiting three
-  copy-pastes, and in parallel as storefront pages. Checkout links to the fields,
-  not the pages.
-- Store is still named "My Store 2" in Shopify settings.
-- Six overlapping dropshipping importer apps are installed; running more than one
-  risks double-fulfilling an order. See runbook §2.7.
-- The Magnetic Graded Slab Holder description was written from title and variant
-  data only and needs verification against the CJ source listing.
+Fixable-by-API items are done. These need account-owner access or a business decision:
+
+- **CJ auto-fulfillment is not on.** Nothing ships automatically until runbook
+  §2.1 is done, including funding the CJ Wallet.
+- **Shopify policy fields are empty.** Content is in `policies/` awaiting three
+  copy-pastes, and lives in parallel as storefront pages. Checkout links to the
+  fields, not the pages.
+- **Store is still named "My Store 2"** in Shopify settings. The Admin API exposes
+  shop settings as read-only, so this can only be changed in the admin UI.
+- **Shipping rates are unset.** This is a pricing decision, not a defect — pick a
+  flat rate, a free-shipping threshold and a separate heavy-item rate. See
+  runbook §2.3.
+- **Six overlapping dropshipping importer apps are installed.** Running more than
+  one risks double-fulfilling an order. App uninstalls are not exposed to the
+  Admin API, so this is a manual cleanup. See runbook §2.7.
+- **Two orphaned manual collections** (`graded-card-cases`,
+  `card-storage-binders`) are now superseded by the rule-based collections and are
+  no longer in any menu. Safe to delete, left in place rather than destroy data.
+- **The Magnetic Graded Slab Holder description** was written from title and
+  variant data only and needs verification against the CJ source listing.
+- **The live theme could not be edited** — theme file writes to the published
+  theme are blocked, so this work covers content and structure, not visual design.
+
+A mock storefront page that was live on the store has been unpublished; see
+runbook §5 for what it contained and why.

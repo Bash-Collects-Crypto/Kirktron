@@ -189,3 +189,54 @@ Hands-off does not mean unattended. Fifteen minutes a month:
 Out-of-stock upstream is the highest-risk item on this list. Selling something CJ
 can no longer supply generates refunds, chargebacks and negative reviews faster
 than anything else on a dropshipped store.
+
+---
+
+## 5. Incident log
+
+### 2026-09-16 — Unpublished a live mock storefront page
+
+The page `/pages/bash-collectibles` ("Bash Collectibles") was **published and
+publicly reachable** on the live store. It was not an about page — it was a
+self-contained mock storefront, and it has been set to unpublished. Nothing was
+deleted; the content is intact in Shopify if you want any of it back.
+
+What it contained:
+
+- **A hardcoded catalog of 10 products that do not exist in the store** —
+  "Scarlet Blaze Booster Box $139.99", "Obsidian Flames Booster Pack",
+  "Elite Trainer Box — Twilight Set", and others, several carrying invented
+  strike-through "was" prices and fabricated "LOT 0201"-style authentication
+  numbers.
+- **A non-functional cart and checkout.** The checkout button fired
+  `alert("This is a demo — checkout isn't wired up to real payments yet.")`.
+- **Trust claims the business cannot currently support**: "Verified suppliers",
+  "sourced from a licensed wholesale partner, never retail-sourced",
+  "Insured shipping", "Sealed product arrives seal-intact or it's refunded in
+  full", "restocked weekly as new lots clear authentication", "Ships in 2 days".
+- **A product category the store does not sell.** The page advertised sealed
+  booster boxes, booster packs and Elite Trainer Boxes. The About and Terms of
+  Service pages state plainly that this store sells supplies only — no cards,
+  packs, sealed product or mystery boxes. The two were in direct contradiction
+  while both were live.
+- **A full `<style>` block** redefining `body`, plus its own sticky header, nav,
+  footer and cart drawer — which fights the live theme's own chrome wherever the
+  page renders.
+
+Why this mattered enough to take down without waiting: a public page on a
+commercial storefront advertising priced products that do not exist, alongside
+unverifiable sourcing and insurance claims, is a consumer-protection and payment-
+processor risk regardless of the small "demo" disclaimer in its footer. The fix
+is reversible; leaving it up was not worth the exposure.
+
+**If you want a designed landing page, that is a theme template, not a page body.**
+Rebuild it against real products and real claims — the four products in the
+catalog, and only the guarantees the Refund Policy actually makes.
+
+### Same date — collection images and SEO
+
+All eight rule-based collections were created without images, so they rendered as
+blank cards on the storefront. Each now carries an image sourced from the store's
+own existing product media on the Shopify CDN, with alt text, plus an SEO title
+and meta description. Swap in purpose-shot imagery when you have it — these are
+reused product photos, which is better than empty but not ideal.
