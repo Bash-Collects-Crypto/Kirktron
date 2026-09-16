@@ -94,10 +94,25 @@ Settings / Account in the app.
 Confirm Shopify Payments (or an alternative gateway) is live and a payout bank
 account is attached. A store cannot take money until this is done.
 
-### 2.3 Shipping rates
-Settings → Shipping and delivery. Set real rates before launch. Recommended:
-a flat rate for small accessories, free shipping over a threshold set just above
-your current average order value, and a separate higher rate for the heavy
+### 2.3 Shipping rates — review, do not rebuild
+Rates are already configured. Verified via the Admin API:
+
+- **"General profile"** (default): Domestic zone carrying **two active methods
+  both named "Standard"** plus an active "Express".
+- **"General shipping profile"** (non-default): an "All Zones" zone with a single
+  "Standard" method.
+
+Two problems to check in Settings → Shipping and delivery:
+
+1. **The duplicate "Standard" method.** Two methods sharing a name means the
+   customer sees two identical-looking options at checkout with potentially
+   different prices. Rename or delete one.
+2. **The second profile.** Any product assigned to "General shipping profile"
+   is priced by its rates, not the default profile's. Confirm which products sit
+   in it, or consolidate into one profile.
+
+Still worth adding once the above is clean: a free-shipping threshold set just
+above your average order value, and a separate higher rate for the heavy
 wall-cabinet items. **Free shipping thresholds raise average order value more
 reliably than discount codes** in this category.
 

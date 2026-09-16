@@ -40,8 +40,10 @@ Fixable-by-API items are done. These need account-owner access or a business dec
   fields, not the pages.
 - **Store is still named "My Store 2"** in Shopify settings. The Admin API exposes
   shop settings as read-only, so this can only be changed in the admin UI.
-- **Shipping rates are unset.** This is a pricing decision, not a defect — pick a
-  flat rate, a free-shipping threshold and a separate heavy-item rate. See
+- **Shipping rates exist but need review, not creation.** The default profile has
+  a Domestic zone with two separate methods both named "Standard" plus an
+  "Express", and a second non-default profile covers "All Zones". A duplicate
+  method name means customers see two identical options at checkout. See
   runbook §2.3.
 - **Six overlapping dropshipping importer apps are installed.** Running more than
   one risks double-fulfilling an order. App uninstalls are not exposed to the
